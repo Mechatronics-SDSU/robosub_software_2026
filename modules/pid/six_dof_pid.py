@@ -28,6 +28,8 @@ class PID:
     
 
     def update(self, initial_state, desired_state):
+        print("initial stae: ", initial_state)
+        print("desired stae: ", desired_state)
         self.get_error(initial_state, desired_state)
         self.output = np.add(np.add(np.multiply(self.kp, self.error), 
                                     np.multiply(self.ki, self.integral_error)), 

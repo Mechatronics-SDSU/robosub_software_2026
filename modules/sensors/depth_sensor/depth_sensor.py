@@ -20,8 +20,10 @@ class DepthSensor:
     def run(self):
         while True:
             if self.ser:
-                data = self.recieveData() 
-                print(f"Depth sensor data recieved: {data}")
+                data = self.receive_data() 
+                if data.split():
+                    print(data.split()[1])
+
 
 if __name__ == "__main__":
     depth_node = DepthSensor()

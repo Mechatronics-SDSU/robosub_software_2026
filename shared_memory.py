@@ -22,7 +22,7 @@ class SharedMemoryWrapper:
         # vision enables
         self.color_enable           = Value('b', False)
         self.yolo_enable            = Value('b', False)
-        self.gate_enable            = Value('b', True)
+        self.gate_enable            = Value('b', False)
         self.current_color_index    = Value('i', 0)
         self.depth                  = Value('d', 0) 
         self.running                = Value('i', 1)
@@ -47,8 +47,8 @@ class SharedMemoryWrapper:
         ### change these values for PID testing ###
         self.target_x               = Value('d', 0)
         self.target_y               = Value('d', 0)
-        self.target_z               = Value('d', 0)
-        self.target_yaw             = Value('d', 0)
+        self.target_z               = Value('d', 1)
+        self.target_yaw             = Value('d', 0) 
         self.target_pitch           = Value('d', 0)
         self.target_roll            = Value('d', 0)
     

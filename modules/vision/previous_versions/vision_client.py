@@ -55,7 +55,7 @@ class Client:
 def main():
         # Create a ZED camera object
 
-    host = '192.168.194.3'
+    host = '192.168.194.6'
     port = 8089
     client = Client(host, port)
     client.connect_to_server()

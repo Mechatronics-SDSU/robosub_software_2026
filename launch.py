@@ -8,6 +8,7 @@ from modules.vision.vision_main             import VideoRunner
 from modules.sensors.depth_sensor.depth_sensor_interface import DepthSensorInterface
 from utils.kill_button_interface            import Kill_Button_Interface
 import subprocess
+from missionctrl                            import MissionControl
 
 device_path = '/dev/ttyACM0'
 
@@ -18,6 +19,10 @@ device_path = '/dev/ttyACM0'
     This is the main file that will be run to start the program.
     Combined the old launch.py with the launch.py.DVL_Test
     
+"""
+def main():
+    msn_ctrl = MissionControl()
+    msn_ctrl.loop()
 """
 def main():
     # try:
@@ -80,7 +85,7 @@ def main():
     # except:
     #     #END
     #     print("Program has finished")
-
+"""
 
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
