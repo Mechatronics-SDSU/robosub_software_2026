@@ -44,7 +44,6 @@ class Gate_FSM(FSM_Template):
 
         # set initial state
         self.next_state("TO_GATE")
-        self.next_state("TO_GATE")
 
     def next_state(self, next):
         """

@@ -116,10 +116,3 @@ class FSM_Template:
         """
         self.active = False
         self.complete = True
-    
-    def suspend(self):
-        """
-        Soft kill FSM, use when a mode is done to be ready for the next mode to start
-        """
-        self.active = False
-        self.complete = True

@@ -101,28 +101,28 @@ lane_B1:
 
 kiddie_pool:
   gate: # gate coordinates (in m)
-    depth: 0.4 # initial drop depth
+    depth: 0 # initial drop depth
 
-    x:  0 # forward is positive x
+    x:  0.5 # forward is positive x
     y:  0 # left is positive y
-    z:  1.5
+    z:  0
   slalom: # slalom coordinates
     # depth
-    z:  1.5
+    z:  0
 
     # start
-    x1: .5 #A: 7 B1: 6.25
+    x1: 1 #A: 7 B1: 6.25
     y1: 0  #A: -1 B1: -1.75
     # middle
-    x2: 1 #A: 8.5 B1: 7.5
-    y2: 0 #A: -1 B1: -2.5
+    x2: 2.25 #A: 8.5 B1: 7.5
+    y2: -0.5 #A: -1 B1: -2.5
     # end
-    x3: 1.5  #A: 10.5 B1: 9.25
+    x3: 3  #A: 10.5 B1: 9.25
     y3: 0 #A: -0.7 B1: -3.125
 
   octagon: # octagon coordinates
-    depth: 1.5 # swimming depth during oct mode
+    depth: 0 # swimming depth during oct mode
     
-    x: 1
-    y: 2 
+    x: 4
+    y: 1
     z: 0

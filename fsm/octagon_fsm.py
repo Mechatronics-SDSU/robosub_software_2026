@@ -28,16 +28,14 @@ class Octagon_FSM(FSM_Template):
         self.z_buffer = 0.6#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.oct_x, self.oct_y, self.oct_z, self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None, None, None, None)
+        self.oct_x, self.oct_y, self.oct_z, self.depth = (None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
-            self.oct_x =    data['objects']['octagon']['x']
-            self.oct_y =    data['objects']['octagon']['y']
-            self.oct_z =    data['objects']['octagon']['z']
-            self.depth =   data['objects']['octagon']['depth'] # swimming depth
-            self.gate_x =   data['objects']['gate']['x']
-            self.gate_y =   data['objects']['gate']['y']
-            self.gate_z =   data['objects']['gate']['z']
+            course = data['course']
+            self.oct_x =    data[course]['octagon']['x']
+            self.oct_y =    data[course]['octagon']['y']
+            self.oct_z =    data[course]['octagon']['z']
+            self.depth =    data[course]['octagon']['depth'] # swimming depth
 
     def start(self):
         """
