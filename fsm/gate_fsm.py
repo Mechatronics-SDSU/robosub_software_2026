@@ -8,6 +8,8 @@ import time, yaml, os
 
     FSM for navigating through gate
 """
+P_DEBUG = False
+
 class States(Enum):
     """
     Enumeration for FSM states
@@ -29,6 +31,7 @@ class Gate_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
+        self.run_list       = run_list
         self.name: str      = "GATE"
         self.state: States  = States.INIT  # initial state
 
@@ -77,7 +80,8 @@ class Gate_FSM(FSM_Template):
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return
         self.state = next
-        print(f"{self.name}:{self.state}")
+        if P_DEBUG:
+            print(f"{self.name}:{self.state}")
 
     def loop(self) -> None:
         """
@@ -86,7 +90,8 @@ class Gate_FSM(FSM_Template):
         if not self.active: return # do nothing if not enabled
         self.display(0, 255, 0) # update display
         
-        print(self.state)
+        if P_DEBUG:
+            print(self.state)
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case States.INIT: return

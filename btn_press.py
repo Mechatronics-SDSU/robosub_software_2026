@@ -2,11 +2,26 @@ import serial
 import struct
 import subprocess
 
+# permissions fix
+device_path = ""
+try:
+    device_path = '/dev/ttyACM0'
+    subprocess.run(["sudo", "chmod", "777", device_path], check=True)
+    print(f"Permissions changed for {device_path}")
+except subprocess.CalledProcessError as e:
+    print(f"ERROR: Permissions fix failed (subprocess error): {e}")
+except FileNotFoundError as e:
+    print(f"ERROR: Permissions fix failed (command or device not found): {e}")
+except PermissionError as e:
+    print(f"ERROR: Permissions fix failed (permission denied): {e}")
+except OSError as e:
+    print(f"ERROR: Permissions fix failed (OS error): {e}")
+
 
 P_DEBUG = False
 
 # Open COM7 at 921600 baud
-ser = serial.Serial('/dev/ttyACM0', 921600, timeout=1)
+ser = serial.Serial(device_path, 921600, timeout=1)
 
 print("Listening on /dev/ttyACM0 at 921600 baud...")
 
@@ -51,8 +66,10 @@ while True:
             if P_DEBUG:
                 print(f"Green: {greenPressed}, ExtKill: {extKillState}, IntKill: {intKillState}, Depth: {depth:.6f} m")
             print("Green button pressed, launching launch.py...")
-            subprocess.run(["python3", "launch.py"])
-            break
+            try:
+                subprocess.run(["python3", "launch.py"])
+            except:
+                pass
         else:
             if P_DEBUG:
                 print(f"Green: {greenPressed}, ExtKill: {extKillState}, IntKill: {intKillState}, Depth: {depth:.6f} m")

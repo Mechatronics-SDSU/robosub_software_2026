@@ -11,26 +11,26 @@ jesse_pool: # ------------------------------------------------------------------
     # values
     x:  1 # forward is positive x
     y:  0 # left is positive y
-    z:  0.7
-    drop: 0.3 # initial drop depth
+    z:  0.5
+    drop: 0.4 # initial drop depth
     t_drop: 0.25 # initial drop duration
 
   slalom: # slalom coordinates
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
     y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 1 # m up/down buffer for all objects
+    z_buf: 0.3 # m up/down buffer for all objects
     # depth
-    z: 0.7
+    z: 0.5
     # start
     x1: 2
     y1: 0  
     # middle
     x2: 2.5
-    y2: -0.5 
+    y2: -1
     # end
     x3: 3
-    y3: 0 
+    y3: 1
 
   octagon: # octagon coordinates
     # buffers

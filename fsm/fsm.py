@@ -91,7 +91,8 @@ class FSM_Template:
         tgt_txt = f"DVL: \t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
         if not self.display_on: # don't run display if display set to off
-            print(f"{tgt_txt}\n{dvl_txt}")
+            # TODO: Uncomment (Zaid)
+            # print(f"{tgt_txt}\n{dvl_txt}")
             return
         try:
             # show on display
