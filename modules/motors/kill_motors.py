@@ -4,7 +4,7 @@ import struct
 BAUD_RATE = 115200
 USB_PORT = None
 
-DATA = [0, 0, 0, 0, 0, 0]
+DATA = [0, 0, 0, 0, 0, 0, 0, 0]
 
 class MotorKill:
     def __init__(self):
@@ -29,7 +29,7 @@ class MotorKill:
                 packed_data += struct.pack('<i', num)
             self.srl.write(packed_data)
 
-def kill_motors(self):
+def kill_motors():
     motor_kill = MotorKill()
     motor_kill.send_data(DATA)
 

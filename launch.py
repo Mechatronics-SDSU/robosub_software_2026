@@ -44,70 +44,62 @@ dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
 
 # initialize modes
-cf_modules = [pid_object, dvl_object]
-cf_modules = [pid_object, dvl_object]
+cf_modules = []#[pid_object, dvl_object]
 gate_modules = [pid_object, dvl_object]
 slalom_modules = []
 oct_modules = []
 rtrn_modules = []
-oct_modules = []
-rtrn_modules = []
 
-cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 slalom_mode = Slalom_FSM(shared_memory_object, slalom_modules)
-slalom_mode = Slalom_FSM(shared_memory_object, slalom_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
-return_mode = Return_FSM(shared_memory_object, rtrn_modules)
 return_mode = Return_FSM(shared_memory_object, rtrn_modules)
 
 def main():
     """
     Main function
     """
-    # start gate mode and loop
+    slalom_mode.z_buffer = 100
+    gate_mode.z_buffer = 100 # FIXME
+    oct_mode.z_buffer = 100
+    return_mode.z_buffer = 100
+    mode = "GATE"
+
     gate_mode.start()
-    mode_ = loop("GATE")
-    while shared_memory_object.running.value != 0:
-        mode_ = loop(mode_)
+
+    loop(mode)
 
 def loop(mode):
     """
     Looping function, mostly mode transitions within conditionals
     """
-    if not shared_memory_object.running.value: return
-    #time.sleep(delay)
-
-    # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-    match(mode):
-        case "GATE": 
-            gate_mode.loop()
-            if gate_mode.complete: # transition: GATE -> SLM
-                stop() # FIXME
-                slalom_mode.start()
-                mode = "SLM"
-                return "SLM"
-        case "SLM": 
-            slalom_mode.loop()
-            if slalom_mode.complete: # transition: SLM -> OCT
-                oct_mode.start()
-                mode = "OCT"
-                return "OCT"
-        case "OCT":
-            oct_mode.loop()
-            if oct_mode.complete: # transition: OCT -> OFF
-                return_mode.start()
-                mode = "RETURN"
-                return "RETURN"
-        case "RETURN":
-            return_mode.loop()
-            if return_mode.complete: # transition: RETURN -> OFF
-                stop()
-                return
-        case _: # invalid mode
-            print(f"INVALID MODE {mode}")
-    return mode
+    while shared_memory_object.running.value:
+        #time.sleep(delay)
+        # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
+        match(mode):
+            case "GATE": 
+                gate_mode.loop()
+                if gate_mode.complete: # transition: GATE -> SLM
+                    slalom_mode.start()
+                    mode = "SLM"
+            case "SLM": 
+                slalom_mode.loop()
+                if slalom_mode.complete: # transition: SLM -> OCT
+                    oct_mode.start()
+                    mode = "OCT"
+            case "OCT":
+                oct_mode.loop()
+                if oct_mode.complete: # transition: OCT -> OFF
+                    return_mode.start()
+                    mode = "RETURN"
+            case "RETURN":
+                return_mode.loop()
+                if return_mode.complete: # transition: RETURN -> OFF
+                    stop()
+                    return
+            case _: # invalid mode
+                print(f"INVALID MODE {mode}")
 
 def stop():
     """
