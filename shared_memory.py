@@ -13,8 +13,15 @@ class SharedMemoryWrapper:
         # imu values
         self.imu_lin_acc            = Array('d', 3)
         self.imu_ang_vel            = Array('d', 3) #p y r
-        self.imu_orientation        = Array('d', 3)
+        self.imu_orientation        = Array('d', 4)
         self.distance_from_object   = Value('d', 0)
+
+        self.imu_yaw                = Value('d', 0)
+
+        self.imu_x                  = Value('d', 0)
+        self.imu_y                  = Value('d', 0)
+        self.imu_z                  = Value('d', 0)                 
+
         # offsets
         self.yolo_offset            = Array('d', 2)
         self.color_offset           = Array('d', 2)
@@ -47,7 +54,7 @@ class SharedMemoryWrapper:
         ### change these values for PID testing ###
         self.target_x               = Value('d', 0)
         self.target_y               = Value('d', 0)
-        self.target_z               = Value('d', 0)
+        self.target_z               = Value('d', 1)
         self.target_yaw             = Value('d', 0) 
         self.target_pitch           = Value('d', 0)
         self.target_roll            = Value('d', 0)

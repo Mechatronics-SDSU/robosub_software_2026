@@ -21,9 +21,9 @@ except:
 '''
 
 
-class Can_Wrapper:
+class MotorWrapper:
 
-    def __init__(self):
+    def __init__(self, _):
         #set CAN device
         self.bus = None
         try:

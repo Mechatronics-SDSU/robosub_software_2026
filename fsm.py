@@ -1,85 +1,137 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
+from socket_send import set_screen
+
+from modules.vision.vision_main import VisionDetection
+import os
+import yaml
+import time
+import socket_send
+
+
 """
     discord: @.kech
     github: @rsunderr
 
-    FSM
+    FSM parent class
     
 """
-class FSM:
-    def __init__(self, shared_memory_object):
-        self.active = False
+class FSM_Template:
+    def __init__(self, shared_memory_object, run_list, vis_start):
+        """
+        FSM parent class constructor to setup inherited attributes for modes
+        """
+
+        for item in run_list:
+            if isinstance (item, VisionDetection) and not vis_start:
+                run_list.remove(item)
+
         # create shared memory
         self.shared_memory_object = shared_memory_object
         # initial state
-        self.state = "S0"
+        self.state = "INIT"     # state tracking variable
+        self.active = False     # enable/disable boolean
+        self.complete = False   # mode complete boolean
+        self.name = "PARENT"    # mode name string
 
         # buffers
         self.x_buffer = 0.5
         self.y_buffer = 0.5
         self.z_buffer = 0.5
+
+        # process saving
+        self.process_objects = []
+
+        # create processes
+        for run_object in run_list:
+            temp_process = Process(target=run_object.run_loop)
+            self.process_objects.append(temp_process)
+
         
-    
-    # start FSM
     def start(self):
+        """
+        Start FSM by enabling and starting processes
+        """
         self.active = True
         # start processes
 
-        # set initial state
-        self.next_state("S1")
+        for process in self.process_objects:
+            process.start()
        
-
-    # change to next state
     def next_state(self, next):
+        """
+        Change to next state
+        """
         if self.state == next: return # do nothing if no state change
         match(next):
-            case "S1":
-                pass
-            case "DONE":
-                print("DONE")
-                self.stop()
-                return
+            case "INIT": pass
             case _: # do nothing if invalid state
                 print("INVALID STATE")
                 return
         self.state = next
 
-    # looping function (mostly transitions)
     def loop(self):
+        """
+        Loop function, mostly state transitions within conditionals
+        """
         if not self.active: return # do nothing if not enabled
         # transitions
         match(next):
-            case "S1":
-                pass
+            case "INIT": pass
             case _:
                 print("INVALID STATE")
                 return
     
-    # returns true if near a location (requires x,y,z buffer and dvl to work)
     def reached_xyz(self, x, y, z):
+        """
+        Returns true if near a location (requires x,y,z buffer and dvl to work)
+        """
         if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
             return True
         # else
         return False
     
-    # wait until child processes terminate
+    def display(self, r, g, b):
+        """
+        Sends color and text to display
+        """
+        return
+        tgt_txt = f"TGT:\t\tx = {self.shared_memory_object.dvl_x.value}\ty = {self.shared_memory_object.dvl_y.value}\tz = {self.shared_memory_object.dvl_z.value}"
+        dvl_txt = f"DVL:\t\tx = {self.shared_memory_object.target_x.value}\ty = {self.shared_memory_object.target_y.value}\tz = {self.shared_memory_object.target_z.value}"
+        set_screen(
+            (r, g, b),
+            f"{self.name}:{self.state}",
+            tgt_txt + "\n\n" + dvl_txt
+        )
+    
     def join(self):
+        """
+        Wait until child processes terminate
+        """
+        if not self.active: return # do nothing if not enabled
         # join processes
-        pass
+        for process in self.process_objects:
+            if process.is_alive():
+                process.join()
 
-    # stop FSM
     def stop(self):
+        """
+        Stop FSM by disabling and killing processes, mark as complete
+        """
         self.active = False
+        self.complete = True
         # terminate processes
+        for process in self.process_objects:
+            if process.is_alive():
+                process.terminate()
 
 """
 Functionalities I want to add:
-- make the processes into an array so that it just iterates through the array to start, join etc.
+-(Done) make the processes into an array so that it just iterates through the array to start, join etc.
 - read from a file for shared memory target values to prevent issues for plans with multiple modes
-- turn this file (fsm.py) into a parent class inherited by child fsm classes?
+-(Done) turn this file (fsm.py) into a parent class inherited by child fsm classes?
 - add more comments to explain stuff
-- add a function for getting if you are at a location
+-(Done) add a function for getting if you are at a location
 - make a README
-- maybe rewrite FSMs to make modes that share processes
+-(Done) maybe rewrite FSMs to make modes that share processes
 """

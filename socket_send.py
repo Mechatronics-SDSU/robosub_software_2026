@@ -42,7 +42,7 @@ def create_client_socket(socket_name: str) -> socket.socket:
 
     server_address = SOCKET_DIRECTORY + socket_name
     # Connect the socket to the server
-    print('connecting to %s' % server_address)
+    # print('connecting to %s' % server_address)
     sock.connect(server_address)
     return sock
 
@@ -64,9 +64,14 @@ def set_screen(color: typing.Tuple[int, int, int], title: str, subtitle: str):
     try:
         send_message(SOCKET_NAME, str(message))
     except FileNotFoundError:
-        print("Socket not found. Is the screen service running?")
+        # print("Socket not found. Is the screen service running?")
+        pass
+    except BrokenPipeError:
+        # print("Broken pipe error. could be spam")
+        pass
     except Exception as e:
-        print(f"An error occurred while sending the message: {e}")
+        # print(f"An error occurred while sending the message: {e}")
+        pass
 
 
 
@@ -76,15 +81,17 @@ if __name__ == '__main__':
     screen_title = "Test_Title"
     screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)
-    screen_color = (255, 0, 0)  # Red color
+    #SHOULD ERROR
+    screen_color = (255, 0, 0)
     screen_title = "Test_Title 2"
     screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)
-    screen_color = (255, 0, 0)  # Red color
+    screen_color = (0, 255, 0)  # Green color
     screen_title = "Test_Title 3"
     screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)
-    screen_color = (255, 0, 0)  # Red color
+    #SHOULD ERROR
+    screen_color = (255, 0, 0)
     screen_title = "Test_Title 4"
     screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)

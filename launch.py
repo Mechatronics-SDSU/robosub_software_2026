@@ -1,11 +1,18 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
-from shared_memory                          import SharedMemoryWrapper
-from gate_fsm                               import Gate_FSM
-from octagon_fsm                            import Octagon_FSM
+from imu_fsm                                import IMU_FSM
+from forward_spin_fsm                       import ForwardSpinFSM
 import subprocess
 import time
 import os
+
+#import modules
+from modules.pid.pid_interface                                      import PIDInterface
+from modules.sensors.depth_sensor.depth_sensor_interface            import DepthSensorInterface
+from modules.vision.vision_main                                     import VisionDetection
+# from modules.position_estimator.estimator_interface                 import PositionEstimatorInterface
+from utils.kill_button_interface                                    import Kill_Button_Interface
+from socket_send                                                    import set_screen
 
 """
     discord: @kialli, @.kech
@@ -17,43 +24,69 @@ import os
 device_path = '/dev/ttyACM0'
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
+mode = "IMU"
+delay = 0.001
+
+# initialize objects
+pid_object = PIDInterface(shared_memory_object)
+vis_object = VisionDetection(shared_memory_object)
+depth_object = DepthSensorInterface(shared_memory_object)
+kill_button_object = Kill_Button_Interface(shared_memory_object)
+# imu_estimator_object = PositionEstimatorInterface(shared_memory_object)
+
+
 # initialize modes
-gate_mode  = Gate_FSM(shared_memory_object)
-oct_mode   = Octagon_FSM(shared_memory_object)
+
+imu_modules = [pid_object, vis_object, depth_object, kill_button_object]
+forward_spin_modules = [pid_object, vis_object, depth_object, kill_button_object]
+test_modules = [depth_object]
+
+imu_mode    = IMU_FSM(shared_memory_object, imu_modules, True)
+forward_spin_mode = ForwardSpinFSM(shared_memory_object, forward_spin_modules, False)
 
 def main():
     """
     Main function
     """
-    gate_mode.start() # start gate mode
+    imu_mode.start()
+
     loop() # loop
 
     # join processes
-    #gate_mode.join()
-    #oct_mode.join()
+    imu_mode.join()
+    forward_spin_mode.join()
+    time.sleep(5)
 
 def loop():
     """
     Looping function, mostly mode transitions within conditionals
     """
+    mode = "IMU"
     while shared_memory_object.running.value:
-        time.sleep(0.001)
+        #time.sleep(delay)
 
-        gate_mode.loop()
-        oct_mode.loop()
+        imu_mode.loop()
+        forward_spin_mode.loop()
+
 
         # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-        if gate_mode.state == "NEXT": # transition: gate mode -> octagon mode
-            #gate_mode.stop()
-            oct_mode.start()
-        if oct_mode.state == "DONE": # transition: octagon mode -> off
-            stop() # turn off robot
+        match(mode):
+            case "IMU":
+                if imu_mode.complete:
+                    print("IMU IS DONE")
+                    mode = "FDSP"
+                    forward_spin_mode.start()
+            case "FDSP":
+                if forward_spin_mode.complete:
+                    stop() # turn off robot
+
 
 def stop():
     """
     Soft kill the robot
     """
     shared_memory_object.running.value = 0 # kill gracefully
+    os.system("cansend can0 000#")
 
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
