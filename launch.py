@@ -21,7 +21,7 @@ from socket_send                                                    import set_s
 """
 # permissions fix
 try:
-    device_path = '/dev/ttyACM0'
+    # device_path = '/dev/ttyACM0'
     subprocess.run(["sudo", "chmod", "777", device_path], check=True)
     print(f"Permissions changed for {device_path}")
 except: pass
@@ -31,13 +31,13 @@ shared_memory_object = SharedMemoryWrapper()
 # initialize objects
 pid_object = PIDInterface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
-depth_object = DepthSensorInterface(shared_memory_object)
+# depth_object = DepthSensorInterface(shared_mesmory_object)
 kill_button_object = Kill_Button_Interface(shared_memory_object)
 #motor_object = MotorWrapper(shared_memory_object)
 #imu_estimator_object = PositionEstimatorInterface(shared_memory_object)
 
 # initialize modes
-tricks_modules = [pid_object, vis_object, depth_object, kill_button_object]
+tricks_modules = [pid_object, vis_object, kill_button_object]
 tricks_mode = Tricks_FSM(shared_memory_object, tricks_modules, True)
 
 

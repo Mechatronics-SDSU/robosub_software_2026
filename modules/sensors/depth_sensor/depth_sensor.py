@@ -14,19 +14,20 @@ class DepthSensor:
             self.ser.flushInput()
     
     def print_data(self, depth):
-        # print("z:", depth)
+        print("z:", depth)
         pass
 
     def receive_data(self):
         try:
             data = self.ser.readline().decode('ascii')
-            # print("data: ", data)
+            print("data: ", data)
             if "Depth: " in data:
                 # print(data)
                 data_stripped = data.strip()
                 if data_stripped is not None:
                     return data_stripped.split('Depth:')[1]
         except:
+            print("NO DATA")
             return -1
 
     def run(self):

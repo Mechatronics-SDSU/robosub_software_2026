@@ -1,4 +1,4 @@
 tricks:
   depth:    1.5 # swimming depth
-  t_drive:  20 # 15 # seconds driving straight to gate
+  t_drive:  22 # 15 # seconds driving straight to gate
   t_max:    4 # seconds of spinning
