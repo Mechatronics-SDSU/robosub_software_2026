@@ -1,12 +1,10 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
-from socket_send import set_screen
-
-from modules.vision.vision_main import VisionDetection
+from socket_send                            import set_screen
 import os
 import yaml
 import time
-import socket_send
+import socket_send as socket_send
 
 
 """
@@ -16,23 +14,24 @@ import socket_send
     FSM parent class
     
 """
+DISPLAY_TIMER = 2
+
 class FSM_Template:
-    def __init__(self, shared_memory_object, run_list, vis_start):
+    def __init__(self, shared_memory_object, run_list):
         """
         FSM parent class constructor to setup inherited attributes for modes
         """
-
-        for item in run_list:
-            if isinstance (item, VisionDetection) and not vis_start:
-                run_list.remove(item)
 
         # create shared memory
         self.shared_memory_object = shared_memory_object
         # initial state
         self.state = "INIT"     # state tracking variable
         self.active = False     # enable/disable boolean
-        self.complete = False   # mode complete boolean
+        self.complete = False   # boolean for when the mode has completed its tasks
+        self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
+        self.testing = False    # testing mode
+        self.last_display_command = time.time()
 
         # buffers
         self.x_buffer = 0.5
@@ -40,52 +39,30 @@ class FSM_Template:
         self.z_buffer = 0.5
 
         # process saving
-        self.process_objects = []
+        self.process_objects = []  
 
         # create processes
         for run_object in run_list:
             temp_process = Process(target=run_object.run_loop)
             self.process_objects.append(temp_process)
 
-        
     def start(self):
         """
         Start FSM by enabling and starting processes
         """
         self.active = True
+        print(f"STARTING {self.name} MODE")
         # start processes
-
         for process in self.process_objects:
             process.start()
-       
-    def next_state(self, next):
-        """
-        Change to next state
-        """
-        if self.state == next: return # do nothing if no state change
-        match(next):
-            case "INIT": pass
-            case _: # do nothing if invalid state
-                print("INVALID STATE")
-                return
-        self.state = next
-
-    def loop(self):
-        """
-        Loop function, mostly state transitions within conditionals
-        """
-        if not self.active: return # do nothing if not enabled
-        # transitions
-        match(next):
-            case "INIT": pass
-            case _:
-                print("INVALID STATE")
-                return
     
     def reached_xyz(self, x, y, z):
         """
-        Returns true if near a location (requires x,y,z buffer and dvl to work)
+        Returns true if near a location (requires x,y,z buffer and dvl to work), use ignore to ignore a value
         """
+        if x == "ignore" or x == None: x = self.shared_memory_object.dvl_x.value
+        if y == "ignore" or y == None: x = self.shared_memory_object.dvl_y.value
+        if y == "ignore" or z == None: x = self.shared_memory_object.dvl_z.value
         if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
             return True
         # else
@@ -95,14 +72,23 @@ class FSM_Template:
         """
         Sends color and text to display
         """
-        return
-        tgt_txt = f"TGT:\t\tx = {self.shared_memory_object.dvl_x.value}\ty = {self.shared_memory_object.dvl_y.value}\tz = {self.shared_memory_object.dvl_z.value}"
-        dvl_txt = f"DVL:\t\tx = {self.shared_memory_object.target_x.value}\ty = {self.shared_memory_object.target_y.value}\tz = {self.shared_memory_object.target_z.value}"
-        set_screen(
-            (r, g, b),
-            f"{self.name}:{self.state}",
-            tgt_txt + "\n\n" + dvl_txt
-        )
+
+        if time.time() - self.last_display_command <= DISPLAY_TIMER:
+            return
+        tgt_txt = f"DVL: \t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
+        dvl_txt = f"TGT: \t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
+        if self.testing: # don't run display if in testing mode
+            print(f"{tgt_txt}\n{dvl_txt}")
+            return
+        try:
+            # show on display
+            set_screen(
+                (r, g, b),
+                f"{self.name}:{self.state}",
+                f"{tgt_txt}\t{dvl_txt}\n"
+            )
+        except:
+            return
     
     def join(self):
         """
@@ -124,14 +110,10 @@ class FSM_Template:
         for process in self.process_objects:
             if process.is_alive():
                 process.terminate()
-
-"""
-Functionalities I want to add:
--(Done) make the processes into an array so that it just iterates through the array to start, join etc.
-- read from a file for shared memory target values to prevent issues for plans with multiple modes
--(Done) turn this file (fsm.py) into a parent class inherited by child fsm classes?
-- add more comments to explain stuff
--(Done) add a function for getting if you are at a location
-- make a README
--(Done) maybe rewrite FSMs to make modes that share processes
-"""
+    
+    def suspend(self):
+        """
+        Soft kill FSM, use when a mode is done to be ready for the next mode to start
+        """
+        self.active = False
+        self.complete = True

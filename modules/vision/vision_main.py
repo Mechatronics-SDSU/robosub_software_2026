@@ -364,68 +364,14 @@ class VisionDetection:
             sends image to server (if enabled)
         """
         print("LOOP")
-        # show_boxes = True
-        # show_distance = False
-        # imu_enable = True
-        # send_image = True
-
-        # iteration = 0
-
-        # self.check_valid = CheckValid()
-
         self.create_camera_object()
-        # #self.detection = yv5.ObjDetModel(self.model_path)
+        self.shared_memory_object.zed_status.value = 1
 
-        # #create socket object
-        # if send_image:
-        #     socket = self.connect_to_server()
-        
+
         while self.shared_memory_object.running.value:
-        # while True:
-        #     iteration += 1
-        #     image = None
-        #     if self.shared_memory_object.gate_enable.value:
-        #         image = self.zed.get_distance_image()
-        #     elif self.shared_memory_object.yolo_enable.value:
-        #         image = self.get_image()
-
-        #     if image is None:
-        #         print("NO IMAGE")
-        #         continue
-        #     results = None
-        #     #run color detection
-        #     if self.shared_memory_object.gate_enable.value:
-        #         pass
-        #         #image = self.run_color_detection(image, self.color)
-        #         # image = self.run_gate_detection(image)
-        #         #image = self.hough_lines(image)
-        #         #image = self.run_wall_detection(image)
-        #         # print("COLOR OFFSET", self.color_offset_x.value, "\t", self.color_offset_y.value)
-                
-        #     #run yolo detection
-        #     if self.shared_memory_object.yolo_enable.value:
-        #         image = self.run_color_detection(image)
-
-            #starting imu code
-        # if (import_success and imu_enable and self.zed is not None):
-        #     self.share_imu_to_shared_memory()
 
             if (import_success and True and self.zed is not None):
                 self.share_imu_to_shared_memory()
 
-            # #get distance image from the zed if zed is initialized and user added the show distance argument
-            # if self.zed is not None and show_distance:
-            #     image = self.zed.get_distance_image()
-
-            # # try:
-            # #     # cv2.imshow("image_test", image)
-            # #     #cv2.imwrite(f'frame{iteration}', image) 
-            # #     # cv2.waitKey(1)
-            # # except:
-            # #     pass
-            
-            # if send_image:
-            #     send_process = multiprocessing.Process(target = self.send_image_to_socket, args=(socket, image))
-            #     send_process.start()
 
 

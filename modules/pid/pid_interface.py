@@ -35,9 +35,9 @@ class PIDInterface:
         # array of PID k Values
         # cols = x, y, z, yaw, pitch, roll
         # rows = kp, ki, kd
-        self.K_array = np.array([[2000,  2000,  50,    5,     2,    2], 
-                                 [.5,   .5,     1,     .5,    0,   0],
-                                 [.1,   .1 ,    2,     .1,    0,   0]])
+        self.K_array = np.array([[20,  20,      50,    50,     2,    2], 
+                                 [.5,   .5,     1,     .5,         0,   0],
+                                 [.1,   .1 ,    2,     .1,          0,   0]])
         self.imu_active = False
         
     def get_target_state(self, arg):
@@ -94,6 +94,7 @@ class PIDInterface:
             euler_angles = self.get_imu_rotation()
             if euler_angles is not False:
                 self.shared_memory_object.imu_yaw.value = euler_angles[1]
+                self.shared_memory_object.imu_pitch.value = euler_angles[0]
                 if P_DEBUG:
                     print("EULER ANGLES:\t", euler_angles)
                 if self.shared_memory_object.depth.value == 0.0:

@@ -17,10 +17,13 @@ class SharedMemoryWrapper:
         self.distance_from_object   = Value('d', 0)
 
         self.imu_yaw                = Value('d', 0)
+        self.imu_pitch              = Value('d', 0)
 
         self.imu_x                  = Value('d', 0)
         self.imu_y                  = Value('d', 0)
-        self.imu_z                  = Value('d', 0)                 
+        self.imu_z                  = Value('d', 0)    
+
+        self.zed_status                  = Value('d', 0)             
 
         # offsets
         self.yolo_offset            = Array('d', 2)
