@@ -9,9 +9,10 @@ class DepthSensorInterface:
     def update(self):
         depth = self.depth_sensor.receive_data()
         if depth != None and len(depth) > 3:
-            if"Depth" in depth:
-                print(float(depth[depth.find(" ") + 1:]))
-                self.shared_memory_object.depth.value = float(depth[depth.find(" ") + 1:])
+            if depth.split():
+                depth = depth.split()[1]
+                print(depth)
+                self.shared_memory_object.depth.value = float(depth)
 
     def print_data(self):
         print(self.shared_memory_object.depth.value)
