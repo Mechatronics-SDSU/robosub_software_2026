@@ -1,5 +1,5 @@
-from socket_send                            import set_screen
-from fsm                                    import *
+from utils.socket_send                      import set_screen
+from fsm.fsm                                import FSM_Template
 import yaml, os
 """
     discord: @.kech
@@ -9,7 +9,7 @@ import yaml, os
     
 """
 
-class Gate_FSM(FSM_Template):
+class Slalom_FSM(FSM_Template):
     """
     FSM for gate mode - driving through the gate
     """
@@ -19,20 +19,25 @@ class Gate_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "GATE"
+        self.name = "SLALOM"
 
         # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.x_buffer = 0.2#m
+        self.y_buffer = 0.2#m
+        self.z_buffer = 0.6 #m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.gate_x, self.gate_y, self.gate_z = (None, None, None)
+        self.x1, self.y1, self.x2, self.y2, self.x3, self.y3, self.depth = (None, None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
-            self.gate_x = data['objects']['gate']['x']
-            self.gate_y = data['objects']['gate']['y']
-            self.gate_z = data['objects']['gate']['z']
+            course = data['course']
+            self.x1 = data[course]['slalom']['x1']
+            self.y1 = data[course]['slalom']['y1']
+            self.x2 = data[course]['slalom']['x2']
+            self.y2 = data[course]['slalom']['y2']
+            self.x3 = data[course]['slalom']['x3']
+            self.y3 = data[course]['slalom']['y3']
+            self.depth = data[course]['slalom']['z']
 
     def start(self):
         """
@@ -40,9 +45,8 @@ class Gate_FSM(FSM_Template):
         """
         super().start()  # call parent start method
 
-        print("STARTING GATE MODE")
         # set initial state
-        self.next_state("DRIVE")
+        self.next_state("TO_START")
 
     def next_state(self, next):
         """
@@ -52,13 +56,18 @@ class Gate_FSM(FSM_Template):
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
             case "INIT": return # initial state
-            case "DRIVE": # drive toward gate
-                self.shared_memory_object.target_x.value = self.gate_x
-                self.shared_memory_object.target_y.value = self.gate_y
-                self.shared_memory_object.target_z.value = self.gate_z
+            case "TO_START": # drive to start of slalom
+                self.shared_memory_object.target_x.value = self.x1
+                self.shared_memory_object.target_y.value = self.y1
+                self.shared_memory_object.target_z.value = self.depth
+            case "TO_MID": # drive to middle of slalom
+                self.shared_memory_object.target_x.value = self.x2
+                self.shared_memory_object.target_y.value = self.y2
+            case "TO_END": # drive to end of slalom
+                self.shared_memory_object.target_x.value = self.x3
+                self.shared_memory_object.target_y.value = self.y3
             case "DONE": # disable but not kill (go to next mode)
-                self.active = False
-                self.complete = True
+                self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return
@@ -75,8 +84,14 @@ class Gate_FSM(FSM_Template):
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "DONE": return
-            case "DRIVE": # transition: DRIVE -> DONE
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
+            case "TO_START": # transition: TO_START -> TO_MID
+                if self.reached_xyz(self.x1, self.y1, self.depth):
+                    self.next_state("TO_MID")
+            case "TO_MID": # transition: TO_MID -> TO_END
+                if self.reached_xyz(self.x2, self.y2, self.depth):
+                    self.next_state("TO_END")
+            case "TO_END": # transition: TO_END -> DONE
+                if self.reached_xyz(self.x3, self.y3, self.depth):
                     self.next_state("DONE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")

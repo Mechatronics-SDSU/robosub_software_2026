@@ -1,5 +1,5 @@
-from fsm                                    import *
-from socket_send                            import set_screen
+from fsm.fsm                                    import FSM_Template
+from utils.socket_send                          import set_screen
 
 import os, yaml, time
 """
@@ -20,20 +20,21 @@ class Octagon_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "OCTGN"
+        self.name = "OCTAGON"
 
         # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.x_buffer = 0.2#m
+        self.y_buffer = 0.2#m
+        self.z_buffer = 0.6#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.oct_x, self.oct_y, self.gate_x, self.gate_y, self.gate_z = (None, None, None, None, None)
-        self.depth = .5 # swimming depth
+        self.oct_x, self.oct_y, self.oct_z, self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             self.oct_x =    data['objects']['octagon']['x']
             self.oct_y =    data['objects']['octagon']['y']
+            self.oct_z =    data['objects']['octagon']['z']
+            self.depth =   data['objects']['octagon']['depth'] # swimming depth
             self.gate_x =   data['objects']['gate']['x']
             self.gate_y =   data['objects']['gate']['y']
             self.gate_z =   data['objects']['gate']['z']
@@ -43,7 +44,6 @@ class Octagon_FSM(FSM_Template):
         Start FSM by enabling and starting processes
         """
         super().start()  # call parent start method
-        print("STARTING OCTAGON MODE")
 
         # set initial state
         self.next_state("TO_OCT")
@@ -59,24 +59,11 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_x.value = self.oct_x
                 self.shared_memory_object.target_y.value = self.oct_y
                 self.shared_memory_object.target_z.value = self.depth
-            case "RISE_OCT": # surface in octagon
-                self.shared_memory_object.target_z.value = 0
-            case "DESCEND": # descend after surfacing
-                time.sleep(1) # wait at surface for 1s
-                self.shared_memory_object.target_z.value = self.depth
-            case "TO_GATE": # return to gate after octagon
-                self.shared_memory_object.target_x.value = self.gate_x
-                self.shared_memory_object.target_y.value = self.gate_y
-                self.shared_memory_object.target_z.value = self.gate_z
-            case "RETURN": # return to starting position
-                self.shared_memory_object.target_x.value = 0
-                self.shared_memory_object.target_y.value = 0
-                self.shared_memory_object.target_z.value = self.depth
-            case "RISE_END": # surface at end of run
-                self.shared_memory_object.target_z.value = 0
-            case "DONE": # end of run
-                self.stop()
-                return
+            case "RISE": # surface in octagon
+                self.shared_memory_object.target_z.value = self.oct_z
+            case "PAUSE": # pause after surfacing
+                time.sleep(2) # wait at surface
+                self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return
@@ -92,25 +79,13 @@ class Octagon_FSM(FSM_Template):
         self.display(0, 0, 255) # update display
         #TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
         match(self.state):
-            case "INIT" | "DONE": return
-            case "TO_OCT": # transition: TO_OCT -> RISE_OCT
-                if self.reached_xyz(self.oct_x, self.oct_y, self.depth):
-                    self.next_state("RISE_OCT")
-            case "RISE_OCT": # transition: RISE_OCT -> DESCEND
-                if abs(self.shared_memory_object.dvl_z.value - 0) <= self.z_buffer:
-                    self.next_state("DESCEND")
-            case "DESCEND": # transition: DESCEND -> TO_GATE
-                if abs(self.shared_memory_object.dvl_z.value - self.depth) <= self.z_buffer:
-                    self.next_state("TO_GATE")
-            case "TO_GATE": # transition: TO_GATE -> RETURN
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
-                    self.next_state("RETURN")
-            case "RETURN": # transition: RETURN -> RISE_END
-                if self.reached_xyz(0, 0, self.depth):
-                    self.next_state("RISE_END")
-            case "RISE_END": # transition: RISE_END -> DONE
-                if abs(self.shared_memory_object.dvl_z.value - 0) <= self.z_buffer:
-                    self.next_state("DONE")
+            case "INIT" | "PAUSE": return
+            case "TO_OCT": # transition: TO_OCT -> RISE
+                if self.reached_xyz(self.oct_x, self.oct_y, self.shared_memory_object.dvl_z.value): # ignore z
+                    self.next_state("RISE")
+            case "RISE": # transition: RISE -> PAUSE
+                if abs(self.shared_memory_object.dvl_z.value - self.oct_z) <= self.z_buffer:
+                    self.next_state("PAUSE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
                 return
