@@ -83,19 +83,21 @@ def main():
         print(value)
         if value is not None and value == 426:
             socket_send.set_screen((0, 150, 0), "RoboSub", "Starting Launch")  # Set screen to green
-            # start_launch()
+            start_launch()
+            driver.clear_socket()
             driver.disconnect()
             time.sleep(4)
             continue
         elif value is not None and value == 65706:
             socket_send.set_screen((0, 0, 150), "RoboSub", "Debug Mode")  # Set screen to blue
             # start_launch()
+            driver.clear_socket()
             driver.disconnect()
             time.sleep(4)
         else:
             print("No valid data received.")
         # Add a small delay to avoid overwhelming the serial port
-        driver.clear_socket()
+            driver.clear_socket()
         time.sleep(1)
 
 if __name__ == "__main__":

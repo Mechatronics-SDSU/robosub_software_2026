@@ -1,5 +1,5 @@
-from fsm                                    import *
-from socket_send                            import set_screen
+from fsm.fsm                                    import FSM_Template
+from utils.socket_send                          import set_screen
 import yaml
 import os
 """
@@ -31,9 +31,10 @@ class Test_FSM(FSM_Template):
         self.gate_x, self.gate_y, self.gate_z = (None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
-            self.gate_x = data['objects']['gate']['x']
-            self.gate_y = data['objects']['gate']['y']
-            self.gate_z = data['objects']['gate']['z']
+            course = data['course']
+            self.gate_x = data[course]['gate']['x']
+            self.gate_y = data[course]['gate']['y']
+            self.gate_z = data[course]['gate']['z']
 
     def start(self):
         """

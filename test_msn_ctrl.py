@@ -1,7 +1,10 @@
 from shared_memory                          import SharedMemoryWrapper
-from test_fsm                               import Test_FSM
-from socket_send                            import set_screen
+from fsm.test_fsm                               import Test_FSM
+from utils.socket_send                            import set_screen
 from modules.test_module.test_process       import Test_Process
+from fsm.gate_fsm                               import Gate_FSM
+from fsm.slalom_fsm                             import Slalom_FSM
+from fsm.octagon_fsm                            import Octagon_FSM
 import time
 import os
 """
@@ -16,49 +19,67 @@ shared_memory_object = SharedMemoryWrapper()
 delay = 0.25#s
 
 # create test processes
-test_object = Test_Process(shared_memory_object)
+#test_object = Test_Process(shared_memory_object)
+
 # initialize modes
-test_list = []#[test_object]
-test_mode1  = Test_FSM(shared_memory_object, test_list)
-test_mode2 = Test_FSM(shared_memory_object, test_list)
-test_mode1.name = "TEST1"
-test_mode2.name = "TEST2"
+gate_modules = []
+oct_modules = []
+slalom_modules = []
 
-test_mode1.start() # start test1
+gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
+oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
+slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
 
-# join processes
-#test_mode1.join()
-#test_mode2.join()
+# initialize values
+shared_memory_object.dvl_x.value = 0
+shared_memory_object.dvl_y.value = 0
+shared_memory_object.dvl_z.value = 0.5
+
+gate_mode.testing = True
+oct_mode.testing = True
+slm_mode.testing = True
+slm_mode.y_buffer = 100
+
+def main():
+    gate_mode.start()
+    loop("GATE")
 
 def loop(mode):
     """
     Looping function, mostly mode transitions within conditionals
     """
     if not shared_memory_object.running.value: return
-    time.sleep(delay)
+    #time.sleep(delay)
 
-    # SIMULATING DVL XYZ--------------------------------------------------------------------------------------------------------------
-    #shared_memory_object.dvl_x.value = float(input("dvl_x = "))
-    #shared_memory_object.dvl_y.value = float(input("dvl_y = "))
-    #shared_memory_object.dvl_z.value = float(input("dvl_z = "))
-    shared_memory_object.dvl_x.value += 10.25 # increment dvl x each loop
-    shared_memory_object.dvl_y.value += 10.25
-    shared_memory_object.dvl_z.value += 10.25
-
-    test_mode1.loop()
-    test_mode2.loop()
+    print(f"MODE = {mode}")
+    print(f"GATE: \tactive={gate_mode.active}\tcomplete={gate_mode.complete}")
+    print(f"OCT: \tactive={oct_mode.active}\tcomplete={oct_mode.complete}")
+    print(f"SLM: \tactive={slm_mode.active}\tcomplete={slm_mode.complete}\n")
 
     # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
     match(mode):
-        case "TEST1":
-            if test_mode1.complete:
-                shared_memory_object.dvl_x.value = 0 # back to start
-                test_mode2.start()
-                mode = "TEST2"
-        case "TEST2":
-            if test_mode2.complete:
+        case "GATE": # transition: GATE -> SLM
+            gate_mode.loop()
+            if gate_mode.complete:
+                slm_mode.start()
+                mode = "SLM"
+        case "SLM": # transition: SLM -> OCT
+            slm_mode.loop()
+            if slm_mode.complete:
+                oct_mode.start()
+                mode = "OCT"
+        case "OCT": # transition: OCT -> OFF
+            stop()
+            return
+            oct_mode.loop()
+            if oct_mode.complete:
                 stop() # turn off robot
+        case _: # invalid mode
+            print(f"INVALID MODE {mode}")
 
+
+    # increment x
+    shared_memory_object.dvl_x.value += 0.54
     loop(mode)
     
 
@@ -73,7 +94,7 @@ def stop():
 if __name__ == '__main__':
     print("RUN FROM MISSION CONTROL")
     try:
-        loop("TEST1") # start loop
+        main()
     except KeyboardInterrupt:
         print("Keyboard interrupt received, stopping mission control.")
         stop()
