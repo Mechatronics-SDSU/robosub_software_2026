@@ -36,7 +36,7 @@ class FSM_Template:
         # buffers
         self.x_buffer = 0.5
         self.y_buffer = 0.5
-        self.z_buffer = 0.5
+        self.z_buffer = 0.2
 
         # process saving
         self.process_objects = []  

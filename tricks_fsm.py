@@ -37,6 +37,8 @@ class Tricks_FSM(FSM_Template):
         self.t_max      = 0
         self.spin_time  = 0
 
+        self.z_buffer   = .2
+
         self.motor_object = MotorWrapper(self.shared_memory_object)
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +71,7 @@ class Tricks_FSM(FSM_Template):
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
             case "DRIVE":
-                self.shared_memory_object.target_x.value = 10 # go forward
+                self.shared_memory_object.target_x.value = 1#1 # go forward
                 self.shared_memory_object.target_y.value = 0
                 self.shared_memory_object.target_z.value = self.depth
                 time.sleep(self.t_drive) # continue forward for a duration
@@ -77,10 +79,10 @@ class Tricks_FSM(FSM_Template):
             # spin 360 deg 2x
             case "SPIN":
                 self.t_start = time.time()
-
+                self.process_objects[0].terminate()
                 self.shared_memory_object.target_x.value = 0
-                self.shared_memory_object.target_yaw.value = -2
-                # self.motor_object.turn_left(40)
+                # self.shared_memory_object.target_yaw.value = -2
+                os.system("cansend can0 010#AA00AA00660066000")
 
                 time.sleep(self.t_max)
                 self.next_state("DONE")
@@ -95,7 +97,8 @@ class Tricks_FSM(FSM_Template):
         """
         Loop function, mostly state transitions within conditionals
         """
-        if time.time() >= self.t_start + self.t_max: self.next_state("DONE") # stop after exceeding max time
+        if time.time() >= self.t_start + self.t_max: 
+            self.next_state("DONE") # stop after exceeding max time
         if not self.active: return # do nothing if not enabled
 
         # update display

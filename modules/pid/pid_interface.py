@@ -35,9 +35,9 @@ class PIDInterface:
         # array of PID k Values
         # cols = x, y, z, yaw, pitch, roll
         # rows = kp, ki, kd
-        self.K_array = np.array([[20,  20,      50,    50,     2,    2], 
-                                 [.5,   .5,     1,     .5,         0,   0],
-                                 [.1,   .1 ,    2,     .1,          0,   0]])
+        self.K_array = np.array([[ 2,   2,      10,      5,     2,    2], 
+                                 [.5,   .5,     1,     .5,   0,   0],
+                                 [.1,   .1 ,    2,     .1,   0,   0]])
         self.imu_active = False
         
     def get_target_state(self, arg):
