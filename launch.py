@@ -64,7 +64,7 @@ oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
 #mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
-mode_list = [gate_mode]
+mode_list = [gate_mode, slalom_mode]
 
 def main():
     """
@@ -92,7 +92,6 @@ def main_loop(mode: FSM_Template | None) -> None:
                 mode = mode.next()   # transition to next mode
         else: # exit loop if no mode
             stop()
-            break
 
 def stop():
     """

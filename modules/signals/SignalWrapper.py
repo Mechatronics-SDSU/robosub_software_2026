@@ -89,36 +89,27 @@ class SignalWrapper:
         except Exception as e:
             print(f"SIGNAL WRAPPER: Error calling torpedo: {e}")
     
-    def lower_claw(self):
-        """
-        Lowers the claw by setting the appropriate pulse width.
-        """
-        message: list   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # default values for signals
-        message[14]     = int(b'00010000000000', 2) # unmask for servo 1 only
-        max_pw: int     = 1900  # pulse width to lower claw
-        message[10]     = max_pw  # Set claw pulse width to lower it
-        self.usb_object.send_data(message)
-    
-    def grab_claw(self):
+    def open_claw(self):
         """
         Grabs with claw by setting the appropriate pulse width.
         """
         message: list   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # default values for signals
-        message[14]     = int(b'00100000000000', 2) # unmask for servo 1 only
-        max_pw: int     = 1900  # pulse width to lower claw
-        message[10]     = max_pw  # Set claw pulse width to lower it
+        message[14]     = int(b'00100000000000', 2) # unmask for servo 2 only
+        max_pw: int     = 1600  # pulse width to close the claw on an item
+        message[11]     = max_pw  # Set claw pulse width to grab
         self.usb_object.send_data(message)
-        time.sleep(0.5)
-    
-    def raise_claw(self):
+        time.sleep(0.25)
+
+    def close_claw(self):
         """
-        Raises the claw by setting the appropriate pulse width.
+        Grabs with claw by setting the appropriate pulse width.
         """
         message: list   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # default values for signals
-        message[14]     = int(b'00010000000000', 2) # unmask for servo 1 only
-        min_pw: int     = 1000  # pulse width to lower claw
-        message[10]     = min_pw  # Set claw pulse width to lower it
+        message[14]     = int(b'00100000000000', 2) # unmask for servo 2 only
+        max_pw: int     = 1400  # pulse width to close the claw on an item
+        message[11]     = max_pw  # Set claw pulse width to grab
         self.usb_object.send_data(message)
+        time.sleep(0.25)
     
     def run_loop(self):
         pass

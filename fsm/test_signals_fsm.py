@@ -79,9 +79,8 @@ class TestSignals_FSM(FSM_Template):
                 time.sleep(2) # wait before switching to next state
 
             case States.CLAW: # transition to claw state
-                #self.run_list[0].lower_claw() # lower claw
-                #self.run_list[0].grab_claw() # grab claw
-                #self.run_list[0].raise_claw() # raise claw
+                self.run_list[0].open_claw() # grab claw
+                self.run_list[0].close_claw() # raise claw
                 time.sleep(2) # wait before switching to next state
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
