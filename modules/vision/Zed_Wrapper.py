@@ -4,6 +4,9 @@ import copy
 import statistics
 import time
 
+from scipy.spatial.transform import Rotation as R
+
+
 class Zed:
     """
         discord: @kialli
@@ -106,7 +109,16 @@ class Zed:
             else:
                 print("tracking:", state)         # SEARCHING / FPS_TOO_LOW / etc.
                 return (0, 0, 0)
-
+            
+    def get_imu_rotation(self):
+            try:
+                sensors_data = sl.SensorsData()
+                self.zed.get_sensors_data(sensors_data, sl.TIME_REFERENCE.CURRENT)
+                orientation = sensors_data.get_imu_data().get_pose().get_orientation().get()
+                rotation = R.from_quat([orientation])
+                return rotation.as_euler('xzy', degrees=False)
+            except:
+                return False
 
     def get_distance_image(self):
         """
@@ -202,11 +214,11 @@ class Zed:
     
 if __name__ == '__main__':
 
-    MODE = "POS"
+    MODE = "ROT"
     zed = Zed()
     state = zed.open()
     zed.enable_tracking()
-    while True:
+    for i in range(10):
         if MODE == "IMAGE":
             image = zed.get_image()
             if (image is not None):
@@ -215,4 +227,9 @@ if __name__ == '__main__':
             time.sleep(1)
         if MODE == "POS":
             print(zed.get_translation())
+        
+        if MODE == "ROT":
+            rotation = zed.get_imu_rotation()
+            print(rotation)
         continue
+    zed.zed.close()

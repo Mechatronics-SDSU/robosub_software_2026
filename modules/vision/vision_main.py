@@ -427,3 +427,5 @@ class VisionDetection:
             # if send_image:
             #     send_process = multiprocessing.Process(target = self.send_image_to_socket, args=(socket, image))
             #     send_process.start()
+
+

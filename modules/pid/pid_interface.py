@@ -40,7 +40,35 @@ class PIDInterface:
                                  [.1,   .1 ,    2,     .1,    0,   0]])
         self.imu_active = False
         
-    
+    def get_target_state(self, arg):
+        if self.shared_memory_object.depth.value == 0.0:
+            return  np.array([0, 0, 0, 0, 0, 0])
+        if arg == "ERROR" or arg == "ZERO":
+            return  np.array([0, 0, 0, 0, 0, 0])
+        if self.source == "DVL":
+            return np.array([
+                self.shared_memory_object.target_x.value, 
+                self.shared_memory_object.target_y.value, 
+                self.shared_memory_object.target_z.value, 
+                self.shared_memory_object.target_yaw.value, 
+                self.shared_memory_object.target_pitch.value, 
+                self.shared_memory_object.target_roll.value
+            ])
+
+    def get_imu_rotation(self):
+            try:
+                rotation = R.from_quat([
+                    self.shared_memory_object.imu_orientation[0], 
+                    self.shared_memory_object.imu_orientation[1], 
+                    self.shared_memory_object.imu_orientation[2], 
+                    self.shared_memory_object.imu_orientation[3]
+                ])
+                euler_angles = rotation.as_euler('xzy', degrees=False)
+                print(euler_angles)
+                return rotation.as_euler('xzy', degrees=False)
+            except:
+                return False
+            
     def run_pid(self):
         if self.source == "DVL":
             desired_state = np.array([
@@ -63,56 +91,37 @@ class PIDInterface:
             while not self.imu_active:
                 if self.shared_memory_object.imu_orientation[0] != 0.0:
                     self.imu_active = True
-
-            try:
-                rotation = R.from_quat([self.shared_memory_object.imu_orientation[0], self.shared_memory_object.imu_orientation[1], 
-                                        self.shared_memory_object.imu_orientation[2], self.shared_memory_object.imu_orientation[3]])
-                euler_angles = rotation.as_euler('zyx', degrees=False)
+            euler_angles = self.get_imu_rotation()
+            if euler_angles is not False:
                 self.shared_memory_object.imu_yaw.value = euler_angles[1]
                 if P_DEBUG:
                     print("EULER ANGLES:\t", euler_angles)
                 if self.shared_memory_object.depth.value == 0.0:
-                    desired_state = np.array([0,
-                                            0, 
-                                            0, 
-                                            0, 
-                                            0, 
-                                            0])
-                    current_state = np.array([0, 
-                                            0, 
-                                            0, 
-                                            0, 
-                                            0, 
-                                            0])
+                    desired_state = np.array([0, 0, 0, 0, 0, 0])
+                    current_state = np.array([0, 0, 0, 0,  0, 0])
                 # print("EULER ANGLES:\t", euler_angles)
-                desired_state = np.array([self.shared_memory_object.target_x.value,
-                                        0, 
-                                        self.shared_memory_object.target_z.value, 
-                                        self.shared_memory_object.target_yaw.value, 
-                                        self.shared_memory_object.target_pitch.value, 
-                                        self.shared_memory_object.target_roll.value])
-                current_state = np.array([0, 
-                                        0, 
-                                        self.shared_memory_object.depth.value, 
-                                        euler_angles[1], 
-                                        0, 
-                                        0])
+                desired_state = np.array([
+                    self.shared_memory_object.target_x.value,
+                    0, 
+                    self.shared_memory_object.target_z.value, 
+                    self.shared_memory_object.target_yaw.value, 
+                    self.shared_memory_object.target_pitch.value, 
+                    self.shared_memory_object.target_roll.value
+                ])
+                current_state = np.array([
+                    0, 
+                    0, 
+                    self.shared_memory_object.depth.value, 
+                    self.shared_memory_object.imu_yaw.value, 
+                    0, 
+                    0
+                ])
                 if P_DEBUG:
                     print("EULER ANGLES:\t", euler_angles)
                     print("CURRENT STATE:\t", current_state)
-            except Exception as e:
-                desired_state = np.array([0,
-                                        0, 
-                                        0, 
-                                        0, 
-                                        0, 
-                                        0])
-                current_state = np.array([0, 
-                                        0, 
-                                        0, 
-                                        0, 
-                                        0, 
-                                        0])
+            # except Exception as e:
+            #     desired_state = np.array([0, 0, 0, 0, 0, 0])
+            #     current_state = np.array([0, 0, 0, 0,  0, 0])
         self.pid = PID(self.K_array[0], self.K_array[1], self.K_array[2], 0.5)
         # Get the PID output: movement in robot's local frame
         untransformed = self.pid.update(current_state, desired_state)  # [x, y, z, yaw, pitch, roll]
