@@ -1,4 +1,4 @@
-from modules.motors.MotorWrapper            import Can_Wrapper
+from modules.motors.MotorWrapper            import Can_trWrapper
 from modules.motors.ObjectTracking          import Object_Tracking
 import time
 
