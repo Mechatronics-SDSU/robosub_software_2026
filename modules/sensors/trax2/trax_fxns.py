@@ -1,58 +1,44 @@
 import struct
-import logging
+import subprocess
 import serial
-from serial.tools import list_ports
+import logging
 
 """
     Created by Ryan Sundermeyer
     https://github.com/rsunderr
-    mechatronics@sundermeyer.com
+    rwork@sundermeyer.com
 """
 
 # wrapper class for trax-related functions
 class TRAX:
     # constructor (serial and baud rate)
     def __init__(self, ser=None, baud=38400):
+        # self.running = running
+        # self.shared_memory_object = shared_memory_object
         self.ser = ser
         self.baud = baud
         self.lg = logging.getLogger(__name__) # TODO replace some prints with debugs
     
     # establishes usb serial connection to trax
     def connect(self):
-        trax1 = "A1019O07"
-        trax2 = "FTBD1LEK"
-        ports = list_ports.comports()
-        for port in ports:
-            if port.serial_number == trax1 or port.serial_number == trax2: # connect to a trax
-                try:
-                    self.ser = serial.Serial(port.device, self.baud, timeout=1)
-                    print("TRAX CONNECTED: ", port.device)
-                    return
-                except:
-                    self.lg.critical("TRAX FOUND, UNABLE TO CONNECT")
-                    return
-        self.lg.critical("NO TRAX FOUND")
+        print("USB CONNECTIONS: ")
+        # connections = subprocess.run("ls /dev/tty*", shell=True, capture_output=True, text=True)
+        # print(connections.stdout)
 
+        try:
+            self.ser = serial.Serial('/dev/ttyUSB0', self.baud, timeout=5) # trax 2
+            print("TRAX 2 CONNECTED")
+        except Exception as e:
+            print(e)
+            try:
+                self.ser = serial.Serial('/dev/tty.usbserial-A1019O07', self.baud, timeout=1) # trax 1
+                print("TRAX 1 CONNECTED")
+            except:
+                self.lg.critical("NO CONNECTION FOUND")
+    
     # closes serial connection
     def close(self):
         self.ser.close()
-    
-    # prints information about using the TRAX wrapper class
-    @staticmethod
-    def help():
-        print("This is the TRAX python wrapper class to interface with the PNI TRAX 2 AHRSE sensor.")
-        print("Please refer to Chapter 7 'Operation with PNI Binary Protocol' of the data sheet:\nhttps://www.pnisensor.com/wp-content/uploads/TRAX2-User-Manual.pdf\n")
-        print("SETUP")
-        print("To use this wrapper class, start with the following:\ntrax = TRAX()\ntrax.connect()\n#your code here\ntrax.close()\n")
-        print("SENDING DATA")
-        print("trax.send_packet(frame ID, payload)\nUsage: frame ID should be an int from the table or the string name of the command, and payload should be a tuple or array of values.")
-        print("This function returns nothing.\n")
-        print("RECEIVING DATA")
-        print("trax.recv_packet()\nUsage: In most cases, you can leave the parameters empty. If the command says it has ID specific values, just pass the payload from whatever previous command this one is answering.")
-        print("This function returns a tuple of values according to the datagram in the data sheet.\n")
-        print("DATAGRAM")
-        print("[ byte count uint16 ] [ frame ID uint8 ] [ payload (optional) ] [ CRC uint16 ]\n\n")
-
 
     # returns and prints byte array packet based on frame ID and payload in trax-readable format
     @staticmethod
@@ -146,12 +132,7 @@ class TRAX:
     # receives and reads packet from TRAX, checks checksum, returns a tuple of values read 
     # if the datagram includes ID Specific types, pass the payload tuple/array from the prior send_packet() call that made the query
     def recv_packet(self, payload=None):
-        #packet = self.ser.readline() # read input message
-        packet = self.ser.read(2)
-        byteCount = struct.unpack(">H", packet)[0]
-        restOfPacket = self.ser.read(byteCount - 2)
-        if restOfPacket != None: packet += restOfPacket
-
+        packet = self.ser.readline() # read input message
         if packet == b'': # if packet is empty, warn user and stop fxn
             self.lg.critical("NO MESSAGE RECEIVED")
             return -1
@@ -171,7 +152,6 @@ class TRAX:
     # if the datagram includes ID Specific types, pass the payload tuple from the prior send_packet() call that made the query
     @staticmethod
     def read_packet(packet, payload=None):
-        #byteCount = struct.unpack(">H", packet[:2])[0]
         frameID = packet[2] # get frame ID from packet (bytes)
         decode_str = ">HB" # big endian, byte count, ID
         match frameID:
@@ -183,13 +163,13 @@ class TRAX:
             case 81:    decode_str += "B" # kGetFunctionalModeResp
             case 109:   decode_str += "B" # kGetDistortionModeResp
             case 121:   decode_str += "B" # kGetMagTruthMethodResp
-            # ID SPECIFIC FRAMES: TODO: not sure if quaternion works
+            # ID SPECIFIC RAMES: TODO: not sure if quaternion works
             case 130:   decode_str += "Bf" # kGetMergeRateResp
             case 5: # kGetDataResp 
                 decode_str += "B" # ID Count
+                id_count = payload[0]
                 id_list = payload[1:]
-
-                #if id_count != len(id_list): print("INCORRECT NUMBER OF IDs IN PAYLOAD: DOES NOT MATCH ID COUNT")
+                if id_count != len(id_list): print("INCORRECT NUMBER OF IDs IN PAYLOAD: DOES NOT MATCH ID COUNT")
                 for id in id_list: # NOTE: expected tuple payload from prior kSetDataComponents call: (ID count, ID, ID, ...)
                     decode_str += "B" # reads: ID Count, ID, Status, ID, Status, ...
                     decode_str += TRAX.componentID_type(id) # gets struct lib char based on Component ID
@@ -313,3 +293,20 @@ class TRAX:
         return crc;
     }
     """
+
+    def run_loop(self):
+        frameID = "kSetDataComponents" # OR =3
+        payload = (2, 0x5, 0x18) # 2 comps: heading, pitch
+        self.send_packet(frameID, payload)
+        # kStartContinuousMode
+        frameID = "kStartContinuousMode" # OR =21
+        self.send_packet(frameID)
+        while self.running.value:
+            data = self.recv_packet(payload)
+            print(data)
+
+        # kStopContinuousMode
+        frameID = "kStopContinuousMode" # OR =22
+        self.send_packet(frameID)
+
+        self.close()

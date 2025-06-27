@@ -4,13 +4,13 @@ import socket
 import json
 
 
-TCP_IP = '192.168.194.95' 
-TCP_PORT = 16171 
+UDP_IP = '192.168.194.95' 
+UDP_PORT = 16171 
 BUFFER_SIZE = 2048
 
 class DVL:
     def __init__(self):
-        self.serv_addr = (TCP_IP, TCP_PORT)
+        self.serv_addr = (UDP_IP, UDP_PORT)
         self.sock = self.connectToSocket()
         self.buffer = bytearray(BUFFER_SIZE) 
         self.resetDeadReckoning()
