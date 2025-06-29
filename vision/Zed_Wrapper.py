@@ -170,10 +170,19 @@ class Zed:
 if __name__ == '__main__':
     zed = Zed()
     state = zed.open()
-    while True:
-        image = zed.get_distance_image()
-        if (image is not None):
-            cv2.imshow("image_test", image)
-            cv2.waitKey(1)
-        continue
+    # while True:
+    #     image = zed.get_distance_image()
+    #     if (image is not None):
+    #         cv2.imshow("image_test", image)
+    #         cv2.waitKey(1)
+    #     continue
+    # cam = cv2.VideoCapture(0)
+    # while True:
+    #     ret, frame = cam.read()
+    #     if not ret:
+    #         print("failed to grab frame")
+    #         break
+    #     cv2.imshow("test", frame)
+    #     cv2.waitKey(1)
+    # cam.release()
 
