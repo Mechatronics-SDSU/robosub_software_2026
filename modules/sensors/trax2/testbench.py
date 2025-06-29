@@ -36,12 +36,16 @@ trax.send_packet(frameID, payload)
 frameID = "kStartContinuousMode" # OR =21
 trax.send_packet(frameID)
 
-while True:
-    data = trax.recv_packet(payload)
-    print(data)
-    print(type(data))
+try:
+    while True:
+        data = trax.recv_packet(payload)
+        print(data)
+        print(type(data))
+    # if data[4] < 90 or data[4] > 270: break # exit if aiming to left
+except KeyboardInterrupt:
+    print("Closing...")
+    pass
 
-    if data[4] < 90 or data[4] > 270: break # exit if aiming to left
 
 # kStopContinuousMode
 frameID = "kStopContinuousMode" # OR =22
