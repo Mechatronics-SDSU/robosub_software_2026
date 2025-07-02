@@ -12,7 +12,8 @@ import logging
 # wrapper class for trax-related functions
 class TRAX:
     # constructor (serial and baud rate)
-    def __init__(self, ser=None, baud=38400):
+    def __init__(self, ser=None, baud=115200):
+        print("BAUD RATE: ", baud)
         # self.running = running
         # self.shared_memory_object = shared_memory_object
         self.ser = ser
