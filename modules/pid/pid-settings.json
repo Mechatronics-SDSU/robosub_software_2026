@@ -1,0 +1,16 @@
+{
+    "pid-interface-settings": {
+        "simulation": [0, 0, 0, 0, 0, 0],
+        "K_array": [[10, 10, 0, 0, 0, 0], 
+                    [0.5, 0.5, 0.0, 0.0, 0.0, 0.0],
+                    [0.01 , 0.01 , 0.00 , 0.00 , 0.00 , 0.00 ]]
+    },
+    "pid-settings": {
+        "error":                   [0, 0, 0, 0, 0, 0],
+        "prev_error":              [0, 0, 0, 0, 0, 0],
+        "prev_integral_error":     [0, 0, 0, 0, 0, 0],
+        "integral_error":          [0, 0, 0, 0, 0, 0],
+        "derivative_error":        [0, 0, 0, 0, 0, 0],
+        "output ":                 [0, 0, 0, 0, 0, 0]
+    }
+}

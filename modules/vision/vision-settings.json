@@ -1,0 +1,34 @@
+{
+    "vision_main_settings": {
+        "hard_deadzone": 10, 
+        "model_path": "./models_folder/yolov5m.pt",
+        "detection": null,
+        "skip_frames": 0,
+        "validated": false,
+        "locked": false
+    },
+
+    "color_filter_settings": {
+        "sensitivity": 100,
+        "color_target": [255, 0, 0],
+        "amount_in_image": 5000,
+        "alpha_threshold": 10,
+        "iterations": 10,
+        "sensitivity_cap": 100
+    },
+    "zed_wrapper_settings": {
+        "zed_camera": {
+            "init_parameters": {
+              "camera_resolution": "HD720",
+              "camera_fps": 60,
+              "coordinate_system": "RIGHT_HANDED_Y_UP",
+              "depth_mode": "NEURAL",
+              "coordinate_units": "METER",
+              "depth_minimum_distance": 1.0
+            },
+            "tracking_parameters": {
+              "enable_imu_fusion": true
+            }
+        }   
+    }
+}

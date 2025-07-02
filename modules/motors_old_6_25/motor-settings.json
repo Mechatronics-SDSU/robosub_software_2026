@@ -1,0 +1,53 @@
+{
+    "motor_wrapper_settings": {
+        "can_bus_interface": "socketcan",
+        "can_bus_channel": "can0",
+        "receive_own_messages": true,
+        "max_motor_val": 100,
+        "reasonable_motor_max": 30,
+        "motors": [
+            [ 0,      0,       0,     -1,      -1,      1,      1,        -1],
+            [ 1,     -1,      -1,      0,       0,      0,      0,         0],
+            [ 0,      0,       0,      1,      -1,      1,      1,        -1],
+            [-1,     -1,      -1,      0,       0,      0,      0,         0],
+            [ 0,      0,       0,      1,      -1,      1,     -1,         1], 
+            [-1,     -1,       1,      0,       0,      0,      0,         0],
+            [ 0,      0,       0,     -1,      -1,      1,     -1,         1],
+            [ 1,     -1,       1,      0,       0,      0,      0,         0]
+        ],
+        "input_list": [0, 0, 0, 0, 0, 0, 0, 0]
+    },
+
+    "motor_interface_settings": {
+        "y_turn_speed": 5,
+        "distance_stop_value": 1000,
+        "intitial_iterations": 0,
+        "iterations_shooting_for_gate": 0,
+        "max_iterations_shooting_for_gate": 200,
+        "iteration_since_last_detection": 0,
+        "iterations_before_detection_timeout": 100,
+        "detection_thrust_length": 10,
+        "detection_thrust_count": 0,
+        "wait_length": 10,
+        "current_wait": 0
+    },
+    "motor_simulation_settings": {
+        "motor_strength": 0.03,
+        "motors_forces":[
+            [ 0,      0,       -1,        0,      -1,     -1], 
+            [ 1,      1,        0,       -1,       0,      0],
+            [ 0,      0,       -1,        0,       1,     -1],
+            [ 1,     -1,        0,       -1,       0,      0],
+            [ 0,      0,       -1,        0,       1,      1], 
+            [ 1,     -1,        0,        1,       0,      0], 
+            [ 0,      0,       -1,        0,      -1,      1],
+            [ 1,      1,        0,        1,       0,      0] 
+        ]
+    },
+    "object_tracking_settings": {
+        "iterations": 0,
+        "iteration_since_last_detection": 0,
+        "x_hard_deadzone": 400,
+        "x_soft_deadzone": 200
+    }
+}
