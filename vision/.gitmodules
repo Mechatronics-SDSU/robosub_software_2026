@@ -1,0 +1,3 @@
+[submodule "ColorFilter"]
+	path = ColorFilter
+	url = https://github.com/Package-Repository/ColorFilter.git
