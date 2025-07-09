@@ -21,7 +21,7 @@ class MotorWrapper:
     def __init__(self):    
         self.usb_transmitter = USB_Transmitter()
         #-------------------------------------------------------------------------------------------------
-        self.MOTOR_MAX    = 10000
+        self.MOTOR_MAX    = 40000
         self.MOTOR_FACTOR = 0.1 # [0.0, 1.0] -- set ~0.1 for in air, ~0.3 in water
         #-------------------------------------------------------------------------------------------------
 
