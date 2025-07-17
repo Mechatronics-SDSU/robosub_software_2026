@@ -12,11 +12,11 @@ import time
 trax = TRAX()
 trax.connect()
 
-# # kSetAcqParams
-# frameID = "kSetAcqParams" # OR =24
-# payload = (False, False, 0.0, 0.001)
-# trax.send_packet(frameID, payload)
-# # kSetAcqParamsDone
+# kSetAcqParams
+frameID = "kSetAcqParams" # OR =24
+payload = (False, False, 0.0, 0.001)
+trax.send_packet(frameID, payload)
+# kSetAcqParamsDone
 # data = trax.recv_packet()
 # print(data[1] == 26)
 
