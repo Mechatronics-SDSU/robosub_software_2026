@@ -209,9 +209,9 @@ class VideoRunner:
         self.shared_memory_object.imu_ang_vel = ang_vel
         self.shared_memory_object.imu_orientation = orientation
 
-        self.shared_memory_object.linear_acc[1] -= 9.8
+        # self.shared_memory_object.linear_acc[1] -= 9.8
 
-    def connect_to_server():
+    def connect_to_server(self):
         """
             testing function to connect to server
             used for sending images to host for viewing
@@ -220,7 +220,7 @@ class VideoRunner:
                 socket: Socket_Client object
         """
         host = '192.168.194.3'
-        port = 8991
+        port = 8089
         socket = Socket_Client.Client(host, port)
         socket.connect_to_server()
         return socket
@@ -255,7 +255,7 @@ class VideoRunner:
             self.shared_memory_object.distance_from_object.value = float(distance)
         return image
     
-    def run_color_detection(self, image, color):
+    def run_color_detection(self, image):
         """
             runs color detection on image
             input
@@ -348,7 +348,7 @@ class VideoRunner:
         show_boxes = True
         show_distance = False
         imu_enable = True
-        send_image = False
+        send_image = True
 
         iteration = 0
 
@@ -378,14 +378,14 @@ class VideoRunner:
             if self.shared_memory_object.gate_enable.value:
                 pass
                 #image = self.run_color_detection(image, self.color)
-                image = self.run_gate_detection(image)
+                # image = self.run_gate_detection(image)
                 #image = self.hough_lines(image)
                 #image = self.run_wall_detection(image)
                 # print("COLOR OFFSET", self.color_offset_x.value, "\t", self.color_offset_y.value)
                 
             #run yolo detection
             if self.shared_memory_object.yolo_enable.value:
-                image = self.run_color_detection(image, self.color)
+                image = self.run_color_detection(image)
 
             #starting imu code
             if (import_success and imu_enable and self.zed is not None):

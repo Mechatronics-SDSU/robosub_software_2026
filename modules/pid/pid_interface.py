@@ -1,7 +1,7 @@
 import numpy as np
 import time
 from modules.pid.six_dof_pid import PID
-from modules.motors.MotorWrapper import Can_Wrapper
+from modules.motors.MotorWrapper import MotorWrapper
 from modules.motors.motor_simulation import Simulation
 
 """
@@ -14,17 +14,17 @@ from modules.motors.motor_simulation import Simulation
 class PIDInterface:
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object
-        self.motor_wrapper = Can_Wrapper()
+        self.motor_wrapper = MotorWrapper()
 
         #SIMULATION
-        self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
+        # self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
 
         # array of PID k Values
         # cols = x, y, z, roll, pitch, yaw
         # rows = kp, ki, kd
-        self.K_array = np.array([[10, 10, 0, 0, 0, 0], 
-                                 [.5, .5, .0, .0, .0, .0],
-                                 [.01 , .01 , .00 , .00 , .00 , .00 ]])
+        self.K_array = np.array([[10, 10, 10, 10, 10, 10], 
+                                 [.5, .5, .5, .5, .5, .5],
+                                 [.01 , .01 , .01 , .01 , .01 , .01 ]])
 
         
     
@@ -59,13 +59,13 @@ class PIDInterface:
             direction = self.run_pid()
             self.motor_wrapper.move_from_matrix(direction)
             motor = self.motor_wrapper.send_command()
-            new_state = self.simulation.update(motor)
-            self.shared_memory_object.dvl_x.value = new_state[0]
-            self.shared_memory_object.dvl_y.value = new_state[1]
-            self.shared_memory_object.dvl_z.value = new_state[2]
-            self.shared_memory_object.dvl_roll.value = new_state[3]
-            self.shared_memory_object.dvl_pitch.value = new_state[4]
-            self.shared_memory_object.dvl_yaw.value = new_state[5]
+            # new_state = self.simulation.update(motor)
+            # self.shared_memory_object.dvl_x.value = new_state[0]
+            # self.shared_memory_object.dvl_y.value = new_state[1]
+            # self.shared_memory_object.dvl_z.value = new_state[2]
+            # self.shared_memory_object.dvl_roll.value = new_state[3]
+            # self.shared_memory_object.dvl_pitch.value = new_state[4]
+            # self.shared_memory_object.dvl_yaw.value = new_state[5]
             error = np.subtract(np.array([self.shared_memory_object.target_x.value, 
                                           self.shared_memory_object.target_y.value, 
                                           self.shared_memory_object.target_z.value, 
@@ -80,7 +80,7 @@ class PIDInterface:
                                           self.shared_memory_object.dvl_yaw.value]))
             print("error: ", error)
             print("error magnitude: ", np.linalg.norm(error))
-            print("state: ", new_state)
+            # print("state: ", new_state)
             
             time.sleep(0.2)
             

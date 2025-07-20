@@ -25,9 +25,9 @@ trax.connect()
 # payload = (4, 0x5, 0x18, 0x19, 0x4f)
 # trax.send_packet(frameID, payload)
 
-# kStopContinuousMode
-frameID = "kStopContinuousMode" # OR =22
-trax.send_packet(frameID)
+# # kStopContinuousMode
+# frameID = "kStopContinuousMode" # OR =22
+# trax.send_packet(frameID)
 
 # kSetDataComponents
 frameID = "kSetDataComponents" # OR =3

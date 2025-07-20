@@ -11,7 +11,7 @@ class DepthSensor:
     def print_data(self, depth):
         print("z:", depth)
 
-    def recieve_data(self):
+    def receive_data(self):
         try:
             return self.ser.readline().decode('ascii')
         except:
@@ -20,7 +20,8 @@ class DepthSensor:
     def run(self):
         while True:
             if self.ser:
-                self.recieveData() 
+                data = self.recieveData() 
+                print(f"Depth sensor data recieved: {data}")
 
 if __name__ == "__main__":
     depth_node = DepthSensor()

@@ -1,4 +1,4 @@
-from modules.sensors.depth_sensor import DepthSensor
+from modules.sensors.depth_sensor.depth_sensor import DepthSensor
 from multiprocessing import Value
 
 class DepthSensorInterface:
@@ -7,7 +7,7 @@ class DepthSensorInterface:
         self.shared_memory_object = shared_memory_object
 
     def update(self):
-        depth = self.depth_sensor.recieve_data()
+        depth = self.depth_sensor.receive_data()
         if depth != None and len(depth) > 3:
             if"Depth" in depth:
                 print(float(depth[depth.find(" ") + 1:]))

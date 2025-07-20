@@ -1,4 +1,4 @@
-from sensors.a50_dvl.dvl import DVL
+from modules.sensors.a50_dvl.dvl import DVL
 
 class DVL_Interface:
 
