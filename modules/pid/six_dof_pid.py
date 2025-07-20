@@ -23,7 +23,7 @@ class PID:
 
     def get_error(self, initial_state, desired_state):
         self.error = np.subtract(desired_state, initial_state)
-        self.integral_error += self.prev_integral_error + self.error * self.dt
+        self.integral_error = self.prev_integral_error + self.error * self.dt
         self.derivative_error = np.subtract(self.error, self.prev_error) / self.dt
     
 

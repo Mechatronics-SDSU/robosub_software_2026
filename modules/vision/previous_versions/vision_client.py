@@ -8,8 +8,8 @@ import pickle
 import struct
 import pyzed.sl as sl
 
-HOST = '146.244.98.14'
-PORT = 8089
+HOST = '192.168.194.6'
+PORT = 8991
 
 import socket
 import cv2
@@ -55,7 +55,7 @@ class Client:
 def main():
         # Create a ZED camera object
 
-    host = '146.244.98.37'
+    host = '192.168.194.3'
     port = 8089
     client = Client(host, port)
     client.connect_to_server()

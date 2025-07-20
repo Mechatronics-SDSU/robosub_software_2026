@@ -22,27 +22,28 @@ class MotorWrapper:
         self.usb_transmitter = USB_Transmitter()
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 40000
-        self.MOTOR_FACTOR = 0.1 # [0.0, 1.0] -- set ~0.1 for in air, ~0.3 in water
+        self.MOTOR_FACTOR = 0.5 # [0.0, 1.0] -- set ~0.1 for in air, ~0.3 in water
         #-------------------------------------------------------------------------------------------------
 
         self.motors = np.array([
             #LjoyX   LjoyY   RjoyX   RjoyY    Rtrig   Ltrig   LPad       RDpad
             
             # x        y        z        yaw     pitch    roll
-            [ 0,      0,       1,        1,       0,     -2], # motor 0 FL0 (vertical)
-            [ 1,     -2,       0,        0,      -2,      0], # motor 1 FL1
-            [ 0,      0,       1,       -2,       0,     -2], # motor 2 BL2 (vertical)
-            [ -2,    -2,       0,        0,       1,      0], # motor 3 BL3
-            [ 0,      0,       1,       -2,       0,      1], # motor 4 BR4 (veritcal)
-            [ -2,     1,       0,        0,      -2,      0], # motor 5 BR5
-            [ 0,      0,       1,        1,       0,      1], # motor 6 FR6 (vertical)
-            [ 1,      1,       0,        0,       1,      0]  # motor 7 FR7
+            [ 0,      0,       1,        0,       1,     -2], # motor 0 FL0 (vertical)
+            [ 1,     -2,       0,        1,       0,      0], # motor 1 FL1
+            [ 0,      0,       1,        0,      -2,     -2], # motor 2 BL2 (vertical)
+            [ -2,    -2,       0,       -2,       0,      0], # motor 3 BL3
+            [ 0,      0,       1,        0,      -2,      1], # motor 4 BR4 (veritcal)
+            [ -2,     1,       0,        1,       0,      0], # motor 5 BR5
+            [ 0,      0,       1,        0,       1,      1], # motor 6 FR6 (vertical)
+            [ 1,      1,       0,       -2,       0,      0]  # motor 7 FR7
         ])
         self.controls   = [0, 0, 0, 255, 0] # control values (kill, power off, lights R,G,B) FIXME assign to shared mem vals
         self.motor_vals = [0, 0, 0, 0, 0, 0, 0, 0] # motor values
 
     # returns a validated version of the motor value
     def valid(self, motor_val):
+        motor_val = int(motor_val)
         if type(motor_val) != int and type(motor_val) != float: return 0 # return 0 if not a number
         # multiply clamped motor value by motor factor, cast to int
         return int(self.MOTOR_FACTOR * np.clip(motor_val, -self.MOTOR_MAX, self.MOTOR_MAX))
@@ -65,16 +66,16 @@ class MotorWrapper:
     def move_down(self, value):
         self.move_from_matrix(np.array([0, 0, self.valid(-value), 0, 0, 0]))
 
-    def turn_up(self, value):
+    def turn_left(self, value):
         self.move_from_matrix(np.array([0, 0, 0, self.valid(value), 0, 0]))
 
-    def turn_down(self, value):
+    def turn_right(self, value):
         self.move_from_matrix(np.array([0, 0, 0, self.valid(-value), 0, 0]))
 
-    def turn_left(self, value):
+    def turn_up(self, value):
         self.move_from_matrix(np.array([0, 0, 0, 0, self.valid(value), 0]))
 
-    def turn_right(self, value):
+    def turn_down(self, value):
         self.move_from_matrix(np.array([0, 0, 0, 0, self.valid(-value), 0]))
 
     def roll_left(self, value):
@@ -99,8 +100,8 @@ class MotorWrapper:
 
     #sends commands to motors
     def send_command(self):
-        send_data = np.concatenate((self.motor_vals, self.controls), axis=None)
-        print(type(list(send_data)))
+        send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
+        # print(send_data)
         self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
 
         motor_values = self.motor_vals # save motor values
