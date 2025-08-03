@@ -1,8 +1,0 @@
-# Sensors
-
-Mechatronics vehicles need sensors to be able to percieve their environment. Here we will store sensor drivers as well as any code related to retrieving sensor data
-
-## Hardware
-
-Right now the most important sensor on the robot is the A50 DVL. However, it would be best to add other sensors to the robot for more information or to fuse different estimates. Some other options are the AHRS orientation sensor as well as the MS5837 Depth Sensor. 
-

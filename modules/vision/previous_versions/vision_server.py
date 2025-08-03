@@ -35,6 +35,7 @@ class Server:
 
         while True:
             if data is None:
+                print('data is None')
                 continue
             while len(data) < payload_size:
                 data += client_socket.recv(4096)
@@ -63,8 +64,8 @@ class Server:
             
 
 def main():
-    host = '192.168.194.3'
-    port = 8089
+    host = '192.168.194.6'
+    port = 8991
     package_size = 442504
     server = Server(host, port, package_size)
     server.receive_and_display_images()

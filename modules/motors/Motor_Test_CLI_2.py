@@ -7,22 +7,22 @@ for i in range(8):
 
     if d == "f":
         v = int(input("Give a speed [-4200, 4200]: "))
-        M.move_forward(v)
+        M.move_from_matrix(np.array([M.valid(v), 0, 0, 0, 0, 0]))
     elif d == "b":
-        v = int(input("Give a speed [-4200, 4200]: "))
-        M.move_backward(v)
+        v = int(input("Give a speev [-4200, 4200]: "))
+        M.move_from_matrix(np.array([M.valid(-v), 0, 0, 0, 0, 0]))
     elif d == "l":
         v = int(input("Give a speed [-4200, 4200]: "))
-        M.move_left(v)
+        M.move_from_matrix(np.array([0, M.valid(v), 0, 0, 0, 0]))
     elif d == "r":
         v = int(input("Give a speed [-4200, 4200]: "))
-        M.move_right(v)
+        M.move_from_matrix(np.array([0, M.valid(v), 0, 0, 0, 0]))
     elif d == "u":
         v = int(input("Give a speed [-4200, 4200]: "))
-        M.move_up(v)
+        M.move_from_matrix(np.array([0, 0, M.valid(v), 0, 0, 0]))
     elif d == "d":
         v = int(input("Give a speed [-4200, 4200]: "))
-        M.move_down(v)
+        M.move_from_matrix(np.array([0, 0, M.valid(-v), 0, 0, 0]))
     elif d == "tu":
         v = int(input("Give a speed [-4200, 4200]: "))
         M.turn_up(v)

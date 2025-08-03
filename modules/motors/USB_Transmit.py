@@ -29,6 +29,6 @@ class USB_Transmitter:
             for num in motor_vals:
                 packed_data += struct.pack('<i', num)
             self.srl.write(packed_data)
-            print(f"Transmitted: {motor_vals}")
+            # print(f"Transmitted: {motor_vals}")
             # # Optional test call
             # usb_transmit([0, 0, 0, 0, 0, 0, 0, 0])

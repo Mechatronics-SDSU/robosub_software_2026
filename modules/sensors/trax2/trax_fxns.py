@@ -99,15 +99,19 @@ class TRAX:
     def get_frame_id(frameID_str):
         match frameID_str:
             case "kGetModInfo":         return 1
+            case "kGetModInfoResp":     return 2
             case "kSetDataComponents":  return 3
             case "kGetData":            return 4
+            case "kGetDataResp":        return 5
             case "kSetConfig":          return 6
             case "kGetConfig":          return 7
+            case "kGetConfigResp":      return 8
             case "kSave":               return 9
             case "kStartCal":           return 10
             case "kStopCal":            return 11
             case "kSetFIRFilters":      return 12
             case "kGetFIRFilters":      return 13
+            case "kGetFIRFiltersResp":  return 14
             case "kPowerDown":          return 15
             case "kStartContinuousMode":return 21
             case "kStopContinuousMode": return 22
@@ -134,6 +138,7 @@ class TRAX:
     # if the datagram includes ID Specific types, pass the payload tuple/array from the prior send_packet() call that made the query
     def recv_packet(self, payload=None):
         packet = self.ser.readline() # read input message
+        print(packet)
         if packet == b'': # if packet is empty, warn user and stop fxn
             self.lg.critical("NO MESSAGE RECEIVED")
             return -1
