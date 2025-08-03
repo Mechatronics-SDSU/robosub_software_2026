@@ -1,4 +1,4 @@
-from sensors.a50_dvl.dvl import DVL
+from modules.sensors.a50_dvl.dvl import DVL
 
 class DVL_Interface:
 
@@ -24,7 +24,7 @@ class DVL_Interface:
             self.shared_memory_object.dvl_yaw.value = dvl_data[0]
             self.shared_memory_object.dvl_pitch.value = dvl_data[1]
             self.shared_memory_object.dvl_roll.value = dvl_data[2]
-            self.shared_memory_object.dvl_x.value = dvl_data[3]
+            self.shared_memory_object.dvl_x.value = -dvl_data[3]
             self.shared_memory_object.dvl_y.value = dvl_data[4]
             self.shared_memory_object.dvl_z.value = dvl_data[5]
             print("dvl_yaw:", self.shared_memory_object.dvl_yaw.value)

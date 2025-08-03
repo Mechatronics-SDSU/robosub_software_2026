@@ -46,9 +46,9 @@ class SharedMemoryWrapper:
 
         ### change these values for PID testing ###
         self.target_x               = Value('d', 0)
-        self.target_y               = Value('d', 1)
-        self.target_z               = Value('d', 0)
-        self.target_yaw             = Value('d', 0)
+        self.target_y               = Value('d', 0)
+        self.target_z               = Value('d', 1)
+        self.target_yaw             = Value('d', 0) 
         self.target_pitch           = Value('d', 0)
         self.target_roll            = Value('d', 0)
     
