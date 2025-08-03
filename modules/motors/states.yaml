@@ -1,0 +1,116 @@
+name: InitializeState
+type: state
+transitions:
+  on_initialized: Gate
+
+behaviors:
+  FindSharkOrSwordfish:
+    type: action
+    action: find_shark_or_swordfish
+
+  AlignHeading:
+    type: action
+    action: align_heading
+
+  GoForward:
+    type: action
+    action: go_forward
+
+  FindTwoClosestPoles:
+    type: action
+    action: find_two_closest_poles
+
+  AimBetweenPoles:
+    type: action
+    action: aim_between_poles
+
+  AlignPosition:
+    type: action
+    action: align_position
+
+  FindRedShapes:
+    type: action
+    action: find_red_shapes
+
+  AlignPositionOrHeading:
+    type: action
+    action: align_position_or_heading
+
+  ShootTorpedo:
+    type: action
+    action: shoot_torpedo
+
+  FindOctagon:
+    type: action
+    action: find_octagon
+
+  Surface:
+    type: action
+    action: surface
+
+  FindPathHeading:
+    type: action
+    action: find_way_path_is_facing
+
+states:
+  Idle:
+    type: state
+    transitions:
+      on_initialized: InitializeState
+
+  InitializeState:
+    type: state
+    transitions:
+      on_initialized: Gate
+
+  Gate:
+    type: sequence
+    steps:
+      - ref: FindSharkOrSwordfish
+      - ref: AlignHeading
+      - ref: GoForward
+    transitions:
+      on_complete: NavigateChannelStorm
+
+  NavigateChannelStorm:
+    type: sequence
+    steps:
+      - ref: FindTwoClosestPoles
+      - ref: AimBetweenPoles
+      - ref: AlignHeading
+      - ref: GoForward
+    transitions:
+      on_complete: Dropper
+
+  Dropper:
+    type: sequence
+    steps:
+      - ref: FindSharkOrSwordfish
+      - ref: AlignPosition
+      - ref: GoForward
+    transitions:
+      on_complete: Torpedoes
+
+  Torpedoes:
+    type: sequence
+    steps:
+      - ref: FindRedShapes
+      - ref: AlignPositionOrHeading
+      - ref: ShootTorpedo
+    transitions:
+      on_complete: Octagon
+
+  Octagon:
+    type: sequence
+    steps:
+      - ref: FindOctagon
+      - ref: Surface
+    transitions:
+      on_complete: Path
+
+  Path:
+    type: sequence
+    steps:
+      - ref: FindPathHeading
+      - ref: AlignHeading
+      - ref: GoForward
