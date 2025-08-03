@@ -1,7 +1,7 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from modules.motors.MotorInterface          import MotorInterface
-from modules.pid.pid_interface              import PIDInterface
+# from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.sensors.trax2.trax_fxns        import TRAX
 from modules.vision.vision_main             import VideoRunner
