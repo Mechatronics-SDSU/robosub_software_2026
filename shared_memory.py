@@ -51,4 +51,7 @@ class SharedMemoryWrapper:
         self.target_yaw             = Value('d', 0) 
         self.target_pitch           = Value('d', 0)
         self.target_roll            = Value('d', 0)
+
+        # motor values
+        self.motor_values           = Value('d', 0)
     
