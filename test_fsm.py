@@ -14,11 +14,11 @@ class Test_FSM:
         self.active = False
         # create shared memory
         self.shared_memory_object = SharedMemoryWrapper()
-        self.x_buffer = 0.2#m
-        self.y_buffer = 0.2#m
+        self.x_buffer = 0.5#m
+        self.y_buffer = 0.5#m
         self.z_buffer = 0.6#m
         # initial state (S1, S2)
-        self.state = "S1"
+        self.state = "S0"
 
         # create objects
         self.PID_interface = PIDInterface(self.shared_memory_object)
@@ -30,10 +30,8 @@ class Test_FSM:
 
     def start(self):
         self.active = True
-        # set initial target coords
-        self.shared_memory_object.target_x.value = 2#m
-        self.shared_memory_object.target_y.value = 0#m
-        self.shared_memory_object.target_z.value = 1#m
+        # set initial state
+        self.next_state("S1")
 
         # start processes
         self.PID_process.start()
