@@ -8,10 +8,10 @@ from shared_memory                          import SharedMemoryWrapper
     
 """
 class FSM:
-    def __init__(self):
+    def __init__(self, shared_memory_object):
         self.active = False
         # create shared memory
-        self.shared_memory_object = SharedMemoryWrapper()
+        self.shared_memory_object = shared_memory_object
         # initial state
         self.state = "S0"
         
@@ -31,6 +31,10 @@ class FSM:
         match(next):
             case "S1":
                 pass
+            case "DONE":
+                print("DONE")
+                self.stop()
+                return
             case _: # do nothing if invalid state
                 print("INVALID STATE")
                 return
@@ -56,3 +60,7 @@ class FSM:
     def stop(self):
         self.active = False
         # terminate processes
+    
+    # active getter method
+    def get_active(self):
+        return self.active
