@@ -13,8 +13,8 @@ import time
 class MissionControl:
     def __init__(self):
         # create shared memory
-        #self.shared_memory_object = SharedMemoryWrapper()
-        self.test_mode = Test_FSM()
+        self.shared_memory_object = SharedMemoryWrapper()
+        self.test_mode = Test_FSM(self.shared_memory_object)
         self.test_mode.start()
 
         self.loop()
