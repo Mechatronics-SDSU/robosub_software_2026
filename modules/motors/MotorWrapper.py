@@ -1,4 +1,5 @@
 import numpy as np
+from shared_memory import SharedMemoryWrapper
 try:
     from modules.motors.USB_Transmit import USB_Transmitter
 except:
@@ -23,6 +24,7 @@ class MotorWrapper:
 
     def __init__(self):    
         self.usb_transmitter = USB_Transmitter()
+        self.shared_memory_object = SharedMemoryWrapper()
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 4000
         self.MOTOR_FACTOR = 0.7 # [0.0, 1.0] -- set ~0.1 for in air, ~0.3 in water
@@ -110,6 +112,7 @@ class MotorWrapper:
         self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
 
         motor_values = self.motor_vals # save motor values
+        self.shared_memory_object.motor_values.value = motor_values # save to shared memory
         self.stop() # reset motor values to 0s
 
         return motor_values # return motor values
