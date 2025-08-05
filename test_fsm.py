@@ -10,10 +10,10 @@ from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
     
 """
 class Test_FSM:
-    def __init__(self):
+    def __init__(self, shared_memory_object):
         self.active = False
         # create shared memory
-        self.shared_memory_object = SharedMemoryWrapper()
+        self.shared_memory_object = shared_memory_object
         # buffers
         self.x_buffer = 0.5#m
         self.y_buffer = 0.5#m
@@ -23,7 +23,7 @@ class Test_FSM:
 
         # create objects
         self.PID_interface = PIDInterface(self.shared_memory_object)
-        self.dvl_object = DVL_Interface(self.shared_memory_object)        
+        self.dvl_object = DVL_Interface(self.shared_memory_object)
                 
         # create processes
         self.PID_process = Process(target=self.PID_interface.run_loop)
@@ -52,6 +52,10 @@ class Test_FSM:
                 self.shared_memory_object.target_x.value = 0#m
                 self.shared_memory_object.target_y.value = 0#m
                 self.shared_memory_object.target_z.value = 1#m
+            case "DONE":
+                print("DONE")
+                self.stop()
+                return
             case _: # do nothing if invalid state
                 print("invalid state")
                 return
@@ -78,3 +82,7 @@ class Test_FSM:
         # terminate processes
         self.PID_process.terminate()
         self.dvl_process.terminate()
+
+    # active getter method
+    def get_active(self):
+        return self.active
