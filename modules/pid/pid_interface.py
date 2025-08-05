@@ -23,7 +23,7 @@ class PIDInterface:
         # array of PID k Values
         # cols = x, y, z, yaw, pitch, roll
         # rows = kp, ki, kd
-        self.K_array = np.array([[2000,  2000,  3000,    10,     2,    2], 
+        self.K_array = np.array([[2000,  2000,  3000,    5,     2,    2], 
                                  [.5,   .5,     .5,     .5,    .5,   .5],
                                  [.1,   .1 ,    .1,     .1,    .5,   .5]])
         
