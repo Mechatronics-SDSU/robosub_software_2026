@@ -60,7 +60,3 @@ class FSM:
     def stop(self):
         self.active = False
         # terminate processes
-    
-    # active getter method
-    def get_active(self):
-        return self.active

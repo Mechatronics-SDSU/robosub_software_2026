@@ -64,10 +64,19 @@ class Test_FSM:
     # loop function
     def loop(self):
         if not self.active: return # do nothing if not enabled
-        # transition
-        if abs(self.shared_memory_object.dvl_x.value - self.shared_memory_object.target_x.value) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - self.shared_memory_object.target_y.value) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - self.shared_memory_object.target_z.value) <= self.z_buffer:
-            next = "S1" if self.state == "S2" else "S2"
-            self.next_state(next)
+        next = None
+        # transitions
+        match(self.state):
+            case "S1":
+                if abs(self.shared_memory_object.dvl_x.value - 2) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - 0) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - 1) <= self.z_buffer:
+                    next = "S2"
+            case "S2":
+                if abs(self.shared_memory_object.dvl_x.value - 0) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - 0) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - 1) <= self.z_buffer:
+                    next = "DONE"
+            case _: # do nothing if invalid state
+                print("invalid state")
+                return
+        self.next_state(next)
 
     # wait until child processes terminate
     def join(self):
@@ -82,7 +91,3 @@ class Test_FSM:
         # terminate processes
         self.PID_process.terminate()
         self.dvl_process.terminate()
-
-    # active getter method
-    def get_active(self):
-        return self.active
