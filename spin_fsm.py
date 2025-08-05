@@ -9,13 +9,13 @@ from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
     Test FSM
     
 """
-class SPIN_FSM:
+class Spin_FSM:
     def __init__(self, shared_memory_object):
         self.active = False
         # create shared memory
         self.shared_memory_object = shared_memory_object
         # buffers
-        self.buffer = 0.5#m
+        self.buffer = 15#deg
         # initial state (S1, S2)
         self.state = "S0"
 
@@ -43,13 +43,13 @@ class SPIN_FSM:
         if self.state == next: return # do nothing if no state change
         match(next):
             case "S1":
-                self.shared_memory_object.target_x.value = 2#m
-                self.shared_memory_object.target_y.value = 0#m
-                self.shared_memory_object.target_z.value = 1#m
+                self.shared_memory_object.target_yaw.value = 90#m
             case "S2":
-                self.shared_memory_object.target_x.value = 0#m
-                self.shared_memory_object.target_y.value = 0#m
-                self.shared_memory_object.target_z.value = 1#m
+                self.shared_memory_object.target_yaw.value = -90#m
+            case "DONE":
+                print("DONE")
+                self.stop()
+                return
             case _: # do nothing if invalid state
                 print("invalid state")
                 return
@@ -58,10 +58,17 @@ class SPIN_FSM:
     # loop function
     def loop(self):
         if not self.active: return # do nothing if not enabled
-        # transition
-        if abs(self.shared_memory_object.dvl_x.value - self.shared_memory_object.target_x.value) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - self.shared_memory_object.target_y.value) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - self.shared_memory_object.target_z.value) <= self.z_buffer:
-            next = "S1" if self.state == "S2" else "S2"
-            self.next_state(next)
+        next = None # next state local
+        # transitions
+        match(self.state):
+            case "S1":
+                if abs(self.shared_memory_object.dvl_yaw.value - 90) <= self.buffer:    next = "S2"
+            case "S2":
+                if abs(self.shared_memory_object.dvl_yaw.value - -90) <= self.buffer:   next = "DONE"
+            case _:
+                print("invalid state")
+                return
+        self.next_state(next)
 
     # wait until child processes terminate
     def join(self):
