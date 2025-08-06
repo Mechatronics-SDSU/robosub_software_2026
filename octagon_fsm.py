@@ -2,11 +2,12 @@ from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
+import yaml
 """
     discord: @.kech
     github: @rsunderr
 
-    Test FSM
+    Gate FSM
     
 """
 class Octagon_FSM:
@@ -14,10 +15,7 @@ class Octagon_FSM:
         self.active = False
         # create shared memory
         self.shared_memory_object = shared_memory_object
-        # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+
         # initial state (INIT, DRIVE, RISE, DONE)
         self.state = "INIT"
 
@@ -28,6 +26,20 @@ class Octagon_FSM:
         # create processes
         self.PID_process = Process(target=self.PID_interface.run_loop)
         self.dvl_process = Process(target=self.dvl_object.run_loop)
+
+        # buffers
+        self.x_buffer = 0.3#m
+        self.y_buffer = 0.3#m
+        self.z_buffer = 0.5#m
+
+        # target values
+        self.x1, self.y1, self.z1, self.z2 = None
+        with open("~/robosub_software_2025/objects.yaml", 'r') as file:
+            data = yaml.safe_load(file)
+            self.x1 = data['objects']['gate']['x']
+            self.y1 = data['objects']['gate']['y']
+            self.z1 = 1
+            self.z2 = data['objects']['gate']['z']
 
     # start FSM
     def start(self):
@@ -45,11 +57,11 @@ class Octagon_FSM:
         if self.state == next: return # do nothing if no state change
         match(next):
             case "DRIVE":
-                self.shared_memory_object.target_x.value = 19#m TODO make us read from a file
-                self.shared_memory_object.target_y.value = 0#m
-                self.shared_memory_object.target_z.value = 1#m
+                self.shared_memory_object.target_x.value = self.x1
+                self.shared_memory_object.target_y.value = self.y1
+                self.shared_memory_object.target_z.value = self.z1
             case "RISE":
-                self.shared_memory_object.target_z.value = 0#m
+                self.shared_memory_object.target_z.value = self.z2
             case "DONE":
                 print("DONE")
                 self.stop()
@@ -58,7 +70,7 @@ class Octagon_FSM:
                 print("invalid state")
                 return
         self.state = next
-
+    
     # loop function
     def loop(self):
         if not self.active: return # do nothing if not enabled
@@ -66,10 +78,10 @@ class Octagon_FSM:
         # transitions
         match(self.state):
             case "DRIVE":
-                if abs(self.shared_memory_object.dvl_x.value - self.shared_memory_object.target_x.vlaue) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - self.shared_memory_object.target_y.value) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - self.shared_memory_object.target_z.value) <= self.z_buffer:
+                if abs(self.shared_memory_object.dvl_x.value - self.x1) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - self.y1) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - self.shared_memory_object.z1) <= self.z_buffer:
                     next = "RISE"
             case "RISE":
-                if abs(abs(self.shared_memory_object.dvl_z.value - self.shared_memory_object.target_z.value) <= self.z_buffer):
+                if abs(abs(self.shared_memory_object.dvl_z.value - self.z2) <= self.z_buffer):
                     next = "DONE"
             case _: # do nothing if invalid state
                 print("invalid state")

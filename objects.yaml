@@ -1,0 +1,9 @@
+objects:
+  gate:
+    x:  3
+    y:  0
+    z:  1
+  octagon:
+    x:  19
+    y:  0
+    z:  0
