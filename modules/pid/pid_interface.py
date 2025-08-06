@@ -12,6 +12,8 @@ from scipy.spatial.transform import Rotation as R
     PID methods, integration (orientation code)
 
 """
+P_DEBUG = False
+
 class PIDInterface:
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object
@@ -29,18 +31,6 @@ class PIDInterface:
         
     
     def run_pid(self):
-        # desired_state = np.array([self.shared_memory_object.target_x.value, 
-        #                           self.shared_memory_object.target_y.value, 
-        #                           self.shared_memory_object.target_z.value, 
-        #                           0, 
-        #                           0, 
-        #                           0])
-        # current_state = np.array([self.shared_memory_object.dvl_x.value, 
-        #                           self.shared_memory_object.dvl_y.value, 
-        #                           self.shared_memory_object.dvl_z.value, 
-        #                           0, 
-        #                           0, 
-        #                           0])
         desired_state = np.array([self.shared_memory_object.target_x.value, 
                                   self.shared_memory_object.target_y.value, 
                                   self.shared_memory_object.target_z.value, 
@@ -72,9 +62,10 @@ class PIDInterface:
 
         # Combine with angular commands (still in local frame)
         movement_global = np.concatenate([movement_global_linear, angular])
-        print("Untransformed: ", untransformed)
-        print("Yaw, Pitch, Roll: ", (yaw, pitch, roll))
-        print("Transformed: ",movement_global)
+        if P_DEBUG:
+            print("Untransformed: ", untransformed)
+            print("Yaw, Pitch, Roll: ", (yaw, pitch, roll))
+            print("Transformed: ",movement_global)
         movement_global = (np.multiply(movement_global, [1,-1,-1,-1,1,1]))
         return movement_global, untransformed
     
@@ -96,9 +87,12 @@ class PIDInterface:
                                           self.shared_memory_object.dvl_yaw.value, 
                                           self.shared_memory_object.dvl_pitch.value, 
                                           self.shared_memory_object.dvl_roll.value]))
-            print("error: ", error)
-            print("error magnitude: ", np.linalg.norm(error))
-            # print("state: ", new_state)
+            if P_DEBUG:
+                print("Direction: ", direction)
+                print("Untransformed Direction: ", untransformed_direction)
+                print("Linear Error: ", np.sum(error[:3]))
+                print("Angular Error: ", np.sum(error[3:]))
+
             
             time.sleep(0.2)
             
