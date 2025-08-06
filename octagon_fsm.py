@@ -33,7 +33,7 @@ class Octagon_FSM:
         self.z_buffer = 0.5#m
 
         # target values
-        self.x1, self.y1, self.z1, self.z2 = None
+        self.x1, self.y1, self.z1, self.z2 = (None, None, None, None)
         with open("~/robosub_software_2025/objects.yaml", 'r') as file:
             data = yaml.safe_load(file)
             self.x1 = data['objects']['gate']['x']

@@ -24,7 +24,7 @@ class Gate_FSM:
         self.PID_interface = PIDInterface(self.shared_memory_object)
         self.dvl_object = DVL_Interface(self.shared_memory_object)
         self.vis_object = VideoRunner(self.shared_memory_object)
-                
+        
         # create processes
         self.PID_process = Process(target=self.PID_interface.run_loop)
         self.dvl_process = Process(target=self.dvl_object.run_loop)
@@ -36,13 +36,12 @@ class Gate_FSM:
         self.z_buffer = 0.5#m
 
         # target values
-        self.x1, self.y1, self.z1 = None
+        self.x1, self.y1, self.z1 = (None, None, None)
         with open("~/robosub_software_2025/objects.yaml", 'r') as file:
             data = yaml.safe_load(file)
-            gate = data['objects']['gate']
-            self.x1 = gate['x']
-            self.y1 = gate['y']
-            self.z1 = gate['z']
+            self.x1 = data['objects']['gate']['x']
+            self.y1 = data['objects']['gate']['y']
+            self.z1 = data['objects']['gate']['z']
 
     # start FSM
     def start(self):
