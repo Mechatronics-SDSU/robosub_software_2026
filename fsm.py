@@ -14,6 +14,11 @@ class FSM:
         self.shared_memory_object = shared_memory_object
         # initial state
         self.state = "S0"
+
+        # buffers
+        self.x_buffer = 0.5
+        self.y_buffer = 0.5
+        self.z_buffer = 0.5
         
     
     # start FSM
@@ -40,7 +45,7 @@ class FSM:
                 return
         self.state = next
 
-    # looping function
+    # looping function (mostly transitions)
     def loop(self):
         if not self.active: return # do nothing if not enabled
         # transitions
@@ -50,6 +55,13 @@ class FSM:
             case _:
                 print("INVALID STATE")
                 return
+    
+    # returns true if near a location (requires x,y,z buffer and dvl to work)
+    def reached_xyz(self, x, y, z):
+        if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
+            return True
+        # else
+        return False
     
     # wait until child processes terminate
     def join(self):
@@ -67,4 +79,5 @@ Functionalities I want to add:
 - read from a file for shared memory target values to prevent issues for plans with multiple modes
 - turn this file (fsm.py) into a parent class inherited by child fsm classes?
 - add more comments to explain stuff
+- add a function for getting if you are at a location
 """
