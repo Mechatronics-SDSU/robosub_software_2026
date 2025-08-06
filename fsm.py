@@ -60,3 +60,11 @@ class FSM:
     def stop(self):
         self.active = False
         # terminate processes
+
+"""
+Functionalities I want to add:
+- make the processes into an array so that it just iterates through the array to start, join etc.
+- read from a file for shared memory target values to prevent issues for plans with multiple modes
+- turn this file (fsm.py) into a parent class inherited by child fsm classes?
+- add more comments to explain stuff
+"""
