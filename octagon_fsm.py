@@ -3,6 +3,7 @@ from shared_memory                          import SharedMemoryWrapper
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 import yaml
+import os
 """
     discord: @.kech
     github: @rsunderr
@@ -34,7 +35,7 @@ class Octagon_FSM:
 
         # target values
         self.x1, self.y1, self.z1, self.z2 = (None, None, None, None)
-        with open("~/robosub_software_2025/objects.yaml", 'r') as file:
+        with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file:
             data = yaml.safe_load(file)
             self.x1 = data['objects']['gate']['x']
             self.y1 = data['objects']['gate']['y']
