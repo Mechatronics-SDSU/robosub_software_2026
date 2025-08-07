@@ -32,8 +32,8 @@ class Octagon_FSM:
 
         # buffers
         self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.y_buffer = 10#m
+        self.z_buffer = 10#m
 
         # target values
         self.x1, self.y1, self.z1, self.z2 = (None, None, None, None)
@@ -42,7 +42,7 @@ class Octagon_FSM:
             data = yaml.safe_load(file)
             self.x1 = data['objects']['gate']['x']
             self.y1 = data['objects']['gate']['y']
-            self.z1 = 1
+            self.z1 = 0
             self.z2 = data['objects']['gate']['z']
 
     # start FSM
@@ -60,6 +60,8 @@ class Octagon_FSM:
     def next_state(self, next):
         if not self.active or self.state == next: return # do nothing if not enabled or no state change
         match(next):
+            case "INIT":
+                pass
             case "DRIVE":
                 self.shared_memory_object.target_x.value = self.x1
                 self.shared_memory_object.target_y.value = self.y1
@@ -71,26 +73,26 @@ class Octagon_FSM:
                 self.stop()
                 return
             case _: # do nothing if invalid state
-                print("invalid state")
+                print("OCTAGON: INVALID NEXT STATE", self.state)
                 return
         self.state = next
     
     # loop function (mostly transitions)
     def loop(self):
         if not self.active: return # do nothing if not enabled
-        next = None
         # transitions
         match(self.state):
+            case "INIT":
+                pass
             case "DRIVE": # transition: DRIVE -> RISE
                 if self.reached_xyz(self.x1, self.y1, self.z1):
-                    next = "RISE"
+                    self.next_state("RISE")
             case "RISE": # transition: RISE -> DONE
                 if abs(self.shared_memory_object.dvl_z.value - self.z2) <= self.z_buffer:
-                    next = "DONE"
+                    self.next_state("DONE")
             case _: # do nothing if invalid state
-                print("invalid state")
+                print("OCTAGON: INVALID LOOP STATE", self.state)
                 return
-        self.next_state(next)
     
     # returns true if near a location (requires x,y,z buffer and dvl to work)
     def reached_xyz(self, x, y, z):
