@@ -2,7 +2,7 @@
 
 #absolute path
 socket_directory:   /tmp/python-services
-python_executable:  /opt/homebrew/anaconda3/bin/python
+python_executable:  /usr/bin/python3
 
 #relative path
 service_directory:  services
