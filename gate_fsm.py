@@ -35,8 +35,8 @@ class Gate_FSM:
 
         # buffers
         self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.y_buffer = 10#m
+        self.z_buffer = 10#m
 
         # target values
         self.gate_x, self.gate_y, self.gate_z = (None, None, None)
@@ -64,32 +64,38 @@ class Gate_FSM:
     def next_state(self, next):
         if not self.active or self.state == next: return # do nothing if not enabled or no state change
         match(next):
+            case "INIT":
+                pass
             case "DRIVE":
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
+            case "NEXT":
+                print("NEXT")
+                self.active = False
+                return
             case "DONE":
                 print("DONE")
                 self.stop()
                 return
             case _: # do nothing if invalid state
-                print("invalid state")
+                print("GATE: INVALID NEXT STATE", self.state)
                 return
         self.state = next
 
     # loop function (mostly transitions)
     def loop(self):
         if not self.active: return # do nothing if not enabled
-        next = None
         # transitions
         match(self.state):
+            case "INIT":
+                pass
             case "DRIVE": # transition: DRIVE -> DONE
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
-                    next = "DONE"
+                    self.next_state("NEXT")
             case _: # do nothing if invalid state
-                print("invalid state")
+                print("GATE: INVALID LOOP STATE", self.state)
                 return
-        self.next_state(next)
     
     # returns true if near a location (requires x,y,z buffer and dvl to work)
     def reached_xyz(self, x, y, z):

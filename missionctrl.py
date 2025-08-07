@@ -36,7 +36,11 @@ class MissionControl:
             self.oct_mode.loop()
 
             # transition: gate mode -> octagon mode
-            if self.gate_mode.state == "DONE": self.oct_mode.start()
+            if self.gate_mode.state == "DONE": 
+                self.oct_mode.start()
+                print("GATE MODE FINISHED")
             # transition: octagon mode -> off
-            if self.oct_mode.state == "DONE": self.shared_memory_object.running.value = 0 # end loop
+            if self.oct_mode.state == "DONE": 
+                self.shared_memory_object.running.value = 0 # end loop
+                print("OCTAGON MODE FINISHED")
 

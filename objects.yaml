@@ -1,9 +1,9 @@
 objects:
   gate: # gate coordinates (in m)
-    x:  3
+    x:  2
     y:  0
-    z:  1
+    z:  0
   octagon: # octagon coordinates (in m)
-    x:  19
+    x:  5
     y:  0
     z:  0
