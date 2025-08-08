@@ -6,7 +6,7 @@ creates shared memory for processes to communicate
 
 
 ## how to clone repo
-`git clone --recursive https://github.com/Mechatronics-SDSU/launch.git`
+`git clone https://github.com/Mechatronics-SDSU/launch.git`
 
 
 ### how to stage changes
