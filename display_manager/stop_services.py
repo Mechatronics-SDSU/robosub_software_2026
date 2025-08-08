@@ -1,4 +1,4 @@
-#!/opt/homebrew/anaconda3/bin/python
+#!/usr/bin/python3
 
 import subprocess
 import os

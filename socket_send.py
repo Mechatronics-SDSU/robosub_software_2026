@@ -58,6 +58,6 @@ def set_screen(color: typing.Tuple[int, int, int], title: str, subtitle: str):
 if __name__ == '__main__':
     # Example usage
     screen_color = (255, 0, 0)  # Red color
-    screen_title = "Welcome to the Dashboard"
-    screen_subtitle = "Here is a quick overview of your metrics"
+    screen_title = "Test_Title"
+    screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)
