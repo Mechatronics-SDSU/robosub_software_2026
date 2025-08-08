@@ -33,27 +33,27 @@ def main():
     #oct_mode.join()
 
 def loop():
-        """
-        Looping function, mostly mode transitions within conditionals
-        """
-        while shared_memory_object.running.value:
-            time.sleep(0.001)
+    """
+    Looping function, mostly mode transitions within conditionals
+    """
+    while shared_memory_object.running.value:
+        time.sleep(0.001)
 
-            gate_mode.loop()
-            oct_mode.loop()
+        gate_mode.loop()
+        oct_mode.loop()
 
-            # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-            if gate_mode.state == "NEXT": # transition: gate mode -> octagon mode
-                #self.gate_mode.stop()
-                oct_mode.start()
-            if oct_mode.state == "DONE": # transition: octagon mode -> off
-                stop() # turn off robot
+        # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
+        if gate_mode.state == "NEXT": # transition: gate mode -> octagon mode
+            #gate_mode.stop()
+            oct_mode.start()
+        if oct_mode.state == "DONE": # transition: octagon mode -> off
+            stop() # turn off robot
 
 def stop():
-        """
-        Soft kill the robot
-        """
-        shared_memory_object.running.value = 0 # kill gracefully
+    """
+    Soft kill the robot
+    """
+    shared_memory_object.running.value = 0 # kill gracefully
 
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
