@@ -50,6 +50,16 @@ def set_screen(color: typing.Tuple[int, int, int], title: str, subtitle: str):
     """
     Sets the screen with the specified color, title, and subtitle.
     """
+    if color[0] < 0 or color[0] > 255:
+        print("invalid red color value")
+        return
+    if color[1] < 0 or color[1] > 255:
+        print("invalid green color value")
+        return
+    if color[2] < 0 or color[2] > 255:
+        print("invalid blue color value")
+        return
+
     message = str(color[0]) + ' ' + str(color[1]) + ' ' + str(color[2]) + ',' + title + ',' + subtitle
     send_message(SOCKET_NAME, str(message))
 
