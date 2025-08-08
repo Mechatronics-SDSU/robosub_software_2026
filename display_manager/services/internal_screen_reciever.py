@@ -1,6 +1,6 @@
 import socket
 import os
-import cv2
+import tkinter as tk
 import numpy as np
 
 import sys
@@ -14,15 +14,31 @@ class EchoServer:
     def __init__(self):
         self.socket_address = socket_manager.get_available_socket_name("screen_service.sock")
         self.sock = None
-        self.image = np.zeros((400, 600, 3), dtype=np.uint8) # 400x600 black image
+        self.title = "Window Started"
+        self.subtitle = None
+        self.color = (0, 0, 0)  # Default color
+        self.window = tk.Tk()
 
-        self.data = "Echo Service Running"
-        org = (50, 50)
-        fontFace = cv2.FONT_HERSHEY_SIMPLEX
-        fontScale = 1
-        color = (255, 255, 255) # White color
-        thickness = 2
-        self.image = cv2.putText(self.image, self.data, org, fontFace, fontScale, color, thickness, cv2.LINE_AA)
+        self.window.title("State Display")
+        self.window.geometry("800x600")
+        self.window.configure(bg=f'#{self.color[0]:02x}{self.color[1]:02x}{self.color[2]:02x}')
+        
+        # Create a canvas to display the image
+        self.image = tk.Canvas(self.window, width=800, height=600, bg=f'#{self.color[0]:02x}{self.color[1]:02x}{self.color[2]:02x}')
+        self.image.pack(fill=tk.BOTH, expand=True)
+        
+    def update_window(self):
+        color = '#%02x%02x%02x' % self.color
+        self.window.configure(bg=color)
+        self.window.title(self.title)
+        # Clear previous widgets
+        for widget in self.window.winfo_children():
+            widget.destroy()
+        # Add title and subtitle
+        tk.Label(self.window, text=self.title, font=("Segoe UI", 22, "bold"),
+                bg=color, fg="white").pack(pady=(40, 6))
+        tk.Label(self.window, text=self.subtitle, font=("Segoe UI", 12),
+                bg=color, fg="white").pack()
 
 
     def run_server(self):
@@ -40,7 +56,6 @@ class EchoServer:
 
             # Wait for a connection
             self.connection, _ = self.sock.accept()
-            self.image.fill(0)  # Clear the image
             # perform the echo operation
             data = self.echo()
 
@@ -55,22 +70,19 @@ class EchoServer:
             print(f"Received data: {data}")
 
             color = data[0].split(' ')
-            title = data[1]
-            subtitle = data[2]
+            self.title = data[1]
+            self.subtitle = data[2]
 
             print(color)
             # Set the image color based on the received data
-            color = (color[0], color[1], color[2])
+            self.color = (int(color[0]), int(color[1]), int(color[2]))
+            
+            # Update the window with the new color, title, and subtitle
+            self.update_window()
+            
+            # Update the window
+            self.window.update()
 
-            #set the image color
-            self.image[:] = color
-            self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
-
-            # Display a the message in the OpenCV window
-            cv2.putText(self.image, f"Title: {title}", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.putText(self.image, f"Subtitle: {subtitle}", (50, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.imshow("Sub Viewer", self.image)
-            cv2.waitKey(1)
 
 
             # Clean up the connection
