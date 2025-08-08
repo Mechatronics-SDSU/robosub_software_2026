@@ -2,6 +2,7 @@ from shared_memory                          import SharedMemoryWrapper
 from gate_fsm                               import Gate_FSM
 from octagon_fsm                            import Octagon_FSM
 import time
+import os
 """
     discord: @.kech
     github: @rsunderr
@@ -9,9 +10,14 @@ import time
     Mission Control for managing modes
     
 """
-# manages modes of operation for the submarine
 class MissionControl:
+    """
+    Mission Control - Manages enabling/disabling and transitions for modes (FSMs)
+    """
     def __init__(self):
+        """
+        Mission Control constructor
+        """
         # create shared memory object
         self.shared_memory_object = SharedMemoryWrapper()
 
@@ -24,23 +30,30 @@ class MissionControl:
         self.loop() # loop
 
         # join processes
-        self.gate_mode.join()
-        self.oct_mode.join()
+        #self.gate_mode.join()
+        #self.oct_mode.join()
 
-    # looping function
     def loop(self):
+        """
+        Looping function, mostly mode transitions within conditionals
+        """
         while self.shared_memory_object.running.value:
             time.sleep(0.001)
 
             self.gate_mode.loop()
             self.oct_mode.loop()
 
-            # transition: gate mode -> octagon mode
-            if self.gate_mode.state == "DONE": 
+            # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
+            if self.gate_mode.state == "NEXT": # transition: gate mode -> octagon mode
+                #self.gate_mode.stop()
                 self.oct_mode.start()
-                print("GATE MODE FINISHED")
-            # transition: octagon mode -> off
-            if self.oct_mode.state == "DONE": 
-                self.shared_memory_object.running.value = 0 # end loop
-                print("OCTAGON MODE FINISHED")
-
+            if self.oct_mode.state == "DONE": # transition: octagon mode -> off
+                self.stop() # turn off robot
+    
+    def stop(self):
+        """
+        Fully kill the robot
+        """
+        self.shared_memory_object.running.value = 0 # kill gracefully
+        os.system("pkill -f zed") # kill zed
+        os.system("pkill -f python3") # kill python3
