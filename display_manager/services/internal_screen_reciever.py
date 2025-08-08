@@ -10,7 +10,7 @@ sys.path.append("..")
 import socket_manager
 
 
-class EchoServer:
+class DisplayManager:
     def __init__(self):
         self.socket_address = socket_manager.get_available_socket_name("screen_service.sock")
         self.sock = None
@@ -30,7 +30,6 @@ class EchoServer:
     def update_window(self):
         color = '#%02x%02x%02x' % self.color
         self.window.configure(bg=color)
-        self.window.title(self.title)
         # Clear previous widgets
         for widget in self.window.winfo_children():
             widget.destroy()
@@ -82,7 +81,6 @@ class EchoServer:
             
             # Update the window
             self.window.update()
-
 
 
             # Clean up the connection
