@@ -99,7 +99,7 @@ class Gate_FSM:
         """
         if not self.active: return # do nothing if not enabled
         # display
-        #set_screen((0, 255, 0), "GATE:DRIVE", "0, 0, 0")
+        #set_screen((0, 255, 0), "GATE:<state>", "FIXME include target and dvl x,yz,yaw,pitch,roll")
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
