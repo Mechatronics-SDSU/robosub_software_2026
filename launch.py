@@ -1,28 +1,59 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
-from modules.motors.MotorInterface          import MotorInterface
-# from modules.pid.pid_interface              import PIDInterface
-from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
-from modules.sensors.trax2.trax_fxns        import TRAX
-from modules.vision.vision_main             import VideoRunner
-from modules.sensors.depth_sensor.depth_sensor_interface import DepthSensorInterface
-from utils.kill_button_interface            import Kill_Button_Interface
+from shared_memory                          import SharedMemoryWrapper
+from gate_fsm                               import Gate_FSM
+from octagon_fsm                            import Octagon_FSM
 import subprocess
-from missionctrl                            import MissionControl
+import time
+import os
 
+"""
+    discord: @kialli, @.kech
+    github: @kchan5071, @rsunderr
+    
+    Runs mission control code and starts the sub
+    
+"""
 device_path = '/dev/ttyACM0'
+# create shared memory object
+shared_memory_object = SharedMemoryWrapper()
+# initialize modes
+gate_mode  = Gate_FSM(shared_memory_object)
+oct_mode   = Octagon_FSM(shared_memory_object)
 
-"""
-    discord: @kialli
-    github: @kchan5071
-    
-    This is the main file that will be run to start the program.
-    Combined the old launch.py with the launch.py.DVL_Test
-    
-"""
 def main():
-    msn_ctrl = MissionControl()
-    msn_ctrl.loop()
+    """
+    Main function
+    """
+    gate_mode.start() # start gate mode
+    loop() # loop
+
+    # join processes
+    #gate_mode.join()
+    #oct_mode.join()
+
+def loop():
+        """
+        Looping function, mostly mode transitions within conditionals
+        """
+        while shared_memory_object.running.value:
+            time.sleep(0.001)
+
+            gate_mode.loop()
+            oct_mode.loop()
+
+            # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
+            if gate_mode.state == "NEXT": # transition: gate mode -> octagon mode
+                #self.gate_mode.stop()
+                oct_mode.start()
+            if oct_mode.state == "DONE": # transition: octagon mode -> off
+                stop() # turn off robot
+
+def stop():
+        """
+        Soft kill the robot
+        """
+        shared_memory_object.running.value = 0 # kill gracefully
 
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
