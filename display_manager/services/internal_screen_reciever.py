@@ -34,9 +34,9 @@ class DisplayManager:
         for widget in self.window.winfo_children():
             widget.destroy()
         # Add title and subtitle
-        tk.Label(self.window, text=self.title, font=("Segoe UI", 22, "bold"),
+        tk.Label(self.window, text=self.title, font=("Segoe UI", 72, "bold"),
                 bg=color, fg="white").pack(pady=(40, 6))
-        tk.Label(self.window, text=self.subtitle, font=("Segoe UI", 12),
+        tk.Label(self.window, text=self.subtitle, font=("Segoe UI", 28),
                 bg=color, fg="white").pack()
 
 
@@ -112,5 +112,5 @@ class DisplayManager:
                 break
 
 if __name__ == '__main__':
-    echo_server = EchoServer()
+    echo_server = DisplayManager()
     echo_server.run_server()
