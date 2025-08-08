@@ -1,6 +1,6 @@
 import socket
 import os
-import cv2
+import tkinter as tk
 import numpy as np
 
 import sys
@@ -10,19 +10,20 @@ sys.path.append("..")
 import socket_manager
 
 
-class EchoServer:
+class DisplayManager:
     def __init__(self):
         self.socket_address = socket_manager.get_available_socket_name("screen_service.sock")
         self.sock = None
         self.image = np.zeros((400, 600, 3), dtype=np.uint8) # 400x600 black image
 
         self.data = "Echo Service Running"
-        org = (50, 50)
-        fontFace = cv2.FONT_HERSHEY_SIMPLEX
-        fontScale = 1
-        color = (255, 255, 255) # White color
-        thickness = 2
-        self.image = cv2.putText(self.image, self.data, org, fontFace, fontScale, color, thickness, cv2.LINE_AA)
+        self.window_name = "State"
+        #create a Tkinter window to display the image
+        self.root = tk.Tk()
+        self.root.title(self.window_name)
+        self.root.geometry("600x400")
+        self.canvas = tk.Canvas(self.root, width=600, height=400)
+        self.canvas.pack()
 
 
     def run_server(self):
@@ -62,16 +63,14 @@ class EchoServer:
             # Set the image color based on the received data
             color = (color[0], color[1], color[2])
 
-            #set the image color
-            self.image[:] = color
-            self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
-
-            # Display a the message in the OpenCV window
-            cv2.putText(self.image, f"Title: {title}", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.putText(self.image, f"Subtitle: {subtitle}", (50, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.imshow("Sub Viewer", self.image)
-            cv2.waitKey(1)
-
+            #set the image color and set the title and subtitle
+            self.image[:] = np.array(color, dtype=np.uint8).reshape(1, 1, 3) * 255
+            self.root.title(title)
+            self.canvas.delete("all")
+            self.tk_image = tk.PhotoImage(master=self.root, width=600, height=400)
+            self.tk_image.put(self.image.reshape(400, 600, 3).tolist(),
+                              to=(0, 0, 600, 400))
+            self.canvas.create_image(0, 0, image=self.tk_image, anchor=tk.NW)
 
             # Clean up the connection
             self.connection.close()
