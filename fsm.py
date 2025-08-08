@@ -80,4 +80,6 @@ Functionalities I want to add:
 - turn this file (fsm.py) into a parent class inherited by child fsm classes?
 - add more comments to explain stuff
 - add a function for getting if you are at a location
+- make a README
+- maybe rewrite FSMs to make modes that share processes
 """
