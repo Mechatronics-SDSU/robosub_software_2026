@@ -1,0 +1,13 @@
+# Description: Configuration file for the python-services
+
+#absolute path
+socket_directory:   /tmp/python-services
+python_executable:  /usr/bin/python3
+
+#relative path
+service_directory:  services
+services_csv:       services.csv
+
+#options
+clear_socket:       True
+stop_services:      True

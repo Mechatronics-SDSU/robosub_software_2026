@@ -50,6 +50,16 @@ def set_screen(color: typing.Tuple[int, int, int], title: str, subtitle: str):
     """
     Sets the screen with the specified color, title, and subtitle.
     """
+    if color[0] < 0 or color[0] > 255:
+        print("invalid red color value")
+        return
+    if color[1] < 0 or color[1] > 255:
+        print("invalid green color value")
+        return
+    if color[2] < 0 or color[2] > 255:
+        print("invalid blue color value")
+        return
+
     message = str(color[0]) + ' ' + str(color[1]) + ' ' + str(color[2]) + ',' + title + ',' + subtitle
     send_message(SOCKET_NAME, str(message))
 
@@ -58,6 +68,6 @@ def set_screen(color: typing.Tuple[int, int, int], title: str, subtitle: str):
 if __name__ == '__main__':
     # Example usage
     screen_color = (255, 0, 0)  # Red color
-    screen_title = "Welcome to the Dashboard"
-    screen_subtitle = "Here is a quick overview of your metrics"
+    screen_title = "Test_Title"
+    screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)

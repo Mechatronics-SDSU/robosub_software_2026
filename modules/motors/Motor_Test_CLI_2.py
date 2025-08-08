@@ -1,6 +1,7 @@
 from MotorWrapper import *
 
-M = MotorWrapper()
+SharedMemoryWrapper = SharedMemoryWrapper()
+M = MotorWrapper(SharedMemoryWrapper)
 
 for i in range(8):
     d = input("Enter direction (e.g. f, b, tl, rr): ").lower()
