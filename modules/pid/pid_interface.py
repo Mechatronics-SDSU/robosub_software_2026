@@ -1,9 +1,12 @@
 import numpy as np
 import time
 from modules.pid.six_dof_pid import PID
-from modules.motors.MotorWrapper import MotorWrapper
-from modules.motors.motor_simulation import Simulation
 from scipy.spatial.transform import Rotation as R
+
+try: 
+    from modules.motors.ScionMotorWrapper       import MotorWrapper
+except ImportError:
+    from modules.motors.MotorWrapper            import MotorWrapper
 
 """
     discord: @kialli
