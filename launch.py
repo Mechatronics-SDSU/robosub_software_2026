@@ -1,6 +1,5 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
-from shared_memory                          import SharedMemoryWrapper
 from gate_fsm                               import Gate_FSM
 from octagon_fsm                            import Octagon_FSM
 import subprocess
@@ -23,6 +22,8 @@ from socket_send                            import set_screen
 device_path = '/dev/ttyACM0'
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
+mode = None
+delay = 0.001
 
 # initialize objects
 pid_object = PIDInterface(shared_memory_object)
@@ -40,6 +41,7 @@ def main():
     """
     Main function
     """
+    mode = "GATE"
     gate_mode.start() # start gate mode
     loop() # loop
 
@@ -52,15 +54,21 @@ def loop():
     Looping function, mostly mode transitions within conditionals
     """
     while shared_memory_object.running.value:
-        time.sleep(0.001)
+        time.sleep(delay)
 
         gate_mode.loop()
         oct_mode.loop()
 
+        match(mode):
+            case "GATE":
+                if gate_mode.completed:
+                    gate_mode.active = False
+                    oct_mode.start()
+
         # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
         if gate_mode.state == "NEXT": # transition: gate mode -> octagon mode
-            #gate_mode.stop()
-            oct_mode.start()
+            gate_mode.active = False # disable gate mode
+            oct_mode.start() # start octagon mode
         if oct_mode.state == "DONE": # transition: octagon mode -> off
             stop() # turn off robot
 
