@@ -95,6 +95,7 @@ class Octagon_FSM(FSM_Template):
         Loop function, mostly state transitions within conditionals
         """
         if not self.active: return # do nothing if not enabled
+        self.display(0, 0, 255) # update display
         #TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT": pass

@@ -71,8 +71,7 @@ class Gate_FSM(FSM_Template):
         Loop function, mostly state transitions within conditionals
         """
         if not self.active: return # do nothing if not enabled
-        # display
-        #set_screen((0, 255, 0), "GATE:<state>", "FIXME include target and dvl x,yz,yaw,pitch,roll")
+        self.display(0, 255, 0) # update display
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
