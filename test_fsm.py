@@ -1,7 +1,7 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from modules.pid.pid_interface              import PIDInterface
-from modules.vision.vision_main             import VideoRunner
+from modules.vision.vision_main             import VisionDetection
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from socket_send                            import set_screen
 import yaml
@@ -14,13 +14,13 @@ import os
     
 """
 
-class Gate_FSM:
+class Test_FSM:
     """
-    FSM for gate mode - driving through the gate
+    FSM testing sandbox
     """
     def __init__(self, shared_memory_object):
         """
-        Gate FSM constructor
+        Test FSM constructor
         """
         # create shared memory
         self.shared_memory_object = shared_memory_object
@@ -30,14 +30,7 @@ class Gate_FSM:
         self.active = False
 
         # create objects
-        self.PID_interface = PIDInterface(self.shared_memory_object)
-        self.dvl_object = DVL_Interface(self.shared_memory_object)
-        #self.vis_object = VideoRunner(self.shared_memory_object)
-        
         # create processes
-        self.PID_process = Process(target=self.PID_interface.run_loop)
-        self.dvl_process = Process(target=self.dvl_object.run_loop)
-        #self.vis_process = Process(target=self.vis_object.run_loop)
 
         # buffers
         self.x_buffer = 0.3#m
@@ -60,9 +53,6 @@ class Gate_FSM:
         print("STARTING GATE MODE")
 
         # start processes
-        self.PID_process.start()
-        self.dvl_process.start()
-        #self.vis_process.start()
 
         # set initial state
         self.next_state("DRIVE")
@@ -99,7 +89,7 @@ class Gate_FSM:
         """
         if not self.active: return # do nothing if not enabled
         # display
-        #set_screen((0, 255, 0), "GATE:<state>", "FIXME include target and dvl x,yz,yaw,pitch,roll")
+        set_screen((0, 255, 0), "GATE:<state>", "FIXME include target and dvl x,y,z,yaw,pitch,roll")
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
@@ -128,9 +118,6 @@ class Gate_FSM:
         """
         if not self.active: return # do nothing if not enabled
         # join processes
-        self.PID_process.join()
-        self.dvl_process.join()
-        #self.vis_process.join()
 
     def stop(self):
         """
@@ -138,6 +125,3 @@ class Gate_FSM:
         """
         self.active = False
         # terminate processes
-        self.PID_process.terminate()
-        self.dvl_process.terminate()
-        #self.vis_process.terminate()
