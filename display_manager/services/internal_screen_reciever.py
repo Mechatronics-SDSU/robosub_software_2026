@@ -72,6 +72,11 @@ class DisplayManager:
             self.title = data[1]
             self.subtitle = data[2]
 
+            if self.title is None:
+                self.title = "No Title"
+            if self.subtitle is None:
+                self.subtitle = "No Subtitle"
+
             print(color)
             # Set the image color based on the received data
             self.color = (int(color[0]), int(color[1]), int(color[2]))
