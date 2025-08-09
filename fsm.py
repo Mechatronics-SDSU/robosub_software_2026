@@ -11,7 +11,7 @@ import socket_send
     discord: @.kech
     github: @rsunderr
 
-    FSM
+    FSM parent class
     
 """
 class FSM_Template:
@@ -61,6 +61,7 @@ class FSM_Template:
         """
         if self.state == next: return # do nothing if no state change
         match(next):
+            case "INIT": pass
             case _: # do nothing if invalid state
                 print("INVALID STATE")
                 return
@@ -73,6 +74,7 @@ class FSM_Template:
         if not self.active: return # do nothing if not enabled
         # transitions
         match(next):
+            case "INIT": pass
             case _:
                 print("INVALID STATE")
                 return
@@ -98,7 +100,6 @@ class FSM_Template:
             tgt_txt + "\n\n" + dvl_txt
         )
     
-    # wait until child processes terminate
     def join(self):
         """
         Wait until child processes terminate
