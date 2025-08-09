@@ -28,7 +28,7 @@ class MissionControl:
         # initialize modes
         test_list = [test_object]
         self.test_mode1  = Test_FSM(self.shared_memory_object, test_list)
-        self.test_mode2 = Test_FSM(self.shared_memory_object, test_list)
+        # self.test_mode2 = Test_FSM(self.shared_memory_object, test_list)
 
         self.test_mode1.start() # start test1
     
@@ -45,17 +45,19 @@ class MissionControl:
         while self.shared_memory_object.running.value:
             time.sleep(0.5)
 
-            self.shared_memory_object.dvl_x.value = float(input("dvl_x = "))
-            self.shared_memory_object.dvl_y.value = float(input("dvl_y = "))
-            self.shared_memory_object.dvl_z.value = float(input("dvl_z = "))
+            # self.shared_memory_object.dvl_x.value = float(input("dvl_x = "))
+            # self.shared_memory_object.dvl_y.value = float(input("dvl_y = "))
+            # self.shared_memory_object.dvl_z.value = float(input("dvl_z = "))
+
+            self.shared_memory_object.dvl_x.value += 0.1
 
             self.test_mode1.loop()
 
             # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-            if self.test_mode1.state == "NEXT": # transition: gate mode -> octagon mode
+            if self.test_mode1.state == "DONE": # transition: gate mode -> octagon mode
                 self.test_mode2.start()
-            if self.test_mode2.state == "DONE": # transition: octagon mode -> off
-                self.stop() # turn off robot
+            # if self.test_mode2.state == "DONE": # transition: octagon mode -> off
+            #     self.stop() # turn off robot
     
     def stop(self):
         """

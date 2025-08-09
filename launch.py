@@ -32,8 +32,9 @@ vis_object = VisionDetection(shared_memory_object)
 
 # initialize modes
 gate_modules = [pid_object, dvl_object]
+oct_modules = []
 gate_mode  = Gate_FSM(shared_memory_object, gate_modules)
-oct_mode   = Octagon_FSM(shared_memory_object)
+oct_mode   = Octagon_FSM(shared_memory_object, oct_modules)
 
 def main():
     """
