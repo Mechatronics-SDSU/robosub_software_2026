@@ -1,6 +1,7 @@
 from shared_memory                          import SharedMemoryWrapper
 from test_fsm                               import Test_FSM
 from socket_send                            import set_screen
+from modules.test_module.test_process       import Test_Process
 import time
 import os
 """
@@ -20,10 +21,14 @@ class MissionControl:
         """
         # create shared memory object
         self.shared_memory_object = SharedMemoryWrapper()
+        
+        # create test processes
+        test_object = Test_Process(self.shared_memory_object)
 
         # initialize modes
-        self.test_mode1  = Test_FSM(self.shared_memory_object)
-        self.test_mode2 = Test_FSM(self.shared_memory_object)
+        test_list = [test_object]
+        self.test_mode1  = Test_FSM(self.shared_memory_object, test_list)
+        self.test_mode2 = Test_FSM(self.shared_memory_object, test_list)
 
         self.test_mode1.start() # start test1
     

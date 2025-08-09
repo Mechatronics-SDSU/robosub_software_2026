@@ -1,8 +1,4 @@
-from multiprocessing                        import Process, Value
-from shared_memory                          import SharedMemoryWrapper
-from modules.pid.pid_interface              import PIDInterface
-from modules.vision.vision_main             import VisionDetection
-from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
+from fsm                                    import FSM_Template
 from socket_send                            import set_screen
 import yaml
 import os
@@ -14,23 +10,19 @@ import os
     
 """
 
-class Test_FSM:
+class Test_FSM(FSM_Template):
     """
     FSM testing sandbox
     """
-    def __init__(self, shared_memory_object):
+    def __init__(self, shared_memory_object, run_list):
         """
         Test FSM constructor
         """
-        # create shared memory
-        self.shared_memory_object = shared_memory_object
+        # call parent constructor
+        super().__init__(shared_memory_object, run_list)
 
         # initial state (INIT, DRIVE, NEXT/DONE)
         self.state = "INIT"
-        self.active = False
-
-        # create objects
-        # create processes
 
         # buffers
         self.x_buffer = 0.3#m
@@ -49,10 +41,7 @@ class Test_FSM:
         """
         Start FSM
         """
-        self.active = True
-        print("STARTING GATE MODE")
-
-        # start processes
+        super().start()  # call parent start method
 
         # set initial state
         self.next_state("DRIVE")
@@ -89,7 +78,11 @@ class Test_FSM:
         """
         if not self.active: return # do nothing if not enabled
         # display
-        set_screen((0, 255, 0), "GATE:<state>", "FIXME include target and dvl x,y,z,yaw,pitch,roll")
+        set_screen(
+            (0, 255, 0),
+            f"GATE:{self.state}",
+            f"Target: | DVL: x={self.shared_memory_object.dvl_x.value}, y={self.shared_memory_object.dvl_y.value}, z={self.shared_memory_object.dvl_z.value}, gatex={self.gate_x}, gatey={self.gate_y}, gatez={self.gate_z}"
+        )
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
@@ -111,17 +104,3 @@ class Test_FSM:
             return True
         # else
         return False
-
-    def join(self):
-        """
-        Wait until child processes terminate
-        """
-        if not self.active: return # do nothing if not enabled
-        # join processes
-
-    def stop(self):
-        """
-        Stop FSM
-        """
-        self.active = False
-        # terminate processes
