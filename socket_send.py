@@ -61,7 +61,12 @@ def set_screen(color: typing.Tuple[int, int, int], title: str, subtitle: str):
         return
 
     message = str(color[0]) + ' ' + str(color[1]) + ' ' + str(color[2]) + ',' + title + ',' + subtitle
-    send_message(SOCKET_NAME, str(message))
+    try:
+        send_message(SOCKET_NAME, str(message))
+    except FileNotFoundError:
+        print("Socket not found. Is the screen service running?")
+    except Exception as e:
+        print(f"An error occurred while sending the message: {e}")
 
 
 
@@ -69,5 +74,17 @@ if __name__ == '__main__':
     # Example usage
     screen_color = (255, 0, 0)  # Red color
     screen_title = "Test_Title"
+    screen_subtitle = "Test_Subtitle"
+    set_screen(screen_color, screen_title, screen_subtitle)
+    screen_color = (255, 0, 0)  # Red color
+    screen_title = "Test_Title 2"
+    screen_subtitle = "Test_Subtitle"
+    set_screen(screen_color, screen_title, screen_subtitle)
+    screen_color = (255, 0, 0)  # Red color
+    screen_title = "Test_Title 3"
+    screen_subtitle = "Test_Subtitle"
+    set_screen(screen_color, screen_title, screen_subtitle)
+    screen_color = (255, 0, 0)  # Red color
+    screen_title = "Test_Title 4"
     screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)
