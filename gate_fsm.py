@@ -29,6 +29,9 @@ class Gate_FSM:
         self.state = "INIT"
         self.active = False
 
+        # process saving
+        self.process_ids = []
+        
         # create objects
         self.PID_interface = PIDInterface(self.shared_memory_object)
         self.dvl_object = DVL_Interface(self.shared_memory_object)
@@ -38,6 +41,8 @@ class Gate_FSM:
         self.PID_process = Process(target=self.PID_interface.run_loop)
         self.dvl_process = Process(target=self.dvl_object.run_loop)
         #self.vis_process = Process(target=self.vis_object.run_loop)
+        self.process_ids.append(self.PID_interface)
+        self.process_ids.append(self.dvl_object)
 
         # buffers
         self.x_buffer = 0.3#m
