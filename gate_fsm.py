@@ -1,9 +1,7 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
-from modules.pid.pid_interface              import PIDInterface
-from modules.vision.vision_main             import VideoRunner
-from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from socket_send                            import set_screen
+from fsm                                    import FSM_Template
 import yaml
 import os
 """
@@ -14,35 +12,16 @@ import os
     
 """
 
-class Gate_FSM:
+class Gate_FSM(FSM_Template):
     """
     FSM for gate mode - driving through the gate
     """
-    def __init__(self, shared_memory_object):
+    def __init__(self, shared_memory_object, run_list):
         """
         Gate FSM constructor
         """
-        # create shared memory
-        self.shared_memory_object = shared_memory_object
-
-        # initial state (INIT, DRIVE, NEXT/DONE)
-        self.state = "INIT"
-        self.active = False
-
-        # process saving
-        self.process_ids = []
-        
-        # create objects
-        self.PID_interface = PIDInterface(self.shared_memory_object)
-        self.dvl_object = DVL_Interface(self.shared_memory_object)
-        #self.vis_object = VideoRunner(self.shared_memory_object)
-        
-        # create processes
-        self.PID_process = Process(target=self.PID_interface.run_loop)
-        self.dvl_process = Process(target=self.dvl_object.run_loop)
-        #self.vis_process = Process(target=self.vis_object.run_loop)
-        self.process_ids.append(self.PID_interface)
-        self.process_ids.append(self.dvl_object)
+        # call parent constructor
+        super().__init__(shared_memory_object, run_list)
 
         # buffers
         self.x_buffer = 0.3#m
@@ -61,14 +40,9 @@ class Gate_FSM:
         """
         Start FSM
         """
-        self.active = True
+        super().start()  # call parent start method
+
         print("STARTING GATE MODE")
-
-        # start processes
-        self.PID_process.start()
-        self.dvl_process.start()
-        #self.vis_process.start()
-
         # set initial state
         self.next_state("DRIVE")
 
@@ -127,22 +101,3 @@ class Gate_FSM:
         # else
         return False
 
-    def join(self):
-        """
-        Wait until child processes terminate
-        """
-        if not self.active: return # do nothing if not enabled
-        # join processes
-        self.PID_process.join()
-        self.dvl_process.join()
-        #self.vis_process.join()
-
-    def stop(self):
-        """
-        Stop FSM
-        """
-        self.active = False
-        # terminate processes
-        self.PID_process.terminate()
-        self.dvl_process.terminate()
-        #self.vis_process.terminate()

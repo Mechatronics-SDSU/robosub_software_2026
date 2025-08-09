@@ -7,6 +7,12 @@ import subprocess
 import time
 import os
 
+#import modules
+from modules.pid.pid_interface              import PIDInterface
+from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
+from modules.vision.vision_main             import VisionDetection
+from socket_send                            import set_screen
+
 """
     discord: @kialli, @.kech
     github: @kchan5071, @rsunderr
@@ -17,8 +23,16 @@ import os
 device_path = '/dev/ttyACM0'
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
+
+# initialize objects
+pid_object = PIDInterface(shared_memory_object)
+dvl_object = DVL_Interface(shared_memory_object)
+vis_object = VisionDetection(shared_memory_object)
+
+
 # initialize modes
-gate_mode  = Gate_FSM(shared_memory_object)
+gate_modules = [pid_object, dvl_object]
+gate_mode  = Gate_FSM(shared_memory_object, gate_modules)
 oct_mode   = Octagon_FSM(shared_memory_object)
 
 def main():
