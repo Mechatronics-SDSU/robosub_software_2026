@@ -64,3 +64,12 @@ class MissionControl:
         self.shared_memory_object.running.value = 0 # kill gracefully
         #os.system("pkill -f zed") # kill zed
         #os.system("pkill -f python3") # kill python3
+
+if __name__ == '__main__':
+    print("RUN FROM MISSION CONTROL")
+    mission_control = MissionControl() # create mission control instance
+    try:
+        mission_control.loop() # start loop
+    except KeyboardInterrupt:
+        print("Keyboard interrupt received, stopping mission control.")
+        mission_control.stop()
