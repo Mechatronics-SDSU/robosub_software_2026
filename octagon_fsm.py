@@ -1,11 +1,7 @@
-from multiprocessing                        import Process, Value
-from shared_memory                          import SharedMemoryWrapper
-from modules.pid.pid_interface              import PIDInterface
-from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
+from fsm                                    import FSM_Template
 from socket_send                            import set_screen
-import time
-import yaml
-import os
+
+import os, yaml, time
 """
     discord: @.kech
     github: @rsunderr
@@ -14,28 +10,19 @@ import os
     
 """
 
-class Octagon_FSM:
+class Octagon_FSM(FSM_Template):
     """
     FSM for octagon mode - drives under octagon, surfaces, pauses, descends, drives back to gate, drives to start, surfaces
     """
-    def __init__(self, shared_memory_object):
+    def __init__(self, shared_memory_object, run_list):
         """
         Octagon FSM constructor
         """
-        # create shared memory
-        self.shared_memory_object = shared_memory_object
+        # call parent constructor
+        super().__init__(shared_memory_object, run_list)
 
         # initial state (INIT, TO_OCT, RISE_OCT, DESCEND, TO_GATE, RETURN, RISE_END)
         self.state = "INIT"
-        self.active = False
-
-        # create objects
-        #self.PID_interface = PIDInterface(self.shared_memory_object)
-        #self.dvl_object = DVL_Interface(self.shared_memory_object)
-                
-        # create processes
-        #self.PID_process = Process(target=self.PID_interface.run_loop)
-        #self.dvl_process = Process(target=self.dvl_object.run_loop)
 
         # buffers
         self.x_buffer = 0.3#m
@@ -57,12 +44,8 @@ class Octagon_FSM:
         """
         Start FSM
         """
-        self.active = True
+        super().start()  # call parent start method
         print("STARTING OCTAGON MODE")
-
-        # start processes
-        #self.PID_process.start()
-        #self.dvl_process.start()
 
         # set initial state
         self.next_state("TO_OCT")
@@ -139,30 +122,3 @@ class Octagon_FSM:
             case _: # do nothing if invalid state
                 print("OCTAGON: INVALID LOOP STATE", self.state)
                 return
-    
-    def reached_xyz(self, x, y, z):
-        """
-        Returns true if near a location (requires x,y,z buffer and dvl to work)
-        """
-        if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
-            return True
-        # else
-        return False
-
-    def join(self):
-        """
-        Wait until child processes terminate
-        """
-        if not self.active: return # do nothing if not enabled
-        # join processes
-        #self.PID_process.join()
-        #self.dvl_process.join()
-
-    def stop(self):
-        """
-        Stop FSM
-        """
-        self.active = False
-        # terminate processes
-        #self.PID_process.terminate()
-        #self.dvl_process.terminate()

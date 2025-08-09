@@ -1,9 +1,6 @@
-from multiprocessing                        import Process, Value
-from shared_memory                          import SharedMemoryWrapper
 from socket_send                            import set_screen
 from fsm                                    import FSM_Template
-import yaml
-import os
+import yaml, os
 """
     discord: @.kech
     github: @rsunderr
