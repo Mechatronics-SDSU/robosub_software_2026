@@ -19,6 +19,7 @@ class Gate_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
+        self.name = "GATE"
 
         # buffers
         self.x_buffer = 0.3#m
@@ -35,7 +36,7 @@ class Gate_FSM(FSM_Template):
 
     def start(self):
         """
-        Start FSM
+        Start FSM by enabling and starting processes
         """
         super().start()  # call parent start method
 
@@ -56,14 +57,10 @@ class Gate_FSM(FSM_Template):
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
-            case "NEXT": # disable but not kill (go to next mode)
-                print("NEXT")
-                self.active = False
-                return
-            case "DONE": # fully disable and kill
+            case "DONE": # disable but not kill (go to next mode)
                 print("DONE")
-                self.stop()
-                return
+                self.active = False
+                self.complete = True
             case _: # do nothing if invalid state
                 print("GATE: INVALID NEXT STATE", self.state)
                 return
@@ -80,21 +77,10 @@ class Gate_FSM(FSM_Template):
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT": pass
-            case "DRIVE": # transition: DRIVE -> NEXT
+            case "DRIVE": # transition: DRIVE -> DONE
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
-                    self.next_state("NEXT")
-            case "NEXT": pass
+                    self.next_state("DONE")
             case "DONE": pass
             case _: # do nothing if invalid state
                 print("GATE: INVALID LOOP STATE", self.state)
-                return
-    
-    def reached_xyz(self, x, y, z):
-        """
-        Returns true if near a location (requires x,y,z buffer and dvl to work)
-        """
-        if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
-            return True
-        # else
-        return False
 

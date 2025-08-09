@@ -20,9 +20,7 @@ class Test_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-
-        # initial state (INIT, DRIVE, NEXT/DONE)
-        self.state = "INIT"
+        self.name = "TEST"
 
         # buffers
         self.x_buffer = 0.3#m
@@ -104,13 +102,3 @@ class Test_FSM(FSM_Template):
             case "DONE": pass
             case _: # do nothing if invalid state
                 print("GATE: INVALID LOOP STATE", self.state)
-                return
-    
-    def reached_xyz(self, x, y, z):
-        """
-        Returns true if near a location (requires x,y,z buffer and dvl to work)
-        """
-        if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
-            return True
-        # else
-        return False

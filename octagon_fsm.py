@@ -20,9 +20,7 @@ class Octagon_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-
-        # initial state (INIT, TO_OCT, RISE_OCT, DESCEND, TO_GATE, RETURN, RISE_END)
-        self.state = "INIT"
+        self.name = "OCTGN"
 
         # buffers
         self.x_buffer = 0.3#m
@@ -42,7 +40,7 @@ class Octagon_FSM(FSM_Template):
 
     def start(self):
         """
-        Start FSM
+        Start FSM by enabling and starting processes
         """
         super().start()  # call parent start method
         print("STARTING OCTAGON MODE")
