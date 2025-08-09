@@ -87,6 +87,9 @@ class FSM_Template:
         return False
     
     def display(self, r, g, b):
+        """
+        Sends color and text to display
+        """
         tgt_txt = f"TGT:\t\tx = {self.shared_memory_object.dvl_x.value}\ty = {self.shared_memory_object.dvl_y.value}\tz = {self.shared_memory_object.dvl_z.value}"
         dvl_txt = f"DVL:\t\tx = {self.shared_memory_object.target_x.value}\ty = {self.shared_memory_object.target_y.value}\tz = {self.shared_memory_object.target_z.value}"
         set_screen(
