@@ -26,7 +26,7 @@ except:
     import_success = False
 #-------------------------------------------------------------------------
 
-class VideoRunner:
+class VisionDetection:
     """
     discord: @kialli
     github: @kchan5071
