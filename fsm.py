@@ -1,5 +1,7 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
+
+
 """
     discord: @.kech
     github: @rsunderr
@@ -7,24 +9,36 @@ from shared_memory                          import SharedMemoryWrapper
     FSM
     
 """
-class FSM:
-    def __init__(self, shared_memory_object):
-        self.active = False
+class FSM_Template:
+    def __init__(self, shared_memory_object, run_list):
+
         # create shared memory
         self.shared_memory_object = shared_memory_object
         # initial state
-        self.state = "S0"
+        self.state = "INIT"
+        self.active = False
 
         # buffers
         self.x_buffer = 0.5
         self.y_buffer = 0.5
         self.z_buffer = 0.5
+
+        # process saving
+        self.process_objects = []     
+
+        # create processes
+        for run_object in run_list:
+            temp_process = Process(target=run_object.run_loop)
+            self.process_objects.append(temp_process)
+
         
-    
     # start FSM
     def start(self):
         self.active = True
         # start processes
+
+        for process in self.process_objects:
+            process.start()
 
         # set initial state
         self.next_state("S1")
@@ -34,12 +48,6 @@ class FSM:
     def next_state(self, next):
         if self.state == next: return # do nothing if no state change
         match(next):
-            case "S1":
-                pass
-            case "DONE":
-                print("DONE")
-                self.stop()
-                return
             case _: # do nothing if invalid state
                 print("INVALID STATE")
                 return
@@ -50,8 +58,6 @@ class FSM:
         if not self.active: return # do nothing if not enabled
         # transitions
         match(next):
-            case "S1":
-                pass
             case _:
                 print("INVALID STATE")
                 return
@@ -65,21 +71,32 @@ class FSM:
     
     # wait until child processes terminate
     def join(self):
+        """
+        Wait until child processes terminate
+        """
+        if not self.active: return # do nothing if not enabled
         # join processes
-        pass
+        for process in self.process_objects:
+            if process.is_alive():
+                process.join()
 
-    # stop FSM
     def stop(self):
+        """
+        Stop FSM
+        """
         self.active = False
         # terminate processes
+        for process in self.process_objects:
+            if process.is_alive():
+                process.terminate()
 
 """
 Functionalities I want to add:
-- make the processes into an array so that it just iterates through the array to start, join etc.
+-(Done) make the processes into an array so that it just iterates through the array to start, join etc.
 - read from a file for shared memory target values to prevent issues for plans with multiple modes
-- turn this file (fsm.py) into a parent class inherited by child fsm classes?
+-(Done) turn this file (fsm.py) into a parent class inherited by child fsm classes?
 - add more comments to explain stuff
-- add a function for getting if you are at a location
+-(Done) add a function for getting if you are at a location
 - make a README
-- maybe rewrite FSMs to make modes that share processes
+-(Done) maybe rewrite FSMs to make modes that share processes
 """
