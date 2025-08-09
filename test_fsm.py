@@ -61,11 +61,19 @@ class Test_FSM(FSM_Template):
                 self.shared_memory_object.target_z.value = self.gate_z
             case "NEXT": # disable but not kill (go to next mode)
                 print("NEXT")
-                self.active = False
-                return
+                self.shared_memory_object.target_x.value = 2
+                self.shared_memory_object.target_y.value = 0
+                self.shared_memory_object.target_z.value = 0
             case "DONE": # fully disable and kill
+                set_screen(
+                    (0, 255, 0),
+                    f"GATE:{self.state}",
+                    ""
+                )
                 print("DONE")
+                self.active = False
                 self.stop()
+                
                 return
             case _: # do nothing if invalid state
                 print("GATE: INVALID NEXT STATE", self.state)
@@ -81,7 +89,7 @@ class Test_FSM(FSM_Template):
         set_screen(
             (0, 255, 0),
             f"GATE:{self.state}",
-            f"Target: | DVL: x={self.shared_memory_object.dvl_x.value}, y={self.shared_memory_object.dvl_y.value}, z={self.shared_memory_object.dvl_z.value}, gatex={self.gate_x}, gatey={self.gate_y}, gatez={self.gate_z}"
+            f"Target: | DVL: \nx={self.shared_memory_object.dvl_x.value} y={self.shared_memory_object.dvl_y.value}. z={self.shared_memory_object.dvl_z.value}\n t_x={self.shared_memory_object.target_x.value}. t_y={self.shared_memory_object.target_y.value}. t_z={self.shared_memory_object.target_z.value}"
         )
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
@@ -90,7 +98,9 @@ class Test_FSM(FSM_Template):
             case "DRIVE": # transition: DRIVE -> NEXT
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
                     self.next_state("NEXT")
-            case "NEXT": pass
+            case "NEXT": 
+                if self.reached_xyz(2, 0, 0):
+                    self.next_state("DONE")
             case "DONE": pass
             case _: # do nothing if invalid state
                 print("GATE: INVALID LOOP STATE", self.state)
