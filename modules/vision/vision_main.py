@@ -38,7 +38,7 @@ class VisionDetection:
     run loop
     """
 
-    def __init__(self,  shared_memory_object, hard_deadzone):
+    def __init__(self,  shared_memory_object):
         """
             initializes class
             input
@@ -48,7 +48,7 @@ class VisionDetection:
 
         self.shared_memory_object = shared_memory_object
 
-        self.hard_deadzone = (hard_deadzone - 1) / 2
+        self.hard_deadzone = (400 - 1) / 2
 
 
         self.color_filter = ColorFilter()
