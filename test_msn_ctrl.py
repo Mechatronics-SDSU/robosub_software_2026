@@ -41,7 +41,9 @@ def loop(mode):
     #shared_memory_object.dvl_x.value = float(input("dvl_x = "))
     #shared_memory_object.dvl_y.value = float(input("dvl_y = "))
     #shared_memory_object.dvl_z.value = float(input("dvl_z = "))
-    shared_memory_object.dvl_x.value += 0.25 # increment dvl x each loop
+    shared_memory_object.dvl_x.value += 10.25 # increment dvl x each loop
+    shared_memory_object.dvl_y.value += 10.25
+    shared_memory_object.dvl_z.value += 10.25
 
     test_mode1.loop()
     test_mode2.loop()
