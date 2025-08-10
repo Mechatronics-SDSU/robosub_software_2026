@@ -1,5 +1,5 @@
 from socket_send                            import set_screen
-from fsm                                    import FSM_Template
+from fsm                                    import *
 import yaml, os
 """
     discord: @.kech
@@ -51,20 +51,19 @@ class Gate_FSM(FSM_Template):
         if not self.active or self.state == next: return # do nothing if not enabled or no state change
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
-            case "INIT": pass # initial state
+            case "INIT": return # initial state
             case "DRIVE": # drive toward gate
-                print("DRIVE")
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
             case "DONE": # disable but not kill (go to next mode)
-                print("DONE")
                 self.active = False
                 self.complete = True
             case _: # do nothing if invalid state
-                print("GATE: INVALID NEXT STATE", self.state)
+                print(f"{self.name} INVALID NEXT STATE {next}")
                 return
         self.state = next
+        print(f"{self.name}:{self.state}")
 
     def loop(self):
         """
@@ -75,11 +74,10 @@ class Gate_FSM(FSM_Template):
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
-            case "INIT": pass
+            case "INIT" | "DONE": return
             case "DRIVE": # transition: DRIVE -> DONE
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
                     self.next_state("DONE")
-            case "DONE": pass
             case _: # do nothing if invalid state
-                print("GATE: INVALID LOOP STATE", self.state)
+                print(f"{self.name} INVALID STATE {self.state}")
 

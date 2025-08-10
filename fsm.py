@@ -41,19 +41,14 @@ class FSM_Template:
             temp_process = Process(target=run_object.run_loop)
             self.process_objects.append(temp_process)
 
-        
     def start(self):
         """
         Start FSM by enabling and starting processes
         """
         self.active = True
         # start processes
-
         for process in self.process_objects:
             process.start()
-
-        # set initial state
-        self.next_state("S1")
        
     def next_state(self, next):
         """
@@ -61,11 +56,13 @@ class FSM_Template:
         """
         if self.state == next: return # do nothing if no state change
         match(next):
-            case "INIT": pass
+            case "INIT": return # initial state
+            case "S1": pass
             case _: # do nothing if invalid state
-                print("INVALID STATE")
+                print(f"{self.name} INVALID NEXT STATE {next}")
                 return
         self.state = next
+        print(f"{self.name}:{self.state}")
 
     def loop(self):
         """
@@ -73,10 +70,10 @@ class FSM_Template:
         """
         if not self.active: return # do nothing if not enabled
         # transitions
-        match(next):
+        match(self.state):
             case "INIT": pass
             case _:
-                print("INVALID STATE")
+                print(f"{self.name} INVALID STATE {self.state}")
                 return
     
     def reached_xyz(self, x, y, z):
@@ -92,8 +89,8 @@ class FSM_Template:
         """
         Sends color and text to display
         """
-        tgt_txt = f"TGT:\t\tx = {self.shared_memory_object.dvl_x.value}\ty = {self.shared_memory_object.dvl_y.value}\tz = {self.shared_memory_object.dvl_z.value}"
-        dvl_txt = f"DVL:\t\tx = {self.shared_memory_object.target_x.value}\ty = {self.shared_memory_object.target_y.value}\tz = {self.shared_memory_object.target_z.value}"
+        tgt_txt = f"DVL: \t\t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
+        dvl_txt = f"TGT: \t\t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
         set_screen(
             (r, g, b),
             f"{self.name}:{self.state}",
@@ -120,6 +117,7 @@ class FSM_Template:
         for process in self.process_objects:
             if process.is_alive():
                 process.terminate()
+        # NOTE: to soft kill, just set self.active = False
 
 """
 Functionalities I want to add:

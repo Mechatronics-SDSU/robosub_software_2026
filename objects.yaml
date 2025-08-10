@@ -1,6 +1,6 @@
 objects:
   gate: # gate coordinates (in m)
-    x:  1
+    x:  2
     y:  0
     z:  0
   octagon: # octagon coordinates (in m)
