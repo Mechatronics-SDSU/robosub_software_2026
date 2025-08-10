@@ -2,6 +2,7 @@ from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from gate_fsm                               import Gate_FSM
 from octagon_fsm                            import Octagon_FSM
+from slalom_fsm                             import Slalom_FSM
 import subprocess
 import time
 import os
@@ -33,9 +34,11 @@ vis_object = VisionDetection(shared_memory_object)
 # initialize modes
 gate_modules = [pid_object, dvl_object]
 oct_modules = []
+slalom_modules = []
 
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
+slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
 
 def main():
     """
@@ -60,12 +63,11 @@ def loop(mode):
     oct_mode.loop()
     # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
     match(mode):
-        case "GATE":
+        case "GATE": # transition: GATE -> OCTGN
             if gate_mode.complete:
-                gate_mode.active = False # soft kill gate mode
                 oct_mode.start()
                 mode = "OCTGN"
-        case "OCTGN":
+        case "OCTGN": # transition: OCTGN -> OFF
             if oct_mode.complete:
                 stop() # turn off robot
     loop(mode)

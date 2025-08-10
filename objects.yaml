@@ -1,9 +1,21 @@
-objects:
+objects: # the literal locations of objects in the pool (read by FSM)
   gate: # gate coordinates (in m)
     x:  2
     y:  0
-    z:  0
+    z:  1
   octagon: # octagon coordinates (in m)
     x:  5
     y:  0
     z:  0
+  slalom: # slalom coordinates (in m)
+    # start
+    x1: 6
+    y1: 0
+    # middle
+    x2: 6.5
+    y2: -0.5
+    # end
+    x3: 7
+    y3: 0
+    # depth
+    z:  1
