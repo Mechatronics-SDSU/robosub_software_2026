@@ -16,12 +16,12 @@ creates shared memory for processes to communicate
 
 #### everythings broken
 
+SAVE SOMEWHERE ELSE BEFORE YOU DO THIS!
+
 you can either 
-`git reset --hard origin/main`
+`git reset --hard origin/master`
 on each submodule
 
 or rm -rf the whole thing and reclone
-
-SAVE SOMEWHERE ELSE BEFORE YOU DO THIS!
 
 
