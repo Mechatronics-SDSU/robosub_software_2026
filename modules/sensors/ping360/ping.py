@@ -3,9 +3,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 BAUD_RATE = 115200 
-device = '/dev/ttyUSB0'
+device = "/dev/ttyUSB0"
 sample_period = 80 # in microseconds, 6 cm distance per sample
 num_samples = 1000
+speed_of_sound = 1500000 # speed of sound in cm/s
+
+def get_angle(row):
+    angle = row * 0.9
+    return angle
+
+def get_distance(col):
+    distance_per_sample = (speed_of_sound * sample_period) / 2000
+    distance = distance_per_sample * col / 10000
+    return distance # in cm
 
 myPing360 = Ping360()
 
@@ -27,7 +37,7 @@ print(myPing360.set_number_of_samples(num_samples))
 
 scan_data = []
 
-for angle in range(0, 400, 10):  # 10 gradians = 9 degree steps
+for angle in range(0, 400):  # 0.9 degree steps
     msg = myPing360.transmitAngle(angle)
     buffer = myPing360.get_device_data()
     if buffer:
@@ -38,18 +48,31 @@ for angle in range(0, 400, 10):  # 10 gradians = 9 degree steps
         print(f"Message: {msg}")
 
 img = np.array(scan_data)
-print(img)
 
-#polar_img = img.T
-#print(polar_img)
+num_angles = 400
+num_samples = 500
 
-"""
-plt.figure(figsize=(6, 6))
-plt.imshow(img, cmap='viridis')
-plt.title("Ping360 Sonar Visualization")
-plt.xlabel("Angle (deg)")
-plt.ylabel("Sample Index (range in m)")
-plt.colorbar(label="Echo Strength")
+# Example: simulate the dimensions
+num_angles, num_ranges = img.shape
+
+# Create theta (angle) and r (range) arrays
+theta = np.linspace(0, 2 * np.pi, num_angles)  # full circle (360°)
+r = np.arange(num_ranges)
+
+# Create meshgrid for polar coordinates
+theta_grid, r_grid = np.meshgrid(theta, r, indexing='ij')
+
+# Plot in polar coordinates
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, polar=True)
+
+# Normalize for better contrast
+normalized_image = img / np.max(img)
+
+# Plot using colormap
+c = ax.pcolormesh(theta_grid, r_grid, normalized_image, cmap='hot')
+
+# Add colorbar and title
+plt.colorbar(c, label='Normalized Intensity')
+ax.set_title('Ping 360 Visualization')
 plt.show()
-
-"""
