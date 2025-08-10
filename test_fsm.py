@@ -1,4 +1,4 @@
-from fsm                                    import FSM_Template
+from fsm                                    import *
 from socket_send                            import set_screen
 import yaml
 import os
@@ -23,9 +23,9 @@ class Test_FSM(FSM_Template):
         self.name = "TEST"
 
         # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.x_buffer = 0#m
+        self.y_buffer = 0#m
+        self.z_buffer = 0#m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x, self.gate_y, self.gate_z = (None, None, None)
@@ -51,26 +51,23 @@ class Test_FSM(FSM_Template):
         if not self.active or self.state == next: return # do nothing if not enabled or no state change
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
-            case "INIT": pass # initial state
-            case "DRIVE": 
-                print("DRIVE")
+            case "INIT": return # initial state
+            case "DRIVE":
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
             case "NEXT": 
-                print("NEXT")
-                self.shared_memory_object.target_x.value = 2
+                self.shared_memory_object.target_x.value = 5
                 self.shared_memory_object.target_y.value = 0
                 self.shared_memory_object.target_z.value = 0
             case "DONE": # fully disable and kill
-                self.display(255, 0, 0)
-                print("DONE")
-                self.active = False
+                #self.display(255, 0, 0)
                 self.stop()
             case _: # do nothing if invalid state
-                print("TEST: INVALID NEXT STATE", self.state)
+                print(f"{self.name} INVALID NEXT STATE {next}")
                 return
         self.state = next
+        print(f"{self.name}:{self.state}")
 
     def loop(self):
         """
@@ -81,13 +78,22 @@ class Test_FSM(FSM_Template):
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
-            case "INIT": pass
+            case "INIT" | "DONE": return
             case "DRIVE": # transition: DRIVE -> NEXT
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
                     self.next_state("NEXT")
-            case "NEXT": 
-                if self.reached_xyz(2, 0, 0):
+            case "NEXT": # transition: NEXT -> DONE
+                if self.reached_xyz(5, 0, 0):
                     self.next_state("DONE")
-            case "DONE": pass
             case _: # do nothing if invalid state
-                print("GATE: INVALID LOOP STATE", self.state)
+                print(f"{self.name} INVALID STATE {self.state}")
+    
+    def display(self, r, g, b):
+        """
+        Sends color and text to display
+        """
+        print(f"RGB = ({r}, {g}, {b})")
+        print(f"{self.name}:{self.state}")
+        tgt_txt = f"DVL: \t\t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
+        dvl_txt = f"TGT: \t\t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
+        print(tgt_txt + "\n" + dvl_txt)

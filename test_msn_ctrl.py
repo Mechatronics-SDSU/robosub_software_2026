@@ -11,67 +11,67 @@ import os
     Mission Control for managing modes
     
 """
-class MissionControl:
+# create shared memory object
+shared_memory_object = SharedMemoryWrapper()
+delay = 0.25#s
+
+# create test processes
+test_object = Test_Process(shared_memory_object)
+# initialize modes
+test_list = []#[test_object]
+test_mode1  = Test_FSM(shared_memory_object, test_list)
+test_mode2 = Test_FSM(shared_memory_object, test_list)
+test_mode1.name = "TEST1"
+test_mode2.name = "TEST2"
+
+test_mode1.start() # start test1
+
+# join processes
+#test_mode1.join()
+#test_mode2.join()
+
+def loop(mode):
     """
-    Mission Control - Manages enabling/disabling and transitions for modes (FSMs)
+    Looping function, mostly mode transitions within conditionals
     """
-    def __init__(self):
-        """
-        Mission Control constructor
-        """
-        # create shared memory object
-        self.shared_memory_object = SharedMemoryWrapper()
-        
-        # create test processes
-        test_object = Test_Process(self.shared_memory_object)
+    if not shared_memory_object.running.value: return
+    time.sleep(delay)
 
-        # initialize modes
-        test_list = [test_object]
-        self.test_mode1  = Test_FSM(self.shared_memory_object, test_list)
-        # self.test_mode2 = Test_FSM(self.shared_memory_object, test_list)
+    # SIMULATING DVL XYZ--------------------------------------------------------------------------------------------------------------
+    #shared_memory_object.dvl_x.value = float(input("dvl_x = "))
+    #shared_memory_object.dvl_y.value = float(input("dvl_y = "))
+    #shared_memory_object.dvl_z.value = float(input("dvl_z = "))
+    shared_memory_object.dvl_x.value += 0.25 # increment dvl x each loop
 
-        self.test_mode1.start() # start test1
+    test_mode1.loop()
+    test_mode2.loop()
+
+    # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
+    match(mode):
+        case "TEST1":
+            if test_mode1.complete:
+                shared_memory_object.dvl_x.value = 0 # back to start
+                test_mode2.start()
+                mode = "TEST2"
+        case "TEST2":
+            if test_mode2.complete:
+                stop() # turn off robot
+
+    loop(mode)
     
-        self.loop() # loop
 
-        # join processes
-        #self.test_mode1.join()
-        #self.test_mode2.join()
-
-    def loop(self):
-        """
-        Looping function, mostly mode transitions within conditionals
-        """
-        while self.shared_memory_object.running.value:
-            time.sleep(0.5)
-
-            # self.shared_memory_object.dvl_x.value = float(input("dvl_x = "))
-            # self.shared_memory_object.dvl_y.value = float(input("dvl_y = "))
-            # self.shared_memory_object.dvl_z.value = float(input("dvl_z = "))
-
-            self.shared_memory_object.dvl_x.value += 0.1
-
-            self.test_mode1.loop()
-
-            # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-            if self.test_mode1.state == "DONE": # transition: gate mode -> octagon mode
-                self.test_mode2.start()
-            # if self.test_mode2.state == "DONE": # transition: octagon mode -> off
-            #     self.stop() # turn off robot
-    
-    def stop(self):
-        """
-        Soft kill the robot
-        """
-        self.shared_memory_object.running.value = 0 # kill gracefully
-        #os.system("pkill -f zed") # kill zed
-        #os.system("pkill -f python3") # kill python3
+def stop():
+    """
+    Soft kill the robot
+    """
+    shared_memory_object.running.value = 0 # kill gracefully
+    #os.system("pkill -f zed") # kill zed
+    #os.system("pkill -f python3") # kill python3
 
 if __name__ == '__main__':
     print("RUN FROM MISSION CONTROL")
-    mission_control = MissionControl() # create mission control instance
     try:
-        mission_control.loop() # start loop
+        loop("TEST1") # start loop
     except KeyboardInterrupt:
         print("Keyboard interrupt received, stopping mission control.")
-        mission_control.stop()
+        stop()
