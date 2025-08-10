@@ -2,7 +2,6 @@ from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from gate_fsm                               import Gate_FSM
 from octagon_fsm                            import Octagon_FSM
-from imu_fsm                                import IMU_FSM
 import subprocess
 import time
 import os
@@ -34,11 +33,9 @@ vis_object = VisionDetection(shared_memory_object)
 # initialize modes
 gate_modules = [pid_object, dvl_object]
 oct_modules = []
-imu_modules = [pid_object, vis_object]
 
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
-imu_mode    = IMU_FSM(shared_memory_object, imu_modules)
 
 def main():
     """
@@ -65,7 +62,7 @@ def loop(mode):
     match(mode):
         case "GATE":
             if gate_mode.complete:
-                gate_mode.active = False
+                gate_mode.active = False # soft kill gate mode
                 oct_mode.start()
                 mode = "OCTGN"
         case "OCTGN":
