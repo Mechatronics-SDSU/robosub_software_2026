@@ -46,6 +46,7 @@ class FSM_Template:
         Start FSM by enabling and starting processes
         """
         self.active = True
+        print(f"STARTING {self.name} MODE")
         # start processes
         for process in self.process_objects:
             process.start()
