@@ -13,11 +13,11 @@ trax.connect()
 
 
 
-##### GET INFO #####
+# GET INFO ------------------------------------------------------------------------------------------------------------------------------------------------
 TRAX.help()
 
 
-##### CHECK DEVICE VERSION #####
+# CHECK DEVICE VERSION ------------------------------------------------------------------------------------------------------------------------------------------------
 # kGetModInfo
 frameID = "kGetModInfo" # OR =1
 trax.send_packet(frameID)
@@ -29,7 +29,7 @@ rev = TRAX.uint_to_str(data[3])
 print(str(typ) + " " + str(rev))
 
 
-##### DATA SNAPSHOT #####
+# DATA SNAPSHOT ------------------------------------------------------------------------------------------------------------------------------------------------
 # kSetDataComponents
 frameID = "kSetDataComponents" # OR =3
 payload = (4, 0x5, 0x18, 0x19, 0x4f)
@@ -44,14 +44,14 @@ data = trax.recv_packet(payload)
 print(data)
 
 
-##### POWER OFF TRAX #####
+# POWER OFF TRAX ------------------------------------------------------------------------------------------------------------------------------------------------
 # kPowerDown
 frameID = "kPowerDown" # OR =15
 trax.send_packet(frameID)
 # any message will wake TRAX back up
 
 
-##### GET SERIAL NUMBER #####
+# GET SERIAL NUMBER ------------------------------------------------------------------------------------------------------------------------------------------------
 # kSerialNumber
 frameID = "kSerialNumber" # OR =52
 trax.send_packet(frameID)
@@ -60,10 +60,10 @@ data = trax.recv_packet()
 print(data[2])
 
 
-##### SET/TEST ACQ PARAMS ##### 
+# SET/TEST ACQ PARAMS ------------------------------------------------------------------------------------------------------------------------------------------------
 # kSetAcqParams
 frameID = "kSetAcqParams" # OR =24
-payload = (False, False, 0.0, 0.001)
+payload = (False, False, 0.0, 0.001) # T/F poll mode/cont mode, T/F compass FIR mode, PNI reserved, delay
 trax.send_packet(frameID, payload)
 # kSetAcqParamsDone
 data = trax.recv_packet()
@@ -78,34 +78,42 @@ data = trax.recv_packet()
 print(data)
 
 
-##### CONTINUOUS DATA #####
+# CONTINUOUS DATA ------------------------------------------------------------------------------------------------------------------------------------------------
+# kStopContinuousMode (DO THIS FIRST)
+frameID = "kStopContinuousMode"
+trax.send_packet(frameID)
+
 # kSetAcqParams
 frameID = "kSetAcqParams" # OR =24
-payload = (False, False, 0.0, 0.0001) # (T/F: poll mode/cont mode, compass flush bool (set False), reserved (set 0), float delay)
+payload = (False, False, 0.0, 0.05) # T/F poll mode/cont mode, T/F compass FIR mode, PNI reserved, delay
 trax.send_packet(frameID, payload)
-# kSetAcqParamsDone
-data = trax.recv_packet()
-print(data[1] == 26)
+
+# kSetAcqParamsDone (optional)
+#data = trax.recv_packet()
+#print(data)
+#print(data[1] == 26)
 
 # kSetDataComponents
-frameID = "kSetDataComponents" # OR =3
-payload = (2, 0x5, 0x18) # 2 comps: heading, pitch
+frameID = "kSetDataComponents"
+payload = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 6 comp's: ax ay az yaw pitch roll
 trax.send_packet(frameID, payload)
 
 # kStartContinuousMode
 frameID = "kStartContinuousMode" # OR =21
 trax.send_packet(frameID)
 
-while True:
-    data = trax.recv_packet(payload)
-    print(data)
+try:
+    while True:
+        data = trax.recv_packet(payload)
+        print(data)
 
-    if data[4] < 90 or data[4] > 270: break # exit if aiming to left
+        #if data[4] < 90 or data[4] > 270: break # exit if aiming to left
+except KeyboardInterrupt:
+    # kStopContinuousMode (PLEASE REMEMBER TO STOP - CONTINUOUS RUNS ON STARTUP)
+    frameID = "kStopContinuousMode" # OR =22
+    trax.send_packet(frameID)
 
-# kStopContinuousMode (PLEASE REMEMBER TO STOP - CONTINUOUS RUNS ON STARTUP)
-frameID = "kStopContinuousMode" # OR =22
-trax.send_packet(frameID)
-
+    trax.close()
 
 
 trax.close()
