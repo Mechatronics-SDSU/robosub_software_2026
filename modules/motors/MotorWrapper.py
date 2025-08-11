@@ -106,8 +106,8 @@ class MotorWrapper:
     #sends commands to motors
     def send_command(self):
         send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
-        for data in send_data:
-            data = self.valid(data)
+        for i, data in enumerate(send_data):
+            send_data[i] = self.valid(data)
         print(send_data)
         self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
 
