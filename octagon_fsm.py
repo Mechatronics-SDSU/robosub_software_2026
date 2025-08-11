@@ -29,7 +29,7 @@ class Octagon_FSM(FSM_Template):
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.oct_x, self.oct_y, self.gate_x, self.gate_y, self.gate_z = (None, None, None, None, None)
-        self.depth = 1 # swimming depth
+        self.depth = .5 # swimming depth
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             self.oct_x =    data['objects']['octagon']['x']
@@ -103,10 +103,10 @@ class Octagon_FSM(FSM_Template):
                 if abs(self.shared_memory_object.dvl_z.value - self.depth) <= self.z_buffer:
                     self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> RETURN
-                if self.reached_xyz(0, 0, self.depth):
+                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
                     self.next_state("RETURN")
             case "RETURN": # transition: RETURN -> RISE_END
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
+                if self.reached_xyz(0, 0, self.depth):
                     self.next_state("RISE_END")
             case "RISE_END": # transition: RISE_END -> DONE
                 if abs(self.shared_memory_object.dvl_z.value - 0) <= self.z_buffer:

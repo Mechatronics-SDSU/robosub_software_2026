@@ -83,6 +83,9 @@ def stop():
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
     try:
+        # os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/stop_services.py"))
+        # time.sleep(1)
+        # os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py"))
         main()
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")

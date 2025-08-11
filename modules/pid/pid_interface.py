@@ -20,7 +20,7 @@ P_DEBUG = False
 class PIDInterface:
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object
-        self.motor_wrapper = MotorWrapper()
+        self.motor_wrapper = MotorWrapper(self.shared_memory_object)
 
         #SIMULATION
         # self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
