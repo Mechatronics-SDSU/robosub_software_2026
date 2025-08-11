@@ -21,6 +21,8 @@ from socket_send                            import set_screen
     
 """
 device_path = '/dev/ttyACM0'
+subprocess.run(["sudo", "chmod", "777", device_path], check=True)
+print(f"Permissions changed for {device_path}")
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
 delay = 0.001#s
@@ -81,8 +83,6 @@ def stop():
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
     try:
-        subprocess.run(["sudo", "chmod", "777", device_path], check=True)
-        print(f"Permissions changed for {device_path}")
         main()
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
