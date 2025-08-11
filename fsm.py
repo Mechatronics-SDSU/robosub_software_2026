@@ -92,6 +92,9 @@ class FSM_Template:
         """
         tgt_txt = f"DVL: \t\t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t\t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
+        os.system(f"echo {tgt_txt} >> /tmp/croppie.txt")
+        os.system(f"echo {dvl_txt} >> /tmp/croppie.txt")
+        os.system(f"echo {round(self.shared_memory_object.target_yaw.value,2)} >> /tmp/croppie.txt")
         set_screen(
             (r, g, b),
             f"{self.name}:{self.state}",
