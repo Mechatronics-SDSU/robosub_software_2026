@@ -61,7 +61,7 @@ class StartButtonDriver:
 def main():
     while True:
         driver = StartButtonDriver()
-        driver.usb_transmit([0, 0, 0, 0, 0, 0, 0, 0])
+        driver.send_data([0, 0, 0, 0, 0, 0, 0, 0])
         value = driver.recieve_data()
         if value is not None:
             print(f"Received value: {value}")
