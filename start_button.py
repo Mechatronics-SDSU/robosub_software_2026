@@ -5,10 +5,10 @@ import time
 
 baud_rate = 115200
 usb_port = None
-srl = None
 
 class StartButtonDriver:
     def __init__(self):
+        self.srl = None
         for port in ["COM3", "/dev/ttyACM0"]:
             try:
                 self.srl = serial.Serial(port, baud_rate)
@@ -24,6 +24,17 @@ class StartButtonDriver:
             print("Disconnected from serial port.")
         else:
             print("No serial port to disconnect from.")
+
+    def send_data(self,motor_vals):
+        # Check if connection was successful
+        if self.srl is None:
+            print("❌ Unable to connect to any serial port.")
+        else:
+            # Proceed with transmitting if serial port is valid
+            packed_data = b''
+            for num in motor_vals:
+                packed_data += struct.pack('<i', num)
+            self.srl.write(packed_data)
 
 
     def recieve_data(self):
@@ -50,6 +61,7 @@ class StartButtonDriver:
 def main():
     while True:
         driver = StartButtonDriver()
+        driver.usb_transmit([0, 0, 0, 0, 0, 0, 0, 0])
         value = driver.recieve_data()
         if value is not None:
             print(f"Received value: {value}")
