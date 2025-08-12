@@ -11,6 +11,10 @@ import os
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
+try:
+    from modules.gps.gps_interface              import GPSInterface
+except Exception as e:
+    print("no gps module: ", e)
 from socket_send                            import set_screen
 
 """
@@ -31,6 +35,10 @@ delay = 0.001#s
 pid_object = PIDInterface(shared_memory_object)
 dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
+try:
+    gps_object = GPSInterface(shared_memory_object)
+except Exception as e:
+    print("no gps interface: ", e)
 
 
 # initialize modes
