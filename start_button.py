@@ -2,6 +2,8 @@ import serial
 # import pyserial
 import struct
 import time
+import os
+import socket_send
 
 baud_rate = 115200
 usb_port = None
@@ -16,7 +18,9 @@ class StartButtonDriver:
                 print(f"Connected on {usb_port}")
                 break
             except serial.SerialException as e:
-                print(f"Failed to connect on {port}: {e}")
+                # print(f"Failed to connect on {port}: {e}")
+                pass
+
 
     def disconnect(self):
         if self.srl is not None:
@@ -35,6 +39,14 @@ class StartButtonDriver:
             for num in motor_vals:
                 packed_data += struct.pack('<i', num)
             self.srl.write(packed_data)
+
+    def clear_socket(self):
+        if self.srl is not None:
+            self.srl.reset_input_buffer()
+            self.srl.reset_output_buffer()
+            print("Cleared serial buffers.")
+        else:
+            print("No serial port to clear buffers from.")
 
 
     def recieve_data(self):
@@ -58,19 +70,29 @@ class StartButtonDriver:
             print(f"Struct error: {e}")
             return None
 
+def start_launch():
+    os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py")) # startup display
+    os.system(os.path.expanduser("python3 ~/robosub_software_2025/launch.py")) # run launch
+
 def main():
+    socket_send.set_screen((0, 0, 0), "RoboSub", "Starting...")  # Set initial screen state
     while True:
         driver = StartButtonDriver()
         driver.send_data([0, 0, 0, 0, 0, 0, 0, 0])
         value = driver.recieve_data()
-        if value is not None:
-            print(f"Received value: {value}")
+        print(value)
+        if value is not None and value == 426:
+            socket_send.set_screen((0, 150, 0), "RoboSub", "Starting Launch")  # Set screen to green
+            # start_launch()
+            driver.clear_socket()
             driver.disconnect()
             time.sleep(4)
+            continue
         else:
             print("No valid data received.")
         # Add a small delay to avoid overwhelming the serial port
-        time.sleep(2)
+        driver.clear_socket()
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()
