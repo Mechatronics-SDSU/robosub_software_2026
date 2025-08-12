@@ -52,6 +52,10 @@ class SharedMemoryWrapper:
         self.target_pitch           = Value('d', 0)
         self.target_roll            = Value('d', 0)
 
+        # gps
+        self.gps_latitude           = Value('d', 0)
+        self.gps_longitude          = Value('d', 0)
+
         # motor values
         self.motor_values           = Value('d', 0)
     
