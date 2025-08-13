@@ -14,8 +14,8 @@ from modules.vision.vision_main             import VisionDetection
 from socket_send                            import set_screen
 
 """
-    discord: @kialli, @.kech
-    github: @kchan5071, @rsunderr
+    discord: @.kech, @kialli
+    github: @rsunderr, @kchan5071
     
     Runs mission control code and starts the sub
     
@@ -46,9 +46,8 @@ def main():
     """
     Main function
     """
-    mode = "GATE"
     gate_mode.start() # start gate mode
-    loop(mode) # loop
+    loop("GATE")
 
     # join processes
     #gate_mode.join()
@@ -61,17 +60,29 @@ def loop(mode):
     if not shared_memory_object.running.value: return
     #time.sleep(delay)
 
-    gate_mode.loop()
-    oct_mode.loop()
     # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
     match(mode):
-        case "GATE": # transition: GATE -> OCTGN
-            if gate_mode.complete:
+        case "GATE": 
+            gate_mode.loop()
+            if gate_mode.complete: # transition: GATE -> SLM
+                slm_mode.start()
+                mode = "SLM"
+        case "SLM": 
+            slm_mode.loop()
+            if slm_mode.complete: # transition: SLM -> OCT
                 oct_mode.start()
-                mode = "OCTGN"
-        case "OCTGN": # transition: OCTGN -> OFF
-            if oct_mode.complete:
+                mode = "OCT"
+        case "OCT": 
+            stop() #FIXME
+            return # FIXME
+            oct_mode.loop()
+            if oct_mode.complete: # transition: OCT -> OFF
                 stop() # turn off robot
+                return
+        case _: # invalid mode
+            print(f"INVALID MODE {mode}")
+
+
     loop(mode)
 
 def stop():
@@ -87,6 +98,7 @@ if __name__ == '__main__':
         # time.sleep(1)
         # os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py"))
         main()
+        loop("GATE")
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
         
