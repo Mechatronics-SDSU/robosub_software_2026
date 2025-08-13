@@ -12,46 +12,18 @@ import time
 trax = TRAX()
 trax.connect()
 
-# kSetAcqParams
-frameID = "kSetAcqParams" # OR =24
-payload = (False, False, 0.0, 0.001)
-trax.send_packet(frameID, payload)
-# kSetAcqParamsDone
-# data = trax.recv_packet()
-# print(data[1] == 26)
-
-# # kSetDataComponents
-# frameID = "kSetDataComponents" # OR =3
-# payload = (4, 0x5, 0x18, 0x19, 0x4f)
-# trax.send_packet(frameID, payload)
-
-# # kStopContinuousMode
-# frameID = "kStopContinuousMode" # OR =22
-# trax.send_packet(frameID)
-
 # kSetDataComponents
-frameID = "kSetDataComponents" # OR =3
-payload = (2, 0x5, 0x18) # 2 comps: heading, pitch
+frameID = "kSetDataComponents"
+payload = (1, 0x5)
 trax.send_packet(frameID, payload)
 
-
-# kStartContinuousMode
-frameID = "kStartContinuousMode" # OR =21
+# kGetData
+frameID = "kGetData"
 trax.send_packet(frameID)
 
-try:
-    while True:
-        data = trax.recv_packet(payload)
-        print(data)
-        print(type(data))
-    # if data[4] < 90 or data[4] > 270: break # exit if aiming to left
-except KeyboardInterrupt:
-    print("Closing...")
-    pass
-
-
-# kStopContinuousMode
-frameID = "kStopContinuousMode" # OR =22
-trax.send_packet(frameID)
+# kGetDataResp
+data = trax.recv_packet(payload)
+if len(data) == 6:
+    print(f"\n{data[4]} degrees")
 
 trax.close()
