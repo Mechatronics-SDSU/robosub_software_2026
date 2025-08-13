@@ -1,4 +1,4 @@
-from trax_fxns import TRAX
+from trax_fxns import Trax
 import serial
 import struct
 
@@ -8,13 +8,13 @@ import struct
     mechatronics@sundermeyer.com
 """
 
-trax = TRAX()
+trax = Trax()
 trax.connect()
 
 
 
 # GET INFO ------------------------------------------------------------------------------------------------------------------------------------------------
-TRAX.help()
+Trax.help()
 
 
 # CHECK DEVICE VERSION ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -24,8 +24,8 @@ trax.send_packet(frameID)
 
 # kGetModInfoResp
 data = trax.recv_packet()
-typ = TRAX.uint_to_str(data[2])
-rev = TRAX.uint_to_str(data[3])
+typ = Trax.uint_to_str(data[2])
+rev = Trax.uint_to_str(data[3])
 print(str(typ) + " " + str(rev))
 
 

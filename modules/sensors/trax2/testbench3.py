@@ -1,4 +1,4 @@
-from trax_fxns import TRAX
+from trax_fxns import Trax
 import serial
 import struct
 import time
@@ -9,7 +9,7 @@ import time
     rwork@sundermeyer.com
 """
 
-trax = TRAX()
+trax = Trax()
 trax.connect()
 
 # kStopContinuousMode
@@ -39,8 +39,6 @@ try:
     while True:
         data = trax.recv_packet(payload)
         print(data)
-
-        #if data[4] < 90 or data[4] > 270: break # exit if aiming to left
 except KeyboardInterrupt:
     # kStopContinuousMode (PLEASE REMEMBER TO STOP - CONTINUOUS RUNS ON STARTUP)
     frameID = "kStopContinuousMode" # OR =22

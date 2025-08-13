@@ -1,4 +1,4 @@
-from trax_fxns import TRAX
+from trax_fxns import Trax
 import serial
 import struct
 import time
@@ -9,7 +9,7 @@ import time
     rwork@sundermeyer.com
 """
 
-trax = TRAX()
+trax = Trax()
 trax.connect()
 
 # # kSetAcqParams

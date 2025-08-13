@@ -9,7 +9,7 @@ from serial.tools import list_ports
     mechatronics@sundermeyer.com
 """
 
-class TRAX:
+class Trax:
     """
     Wrapper class for trax-related functions
     """
@@ -71,13 +71,13 @@ class TRAX:
         Returns and prints byte array packet based on frame ID and payload in trax-readable format
         Used for sending data
         """
-        payload_bytes = TRAX.get_payload_bytes(frameID, payload)
-        byte_count = 5 + TRAX.calc_byte_count(payload_bytes) # 2 bits byte count + 1 bit ID + payload + 2 bits CRC
+        payload_bytes = Trax.get_payload_bytes(frameID, payload)
+        byte_count = 5 + Trax.calc_byte_count(payload_bytes) # 2 bits byte count + 1 bit ID + payload + 2 bits CRC
 
         packet  = byte_count.to_bytes(2, byteorder='big')
         packet += frameID.to_bytes(1, byteorder='big')
         packet += payload_bytes
-        packet += TRAX.calc_CRC(packet).to_bytes(2, byteorder='big')
+        packet += Trax.calc_CRC(packet).to_bytes(2, byteorder='big')
         return packet
     
     @staticmethod
@@ -105,7 +105,7 @@ class TRAX:
                 encode_str += "B" # component count
                 for _ in payload[1:]: # NOTE: expected tuple payload: (ID count, ID, ID, ...)
                     encode_str += "B"
-            case 6:     encode_str += "B" + TRAX.struct_chars(payload[1:]) # kSetConfig - UInt8 + ID Specific...
+            case 6:     encode_str += "B" + Trax.struct_chars(payload[1:]) # kSetConfig - UInt8 + ID Specific...
             case 12: # kSetFIRFilters - ID Specific
                 encode_str += "BBB"
                 N = payload[2] # NOTE: number of Float64 filter vals in payload based on 3rd bit of payload: (x,x, N, ...)
@@ -121,11 +121,11 @@ class TRAX:
         Used for sending data
         """
         fID = frameID
-        if type(frameID) == type("str"): fID = TRAX.get_frame_id(frameID)
+        if type(frameID) == type("str"): fID = Trax.get_frame_id(frameID)
 
-        packet = TRAX.get_packet(fID, payload)
+        packet = Trax.get_packet(fID, payload)
         self.ser.write(packet)
-        print("TRANSMISSION:\t", TRAX.parse_bytes(packet))
+        print("TRANSMISSION:\t", Trax.parse_bytes(packet))
 
     @staticmethod
     def get_frame_id(frameID_str):
@@ -184,10 +184,10 @@ class TRAX:
             self.lg.critical("NO MESSAGE RECEIVED")
             return -1
         
-        print("RECEIVED:\t", TRAX.parse_bytes(packet), end="\t")
-        response = TRAX.read_packet(packet, payload)
+        print("RECEIVED:\t", Trax.parse_bytes(packet), end="\t")
+        response = Trax.read_packet(packet, payload)
 
-        verified = TRAX.verify_CRC(packet) # verify packet using checksum
+        verified = Trax.verify_CRC(packet) # verify packet using checksum
         if verified:
             print("CHECKSUM VERIFIED")
             return response
@@ -218,13 +218,13 @@ class TRAX:
             case 130:   decode_str += "Bf" # kGetMergeRateResp
             case 5: # kGetDataResp 
                 decode_str += "B" # ID Count
-                if payload == None: return (-1,)
+                if payload == None: return (-1,) # FIXME: sometimes this randomly is None for some reason
                 id_list = payload[1:]
                 for id in id_list: # NOTE: expected tuple payload from prior kSetDataComponents call: (ID count, ID, ID, ...)
                     decode_str += "B" # reads: ID Count, ID, Status, ID, Status, ...
-                    decode_str += TRAX.componentID_type(id) # gets struct lib char based on Component ID
+                    decode_str += Trax.componentID_type(id) # gets struct lib char based on Component ID
             case 8: # kGetConfigResp
-                decode_str += "B" + TRAX.configID_type(payload[0]) # NOTE: expected tuple payload from prior kGetConfig call: (Config ID,)
+                decode_str += "B" + Trax.configID_type(payload[0]) # NOTE: expected tuple payload from prior kGetConfig call: (Config ID,)
             case 14: # kGetFIRFiltersResp
                 decode_str += "BBB"
                 N = payload[2] # NOTE: number of float 64 filter vals in payload based on 3rd bit of payload from prior kSetFirFilters call: (x,x, N, ...)
@@ -326,7 +326,7 @@ class TRAX:
         """
         index = len(packet) - 2
         packet_crc = struct.unpack(">H", packet[index:])[0] # CRC decoded from last 2 bits in packet
-        test_crc = TRAX.calc_CRC(packet[:index]) # CRC calculated from byte count, ID, payload in packet
+        test_crc = Trax.calc_CRC(packet[:index]) # CRC calculated from byte count, ID, payload in packet
         
         return packet_crc == test_crc
     
