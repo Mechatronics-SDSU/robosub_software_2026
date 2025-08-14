@@ -24,16 +24,16 @@ class Gate_FSM(FSM_Template):
         # buffers
         self.x_buffer = 0.5#m
         self.y_buffer = 0.7#m
-        self.z_buffer = 1.2#m
+        self.z_buffer = 0.7#m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.gate_x, self.gate_y, self.gate_z = (None, None, None)
-        self.depth = 0.2 # initial depth for ramp-up
+        self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             self.gate_x = data['objects']['gate']['x']
             self.gate_y = data['objects']['gate']['y']
             self.gate_z = data['objects']['gate']['z']
+            self.depth  = data['objects']['gate']['depth']
 
     def start(self):
         """
@@ -76,8 +76,11 @@ class Gate_FSM(FSM_Template):
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "DONE": return
+            case "DIVE": # transition: DIVE -> TO_GATE
+                if self.shared_memory_object.dvl_z.value >= self.depth:
+                    self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> DONE
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
+                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z) or self.shared_memory_object.dvl_x.value >= self.gate_x:
                     self.next_state("DONE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
