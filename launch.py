@@ -3,6 +3,7 @@ from shared_memory                          import SharedMemoryWrapper
 from gate_fsm                               import Gate_FSM
 from octagon_fsm                            import Octagon_FSM
 from slalom_fsm                             import Slalom_FSM
+from return_fsm                             import Return_FSM
 import subprocess
 import time
 import os
@@ -36,27 +37,25 @@ dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
 
 # initialize modes
-gate_modules = [pid_object, dvl_object]
-oct_modules = []
-slalom_modules = []
 cf_modules = [pid_object, dvl_object]
+gate_modules = [pid_object, dvl_object]
+slalom_modules = []
+oct_modules = []
+rtrn_modules = []
 
-gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
-oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
-slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
 cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
+gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
+slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
+oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
+return_mode = Return_FSM(shared_memory_object, rtrn_modules)
 
 def main():
     """
     Main function
     """
-    #gate_mode.start() # start gate mode
+    # start gate mode and loop
     gate_mode.start()
     loop("GATE")
-
-    # join processes
-    #gate_mode.join()
-    #oct_mode.join()
 
 def loop(mode):
     """
@@ -78,11 +77,14 @@ def loop(mode):
                 oct_mode.start()
                 mode = "OCT"
         case "OCT":
-            stop() # FIXME
-            return # FIXME
             oct_mode.loop()
             if oct_mode.complete: # transition: OCT -> OFF
-                stop() # turn off robot
+                return_mode.start()
+                mode = "RETURN"
+        case "RETURN":
+            return_mode.loop()
+            if return_mode.complete: # transition: RETURN -> OFF
+                stop()
                 return
         case _: # invalid mode
             print(f"INVALID MODE {mode}")
