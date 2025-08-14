@@ -27,6 +27,7 @@ class FSM_Template:
         self.active = False     # enable/disable boolean
         self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
+        self.testing = False    # testing mode
 
         # buffers
         self.x_buffer = 0.5
@@ -92,6 +93,10 @@ class FSM_Template:
         """
         tgt_txt = f"DVL: \t\t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t\t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
+        # don't run display if in testing mode
+        if self.testing:
+            print(f"{tgt_txt}\n{dvl_txt}")
+            return
         try:
             # log output
             os.system(f"echo {tgt_txt} >> /tmp/croppie.txt")

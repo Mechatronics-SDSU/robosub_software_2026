@@ -1,25 +1,26 @@
 objects: # the literal locations of objects in the pool in m (read by FSM)
   coin_flip: # coin flip coordinates
     yaw:  15 # pool yaw (in degrees) FIXME
-    depth: 1
+    depth: 1 # swimming depth during coin flip mode
   gate: # gate coordinates (in m)
     x:  4 # forward is positive x
-    y:  0 # left is positive y
-    z:  1
+    y:  0.5 # left is positive y
+    z:  1.5
+    depth: 0.2 # initial drop depth
   slalom: # slalom coordinates
     # start
-    x1: 7 # B1: 6.25
-    y1: -1 #B1: -1.75
+    x1: 7 #A: 7 B1: 6.25
+    y1: 0.75  #A: -1 B1: -1.75
     # middle
-    x2: 8.5 #B1: 7.5
-    y2: -1 #B1: -2.5
+    x2: 9.5 #A: 8.5 B1: 7.5
+    y2: 0.5 #A: -1 B1: -2.5
     # end
-    x3: 10.5 #B1: 9.25
-    y3: -0.7 #B1: -3.125
+    x3: 11.5  #A: 10.5 B1: 9.25
+    y3: 0 #A: -0.7 B1: -3.125
     # depth
-    z:  1
+    z:  1.5
   octagon: # octagon coordinates
-    x:  16.75
-    y:  2
+    x: 20.5  #A: 16.75
+    y:  -1.5 #A: 2
     z:  0
     depth: 1 # swimming depth during oct mode
