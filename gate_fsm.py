@@ -22,9 +22,9 @@ class Gate_FSM(FSM_Template):
         self.name = "GATE"
 
         # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.x_buffer = 0.5#m
+        self.y_buffer = 0.7#m
+        self.z_buffer = 1.2#m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x, self.gate_y, self.gate_z = (None, None, None)
@@ -40,7 +40,6 @@ class Gate_FSM(FSM_Template):
         """
         super().start()  # call parent start method
 
-        print("STARTING GATE MODE")
         # set initial state
         self.next_state("DRIVE")
 

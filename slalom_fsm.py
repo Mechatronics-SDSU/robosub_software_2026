@@ -24,7 +24,7 @@ class Slalom_FSM(FSM_Template):
         # buffers
         self.x_buffer = 0.3#m
         self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.z_buffer = 1#m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.x1, self.y1, self.x2, self.y2, self.x3, self.y3, self.depth = (None, None, None, None, None, None, None)

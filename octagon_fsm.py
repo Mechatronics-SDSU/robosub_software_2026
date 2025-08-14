@@ -25,15 +25,16 @@ class Octagon_FSM(FSM_Template):
         # buffers
         self.x_buffer = 0.3#m
         self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
+        self.z_buffer = 0.75#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.oct_x, self.oct_y, self.gate_x, self.gate_y, self.gate_z = (None, None, None, None, None)
-        self.depth = .5 # swimming depth
+        self.oct_x, self.oct_y, self.oct_z, self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             self.oct_x =    data['objects']['octagon']['x']
             self.oct_y =    data['objects']['octagon']['y']
+            self.oct_z =    data['objects']['octagon']['z']
+            self.depth =   data['objects']['octagon']['depth'] # swimming depth
             self.gate_x =   data['objects']['gate']['x']
             self.gate_y =   data['objects']['gate']['y']
             self.gate_z =   data['objects']['gate']['z']
@@ -43,7 +44,6 @@ class Octagon_FSM(FSM_Template):
         Start FSM by enabling and starting processes
         """
         super().start()  # call parent start method
-        print("STARTING OCTAGON MODE")
 
         # set initial state
         self.next_state("TO_OCT")
@@ -60,10 +60,12 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_y.value = self.oct_y
                 self.shared_memory_object.target_z.value = self.depth
             case "RISE_OCT": # surface in octagon
-                self.shared_memory_object.target_z.value = 0
+                self.shared_memory_object.target_z.value = self.oct_z
+                #self.z_buffer -= 0.2 # need z to be more precise to surface
             case "DESCEND": # descend after surfacing
-                time.sleep(1) # wait at surface for 1s
+                time.sleep(1.5) # wait at surface
                 self.shared_memory_object.target_z.value = self.depth
+                #self.z_buffer += 0.2 # reset z buffer
             case "TO_GATE": # return to gate after octagon
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
@@ -97,7 +99,7 @@ class Octagon_FSM(FSM_Template):
                 if self.reached_xyz(self.oct_x, self.oct_y, self.depth):
                     self.next_state("RISE_OCT")
             case "RISE_OCT": # transition: RISE_OCT -> DESCEND
-                if abs(self.shared_memory_object.dvl_z.value - 0) <= self.z_buffer:
+                if abs(self.shared_memory_object.dvl_z.value - self.oct_z) <= self.z_buffer:
                     self.next_state("DESCEND")
             case "DESCEND": # transition: DESCEND -> TO_GATE
                 if abs(self.shared_memory_object.dvl_z.value - self.depth) <= self.z_buffer:
