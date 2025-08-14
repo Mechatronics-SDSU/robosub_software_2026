@@ -8,16 +8,16 @@ objects: # the literal locations of objects in the pool in m (read by FSM)
     z:  1
   slalom: # slalom coordinates
     # start
-    x1: 6.25
-    y1: -1.75
+    x1: 7 # B1: 6.25
+    y1: -1 #B1: -1.75
     # middle
-    x2: 7.5
-    y2: -2.5
+    x2: 8.5 #B1: 7.5
+    y2: -1 #B1: -2.5
     # end
-    x3: 9.25
-    y3: -3.125
+    x3: 10.5 #B1: 9.25
+    y3: -0.7 #B1: -3.125
     # depth
-    z:  0.5
+    z:  1
   octagon: # octagon coordinates
     x:  3
     y:  0
