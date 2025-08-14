@@ -12,6 +12,7 @@ from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
 from socket_send                            import set_screen
+from coinflip_fsm                           import CoinFlip_FSM
 
 """
     discord: @.kech, @kialli
@@ -20,9 +21,11 @@ from socket_send                            import set_screen
     Runs mission control code and starts the sub
     
 """
+# permissions fix
 device_path = '/dev/ttyACM0'
 subprocess.run(["sudo", "chmod", "777", device_path], check=True)
 print(f"Permissions changed for {device_path}")
+
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
 delay = 0.001#s
@@ -32,21 +35,23 @@ pid_object = PIDInterface(shared_memory_object)
 dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
 
-
 # initialize modes
 gate_modules = [pid_object, dvl_object]
 oct_modules = []
 slalom_modules = []
+cf_modules = [pid_object, dvl_object]
 
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
 slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
+cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 
 def main():
     """
     Main function
     """
-    gate_mode.start() # start gate mode
+    #gate_mode.start() # start gate mode
+    gate_mode.start()
     loop("GATE")
 
     # join processes
@@ -72,8 +77,8 @@ def loop(mode):
             if slm_mode.complete: # transition: SLM -> OCT
                 oct_mode.start()
                 mode = "OCT"
-        case "OCT": 
-            stop() #FIXME
+        case "OCT":
+            stop() # FIXME
             return # FIXME
             oct_mode.loop()
             if oct_mode.complete: # transition: OCT -> OFF
@@ -94,9 +99,6 @@ def stop():
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
     try:
-        # os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/stop_services.py"))
-        # time.sleep(1)
-        # os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py"))
         main()
         loop("GATE")
     except subprocess.CalledProcessError as e:
