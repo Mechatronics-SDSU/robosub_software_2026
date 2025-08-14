@@ -28,6 +28,7 @@ class Gate_FSM(FSM_Template):
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x, self.gate_y, self.gate_z = (None, None, None)
+        self.depth = 0.2 # initial depth for ramp-up
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             self.gate_x = data['objects']['gate']['x']
@@ -41,7 +42,7 @@ class Gate_FSM(FSM_Template):
         super().start()  # call parent start method
 
         # set initial state
-        self.next_state("DRIVE")
+        self.next_state("TO_GATE")
 
     def next_state(self, next):
         """
@@ -51,13 +52,14 @@ class Gate_FSM(FSM_Template):
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
             case "INIT": return # initial state
-            case "DRIVE": # drive toward gate
+            case "DIVE":
+                self.shared_memory_object.target_z.value = self.depth
+            case "TO_GATE": # drive toward gate
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
             case "DONE": # disable but not kill (go to next mode)
-                self.active = False
-                self.complete = True
+                self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return
@@ -74,7 +76,7 @@ class Gate_FSM(FSM_Template):
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "DONE": return
-            case "DRIVE": # transition: DRIVE -> DONE
+            case "TO_GATE": # transition: TO_GATE -> DONE
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
                     self.next_state("DONE")
             case _: # do nothing if invalid state
