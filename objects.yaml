@@ -19,7 +19,7 @@ objects: # the literal locations of objects in the pool in m (read by FSM)
     # depth
     z:  1
   octagon: # octagon coordinates
-    x:  3
-    y:  0
+    x:  16.75
+    y:  2
     z:  0
     depth: 1 # swimming depth during oct mode

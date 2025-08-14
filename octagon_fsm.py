@@ -64,8 +64,7 @@ class Octagon_FSM(FSM_Template):
                 #self.z_buffer -= 0.2 # need z to be more precise to surface
             case "PAUSE": # pause after surfacing
                 time.sleep(2) # wait at surface
-                self.active = False
-                self.complete = True
+                self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return
