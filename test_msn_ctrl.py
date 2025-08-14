@@ -33,13 +33,14 @@ slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
 # initialize values
 shared_memory_object.dvl_x.value = 0
 shared_memory_object.dvl_y.value = 0
-shared_memory_object.dvl_z.value = 0.5
+shared_memory_object.dvl_z.value = 1
 
 gate_mode.testing = True
 oct_mode.testing = True
 slm_mode.testing = True
-
-#gate_mode.start()
+# ignore buffers
+slm_mode.y_buffer = 100
+oct_mode.z_buffer = 100
 
 def main():
     gate_mode.start()
@@ -50,7 +51,7 @@ def loop(mode):
     Looping function, mostly mode transitions within conditionals
     """
     if not shared_memory_object.running.value: return
-    time.sleep(delay)
+    #time.sleep(delay)
 
     print(f"MODE = {mode}")
     print(f"GATE: \tactive={gate_mode.active}\tcomplete={gate_mode.complete}")
@@ -70,6 +71,8 @@ def loop(mode):
                 oct_mode.start()
                 mode = "OCT"
         case "OCT": # transition: OCT -> OFF
+            stop()
+            return
             oct_mode.loop()
             if oct_mode.complete:
                 stop() # turn off robot
@@ -78,7 +81,7 @@ def loop(mode):
 
 
     # increment x
-    shared_memory_object.dvl_x.value += 0.5
+    shared_memory_object.dvl_x.value += 0.54
     loop(mode)
     
 

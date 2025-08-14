@@ -27,7 +27,6 @@ class FSM_Template:
         self.active = False     # enable/disable boolean
         self.complete = False   # mode complete boolean
         self.name = "PARENT"    # mode name string
-        self.testing = False    # if in testing mode
 
         # buffers
         self.x_buffer = 0.5
@@ -91,31 +90,17 @@ class FSM_Template:
         """
         Sends color and text to display
         """
-        if self.testing: # skip display if just testing
-            self.display_txt() # FIXME
-            return # FIXME
         tgt_txt = f"DVL: \t\t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t\t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
         os.system(f"echo {tgt_txt} >> /tmp/croppie.txt")
         os.system(f"echo {dvl_txt} >> /tmp/croppie.txt")
         os.system(f"echo {round(self.shared_memory_object.target_yaw.value,2)} >> /tmp/croppie.txt")
-        try:
-            set_screen(
-                (r, g, b),
-                f"{self.name}:{self.state}",
-                tgt_txt + "\n\n" + dvl_txt
-            )
-        except:
-            print('ASDIUSDBIUASDBIUASDIBASIY')
+        set_screen(
+            (r, g, b),
+            f"{self.name}:{self.state}",
+            tgt_txt + "\n\n" + dvl_txt
+        )
     
-    def display_txt(self):
-        """
-        Writes display text without calling 
-        """
-        tgt_txt = f"DVL: \t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
-        dvl_txt = f"TGT: \t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
-        print(f"{tgt_txt}\n{dvl_txt}\n\n")
-
     def join(self):
         """
         Wait until child processes terminate
