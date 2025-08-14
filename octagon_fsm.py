@@ -25,7 +25,7 @@ class Octagon_FSM(FSM_Template):
         # buffers
         self.x_buffer = 0.3#m
         self.y_buffer = 0.3#m
-        self.z_buffer = 0.75#m
+        self.z_buffer = 0.3#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.oct_x, self.oct_y, self.oct_z, self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None, None, None, None)
@@ -59,9 +59,8 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_x.value = self.oct_x
                 self.shared_memory_object.target_y.value = self.oct_y
                 self.shared_memory_object.target_z.value = self.depth
-            case "RISE_OCT": # surface in octagon
+            case "RISE": # surface in octagon
                 self.shared_memory_object.target_z.value = self.oct_z
-                #self.z_buffer -= 0.2 # need z to be more precise to surface
             case "PAUSE": # pause after surfacing
                 time.sleep(2) # wait at surface
                 self.suspend()
@@ -81,12 +80,12 @@ class Octagon_FSM(FSM_Template):
         #TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "PAUSE": return
-            case "TO_OCT": # transition: TO_OCT -> RISE_OCT
-                if self.reached_xyz(self.oct_x, self.oct_y, self.depth):
-                    self.next_state("RISE_OCT")
-            case "RISE_OCT": # transition: RISE_OCT -> PAUSE
+            case "TO_OCT": # transition: TO_OCT -> RISE
+                if self.reached_xyz(self.oct_x, self.oct_y, self.shared_memory_object.dvl_z.value): # ignore z
+                    self.next_state("RISE")
+            case "RISE": # transition: RISE -> PAUSE
                 if abs(self.shared_memory_object.dvl_z.value - self.oct_z) <= self.z_buffer:
-                    self.next_state("DESCEND")
+                    self.next_state("PAUSE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
                 return

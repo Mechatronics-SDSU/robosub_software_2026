@@ -45,7 +45,7 @@ rtrn_modules = []
 
 cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
-slalom_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
+slalom_mode = Slalom_FSM(shared_memory_object, slalom_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
 return_mode = Return_FSM(shared_memory_object, rtrn_modules)
 
@@ -55,7 +55,7 @@ def main():
     """
     # start gate mode and loop
     gate_mode.start()
-    loop(gate_mode)
+    loop("GATE")
 
 def loop(mode):
     """
@@ -65,28 +65,32 @@ def loop(mode):
     #time.sleep(delay)
 
     # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-    match(mode.name):
-        case gate_mode.name: # gate mode
+    match(mode):
+        case "GATE": 
             gate_mode.loop()
-            if mode.complete: next_mode(slalom_mode) # transition: gate -> slalom
-        case slalom_mode.name: # slalome mode
+            if gate_mode.complete: # transition: GATE -> SLM
+                slalom_mode.start()
+                mode = "SLM"
+        case "SLM": 
             slalom_mode.loop()
-            if mode.complete: next_mode(oct_mode) # transition: slalom -> octagon
-        case oct_mode.name: # octagon mode
+            if slalom_mode.complete: # transition: SLM -> OCT
+                oct_mode.start()
+                mode = "OCT"
+        case "OCT":
             oct_mode.loop()
-            if mode.complete: next_mode(return_mode) # transition: octagon -> return
-        case return_mode.name: # return mode
+            if oct_mode.complete: # transition: OCT -> OFF
+                return_mode.start()
+                mode = "RETURN"
+        case "RETURN":
             return_mode.loop()
-            if return_mode.complete: stop() # transition: return -> off
+            if return_mode.complete: # transition: RETURN -> OFF
+                stop()
+                return
         case _: # invalid mode
             print(f"INVALID MODE {mode}")
 
-def next_mode(next_mode):
-    """
-    Start next mode
-    """
-    next_mode.start() # start next mode
-    loop(next_mode.name) # loop
+
+    loop(mode)
 
 def stop():
     """
@@ -98,6 +102,9 @@ if __name__ == '__main__':
     print("RUN FROM LAUNCH")
     try:
         main()
+    except KeyboardInterrupt:
+        print("keyboard interrupt detected, stopping program")
+        shared_memory_object.running.value = 0
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
         
