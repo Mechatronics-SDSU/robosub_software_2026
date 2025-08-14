@@ -45,7 +45,7 @@ rtrn_modules = []
 
 cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
-slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
+slalom_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
 return_mode = Return_FSM(shared_memory_object, rtrn_modules)
 
@@ -55,7 +55,7 @@ def main():
     """
     # start gate mode and loop
     gate_mode.start()
-    loop("GATE")
+    loop(gate_mode)
 
 def loop(mode):
     """
@@ -65,32 +65,28 @@ def loop(mode):
     #time.sleep(delay)
 
     # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-    match(mode):
-        case "GATE": 
+    match(mode.name):
+        case gate_mode.name: # gate mode
             gate_mode.loop()
-            if gate_mode.complete: # transition: GATE -> SLM
-                slm_mode.start()
-                mode = "SLM"
-        case "SLM": 
-            slm_mode.loop()
-            if slm_mode.complete: # transition: SLM -> OCT
-                oct_mode.start()
-                mode = "OCT"
-        case "OCT":
+            if mode.complete: next_mode(slalom_mode) # transition: gate -> slalom
+        case slalom_mode.name: # slalome mode
+            slalom_mode.loop()
+            if mode.complete: next_mode(oct_mode) # transition: slalom -> octagon
+        case oct_mode.name: # octagon mode
             oct_mode.loop()
-            if oct_mode.complete: # transition: OCT -> OFF
-                return_mode.start()
-                mode = "RETURN"
-        case "RETURN":
+            if mode.complete: next_mode(return_mode) # transition: octagon -> return
+        case return_mode.name: # return mode
             return_mode.loop()
-            if return_mode.complete: # transition: RETURN -> OFF
-                stop()
-                return
+            if return_mode.complete: stop() # transition: return -> off
         case _: # invalid mode
             print(f"INVALID MODE {mode}")
 
-
-    loop(mode)
+def next_mode(next_mode):
+    """
+    Start next mode
+    """
+    next_mode.start() # start next mode
+    loop(next_mode.name) # loop
 
 def stop():
     """
@@ -102,7 +98,6 @@ if __name__ == '__main__':
     print("RUN FROM LAUNCH")
     try:
         main()
-        loop("GATE")
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
         

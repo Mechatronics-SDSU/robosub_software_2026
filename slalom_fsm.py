@@ -66,8 +66,7 @@ class Slalom_FSM(FSM_Template):
                 self.shared_memory_object.target_x.value = self.x3
                 self.shared_memory_object.target_y.value = self.y3
             case "DONE": # disable but not kill (go to next mode)
-                self.active = False
-                self.complete = True
+                self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return

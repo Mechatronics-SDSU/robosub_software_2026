@@ -20,7 +20,7 @@ class Return_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "OCTAGON"
+        self.name = "RETURN"
 
         # buffers
         self.x_buffer = 0.3#m
@@ -79,7 +79,7 @@ class Return_FSM(FSM_Template):
         Loop function, mostly state transitions within conditionals
         """
         if not self.active: return # do nothing if not enabled
-        self.display(0, 0, 255) # update display
+        self.display(0, 100, 100) # update display
         #TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "DONE": return
