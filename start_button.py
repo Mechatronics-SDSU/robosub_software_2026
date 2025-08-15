@@ -3,7 +3,7 @@ import serial
 import struct
 import time
 import os
-import socket_send
+import utils.socket_send as socket_send
 
 baud_rate = 115200
 usb_port = None

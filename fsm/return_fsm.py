@@ -22,9 +22,9 @@ class Return_FSM(FSM_Template):
         self.name = "RETURN"
 
         # buffers
-        self.x_buffer = 0.1#m
-        self.y_buffer = 0.1#m
-        self.z_buffer = 0.1#m
+        self.x_buffer = 0.2#m
+        self.y_buffer = 0.2#m
+        self.z_buffer = 0.6#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
@@ -84,7 +84,7 @@ class Return_FSM(FSM_Template):
         match(self.state):
             case "INIT" | "DONE": return
             case "DESCEND": # transition: DESCEND -> TO_GATE
-                if abs(self.shared_memory_object.dvl_z.value - self.depth) <= self.z_buffer:
+                if self.shared_memory_object.dvl_z.value >= self.depth - self.z_buffer:
                     self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> RETURN
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
