@@ -1,19 +1,18 @@
 import serial
-# import pyserial
 import struct
-import numpy
 
-baud_rate = 115200
-usb_port = None
-srl = None
+BAUD_RATE = 115200
+USB_PORT = None
 
-class USB_Transmitter:
+DATA = [0, 0, 0, 0, 0, 0]
+
+class MotorKill:
     def __init__(self):
         for port in ["/dev/ttyACM0"]:
             try:
-                self.srl = serial.Serial(port, baud_rate)
-                usb_port = port
-                print(f"Connected on {usb_port}")
+                self.srl = serial.Serial(port, BAUD_RATE)
+                USB_PORT = port
+                print(f"Connected on {USB_PORT}")
                 break
             except serial.SerialException as e:
                 print(f"Failed to connect on {port}: {e}")
@@ -29,6 +28,13 @@ class USB_Transmitter:
             for num in motor_vals:
                 packed_data += struct.pack('<i', num)
             self.srl.write(packed_data)
-            # print(f"Transmitted: {motor_vals}")
-            # # Optional test call
-            # usb_transmit([0, 0, 0, 0, 0, 0, 0, 0])
+
+def kill_motors(self):
+    motor_kill = MotorKill()
+    motor_kill.send_data(DATA)
+
+
+
+if __name__ == "__main__":
+    motor_kill = MotorKill()
+    motor_kill.send_data(DATA)

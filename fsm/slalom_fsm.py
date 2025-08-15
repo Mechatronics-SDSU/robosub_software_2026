@@ -1,5 +1,5 @@
-from socket_send                            import set_screen
-from fsm                                    import *
+from utils.socket_send                      import set_screen
+from fsm.fsm                                import FSM_Template
 import yaml, os
 """
     discord: @.kech
@@ -22,21 +22,22 @@ class Slalom_FSM(FSM_Template):
         self.name = "SLALOM"
 
         # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 1#m
+        self.x_buffer = 0.2#m
+        self.y_buffer = 0.2#m
+        self.z_buffer = 0.6 #m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.x1, self.y1, self.x2, self.y2, self.x3, self.y3, self.depth = (None, None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
-            self.x1 = data['objects']['slalom']['x1']
-            self.y1 = data['objects']['slalom']['y1']
-            self.x2 = data['objects']['slalom']['x2']
-            self.y2 = data['objects']['slalom']['y2']
-            self.x3 = data['objects']['slalom']['x3']
-            self.y3 = data['objects']['slalom']['y3']
-            self.depth = data['objects']['slalom']['z']
+            course = data['course']
+            self.x1 = data[course]['slalom']['x1']
+            self.y1 = data[course]['slalom']['y1']
+            self.x2 = data[course]['slalom']['x2']
+            self.y2 = data[course]['slalom']['y2']
+            self.x3 = data[course]['slalom']['x3']
+            self.y3 = data[course]['slalom']['y3']
+            self.depth = data[course]['slalom']['z']
 
     def start(self):
         """
@@ -66,6 +67,7 @@ class Slalom_FSM(FSM_Template):
                 self.shared_memory_object.target_x.value = self.x3
                 self.shared_memory_object.target_y.value = self.y3
             case "DONE": # disable but not kill (go to next mode)
+                self.suspend()
                 self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")

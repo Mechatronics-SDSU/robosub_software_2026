@@ -1,4 +1,3 @@
-from multiprocessing import process, Value
 import serial, struct, os, time
 
 usb_port = 'COM6'  # Update this to your port
@@ -25,15 +24,6 @@ class ButtonInterface:
                 if len(data) < 10:
                     continue  # incomplete packet, discard and resync
                 
-                # data layout:
-                # byte 0: greenPressed (uint8)
-                # byte 1: bluePressed (uint8)
-                # byte 2: extKillState (uint8)
-                # byte 3: intKillState (uint8)
-                # byte 4-7: depth (float, little-endian)
-                # byte 8: '\r' (ignore)
-                # byte 9: '\n' (ignore)
-
                 greenPressed = data[0]
                 bluePressed = data[1]
                 extKillState = data[2]

@@ -1,5 +1,5 @@
-from fsm                                    import *
-from socket_send                            import set_screen
+from fsm.fsm                                    import FSM_Template
+from utils.socket_send                          import set_screen
 
 import os, yaml, time
 """
@@ -23,9 +23,9 @@ class Octagon_FSM(FSM_Template):
         self.name = "OCTAGON"
 
         # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.3#m
+        self.x_buffer = 0.2#m
+        self.y_buffer = 0.2#m
+        self.z_buffer = 0.6#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.oct_x, self.oct_y, self.oct_z, self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None, None, None, None)
