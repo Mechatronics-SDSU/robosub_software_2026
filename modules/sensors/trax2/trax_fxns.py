@@ -30,6 +30,7 @@ class TRAX:
         ports = list_ports.comports()
         for port in ports:
             if port.serial_number == trax1 or port.serial_number == trax2: # connect to a trax
+                #print(f"PORT SERIAL #: {port}")
                 try:
                     self.ser = serial.Serial(port.device, self.baud, timeout=1)
                     print("TRAX CONNECTED: ", port.device)

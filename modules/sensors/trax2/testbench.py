@@ -2,12 +2,17 @@ from trax_fxns import TRAX
 import serial
 import struct
 import time
+import subprocess
 
 """
     Created by Ryan Sundermeyer
     https://github.com/rsunderr
     rwork@sundermeyer.com
 """
+try:
+    subprocess.run(["sudo", "chmod", "777", "/dev/ttyUSB1"], check=True)
+except:
+    pass
 
 trax = TRAX()
 trax.connect()
