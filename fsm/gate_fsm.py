@@ -1,48 +1,50 @@
-from fsm                                    import *
-from socket_send                            import set_screen
-import yaml
-import os
+from utils.socket_send                              import set_screen
+from fsm.fsm                                        import FSM_Template
+import yaml, os
 """
     discord: @.kech
     github: @rsunderr
 
-    FSM for testing purposes
-    
+    FSM for navigating through gate
 """
 
-class Test_FSM(FSM_Template):
+class Gate_FSM(FSM_Template):
     """
-    FSM testing sandbox
+    FSM for gate mode - driving through the gate
     """
     def __init__(self, shared_memory_object, run_list):
         """
-        Test FSM constructor
+        Gate FSM constructor
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "TEST"
+        self.name = "GATE"
 
         # buffers
-        self.x_buffer = 0#m
-        self.y_buffer = 0#m
-        self.z_buffer = 0#m
+        self.x_buffer = 10#m
+        self.y_buffer = 10#m
+        self.z_buffer = 0.6 #m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.gate_x, self.gate_y, self.gate_z = (None, None, None)
+        self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
+        self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
-            self.gate_x = data['objects']['gate']['x']
-            self.gate_y = data['objects']['gate']['y']
-            self.gate_z = data['objects']['gate']['z']
+            course = data['course']
+            self.gate_x = data[course]['gate']['x']
+            self.gate_y = data[course]['gate']['y']
+            self.gate_z = data[course]['gate']['z']
+            self.depth  = data[course]['gate']['depth']
 
     def start(self):
         """
-        Start FSM
+        Start FSM by enabling and starting processes
         """
         super().start()  # call parent start method
 
         # set initial state
-        self.next_state("DRIVE")
+        self.next_state("TO_GATE")
+        self.next_state("TO_GATE")
 
     def next_state(self, next):
         """
@@ -52,17 +54,18 @@ class Test_FSM(FSM_Template):
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
             case "INIT": return # initial state
-            case "DRIVE":
+            case "DIVE":
+                self.shared_memory_object.target_z.value = self.depth
+            case "TO_GATE": # drive toward gate
+            case "DIVE":
+                self.shared_memory_object.target_z.value = self.depth
+            case "TO_GATE": # drive toward gate
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
-            case "NEXT": 
-                self.shared_memory_object.target_x.value = 5
-                self.shared_memory_object.target_y.value = 0
-                self.shared_memory_object.target_z.value = 0
-            case "DONE": # fully disable and kill
-                #self.display(255, 0, 0)
-                self.stop()
+            case "DONE": # disable but not kill (go to next mode)
+                self.suspend()
+                self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return
@@ -74,26 +77,18 @@ class Test_FSM(FSM_Template):
         Loop function, mostly state transitions within conditionals
         """
         if not self.active: return # do nothing if not enabled
-        self.display(255,0,0) # update display
-
+        self.display(0, 255, 0) # update display
+        
+        print(self.state)
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "DONE": return
-            case "DRIVE": # transition: DRIVE -> NEXT
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
-                    self.next_state("NEXT")
-            case "NEXT": # transition: NEXT -> DONE
-                if self.reached_xyz(5, 0, 0):
+            case "DIVE": # transition: DIVE -> TO_GATE
+                if self.shared_memory_object.dvl_z.value >= self.depth:
+                    self.next_state("TO_GATE")
+            case "TO_GATE": # transition: TO_GATE -> DONE
+                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z): # if it passes gate past at least 1m or reaches tgt
                     self.next_state("DONE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
-    
-    def display(self, r, g, b):
-        """
-        Sends color and text to display
-        """
-        print(f"RGB = ({r}, {g}, {b})")
-        print(f"{self.name}:{self.state}")
-        tgt_txt = f"DVL: \t\t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
-        dvl_txt = f"TGT: \t\t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
-        print(tgt_txt + "\n" + dvl_txt)
+

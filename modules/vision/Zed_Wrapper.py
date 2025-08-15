@@ -2,6 +2,10 @@ import pyzed.sl as sl
 import cv2
 import copy
 import statistics
+import time
+
+from scipy.spatial.transform import Rotation as R
+
 
 class Zed:
     """
@@ -23,20 +27,30 @@ class Zed:
     
     def __init__(self):
         self.zed                                    = sl.Camera()
+
         self.init_params                            = sl.InitParameters()
         self.init_params.camera_resolution          = sl.RESOLUTION.HD720
         self.init_params.camera_fps                 = 60
         self.init_params.coordinate_system          = sl.COORDINATE_SYSTEM.RIGHT_HANDED_Y_UP
         self.init_params.depth_mode                 = sl.DEPTH_MODE.NEURAL
-        self.tracking_parameters                    = sl.PositionalTrackingParameters()
-        self.tracking_parameters.enable_imu_fusion  = True
-        self.runtime_parameters                     = sl.RuntimeParameters()
         self.init_params.coordinate_units           = sl.UNIT.METER
         self.init_params.depth_minimum_distance     = 1.0
-        #self.err                                    = self.zed.enable_positional
-        # _tracking(self.tracking_parameters)
-        self.py_translation                         = sl.Translation()
+
+        self.tracking_parameters                    = sl.PositionalTrackingParameters()
+        self.tracking_parameters.enable_imu_fusion  = True
+
+        self.runtime_parameters                     = sl.RuntimeParameters()
+
+        # self.py_translation                         = sl.Translation()
         #self.zed.set_camera_settings(sl.VIDEO_SETTINGS.EXPOSURE, 50)
+        # roi_param = sl.RegionOfInterestParameters()
+        # roi_param.auto_apply_module = {sl.MODULE.DEPTH, sl.MODULE.POSITIONAL_TRACKING}
+        # self.zed.start_region_of_interest_auto_detection(roi_param)
+        # print("[Sample]  Region Of Interest auto detection is running.")
+
+    
+    def enable_tracking(self):
+        self.zed.enable_positional_tracking(self.tracking_parameters)
 
     
     def open(self):
@@ -80,8 +94,34 @@ class Zed:
             quaternion                  = sensors_data.get_imu_data().get_pose().get_orientation().get()
             linear_acceleration         = sensors_data.get_imu_data().get_linear_acceleration()
             angular_velocity            = sensors_data.get_imu_data().get_angular_velocity()
-
         return quaternion, linear_acceleration, angular_velocity
+
+    def get_translation(self):
+        runtime = sl.RuntimeParameters()
+        pose = sl.Pose()
+        if self.zed.grab(runtime) == sl.ERROR_CODE.SUCCESS:
+            state = self.zed.get_position(pose, sl.REFERENCE_FRAME.WORLD)  # or FRAME_CAMERA for odometry
+            if state == sl.POSITIONAL_TRACKING_STATE.OK:
+                t = sl.Translation()
+                pose.get_translation(t)           # fills t
+                return t.get()              # numpy-like array of [x,y,z]
+                # print(f"translation (world): {tx:.3f}, {ty:.3f}, {tz:.3f}")
+            else:
+                print("tracking:", state)         # SEARCHING / FPS_TOO_LOW / etc.
+                return (0, 0, 0)
+            
+    def get_imu_rotation(self):
+            try:
+                sensors_data = sl.SensorsData()
+                self.zed.get_sensors_data(sensors_data, sl.TIME_REFERENCE.CURRENT)
+                orientation = sensors_data.get_imu_data().get_pose().get_orientation().get()
+                rotation = R.from_quat([orientation])
+                euler_angles = rotation.as_euler('yxz', degrees=False)
+                angles_wrapped = (euler_angles + 180) % 360 - 180
+                print(angles_wrapped)
+                return angled_wrapped
+            except:
+                return False
 
     def get_distance_image(self):
         """
@@ -176,11 +216,23 @@ class Zed:
         return median
     
 if __name__ == '__main__':
+
+    MODE = "ROT"
     zed = Zed()
     state = zed.open()
-    while True:
-        image = zed.get_image()
-        if (image is not None):
-            cv2.imshow("image_test", image)
-            cv2.waitKey(1)
+    zed.enable_tracking()
+    for i in range(10):
+        if MODE == "IMAGE":
+            image = zed.get_image()
+            if (image is not None):
+                cv2.imshow("image_test", image)
+                cv2.waitKey(1)
+            time.sleep(1)
+        if MODE == "POS":
+            print(zed.get_translation())
+        
+        if MODE == "ROT":
+            rotation = zed.get_imu_rotation()
+            # print(rotation)
         continue
+    zed.zed.close()
