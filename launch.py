@@ -21,14 +21,18 @@ from modules.motors.kill_motors             import kill_motors
 """
     discord: @.kech, @kialli
     github: @rsunderr, @kchan5071
+    discord: @.kech, @kialli
+    github: @rsunderr, @kchan5071
     
     Runs mission control code and starts the sub
     
 """
 # permissions fix
+# permissions fix
 device_path = '/dev/ttyACM0'
 subprocess.run(["sudo", "chmod", "777", device_path], check=True)
 print(f"Permissions changed for {device_path}")
+
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
@@ -41,15 +45,21 @@ vis_object = VisionDetection(shared_memory_object)
 
 # initialize modes
 cf_modules = [pid_object, dvl_object]
+cf_modules = [pid_object, dvl_object]
 gate_modules = [pid_object, dvl_object]
 slalom_modules = []
 oct_modules = []
 rtrn_modules = []
+oct_modules = []
+rtrn_modules = []
 
+cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 slalom_mode = Slalom_FSM(shared_memory_object, slalom_modules)
+slalom_mode = Slalom_FSM(shared_memory_object, slalom_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
+return_mode = Return_FSM(shared_memory_object, rtrn_modules)
 return_mode = Return_FSM(shared_memory_object, rtrn_modules)
 
 def main():
@@ -115,6 +125,10 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("keyboard interrupt detected, stopping program")
         shared_memory_object.running.value = 0
+    except KeyboardInterrupt:
+        print("keyboard interrupt detected, stopping program")
+        shared_memory_object.running.value = 0
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
+        
         

@@ -1,3 +1,4 @@
+from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from fsm.test_fsm                               import Test_FSM
 from utils.socket_send                            import set_screen
@@ -7,6 +8,14 @@ from fsm.slalom_fsm                             import Slalom_FSM
 from fsm.octagon_fsm                            import Octagon_FSM
 import time
 import os
+
+#import modules
+#from modules.pid.pid_interface              import PIDInterface
+#from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
+#from modules.vision.vision_main             import VisionDetection
+from socket_send                            import set_screen
+from coinflip_fsm                           import CoinFlip_FSM
+
 """
     discord: @.kech
     github: @rsunderr
@@ -88,12 +97,11 @@ def stop():
     Soft kill the robot
     """
     shared_memory_object.running.value = 0 # kill gracefully
-    #os.system("pkill -f zed") # kill zed
-    #os.system("pkill -f python3") # kill python3
 
 if __name__ == '__main__':
     print("RUN FROM MISSION CONTROL")
     try:
+        main()
         main()
     except KeyboardInterrupt:
         print("Keyboard interrupt received, stopping mission control.")

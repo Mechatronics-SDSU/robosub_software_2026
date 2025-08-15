@@ -28,6 +28,7 @@ class FSM_Template:
         self.state = "INIT"     # state tracking variable
         self.active = False     # enable/disable boolean
         self.complete = False   # boolean for when the mode has completed its tasks
+        self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
         self.testing = False    # testing mode
         self.last_display_command = time.time()
@@ -108,6 +109,13 @@ class FSM_Template:
         for process in self.process_objects:
             if process.is_alive():
                 process.terminate()
+    
+    def suspend(self):
+        """
+        Soft kill FSM, use when a mode is done to be ready for the next mode to start
+        """
+        self.active = False
+        self.complete = True
     
     def suspend(self):
         """
