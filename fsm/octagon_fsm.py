@@ -23,8 +23,8 @@ class Octagon_FSM(FSM_Template):
         self.name = "OCTAGON"
 
         # buffers
-        self.x_buffer = 0.2#m
-        self.y_buffer = 0.2#m
+        self.x_buffer = 0.5#m
+        self.y_buffer = 0.5#m
         self.z_buffer = 0.6#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
@@ -58,9 +58,13 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_y.value = self.oct_y
                 self.shared_memory_object.target_z.value = self.depth
             case "RISE": # surface in octagon
-                self.shared_memory_object.target_z.value = self.oct_z
+                # CHANGES ------------------------------------------------
+                self.shared_memory_object.target_z.value =  0 + self.z_buffer/2 # reduce buffer for going up to preveng early turn off
+                self.shared_memory_object.target_yaw.value = 120 # turn 120 deg
             case "PAUSE": # pause after surfacing
-                time.sleep(2) # wait at surface
+                time.sleep(8) # wait at surface
+                self.shared_memory_object.target_yaw.value = 0 # turn back to 0
+                # CHANGES END ------------------------------------------------
                 self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")

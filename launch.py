@@ -60,14 +60,8 @@ def main():
     """
     Main function
     """
-    slalom_mode.z_buffer = 100
-    gate_mode.z_buffer = 100 # FIXME
-    oct_mode.z_buffer = 100
-    return_mode.z_buffer = 100
     mode = "GATE"
-
     gate_mode.start()
-
     loop(mode)
 
 def loop(mode):
