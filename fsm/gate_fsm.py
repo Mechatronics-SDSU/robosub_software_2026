@@ -27,6 +27,7 @@ class Gate_FSM(FSM_Template):
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
+        self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             course = data['course']
@@ -43,6 +44,7 @@ class Gate_FSM(FSM_Template):
 
         # set initial state
         self.next_state("TO_GATE")
+        self.next_state("TO_GATE")
 
     def next_state(self, next):
         """
@@ -55,10 +57,14 @@ class Gate_FSM(FSM_Template):
             case "DIVE":
                 self.shared_memory_object.target_z.value = self.depth
             case "TO_GATE": # drive toward gate
+            case "DIVE":
+                self.shared_memory_object.target_z.value = self.depth
+            case "TO_GATE": # drive toward gate
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
             case "DONE": # disable but not kill (go to next mode)
+                self.suspend()
                 self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")

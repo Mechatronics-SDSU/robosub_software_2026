@@ -1,8 +1,10 @@
 from multiprocessing                        import Process, Value
 #from shared_memory                          import SharedMemoryWrapper
 from trax_fxns                              import TRAX
+from trax_fxns                              import TRAX
 import time
 
+class Trax_Interface(TRAX):
 class Trax_Interface(TRAX):
 
     """
@@ -22,10 +24,18 @@ class Trax_Interface(TRAX):
         Function targeted by looping multiprocessing calls, called only once
         """
         self.connect()
+        super().__init__()
+
+    def run_loop(self):
+        """
+        Function targeted by looping multiprocessing calls, called only once
+        """
+        self.connect()
 
         # kSetAcqParams
         frameID = "kSetAcqParams"
         payload = (False, False, 0.0, 0.05) # T/F poll mode/cont mode, T/F compass FIR mode, PNI reserved, delay
+        self.send_packet(frameID, payload)
         self.send_packet(frameID, payload)
 
         # kSetAcqParamsDone (optional)
@@ -34,6 +44,13 @@ class Trax_Interface(TRAX):
 
         # kSetDataComponents
         frameID = "kSetDataComponents"
+        payload = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 6 comp's: ax ay az yaw pitch roll
+        self.send_packet(frameID, payload)
+
+        # kStopContinuousMode
+        frameID = "kStopContinuousMode"
+        self.send_packet(frameID)
+
         payload = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 6 comp's: ax ay az yaw pitch roll
         self.send_packet(frameID, payload)
 
@@ -77,5 +94,7 @@ class Trax_Interface(TRAX):
 if __name__ == "__main__":
     shared_memory_object = "placeholder"
     trax = Trax_Interface(shared_memory_object)
+    comps = ()
+    trax.get_data()
     comps = ()
     trax.get_data()
