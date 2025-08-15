@@ -28,8 +28,8 @@ class PIDInterface:
         # array of PID k Values
         # cols = x, y, z, yaw, pitch, roll
         # rows = kp, ki, kd
-        self.K_array = np.array([[2000,  2000,  1250,    10,     2,    2], 
-                                 [.5,   .5,     .5,      2,    .5,   .5],
+        self.K_array = np.array([[3000,  3000,  2500,    30,     2,    2], 
+                                 [.5,   .5,      2,      2,    .5,   .5],
                                  [.1,   .1 ,    .1,     .2,    .5,   .5]])
         
     

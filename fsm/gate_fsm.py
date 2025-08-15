@@ -79,7 +79,7 @@ class Gate_FSM(FSM_Template):
         match(self.state):
             case "INIT" | "DONE": return
             case "DIVE": # transition: DIVE -> TO_GATE
-                if self.shared_memory_object.dvl_z.value >= self.depth:
+                if self.shared_memory_object.dvl_z.value >= self.depth - self.z_buffer:
                     self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> DONE
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z): # if it passes gate past at least 1m or reaches tgt

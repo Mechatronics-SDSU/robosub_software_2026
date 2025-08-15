@@ -12,9 +12,8 @@ If the coin lands on HEADS, the AUV is positioned approximately parallel to the 
 If the coin lands on TAILS, the AUV is positioned with its tail approximately facing the gate (the AUV is backward).
 
 """
-
 def get_angle(row):
-    angle = row * 0.9   # 1 radian = 0.9 degrees
+    angle = row * 9
     return angle
 
 def get_distance(col):
@@ -50,7 +49,7 @@ myPing360.set_transmit_frequency(transmit_frequency)
 
 scan_data = []
 
-for angle in range(0, 400, 10):  
+for angle in range(0, 400, 10): # 9 degree steps
     myPing360.transmitAngle(angle)
     data = myPing360._data
     if data:
@@ -77,25 +76,37 @@ angle_index = 0
 for angle in range(0, 40): 
     if np.sum(row_sums[angle:angle+10]) > quarter_sum:
         quarter_sum = np.sum(row_sums[angle:angle+10])
-        angle_index = angle*10 + 50 # midpoint of the quarter
-print("angle index: ", angle_index)
+        angle_index = (angle * 10) + 50 # midpoint of the quarter
 
 wall_forward = False
 wall_left = False
 wall_right = False
 wall_back = False
 
-if angle_index <= 50 or angle_index >= 350:
-    wall_forward = True
-elif angle_index > 50 and angle_index < 150:
-    wall_right = True
-elif angle_index >= 150 and angle_index < 250:
+if angle_index < 25 or angle_index >= 375:
     wall_back = True
-elif angle_index >= 250 and angle_index < 350:
+elif angle_index >= 25 and angle_index < 75:
+    wall_back = True
     wall_left = True
+elif angle_index >= 75 and angle_index < 125:
+    wall_left = True
+elif angle_index >= 125 and angle_index < 175:
+    wall_left = True
+    wall_foward = True
+elif angle_index >= 175 and angle_index < 225:
+    wall_forward = True
+elif angle_index >= 225 and angle_index < 275:
+    wall_forward = True
+    wall_right = True
+elif angle_index >= 275 and angle_index < 325:
+    wall_right = True
+elif angle_index >= 325 and angle_index < 375:
+    wall_right = True
+    wall_back = True
 
 print("Wall forward:", wall_forward)
 print("Wall right:", wall_right)
 print("Wall backward:", wall_back)
 print("Wall left:", wall_left)
+print("Angle: ", angle_index)
 

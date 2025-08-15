@@ -1,4 +1,4 @@
-course: kiddie_pool
+course: lane_C
 
 objects: # the literal locations of objects in the pool in m (read by FSM)
   coin_flip: # coin flip coordinates
@@ -12,13 +12,13 @@ objects: # the literal locations of objects in the pool in m (read by FSM)
   slalom: # slalom coordinates
     # start
     x1: 7 #A: 7 B1: 6.25
-    y1: 0.75  #A: -1 B1: -1.75
+    y1: 0.1  #A: -1 B1: -1.75
     # middle
     x2: 9.5 #A: 8.5 B1: 7.5
     y2: 0.5 #A: -1 B1: -2.5
     # end
     x3: 11.5  #A: 10.5 B1: 9.25
-    y3: 0 #A: -0.7 B1: -3.125
+    y3: 1.1 #A: -0.7 B1: -3.125
     # depth
     z:  1.5
   octagon: # octagon coordinates
@@ -53,27 +53,27 @@ lane_D:
 
 lane_A:
   gate: # gate coordinates (in m)
-    x:  0 # forward is positive x
+    x:  4.57 # forward is positive x
     y:  0 # left is positive y
-    z:  0.5
+    z:  1.5
     depth: 0.2 # initial drop depth
   slalom: # slalom coordinates
     # start
-    x1: 7 #A: 7 B1: 6.25
-    y1: -1  #A: -1 B1: -1.75
+    x1: 7.925
+    y1: -2.743
     # middle
-    x2: 8.5 #A: 8.5 B1: 7.5
-    y2: -1 #A: -1 B1: -2.5
+    x2: 10.058
+    y2: -2.743
     # end
-    x3: 10.5  #A: 10.5 B1: 9.25
-    y3: -.7 #A: -0.7 B1: -3.125
+    x3: 12.192
+    y3: -2.743
     # depth
     z:  1.5
   octagon: # octagon coordinates
-    x: 16.75
-    y:  2 
+    x: 18.2
+    y:  0
     z:  0
-    depth: 1 # swimming depth during oct mode
+    depth: 1.5 # swimming depth during oct mode
 
 lane_B1:
   gate: # gate coordinates (in m)
@@ -92,23 +92,47 @@ lane_B1:
     x3: 9.25  #A: 10.5 B1: 9.25
     y3: -3.125 #A: -0.7 B1: -3.125
     # depth
-    z:  1.5
+    z:  2
   octagon: # octagon coordinates
     x: 16.75
     y:  2 
     z:  0
     depth: 1 # swimming depth during oct mode
 
+lane_C:
+  gate: # gate coordinates (in m)
+    x:  4.25 # forward is positive x
+    y:  -0.6 # left is positive y
+    z:  1.5
+    depth: 0.3 # initial drop depth
+  slalom: # slalom coordinates
+    # start
+    x1: 5 #A: 7 B1: 6.25
+    y1: 0.1  #A: -1 B1: -1.75
+    # middle
+    x2: 7.25 #A: 8.5 B1: 7.5
+    y2: 1.75 #A: -1 B1: -2.5
+    # end
+    x3: 10  #A: 10.5 B1: 9.25
+    y3: 3.1 #A: -0.7 B1: -3.125
+    # depth
+    z:  1.5
+  octagon: # octagon coordinates
+    x: 10 #16.625
+    y: -1.5 #1.75
+    z:  0
+    depth: 1.5 # swimming depth during oct mode
+
 kiddie_pool:
   gate: # gate coordinates (in m)
-    depth: 0 # initial drop depth
+    depth: 0.2 # initial drop depth
 
     x:  0.5 # forward is positive x
     y:  0 # left is positive y
-    z:  0
+    z:  0.5
   slalom: # slalom coordinates
     # depth
-    z:  0
+    z:  0.5
 
     # start
     x1: 1 #A: 7 B1: 6.25
@@ -121,7 +145,7 @@ kiddie_pool:
     y3: 0 #A: -0.7 B1: -3.125
 
   octagon: # octagon coordinates
-    depth: 0 # swimming depth during oct mode
+    depth: 0.5 # swimming depth during oct mode
     
     x: 4
     y: 1
