@@ -1,4 +1,4 @@
-course: lane_C
+course: lane_D
 
 objects: # the literal locations of objects in the pool in m (read by FSM)
   coin_flip: # coin flip coordinates
@@ -29,27 +29,27 @@ objects: # the literal locations of objects in the pool in m (read by FSM)
 
 lane_D:
   gate: # gate coordinates (in m)
-    x:  0 # forward is positive x
-    y:  0 # left is positive y
-    z:  0.5
+    x:  2.743 # forward is positive x
+    y:  -0.4 # left is positive y
+    z:  1.6
     depth: 0.2 # initial drop depth
   slalom: # slalom coordinates
     # start
-    x1: 7 #A: 7 B1: 6.25
-    y1: 0.75  #A: -1 B1: -1.75
+    x1: 5.486
+    y1: 1.35
     # middle
-    x2: 9.5 #A: 8.5 B1: 7.5
-    y2: 0.5 #A: -1 B1: -2.5
+    x2: 7.62
+    y2: 1.9
     # end
-    x3: 11.5  #A: 10.5 B1: 9.25
-    y3: 0 #A: -0.7 B1: -3.125
+    x3: 9.499
+    y3: 1.6
     # depth
-    z:  1.5
+    z:  1.6
   octagon: # octagon coordinates
-    x: 20.5  #A: 16.75
-    y:  -1.5 #A: 2
+    x: 17.678
+    y:  2.25
     z:  0
-    depth: 1 # swimming depth during oct mode
+    depth: 1.65 # swimming depth during oct mode and return mode
 
 lane_A:
   gate: # gate coordinates (in m)
