@@ -22,8 +22,8 @@ class Return_FSM(FSM_Template):
         self.name = "RETURN"
 
         # buffers
-        self.x_buffer = 0.2#m
-        self.y_buffer = 0.2#m
+        self.x_buffer = 0.3#m
+        self.y_buffer = 0.3#m
         self.z_buffer = 0.6#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
