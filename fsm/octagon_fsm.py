@@ -60,7 +60,7 @@ class Octagon_FSM(FSM_Template):
             case "RISE": # surface in octagon
                 # CHANGES ------------------------------------------------
                 self.shared_memory_object.target_z.value =  0 + self.z_buffer/2 # reduce buffer for going up to preveng early turn off
-                self.shared_memory_object.target_yaw.value = 120 # turn 120 deg
+                self.shared_memory_object.target_yaw.value = 45 # degrees of turn
             case "PAUSE": # pause after surfacing
                 time.sleep(8) # wait at surface
                 self.shared_memory_object.target_yaw.value = 0 # turn back to 0
