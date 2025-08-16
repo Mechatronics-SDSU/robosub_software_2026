@@ -24,17 +24,16 @@ class Return_FSM(FSM_Template):
         # buffers
         self.x_buffer = 0.3#m
         self.y_buffer = 0.3#m
-        self.z_buffer = 0.6#m
+        self.z_buffer = 0.9#m (KEEP Z BUFFER HIGH)
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             course = data['course']
-            self.depth  =   data[course]['octagon']['depth'] # swimming depth
+            self.depth  =   data[course]['return']['depth'] # swimming depth
             self.gate_x =   data[course]['gate']['x']
             self.gate_y =   data[course]['gate']['y']
-            self.gate_z =   data[course]['gate']['z']
 
     def start(self):
         """
@@ -52,16 +51,14 @@ class Return_FSM(FSM_Template):
         if not self.active or self.state == next: return # do nothing if not enabled or no state change
         match(next):
             case "INIT": return # initial state
-            case "DESCEND": # descend in octagon
+            case "DESCEND": # initial descend in octagon to avoid smacking oct during gate shot
                 self.shared_memory_object.target_z.value = self.depth
             case "TO_GATE": # return to gate after octagon
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
-                self.shared_memory_object.target_z.value = self.gate_z
             case "RETURN": # return to starting position
                 self.shared_memory_object.target_x.value = 0
                 self.shared_memory_object.target_y.value = 0
-                self.shared_memory_object.target_z.value = self.depth
             case "RISE_END": # surface at end of run
                 self.shared_memory_object.target_z.value = 0
             case "DONE": # end of run
@@ -87,13 +84,13 @@ class Return_FSM(FSM_Template):
                 if self.shared_memory_object.dvl_z.value >= self.depth - self.z_buffer:
                     self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> RETURN
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
+                if self.reached_xy(self.gate_x, self.gate_y):
                     self.next_state("RETURN")
             case "RETURN": # transition: RETURN -> RISE_END
-                if self.reached_xyz(0, 0, self.depth):
+                if self.reached_xy(0, 0):
                     self.next_state("RISE_END")
             case "RISE_END": # transition: RISE_END -> DONE
-                if abs(self.shared_memory_object.dvl_z.value - 0) <= self.z_buffer:
+                if self.shared_memory_object.dvl_z.value <= self.z_buffer:
                     self.next_state("DONE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")

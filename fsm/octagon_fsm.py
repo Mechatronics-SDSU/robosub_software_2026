@@ -34,7 +34,7 @@ class Octagon_FSM(FSM_Template):
             course = data['course']
             self.oct_x =    data[course]['octagon']['x']
             self.oct_y =    data[course]['octagon']['y']
-            self.oct_z =    data[course]['octagon']['z']
+            self.oct_z =    0
             self.depth =    data[course]['octagon']['depth'] # swimming depth
 
     def start(self):
@@ -58,13 +58,11 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_y.value = self.oct_y
                 self.shared_memory_object.target_z.value = self.depth
             case "RISE": # surface in octagon
-                # CHANGES ------------------------------------------------
                 self.shared_memory_object.target_z.value =  0 + self.z_buffer/2 # reduce buffer for going up to preveng early turn off
                 self.shared_memory_object.target_yaw.value = 45 # degrees of turn
             case "PAUSE": # pause after surfacing
-                time.sleep(8) # wait at surface
+                time.sleep(8) # wait at surface, turn direction
                 self.shared_memory_object.target_yaw.value = 0 # turn back to 0
-                # CHANGES END ------------------------------------------------
                 self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
