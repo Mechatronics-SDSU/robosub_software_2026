@@ -58,10 +58,10 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_y.value = self.oct_y
                 self.shared_memory_object.target_z.value = self.depth
             case "RISE": # surface in octagon
-                self.shared_memory_object.target_z.value =  0 + self.z_buffer/2 # reduce buffer for going up to preveng early turn off
-                self.shared_memory_object.target_yaw.value = 45 # degrees of turn
+                self.shared_memory_object.target_z.value =  0 - self.z_buffer/2 # reduce buffer for going up to preveng early turn off
+                self.shared_memory_object.target_yaw.value = -45 # degrees of turn
             case "PAUSE": # pause after surfacing
-                time.sleep(8) # wait at surface, turn direction
+                time.sleep(5) # wait at surface, turn direction
                 self.shared_memory_object.target_yaw.value = 0 # turn back to 0
                 self.suspend()
             case _: # do nothing if invalid state
@@ -81,10 +81,10 @@ class Octagon_FSM(FSM_Template):
         match(self.state):
             case "INIT" | "PAUSE": return
             case "TO_OCT": # transition: TO_OCT -> RISE
-                if self.reached_xyz(self.oct_x, self.oct_y, self.shared_memory_object.dvl_z.value): # ignore z
+                if self.reached_xy(self.oct_x, self.oct_y):
                     self.next_state("RISE")
             case "RISE": # transition: RISE -> PAUSE
-                if abs(self.shared_memory_object.dvl_z.value - self.oct_z) <= self.z_buffer:
+                if self.shared_memory_object.dvl_z.value <= self.z_buffer:
                     self.next_state("PAUSE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
