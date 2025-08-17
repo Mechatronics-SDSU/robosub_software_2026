@@ -42,6 +42,7 @@ class ForwardSpinFSM(FSM_Template):
             data = yaml.safe_load(file)
             self.forward_time = data['objects']['fdsm']['forward_time']
             self.spin_time = data['objects']['fdsm']['spin_time']
+            self.initial_depth = data['objects']['fdsm']['initial_depth']
             self.depth = data['objects']['fdsm']['depth']
 
     def start(self):
@@ -65,7 +66,7 @@ class ForwardSpinFSM(FSM_Template):
             case "DRIVE": 
                 print("FOR: DRIVE")
                 self.forward_start_time = time.time()
-                self.shared_memory_object.target_z.value = self.depth
+                self.shared_memory_object.target_z.value = self.initial_depth
                 self.shared_memory_object.target_x.value = 10
             case "SPIN": 
                 print("FOR: SPIN")
@@ -74,6 +75,7 @@ class ForwardSpinFSM(FSM_Template):
                 self.shared_memory_object.target_yaw.value = 180
                 self.shared_memory_object.target_x.value = 0
             case "DONE": # fully disable and kill
+                self.shared_memory_object.target_x.value = 0
                 print("FOR: DONE")
                 self.active = False
                 self.stop()
