@@ -6,6 +6,7 @@ from modules.test_module.test_process       import Test_Process
 from fsm.gate_fsm                               import Gate_FSM
 from fsm.slalom_fsm                             import Slalom_FSM
 from fsm.octagon_fsm                            import Octagon_FSM
+from fsm.return_fsm                             import Return_FSM
 import time
 import os
 
@@ -13,8 +14,8 @@ import os
 #from modules.pid.pid_interface              import PIDInterface
 #from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 #from modules.vision.vision_main             import VisionDetection
-from socket_send                            import set_screen
-from coinflip_fsm                           import CoinFlip_FSM
+#from socket_send                            import set_screen
+#from coinflip_fsm                           import CoinFlip_FSM
 
 """
     discord: @.kech
@@ -31,65 +32,33 @@ delay = 0.25#s
 #test_object = Test_Process(shared_memory_object)
 
 # initialize modes
-gate_modules = []
-oct_modules = []
-slalom_modules = []
-
-gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
-oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
-slm_mode    = Slalom_FSM(shared_memory_object, slalom_modules)
+return_mode = Return_FSM(shared_memory_object, [])
 
 # initialize values
 shared_memory_object.dvl_x.value = 0
 shared_memory_object.dvl_y.value = 0
 shared_memory_object.dvl_z.value = 0.5
 
-gate_mode.testing = True
-oct_mode.testing = True
-slm_mode.testing = True
-slm_mode.y_buffer = 100
-
 def main():
-    gate_mode.start()
-    loop("GATE")
+    return_mode.start()
+    return_mode.state = "MP1"
+    return_mode.x1 = 0
+    return_mode.y1 = 0
+    return_mode.x2 = 1
+    return_mode.y2 = 0
+    loop("RETURN")
 
 def loop(mode):
     """
     Looping function, mostly mode transitions within conditionals
     """
-    if not shared_memory_object.running.value: return
-    #time.sleep(delay)
+    while shared_memory_object.running.value:
+        #time.sleep(delay)
 
-    print(f"MODE = {mode}")
-    print(f"GATE: \tactive={gate_mode.active}\tcomplete={gate_mode.complete}")
-    print(f"OCT: \tactive={oct_mode.active}\tcomplete={oct_mode.complete}")
-    print(f"SLM: \tactive={slm_mode.active}\tcomplete={slm_mode.complete}\n")
+        return_mode.loop()
 
-    # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-    match(mode):
-        case "GATE": # transition: GATE -> SLM
-            gate_mode.loop()
-            if gate_mode.complete:
-                slm_mode.start()
-                mode = "SLM"
-        case "SLM": # transition: SLM -> OCT
-            slm_mode.loop()
-            if slm_mode.complete:
-                oct_mode.start()
-                mode = "OCT"
-        case "OCT": # transition: OCT -> OFF
-            stop()
-            return
-            oct_mode.loop()
-            if oct_mode.complete:
-                stop() # turn off robot
-        case _: # invalid mode
-            print(f"INVALID MODE {mode}")
-
-
-    # increment x
-    shared_memory_object.dvl_x.value += 0.54
-    loop(mode)
+        # increment x
+        shared_memory_object.dvl_x.value += 0.5
     
 
 def stop():
@@ -101,7 +70,6 @@ def stop():
 if __name__ == '__main__':
     print("RUN FROM MISSION CONTROL")
     try:
-        main()
         main()
     except KeyboardInterrupt:
         print("Keyboard interrupt received, stopping mission control.")

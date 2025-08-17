@@ -56,13 +56,19 @@ class FSM_Template:
         for process in self.process_objects:
             process.start()
     
+    def reached_xy(self, x, y):
+        """
+        Returns true if near a location in terms of x and y (requires x,y, buffer and dvl to work), use ignore to ignore a value
+        """
+        if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer:
+            return True
+        # else
+        return False
+    
     def reached_xyz(self, x, y, z):
         """
         Returns true if near a location (requires x,y,z buffer and dvl to work), use ignore to ignore a value
         """
-        if x == "ignore" or x == None: x = self.shared_memory_object.dvl_x.value
-        if y == "ignore" or y == None: x = self.shared_memory_object.dvl_y.value
-        if y == "ignore" or z == None: x = self.shared_memory_object.dvl_z.value
         if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
             return True
         # else
@@ -85,6 +91,7 @@ class FSM_Template:
             set_screen(
                 (r, g, b),
                 f"{self.name}:{self.state}",
+                f"{tgt_txt}\n{dvl_txt}"
             )
         except:
             return
