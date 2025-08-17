@@ -24,16 +24,20 @@ class Return_FSM(FSM_Template):
         # buffers
         self.x_buffer = 0.3#m
         self.y_buffer = 0.3#m
-        self.z_buffer = 0.9#m (KEEP Z BUFFER HIGH)
+        self.z_buffer = 0.5#m
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
+        self.gate_x, self.gate_y, self.gate_z, self.x1, self.y1, self.x2, self.y2, self.depth = (None, None, None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             course = data['course']
             self.depth  =   data[course]['return']['depth'] # swimming depth
             self.gate_x =   data[course]['gate']['x']
             self.gate_y =   data[course]['gate']['y']
+            self.x1     =   data[course]['return']['x1']
+            self.y1     =   data[course]['return']['y1']
+            self.x2     =   data[course]['return']['x2']
+            self.y2     =   data[course]['return']['y2']
 
     def start(self):
         """
@@ -52,7 +56,14 @@ class Return_FSM(FSM_Template):
         match(next):
             case "INIT": return # initial state
             case "DESCEND": # initial descend in octagon to avoid smacking oct during gate shot
+                self.shared_memory_object.target_z.value = self.z_buffer + 1
+            case "MP1": # move to midpoint 1 before gate
                 self.shared_memory_object.target_z.value = self.depth
+                self.shared_memory_object.target_x.value = self.x1
+                self.shared_memory_object.target_y.value = self.y1
+            case "MP2": # move to midpoint 2 before gate
+                self.shared_memory_object.target_x.value = self.x2
+                self.shared_memory_object.target_y.value = self.y2
             case "TO_GATE": # return to gate after octagon
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
@@ -80,8 +91,14 @@ class Return_FSM(FSM_Template):
         #TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "DONE": return
-            case "DESCEND": # transition: DESCEND -> TO_GATE
-                if self.shared_memory_object.dvl_z.value >= self.depth - self.z_buffer:
+            case "DESCEND": # transition: DESCEND -> MP1
+                if self.shared_memory_object.dvl_z.value >= self.z_buffer:
+                    self.next_state("MP1")
+            case "MP1": # transition MP1 -> MP2
+                if self.reached_xy(self.x1, self.y1):
+                    self.next_state("MP2")
+            case "MP2": # transition MP2 -> TO_GATE
+                if self.reached_xy(self.x2, self.y2):
                     self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> RETURN
                 if self.reached_xy(self.gate_x, self.gate_y):

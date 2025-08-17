@@ -13,7 +13,7 @@ from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
 from utils.socket_send                            import set_screen
-from fsm.coinflip_fsm                           import CoinFlip_FSM
+# from fsm.coinflip_fsm                           import CoinFlip_FSM
 
 #kill module
 from modules.motors.kill_motors             import kill_motors
@@ -50,11 +50,18 @@ slalom_modules = []
 oct_modules = []
 rtrn_modules = []
 
-cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
+# cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 slalom_mode = Slalom_FSM(shared_memory_object, slalom_modules)
 oct_mode    = Octagon_FSM(shared_memory_object, oct_modules)
 return_mode = Return_FSM(shared_memory_object, rtrn_modules)
+
+# DELETE ME --------------------
+gate_mode.testing = True
+slalom_mode.testing = True
+oct_mode.testing = True
+return_mode.testing = True
+# -------------------------------
 
 def main():
     """
@@ -100,7 +107,7 @@ def stop():
     Soft kill the robot
     """
     shared_memory_object.running.value = 0 # kill gracefully
-    time.sleep(0.1)
+    time.sleep(1)
     kill_motors()
 
 
