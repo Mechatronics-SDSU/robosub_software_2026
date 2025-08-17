@@ -26,11 +26,10 @@ class PIDInterface:
         # self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
 
         # array of PID k Values
-        # cols = x, y, z, yaw, pitch, roll
-        # rows = kp, ki, kd
-        self.K_array = np.array([[3000,  3000,  2500,    30,     2,    2], 
-                                 [.5,   .5,      2,      2,    .5,   .5],
-                                 [.1,   .1 ,    .1,     .2,    .5,   .5]])
+        #                          x,      y,     z,    yaw,   pitch, roll
+        self.K_array = np.array([[3000,  3000,  2500,    30,     2,    2], #kp
+                                 [.5,   .5,      2,      2,    .5,   .5],  #ki
+                                 [.1,   .1 ,    .1,     .2,    .5,   .5]]) #kd
         
     
     def run_pid(self):
