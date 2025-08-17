@@ -73,7 +73,7 @@ class Tricks_FSM(FSM_Template):
             case "DRIVE":
                 self.shared_memory_object.target_x.value = 1#1 # go forward
                 self.shared_memory_object.target_y.value = 0
-                self.motor_object.move_down(50)
+                self.motor_object.move_down(30)
                 # self.shared_memory_object.target_z.value = self.depth
                 time.sleep(self.t_drive) # continue forward for a duration
                 self.next_state("SPIN") # transition DRIVE -> SPIN
