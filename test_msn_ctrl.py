@@ -1,7 +1,7 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
-from fsm.test_fsm                               import Test_FSM
-from utils.socket_send                            import set_screen
+from fsm.test_fsm                           import Test_FSM
+from utils.socket_send                      import set_screen
 from modules.test_module.test_process       import Test_Process
 from fsm.gate_fsm                               import Gate_FSM
 from fsm.slalom_fsm                             import Slalom_FSM
@@ -9,6 +9,8 @@ from fsm.octagon_fsm                            import Octagon_FSM
 from fsm.return_fsm                             import Return_FSM
 import time
 import os
+import random;
+
 
 #import modules
 #from modules.pid.pid_interface              import PIDInterface
@@ -26,7 +28,6 @@ import os
 """
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
-delay = 0.25#s
 
 # create test processes
 #test_object = Test_Process(shared_memory_object)
@@ -35,9 +36,20 @@ delay = 0.25#s
 return_mode = Return_FSM(shared_memory_object, [])
 
 # initialize values
-shared_memory_object.dvl_x.value = 0
-shared_memory_object.dvl_y.value = 0
-shared_memory_object.dvl_z.value = 0.5
+
+try:
+    delay = int(input("Enter time delay in seconds:")) #s
+    shared_memory_object.dvl_x.value = int(input("Enter starting x value: "))
+    shared_memory_object.dvl_y.value = int(input("Enter starting y value: "))
+    shared_memory_object.dvl_z.value = int(input("Enter starting z value: "))
+    mult = int(input("Enter step multiplier: "))
+except ValueError:
+    print("Invalid input, using default values")
+    delay = 2
+    shared_memory_object.dvl_x.value = 0
+    shared_memory_object.dvl_y.value = 0
+    shared_memory_object.dvl_z.value = 0
+    mult = 1
 
 def main():
     return_mode.start()
@@ -53,13 +65,27 @@ def loop(mode):
     Looping function, mostly mode transitions within conditionals
     """
     while shared_memory_object.running.value:
-        #time.sleep(delay)
+        time.sleep(delay)
 
         return_mode.loop()
 
-        # increment x
-        shared_memory_object.dvl_x.value += 0.5
-    
+        # increment x,y,z by rand value with multiplier
+        if mult >= 1:
+            shared_memory_object.dvl_x.value += mult * random.uniform(-0.1, 1)
+            shared_memory_object.dvl_y.value += mult * random.uniform(-0.1, 1)
+            shared_memory_object.dvl_z.value += mult * random.uniform(-0.1, 1)
+        else:
+        # if mult < 1, mult = 1
+            shared_memory_object.dvl_x.value += random.uniform(-0.1, 1)    
+            shared_memory_object.dvl_y.value += random.uniform(-0.1, 1)    
+            shared_memory_object.dvl_z.value += random.uniform(-0.1, 1)
+
+
+        print(return_mode, return_mode.state)
+        print("\nx:"+ str(shared_memory_object.dvl_x.value))
+        print("y:" + str(shared_memory_object.dvl_y.value)) 
+        print("z:" + str(shared_memory_object.dvl_z.value) + "\n")
+
 
 def stop():
     """
