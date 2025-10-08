@@ -21,22 +21,24 @@ class Octagon_FSM(FSM_Template):
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
         self.name = "OCTAGON"
-
-        # buffers
-        self.x_buffer = 0.5#m
-        self.y_buffer = 0.5#m
-        self.z_buffer = 0.6#m
-
+        
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.oct_x, self.oct_y, self.oct_z, self.depth = (None, None, None, None)
-        with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
-            data = yaml.safe_load(file)
-            course = data['course']
-            self.oct_x =    data[course]['octagon']['x']
-            self.oct_y =    data[course]['octagon']['y']
-            self.oct_z =    0
-            self.depth =    data[course]['octagon']['depth'] # swimming depth
-
+        self.x_buffer = self.y_buffer = self.z_buffer = self.oct_x = self.oct_y = self.oct_z = self.depth = self.pause = 0
+        try:
+            with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+                data = yaml.safe_load(file)
+                course = data['course']
+                self.x_buffer = data[course]['octagon']['x_buf']
+                self.y_buffer = data[course]['octagon']['y_buf']
+                self.z_buffer = data[course]['octagon']['z_buf']
+                self.oct_x =    data[course]['octagon']['x']
+                self.oct_y =    data[course]['octagon']['y']
+                self.oct_z =    data[course]['octagon']['z']
+                self.depth =    data[course]['octagon']['depth'] # swimming depth
+                self.pause =    data[course]['octagon']['pause'] # pause duration
+        except FileNotFoundError:
+            print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
+            
     def start(self):
         """
         Start FSM by enabling and starting processes
@@ -58,10 +60,10 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_y.value = self.oct_y
                 self.shared_memory_object.target_z.value = self.depth
             case "RISE": # surface in octagon
-                self.shared_memory_object.target_z.value =  0 - self.z_buffer/2 # reduce buffer for going up to preveng early turn off
+                self.shared_memory_object.target_z.value = self.oct_z
                 self.shared_memory_object.target_yaw.value = -45 # degrees of turn
             case "PAUSE": # pause after surfacing
-                time.sleep(5) # wait at surface, turn direction
+                time.sleep(self.pause) # wait at surface, turn direction
                 self.shared_memory_object.target_yaw.value = 0 # turn back to 0
                 self.suspend()
             case _: # do nothing if invalid state

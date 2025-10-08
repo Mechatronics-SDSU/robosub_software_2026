@@ -30,8 +30,9 @@ class FSM_Template:
         self.complete = False   # boolean for when the mode has completed its tasks
         self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
-        self.testing = False    # testing mode
+        self.display_on = False # enable/disable display output
         self.last_display_command = time.time()
+        self.next_mode = None  # next mode pointer
 
         # buffers
         self.x_buffer = 0.5
@@ -83,7 +84,7 @@ class FSM_Template:
             return
         tgt_txt = f"DVL: \t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
-        if self.testing: # don't run display if in testing mode
+        if not self.display_on: # don't run display if in testing mode
             print(f"{tgt_txt}\n{dvl_txt}")
             return
         try:
@@ -123,3 +124,22 @@ class FSM_Template:
         """
         self.active = False
         self.complete = True
+    
+    def next(self, mode=None):
+        """
+        Transition to the next mode, stops if no next mode
+        """
+        self.suspend() # soft kill current mode
+
+        # if parameter passed, start parameter mode
+        if mode is not None:
+            self.next_mode = mode
+            self.next_mode.start()
+        # if no parameter passed, start next_mode if it exists
+        elif self.next_mode is not None:
+            self.next_mode.start()
+        # if no parameter or next_mode, stop
+        else:
+            self.stop()
+        
+        return self.next_mode

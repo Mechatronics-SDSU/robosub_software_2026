@@ -23,16 +23,14 @@ class Test_FSM(FSM_Template):
         self.name = "TEST"
         self.testing = True # print instead of display
 
-        # buffers
-        self.x_buffer = 0#m
-        self.y_buffer = 0#m
-        self.z_buffer = 0#m
-
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.x1, self.y1, self.x2, self.y2, self.x3, self.y3 = (None, None, None, None, None, None)
+        self.x_buffer = self.y_buffer = self.z_buffer = self.x1 = self.y1 = self.x2 = self.y2 = self.x3 = self.y3 = (None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             course = data['course']
+            self.x_buffer = data[course]['return']['x_buf']
+            self.y_buffer = data[course]['return']['y_buf']
+            self.z_buffer = data[course]['return']['z_buf']
             self.x1 = data[course]['return']['x1']
             self.y1 = data[course]['return']['y1']
             self.x2 = data[course]['return']['x2']
