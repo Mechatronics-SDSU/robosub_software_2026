@@ -32,7 +32,7 @@ from fsm.return_fsm                         import Return_FSM
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
-delay = 0.2 #s
+DELAY = 0.2 #s
 
 # initialize modes
 #cf_modules = [pid_object, dvl_object]
@@ -44,32 +44,27 @@ slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
-mode = None # mode pointer
-
-# linked list of modes
-gate_mode.next_mode = slalom_mode
-slalom_mode.next_mode = oct_mode
-oct_mode.next_mode = return_mode
-return_mode.next_mode = None # ends chain
+mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
 
 def main():
     """
     Main function
     """
+    # make linked list of modes
+    make_list(mode_list)
+    
     # start initial mode
-    global mode
-    mode = gate_mode
+    mode = mode_list[0] # mode pointer
     mode.start()
     # loop
-    loop()
+    run_loop(mode)
 
-def loop():
+def run_loop(mode):
     """
     Looping function, handles mode transitions
     """
-    global mode
     while shared_memory_object.running.value:
-        time.sleep(delay) # loop delay
+        time.sleep(DELAY) # loop delay
         # tester code ------------------------------------------
         if mode != return_mode:
             shared_memory_object.dvl_x.value += 0.1
@@ -79,13 +74,23 @@ def loop():
         
         if mode is not None:
             mode.loop() # run current mode loop
-            display()
+            display(mode)
             if mode.complete:
                 mode = mode.next()   # transition to next mode
-        else:
-            break # exit loop if no mode
+        else: # exit loop if no mode
+            stop()
+            break
 
-def display():
+def make_list(modes):
+    """
+    Make a linked list of modes from a list of modes
+    """
+    for i in range(len(modes)-1):
+        modes[i].next_mode = modes[i+1]
+        
+    modes[len(modes)-1].next_mode = None # end chain
+
+def display(mode):
     """
     Display function for testing
     """
@@ -100,7 +105,6 @@ def stop():
     Soft kill the robot
     """
     shared_memory_object.running.value = 0 # kill gracefully
-    mode = None
 
 if __name__ == '__main__':
     print("RUN FROM LAUNCH")
