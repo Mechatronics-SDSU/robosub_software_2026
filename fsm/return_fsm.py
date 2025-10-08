@@ -21,23 +21,25 @@ class Return_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name = "RETURN"
 
-        # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.5#m
-
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.gate_x, self.gate_y, self.gate_z, self.x1, self.y1, self.x2, self.y2, self.depth = (None, None, None, None, None, None, None, None)
-        with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
-            data = yaml.safe_load(file)
-            course = data['course']
-            self.depth  =   data[course]['return']['depth'] # swimming depth
-            self.gate_x =   data[course]['gate']['x']
-            self.gate_y =   data[course]['gate']['y']
-            self.x1     =   data[course]['return']['x1']
-            self.y1     =   data[course]['return']['y1']
-            self.x2     =   data[course]['return']['x2']
-            self.y2     =   data[course]['return']['y2']
+        self.x_buffer = self.y_buffer = self.z_buffer = self.gate_x = self.gate_y = self.x1 = self.y1 = self.x2 = self.y2 = self.drop = self.depth = 0
+        try:
+            with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+                data = yaml.safe_load(file)
+                course = data['course']
+                self.x_buffer = data[course]['return']['x_buf']
+                self.y_buffer = data[course]['return']['y_buf']
+                self.z_buffer = data[course]['return']['z_buf']
+                self.drop   =   data[course]['return']['drop'] # drop depth to avoid octagon
+                self.depth  =   data[course]['return']['depth'] # swimming depth
+                self.gate_x =   data[course]['gate']['x']
+                self.gate_y =   data[course]['gate']['y']
+                self.x1     =   data[course]['return']['x1']
+                self.y1     =   data[course]['return']['y1']
+                self.x2     =   data[course]['return']['x2']
+                self.y2     =   data[course]['return']['y2']
+        except FileNotFoundError:
+            print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
 
     def start(self):
         """
@@ -56,7 +58,7 @@ class Return_FSM(FSM_Template):
         match(next):
             case "INIT": return # initial state
             case "DESCEND": # initial descend in octagon to avoid smacking oct during gate shot
-                self.shared_memory_object.target_z.value = self.z_buffer + 1
+                self.shared_memory_object.target_z.value = self.drop
             case "MP1": # move to midpoint 1 before gate
                 self.shared_memory_object.target_z.value = self.depth
                 self.shared_memory_object.target_x.value = self.x1
@@ -92,7 +94,7 @@ class Return_FSM(FSM_Template):
         match(self.state):
             case "INIT" | "DONE": return
             case "DESCEND": # transition: DESCEND -> MP1
-                if self.shared_memory_object.dvl_z.value >= self.z_buffer:
+                if self.shared_memory_object.dvl_z.value >= self.drop - self.z_buffer / 2: # minimal buffer
                     self.next_state("MP1")
             case "MP1": # transition MP1 -> MP2
                 if self.reached_xy(self.x1, self.y1):
