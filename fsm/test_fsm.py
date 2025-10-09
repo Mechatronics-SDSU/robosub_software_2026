@@ -37,8 +37,8 @@ class Test_FSM(FSM_Template):
             self.y1 = data[course]['return']['y1']
             self.x2 = data[course]['return']['x2']
             self.y2 = data[course]['return']['y2']
-            self.x3 = data[course]['return']['x3']
-            self.y3 = data[course]['return']['y3']
+            # self.x3 = data[course]['return']['x3']
+            # self.y3 = data[course]['return']['y3']
             self.depth = data[course]['return']['depth']
 
     def start(self):

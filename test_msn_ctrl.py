@@ -7,9 +7,7 @@ from fsm.gate_fsm                               import Gate_FSM
 from fsm.slalom_fsm                             import Slalom_FSM
 from fsm.octagon_fsm                            import Octagon_FSM
 from fsm.return_fsm                             import Return_FSM
-import time
-import os
-import random;
+import time, os, random, yaml, subprocess
 
 
 #import modules
@@ -29,62 +27,88 @@ import random;
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
 
-# create test processes
-#test_object = Test_Process(shared_memory_object)
-
 # initialize modes
+slalom_mode = Slalom_FSM(shared_memory_object, [])
+oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
+gate_mode   = Gate_FSM(shared_memory_object, [])
 
-# initialize values
 
-try:
-    delay = int(input("Enter time delay in seconds:")) #s
-    shared_memory_object.dvl_x.value = int(input("Enter starting x value: "))
-    shared_memory_object.dvl_y.value = int(input("Enter starting y value: "))
-    shared_memory_object.dvl_z.value = int(input("Enter starting z value: "))
-    mult = int(input("Enter step multiplier: "))
-except ValueError:
-    print("Invalid input, using default values")
-    delay = 2
-    shared_memory_object.dvl_x.value = 0
-    shared_memory_object.dvl_y.value = 0
-    shared_memory_object.dvl_z.value = 0
-    mult = 1
+mode_list = [gate_mode, slalom_mode, oct_mode, return_mode]
 
 def main():
-    return_mode.start()
-    return_mode.state = "MP1"
-    return_mode.x1 = 0
-    return_mode.y1 = 0
-    return_mode.x2 = 1
-    return_mode.y2 = 0
-    loop("RETURN")
+    """
+    Main function
+    """
+    # make linked list of modes
+    make_list(mode_list)
+
+    # start initial mode
+    mode = mode_list[0] # mode pointer
+    mode.start()
+    # loop
+    loop(mode)
 
 def loop(mode):
-    """
-    Looping function, mostly mode transitions within conditionals
-    """
     while shared_memory_object.running.value:
-        time.sleep(delay)
+        with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file:
+            data = yaml.safe_load(file)
+            course = data['course']
+            test_delay = data[course]['delay']
+            test_mult  = data[course]['mult']
 
-        return_mode.loop()
+        time.sleep(test_delay)
 
-        # increment x,y,z by rand value with multiplier
-        if mult >= 1:
-            shared_memory_object.dvl_x.value += mult * random.uniform(-0.1, 1)
-            shared_memory_object.dvl_y.value += mult * random.uniform(-0.1, 1)
-            shared_memory_object.dvl_z.value += mult * random.uniform(-0.1, 1)
+        # update shared memory values
+        if mode != return_mode:
+            shared_memory_object.dvl_x.value += test_mult * random.uniform(-0.1, 1)
+            shared_memory_object.dvl_y.value += test_mult * random.uniform(-0.1, 1)
+            shared_memory_object.dvl_z.value += test_mult * random.uniform(-0.1, 1)
         else:
-        # if mult < 1, mult = 1
-            shared_memory_object.dvl_x.value += random.uniform(-0.1, 1)    
-            shared_memory_object.dvl_y.value += random.uniform(-0.1, 1)    
-            shared_memory_object.dvl_z.value += random.uniform(-0.1, 1)
+            shared_memory_object.dvl_x.value -= test_mult * random.uniform(-0.1, 1)
+            shared_memory_object.dvl_y.value -= test_mult * random.uniform(-0.1, 1)
+            shared_memory_object.dvl_z.value -= test_mult * random.uniform(-0.1, 1)
 
+        if mode is not None:
+            mode.loop()
+            display(mode)
+            if mode.complete:
+                mode = mode.next()
+        else:
+            stop()
+            break
 
-        print(return_mode, return_mode.state)
-        print("\nx:"+ str(shared_memory_object.dvl_x.value))
-        print("y:" + str(shared_memory_object.dvl_y.value)) 
-        print("z:" + str(shared_memory_object.dvl_z.value) + "\n")
+def make_list(modes):
+    """
+    Make a linked list of modes from a list of modes
+    """
+    for i in range(len(modes)-1):
+        modes[i].next_mode = modes[i+1]
+        
+    modes[len(modes)-1].next_mode = None # end chain
+
+def display(mode):
+    new_entry = {
+        'mode': mode.name if mode else "None",
+        'state': mode.state if mode else "None",
+        'dvl_x': shared_memory_object.dvl_x.value,
+        'dvl_y': shared_memory_object.dvl_y.value,
+        'dvl_z': shared_memory_object.dvl_z.value,
+        'timestamp': time.time()
+    }
+    # Load existing log or create new
+    try:
+        with open("log.yaml", "r") as file:
+            logs = yaml.safe_load(file) or []
+    except FileNotFoundError:
+        logs = []
+
+    # Add the new entry
+    logs.append(new_entry)
+
+    # Save back to file
+    with open("log.yaml", "w") as file:
+        yaml.dump(logs, file)
 
 
 def stop():
@@ -94,9 +118,13 @@ def stop():
     shared_memory_object.running.value = 0 # kill gracefully
 
 if __name__ == '__main__':
-    print("RUN FROM MISSION CONTROL")
+    print("RUN FROM LAUNCH")
     try:
         main()
     except KeyboardInterrupt:
-        print("Keyboard interrupt received, stopping mission control.")
-        stop()
+        print("keyboard interrupt detected, stopping program")
+        shared_memory_object.running.value = 0
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+        
+        
