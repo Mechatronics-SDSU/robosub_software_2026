@@ -1,22 +1,24 @@
 import can
-from multiprocessing import Process, Value
+from multiprocessing                import Process, Value
+from multiprocessing.sharedctypes   import Synchronized
 
 """
     discord: @kialli
     github: @kchan5071
 
-    Makes kill button end processes gracefully
+    Makes kill button end processes gracefully, this code only exists for scion
+    caracara has a different kill implementation
 
 """
 
 class Kill_Button_Interface:
-    def __init__(self, running):
+    def __init__(self, running: Synchronized):
             self.running = running
             self.filters = [{"can_id": 0x007, "can_mask": 0x7FF}]
             self.bus = can.Bus(interface='socketcan',channel = 'can0', receive_own_messages=True, can_filters = self.filters)
 
 
-    def run_loop(self):
+    def run_loop(self) -> None:
         while self.running.value:
             message = self.bus.recv()
             if message == None:

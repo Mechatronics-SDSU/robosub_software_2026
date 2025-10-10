@@ -6,6 +6,7 @@ from fsm.gate_fsm                           import Gate_FSM
 from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
+from fsm.fsm                                import FSM_Template
 
 #import modules
 from modules.pid.pid_interface              import PIDInterface
@@ -59,7 +60,7 @@ def main():
     # loop
     run_loop(mode)
 
-def run_loop(mode):
+def run_loop(mode: FSM_Template) -> None:
     """
     Looping function, handles mode transitions
     """
@@ -82,7 +83,7 @@ def stop():
     time.sleep(0.5)
     kill_motors()
 
-def make_list(modes):
+def make_list(modes: list[FSM_Template]) -> None:
     """
     Make a linked list of modes from a list of modes
     """
