@@ -14,7 +14,7 @@ class CoinFlip_FSM(FSM_Template):
     """
     FSM for coin flip mode - aiming toward gate after being turned by diver
     """
-    def __init__(self, shared_memory_object, run_list):
+    def __init__(self, shared_memory_object, run_list: list):
         """
         Coin Flip FSM constructor
         """
@@ -37,7 +37,7 @@ class CoinFlip_FSM(FSM_Template):
             self.pool_yaw = data['objects']['coin_flip']['yaw']
             if self.pool_yaw > 180: self.pool_yaw = self.pool_yaw - 360 # correct for dvl range [-180,180]
 
-    def start(self):
+    def start(self) -> None:
         """
         Start FSM by enabling and starting processes
         """
@@ -88,7 +88,7 @@ class CoinFlip_FSM(FSM_Template):
         # set initial state
         self.next_state("SPIN")
 
-    def next_state(self, next):
+    def next_state(self, next: str) -> None:
         """
         Change to next state
         """
@@ -109,7 +109,7 @@ class CoinFlip_FSM(FSM_Template):
         self.state = next
         print(f"{self.name}:{self.state}")
 
-    def loop(self):
+    def loop(self) -> None:
         """
         Loop function, mostly state transitions within conditionals
         """

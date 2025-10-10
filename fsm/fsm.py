@@ -17,7 +17,7 @@ import utils.socket_send as socket_send
 DISPLAY_TIMER = 2
 
 class FSM_Template:
-    def __init__(self, shared_memory_object, run_list):
+    def __init__(self, shared_memory_object, run_list: list):
         """
         FSM parent class constructor to setup inherited attributes for modes
         """
@@ -47,7 +47,7 @@ class FSM_Template:
             temp_process = Process(target=run_object.run_loop)
             self.process_objects.append(temp_process)
 
-    def start(self):
+    def start(self) -> None:
         """
         Start FSM by enabling and starting processes
         """
@@ -57,7 +57,7 @@ class FSM_Template:
         for process in self.process_objects:
             process.start()
     
-    def reached_xy(self, x, y):
+    def reached_xy(self, x: float, y: float) -> bool:
         """
         Returns true if near a location in terms of x and y (requires x,y, buffer and dvl to work), use ignore to ignore a value
         """
@@ -66,7 +66,7 @@ class FSM_Template:
         # else
         return False
     
-    def reached_xyz(self, x, y, z):
+    def reached_xyz(self, x: float, y: float, z: float) -> bool:
         """
         Returns true if near a location (requires x,y,z buffer and dvl to work), use ignore to ignore a value
         """
@@ -75,7 +75,7 @@ class FSM_Template:
         # else
         return False
     
-    def display(self, r, g, b):
+    def display(self, r: int, g: int, b: int) -> None:
         """
         Sends color and text to display
         """
@@ -97,7 +97,7 @@ class FSM_Template:
         except:
             return
     
-    def join(self):
+    def join(self) -> None:
         """
         Wait until child processes terminate
         """
@@ -107,7 +107,7 @@ class FSM_Template:
             if process.is_alive():
                 process.join()
 
-    def stop(self):
+    def stop(self) -> None:
         """
         Stop FSM by disabling and killing processes, mark as complete
         """
@@ -118,14 +118,14 @@ class FSM_Template:
             if process.is_alive():
                 process.terminate()
     
-    def suspend(self):
+    def suspend(self) -> None:
         """
         Soft kill FSM, use when a mode is done to be ready for the next mode to start
         """
         self.active = False
         self.complete = True
     
-    def next(self, mode=None):
+    def next(self, mode: 'FSM_Template' = None):
         """
         Transition to the next mode, stops if no next mode
         """

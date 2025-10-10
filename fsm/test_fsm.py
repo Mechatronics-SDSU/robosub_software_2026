@@ -14,7 +14,7 @@ class Test_FSM(FSM_Template):
     """
     FSM testing sandbox
     """
-    def __init__(self, shared_memory_object, run_list):
+    def __init__(self, shared_memory_object, run_list: list):
         """
         Test FSM constructor
         """
@@ -39,7 +39,7 @@ class Test_FSM(FSM_Template):
             self.y3 = data[course]['return']['y3']
             self.depth = data[course]['return']['depth']
 
-    def start(self):
+    def start(self) -> None:
         """
         Start FSM
         """
@@ -48,7 +48,7 @@ class Test_FSM(FSM_Template):
         # set initial state
         self.next_state("WP1")
 
-    def next_state(self, next):
+    def next_state(self, next: str) -> None:
         """
         Change to next state
         """
@@ -77,7 +77,7 @@ class Test_FSM(FSM_Template):
         self.state = next
         print(f"{self.name}:{self.state}")
 
-    def loop(self):
+    def loop(self) -> None:
         """
         Loop function, mostly state transitions within conditionals
         """
