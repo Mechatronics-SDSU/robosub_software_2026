@@ -1,9 +1,22 @@
+from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
-from test_fsm                               import Test_FSM
-from socket_send                            import set_screen
+from fsm.test_fsm                               import Test_FSM
+from utils.socket_send                            import set_screen
 from modules.test_module.test_process       import Test_Process
+from fsm.gate_fsm                               import Gate_FSM
+from fsm.slalom_fsm                             import Slalom_FSM
+from fsm.octagon_fsm                            import Octagon_FSM
+from fsm.return_fsm                             import Return_FSM
 import time
 import os
+
+#import modules
+#from modules.pid.pid_interface              import PIDInterface
+#from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
+#from modules.vision.vision_main             import VisionDetection
+#from socket_send                            import set_screen
+#from coinflip_fsm                           import CoinFlip_FSM
+
 """
     discord: @.kech
     github: @rsunderr
@@ -16,50 +29,36 @@ shared_memory_object = SharedMemoryWrapper()
 delay = 0.25#s
 
 # create test processes
-test_object = Test_Process(shared_memory_object)
+#test_object = Test_Process(shared_memory_object)
+
 # initialize modes
-test_list = []#[test_object]
-test_mode1  = Test_FSM(shared_memory_object, test_list)
-test_mode2 = Test_FSM(shared_memory_object, test_list)
-test_mode1.name = "TEST1"
-test_mode2.name = "TEST2"
+return_mode = Return_FSM(shared_memory_object, [])
 
-test_mode1.start() # start test1
+# initialize values
+shared_memory_object.dvl_x.value = 0
+shared_memory_object.dvl_y.value = 0
+shared_memory_object.dvl_z.value = 0.5
 
-# join processes
-#test_mode1.join()
-#test_mode2.join()
+def main():
+    return_mode.start()
+    return_mode.state = "MP1"
+    return_mode.x1 = 0
+    return_mode.y1 = 0
+    return_mode.x2 = 1
+    return_mode.y2 = 0
+    loop("RETURN")
 
 def loop(mode):
     """
     Looping function, mostly mode transitions within conditionals
     """
-    if not shared_memory_object.running.value: return
-    time.sleep(delay)
+    while shared_memory_object.running.value:
+        #time.sleep(delay)
 
-    # SIMULATING DVL XYZ--------------------------------------------------------------------------------------------------------------
-    #shared_memory_object.dvl_x.value = float(input("dvl_x = "))
-    #shared_memory_object.dvl_y.value = float(input("dvl_y = "))
-    #shared_memory_object.dvl_z.value = float(input("dvl_z = "))
-    shared_memory_object.dvl_x.value += 10.25 # increment dvl x each loop
-    shared_memory_object.dvl_y.value += 10.25
-    shared_memory_object.dvl_z.value += 10.25
+        return_mode.loop()
 
-    test_mode1.loop()
-    test_mode2.loop()
-
-    # TRANSITIONS-----------------------------------------------------------------------------------------------------------------------
-    match(mode):
-        case "TEST1":
-            if test_mode1.complete:
-                shared_memory_object.dvl_x.value = 0 # back to start
-                test_mode2.start()
-                mode = "TEST2"
-        case "TEST2":
-            if test_mode2.complete:
-                stop() # turn off robot
-
-    loop(mode)
+        # increment x
+        shared_memory_object.dvl_x.value += 0.5
     
 
 def stop():
@@ -67,13 +66,11 @@ def stop():
     Soft kill the robot
     """
     shared_memory_object.running.value = 0 # kill gracefully
-    #os.system("pkill -f zed") # kill zed
-    #os.system("pkill -f python3") # kill python3
 
 if __name__ == '__main__':
     print("RUN FROM MISSION CONTROL")
     try:
-        loop("TEST1") # start loop
+        main()
     except KeyboardInterrupt:
         print("Keyboard interrupt received, stopping mission control.")
         stop()

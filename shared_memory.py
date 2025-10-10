@@ -15,6 +15,13 @@ class SharedMemoryWrapper:
         self.imu_ang_vel            = Array('d', 3) #p y r
         self.imu_orientation        = Array('d', 3)
         self.distance_from_object   = Value('d', 0)
+        self.imu_yaw                = Value('d', 0)
+        self.imu_x                  = Value('d', 0)
+        self.imu_y                  = Value('d', 0)
+        self.imu_z                  = Value('d', 0)
+
+
+
         # offsets
         self.yolo_offset            = Array('d', 2)
         self.color_offset           = Array('d', 2)
