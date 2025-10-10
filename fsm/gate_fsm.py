@@ -20,21 +20,21 @@ class Gate_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name = "GATE"
 
-        # buffers
-        self.x_buffer = 10#m
-        self.y_buffer = 10#m
-        self.z_buffer = 0.6 #m
-
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
-        self.gate_x, self.gate_y, self.gate_z, self.depth = (None, None, None, None)
-        with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
-            data = yaml.safe_load(file)
-            course = data['course']
-            self.gate_x = data[course]['gate']['x']
-            self.gate_y = data[course]['gate']['y']
-            self.gate_z = data[course]['gate']['z']
-            self.depth  = data[course]['gate']['depth']
+        self.x_buffer = self.y_buffer = self.z_buffer = self.gate_x = self.gate_y = self.gate_z = self.drop = 0
+        try:
+            with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+                data = yaml.safe_load(file)
+                course = data['course']
+                self.x_buffer = data[course]['gate']['x_buf']
+                self.y_buffer = data[course]['gate']['y_buf']
+                self.z_buffer = data[course]['gate']['z_buf']
+                self.gate_x = data[course]['gate']['x']
+                self.gate_y = data[course]['gate']['y']
+                self.gate_z = data[course]['gate']['z']
+                self.drop  = data[course]['gate']['drop'] # initial drop depth
+        except FileNotFoundError:
+            print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
 
     def start(self):
         """
@@ -54,7 +54,7 @@ class Gate_FSM(FSM_Template):
         match(next):
             case "INIT": return # initial state
             case "DIVE":
-                self.shared_memory_object.target_z.value = self.depth
+                self.shared_memory_object.target_z.value = self.drop
             case "TO_GATE": # drive toward gate
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
@@ -79,11 +79,10 @@ class Gate_FSM(FSM_Template):
         match(self.state):
             case "INIT" | "DONE": return
             case "DIVE": # transition: DIVE -> TO_GATE
-                if self.shared_memory_object.dvl_z.value >= self.depth - self.z_buffer:
+                if self.shared_memory_object.dvl_z.value >= self.drop - self.z_buffer:
                     self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> DONE
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z): # if it passes gate past at least 1m or reaches tgt
                     self.next_state("DONE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
-

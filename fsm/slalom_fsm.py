@@ -21,16 +21,14 @@ class Slalom_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name = "SLALOM"
 
-        # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 0.6 #m
-
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.x1, self.y1, self.x2, self.y2, self.x3, self.y3, self.depth = (None, None, None, None, None, None, None)
+        self.x_buffer = self.y_buffer = self.z_buffer = self.x1 = self.y1 = self.x2 = self.y2 = self.x3 = self.y3 = self.depth = (None, None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
             course = data['course']
+            self.x_buffer = data[course]['slalom']['x_buf']
+            self.y_buffer = data[course]['slalom']['y_buf']
+            self.z_buffer = data[course]['slalom']['z_buf']
             self.x1 = data[course]['slalom']['x1']
             self.y1 = data[course]['slalom']['y1']
             self.x2 = data[course]['slalom']['x2']
@@ -95,4 +93,3 @@ class Slalom_FSM(FSM_Template):
                     self.next_state("DONE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
-
