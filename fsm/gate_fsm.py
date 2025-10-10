@@ -12,7 +12,7 @@ class Gate_FSM(FSM_Template):
     """
     FSM for gate mode - driving through the gate
     """
-    def __init__(self, shared_memory_object, run_list):
+    def __init__(self, shared_memory_object, run_list: list):
         """
         Gate FSM constructor
         """
@@ -36,7 +36,7 @@ class Gate_FSM(FSM_Template):
         except FileNotFoundError:
             print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
 
-    def start(self):
+    def start(self) -> None:
         """
         Start FSM by enabling and starting processes
         """
@@ -45,7 +45,7 @@ class Gate_FSM(FSM_Template):
         # set initial state
         self.next_state("TO_GATE")
 
-    def next_state(self, next):
+    def next_state(self, next: str) -> None:
         """
         Change to next state
         """
@@ -67,7 +67,7 @@ class Gate_FSM(FSM_Template):
         self.state = next
         print(f"{self.name}:{self.state}")
 
-    def loop(self):
+    def loop(self) -> None:
         """
         Loop function, mostly state transitions within conditionals
         """
