@@ -3,7 +3,7 @@ from multiprocessing                        import Process, Value
 from trax_fxns import *
 import time
 
-class Trax_Interface:
+class Compass:
 
     """
     discord: @.kech
@@ -17,7 +17,6 @@ class Trax_Interface:
         self.shared_memory_object = shared_memory_object
         # setup trax
         self.trax = TRAX()
-        self.trax.connect()
         self.t_prev = time.time()
         self.continuous = False
         self.payload = None
@@ -34,6 +33,24 @@ class Trax_Interface:
         self.trax_yaw   = 0
         self.trax_pitch = 0
         self.trax_roll  = 0
+    
+    def connect(self):
+        """
+        Connect to trax
+        """
+        self.trax.connect()
+    
+    def close(self):
+        """
+        Close trax connection
+        """
+        self.trax.close()
+
+    def run_loop(self):
+        """
+        Function targeted by looping multiprocessing calls, called only once
+        """
+        self.trax.connect()
 
         # kSetAcqParams
         frameID = "kSetAcqParams"
@@ -46,58 +63,26 @@ class Trax_Interface:
 
         # kSetDataComponents
         frameID = "kSetDataComponents"
-        self.payload = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 6 comp's: ax ay az yaw pitch roll
-        self.trax.send_packet(frameID, self.payload)
+        payload = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 6 comp's: ax ay az yaw pitch roll
+        self.trax.send_packet(frameID, payload)
 
-    def run_loop(self):
-        """
-        Function targeted by looping multiprocessing calls
-        """
-        # start continuous mode if not already started
-        if not self.continuous:
-            self.stop_cont_mode()
-            self.start_cont_mode()
-            self.continuous = True
-        # get data
-        data = self.trax.recv_packet(self.payload)
-        """
-        # update values
-        t = time.time()
-        if t - self.t_prev == 0.05: # run only every 0.05s
-            self.trax_yaw = yaw
-            self.trax_pitch = pitch
-            self.trax_roll = roll
-
-            self.vel_x += ax
-            self.vel_y += ay
-            self.vel_z += az
-
-            self.trax_x += self.vel_x
-            self.trax_y += self.vel_y
-            self.trax_z += self.vel_z
-
-            self.t_prev = t
-        
-        print(f"ax={ax} ay={ay} az={az}\nvx={self.vel_x} vy={self.vy} vz={self.vel_z}\nx={self.trax_x} y={self.trax_y} z={self.trax_z}\nyaw={yaw} pitch={pitch} roll={roll}")
-        """
-
-    def start_cont_mode(self):
-        """
-        Start continuous data mode
-        """
-        self.stop_cont_mode() # stop first to prevent issues
-        # kStartContinuousMode
-        frameID = "kStartContinuousMode"
-        self.trax.send_packet(frameID)
-        self.continuous = True
-    
-    def stop_cont_mode(self):
-        """
-        Stop continuous data mode
-        """
         # kStopContinuousMode
         frameID = "kStopContinuousMode"
         self.trax.send_packet(frameID)
+
+        # kStartContinuousMode
+        frameID = "kStartContinuousMode"
+        self.trax.send_packet(frameID)
+
+        while self.shared_memory_object.running.value:
+            try:
+                # get data
+                data = self.trax.recv_packet(self.payload)
+            except KeyboardInterrupt:
+                # kStopContinuousMode
+                frameID = "kStopContinuousMode"
+                self.trax.send_packet(frameID)
+                self.trax.close()
     
     def get_data(self):# 6 comp's: ax ay az yaw pitch roll
         data = self.trax.recv_packet(self.payload)

@@ -79,16 +79,18 @@ print(data)
 
 
 # CONTINUOUS DATA ------------------------------------------------------------------------------------------------------------------------------------------------
-# kStopContinuousMode (DO THIS FIRST)
+# get continuous data for accel x,y,z, and yaw, pitch roll, stop with keyboard interrupt
+
+# kStopContinuousMode
 frameID = "kStopContinuousMode"
 trax.send_packet(frameID)
 
 # kSetAcqParams
-frameID = "kSetAcqParams" # OR =24
-payload = (False, False, 0.0, 0.05) # T/F poll mode/cont mode, T/F compass FIR mode, PNI reserved, delay
+frameID = "kSetAcqParams"
+payload = (False, False, 0.0, 0.05)
 trax.send_packet(frameID, payload)
 
-# kSetAcqParamsDone (optional)
+# kSetAcqParamsDone
 #data = trax.recv_packet()
 #print(data)
 #print(data[1] == 26)
@@ -99,18 +101,16 @@ payload = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 6 comp's: ax ay az yaw pitch 
 trax.send_packet(frameID, payload)
 
 # kStartContinuousMode
-frameID = "kStartContinuousMode" # OR =21
+frameID = "kStartContinuousMode" 
 trax.send_packet(frameID)
 
 try:
     while True:
         data = trax.recv_packet(payload)
         print(data)
-
-        #if data[4] < 90 or data[4] > 270: break # exit if aiming to left
 except KeyboardInterrupt:
     # kStopContinuousMode (PLEASE REMEMBER TO STOP - CONTINUOUS RUNS ON STARTUP)
-    frameID = "kStopContinuousMode" # OR =22
+    frameID = "kStopContinuousMode"
     trax.send_packet(frameID)
 
     trax.close()

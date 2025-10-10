@@ -1,5 +1,5 @@
-from fsm                                    import *
-from socket_send                            import set_screen
+from fsm.fsm                                    import FSM_Template
+from utils.socket_send                          import set_screen
 import yaml
 import os
 """
@@ -21,6 +21,7 @@ class Test_FSM(FSM_Template):
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
         self.name = "TEST"
+        self.testing = True # print instead of display
 
         # buffers
         self.x_buffer = 0#m
@@ -28,12 +29,17 @@ class Test_FSM(FSM_Template):
         self.z_buffer = 0#m
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.gate_x, self.gate_y, self.gate_z = (None, None, None)
+        self.x1, self.y1, self.x2, self.y2, self.x3, self.y3 = (None, None, None, None, None, None)
         with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
-            self.gate_x = data['objects']['gate']['x']
-            self.gate_y = data['objects']['gate']['y']
-            self.gate_z = data['objects']['gate']['z']
+            course = data['course']
+            self.x1 = data[course]['return']['x1']
+            self.y1 = data[course]['return']['y1']
+            self.x2 = data[course]['return']['x2']
+            self.y2 = data[course]['return']['y2']
+            self.x3 = data[course]['return']['x3']
+            self.y3 = data[course]['return']['y3']
+            self.depth = data[course]['return']['depth']
 
     def start(self):
         """
@@ -42,7 +48,7 @@ class Test_FSM(FSM_Template):
         super().start()  # call parent start method
 
         # set initial state
-        self.next_state("DRIVE")
+        self.next_state("WP1")
 
     def next_state(self, next):
         """
@@ -52,16 +58,20 @@ class Test_FSM(FSM_Template):
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
             case "INIT": return # initial state
-            case "DRIVE":
-                self.shared_memory_object.target_x.value = self.gate_x
-                self.shared_memory_object.target_y.value = self.gate_y
-                self.shared_memory_object.target_z.value = self.gate_z
-            case "NEXT": 
-                self.shared_memory_object.target_x.value = 5
-                self.shared_memory_object.target_y.value = 0
-                self.shared_memory_object.target_z.value = 0
+            case "WP1":
+                self.shared_memory_object.target_x.value = self.x1
+                self.shared_memory_object.target_y.value = self.y1
+                self.shared_memory_object.target_z.value = self.depth
+            case "WP2":
+                self.shared_memory_object.target_x.value = self.x2
+                self.shared_memory_object.target_y.value = self.y2
+                self.shared_memory_object.target_z.value = self.depth
+            case "WP3":
+                self.shared_memory_object.target_x.value = self.x3
+                self.shared_memory_object.target_y.value = self.y3
+                self.shared_memory_object.target_z.value = self.depth
             case "DONE": # fully disable and kill
-                #self.display(255, 0, 0)
+                self.display(255, 0, 0)
                 self.stop()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
@@ -79,21 +89,11 @@ class Test_FSM(FSM_Template):
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case "INIT" | "DONE": return
-            case "DRIVE": # transition: DRIVE -> NEXT
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
-                    self.next_state("NEXT")
-            case "NEXT": # transition: NEXT -> DONE
-                if self.reached_xyz(5, 0, 0):
-                    self.next_state("DONE")
+            case "WP1":
+                if self.reached_xy(self.x1, self.y1): self.next_state("WP2")
+            case "WP2":
+                if self.reached_xy(self.x2, self.y2): self.next_state("WP3")
+            case "WP3":
+                if self.reached_xy(self.x3, self.y3): self.next_state("DONE")
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
-    
-    def display(self, r, g, b):
-        """
-        Sends color and text to display
-        """
-        print(f"RGB = ({r}, {g}, {b})")
-        print(f"{self.name}:{self.state}")
-        tgt_txt = f"DVL: \t\t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
-        dvl_txt = f"TGT: \t\t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
-        print(tgt_txt + "\n" + dvl_txt)

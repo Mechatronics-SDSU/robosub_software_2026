@@ -14,6 +14,7 @@ import time
 from multiprocessing                                    import Value
 import numpy                                            as np
 
+TRANSLATION_MODE = True
 
 
 #-----------------------------testing for zed sdk-------------------------
@@ -51,7 +52,7 @@ class VisionDetection:
         self.hard_deadzone = (400 - 1) / 2
 
 
-        self.color_filter = ColorFilter()
+        # self.color_filter = ColorFilter()
 
         self.model_path = './models_folder/yolov5m.pt'
         
@@ -142,6 +143,10 @@ class VisionDetection:
                 self.zed = None
                 print("Zed camera not found, using webcam")
                 self.cap = cv2.VideoCapture(0)
+            else:
+                if TRANSLATION_MODE:
+                    self.zed.enable_tracking()
+                pass
         else:
             self.zed = None
             print("camera library not found, using webcam")
@@ -202,14 +207,36 @@ class VisionDetection:
 
             TO DO: move this to a separate process
         """
-        orientation, lin_acc, ang_vel = self.zed.get_imu()
+        # orientation, lin_acc, ang_vel = self.zed.get_imu()
+        euler_angles = self.zed.get_imu_rotation()
+        if TRANSLATION_MODE:
+            x, y, z = self.zed.get_translation()
+            if x != 0:
+                self.shared_memory_object.imu_x.value = x
+                self.shared_memory_object.imu_y.value = y
+                self.shared_memory_object.imu_z.value = z
+        # print(len(ang_vel))
+        # print("=====================")
         
         #set shared memory values
-        self.shared_memory_object.imu_lin_acc = lin_acc
-        self.shared_memory_object.imu_ang_vel = ang_vel
-        self.shared_memory_object.imu_orientation = orientation
 
-        # self.shared_memory_object.linear_acc[1] -= 9.8
+        # for i in range(len(lin_acc)):
+        #     self.shared_memory_object.imu_lin_acc[i] = lin_acc[i]
+
+        # for i in range(len(ang_vel)):
+        #     self.shared_memory_object.imu_ang_vel[i] = ang_vel[i]
+
+        # for i in range(len(orientation)):
+        #     self.shared_memory_object.imu_orientation[i] = orientation[i]
+
+        # print(euler_angles[0][0])
+        try:
+            self.shared_memory_object.imu_yaw.value = euler_angles[0][0]
+            # print("yaw?", euler_angles[0][0])
+        except:
+            # print('inv', euler_angles)
+            pass
+
 
     def connect_to_server(self):
         """
@@ -345,63 +372,79 @@ class VisionDetection:
             sends image to server (if enabled)
         """
         print("LOOP")
-        show_boxes = True
-        show_distance = False
-        imu_enable = True
-        send_image = True
+        # show_boxes = True
+        # show_distance = False
+        # imu_enable = True
+        # send_image = True
 
-        iteration = 0
+        # iteration = 0
 
-        self.check_valid = CheckValid()
+        # self.check_valid = CheckValid()
 
         self.create_camera_object()
-        #self.detection = yv5.ObjDetModel(self.model_path)
+        # #self.detection = yv5.ObjDetModel(self.model_path)
 
-        #create socket object
-        if send_image:
-            socket = self.connect_to_server()
+        # #create socket object
+        # if send_image:
+        #     socket = self.connect_to_server()
         
-        # while self.running.value:
-        while True:
-            iteration += 1
-            image = None
-            if self.shared_memory_object.gate_enable.value:
-                image = self.zed.get_distance_image()
-            elif self.shared_memory_object.yolo_enable.value:
-                image = self.get_image()
+        while self.shared_memory_object.running.value:
+        # while True:
+        #     iteration += 1
+        #     image = None
+        #     if self.shared_memory_object.gate_enable.value:
+        #         image = self.zed.get_distance_image()
+        #     elif self.shared_memory_object.yolo_enable.value:
+        #         image = self.get_image()
 
-            if image is None:
-                print("NO IMAGE")
-                continue
-            results = None
-            #run color detection
-            if self.shared_memory_object.gate_enable.value:
-                pass
-                #image = self.run_color_detection(image, self.color)
-                # image = self.run_gate_detection(image)
-                #image = self.hough_lines(image)
-                #image = self.run_wall_detection(image)
-                # print("COLOR OFFSET", self.color_offset_x.value, "\t", self.color_offset_y.value)
+        #     if image is None:
+        #         print("NO IMAGE")
+        #         continue
+        #     results = None
+        #     #run color detection
+        #     if self.shared_memory_object.gate_enable.value:
+        #         pass
+        #         #image = self.run_color_detection(image, self.color)
+        #         # image = self.run_gate_detection(image)
+        #         #image = self.hough_lines(image)
+        #         #image = self.run_wall_detection(image)
+        #         # print("COLOR OFFSET", self.color_offset_x.value, "\t", self.color_offset_y.value)
                 
-            #run yolo detection
-            if self.shared_memory_object.yolo_enable.value:
-                image = self.run_color_detection(image)
+        #     #run yolo detection
+        #     if self.shared_memory_object.yolo_enable.value:
+        #         image = self.run_color_detection(image)
 
             #starting imu code
-            if (import_success and imu_enable and self.zed is not None):
+        # if (import_success and imu_enable and self.zed is not None):
+        #     self.share_imu_to_shared_memory()
+
+            if (import_success and True and self.zed is not None):
                 self.share_imu_to_shared_memory()
 
-            #get distance image from the zed if zed is initialized and user added the show distance argument
-            if self.zed is not None and show_distance:
-                image = self.zed.get_distance_image()
+            # #get distance image from the zed if zed is initialized and user added the show distance argument
+            # if self.zed is not None and show_distance:
+            #     image = self.zed.get_distance_image()
 
-            # try:
-            #     # cv2.imshow("image_test", image)
-            #     #cv2.imwrite(f'frame{iteration}', image) 
-            #     # cv2.waitKey(1)
-            # except:
-            #     pass
+            # # try:
+            # #     # cv2.imshow("image_test", image)
+            # #     #cv2.imwrite(f'frame{iteration}', image) 
+            # #     # cv2.waitKey(1)
+            # # except:
+            # #     pass
             
-            if send_image:
-                send_process = multiprocessing.Process(target = self.send_image_to_socket, args=(socket, image))
-                send_process.start()
+            # if send_image:
+            #     send_process = multiprocessing.Process(target = self.send_image_to_socket, args=(socket, image))
+            #     send_process.start()
+
+    def test_loop(self):
+        print("TEST LOOP")
+        self.create_camera_object()
+        for i in range(1000):
+            if (import_success and True and self.zed is not None):
+                self.share_imu_to_shared_memory()
+
+
+            # print("X:", self.shared_memory_object.imu_x.value)
+            # print("Y:", self.shared_memory_object.imu_y.value)
+            # print("Z:", self.shared_memory_object.imu_z.value)
+            # print("YAW:", self.shared_memory_object.imu_yaw.value)
