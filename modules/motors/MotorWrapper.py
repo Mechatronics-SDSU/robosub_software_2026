@@ -1,24 +1,36 @@
-import numpy as np
-from shared_memory import SharedMemoryWrapper
+import numpy                                as np
+from shared_memory                          import SharedMemoryWrapper
+
+#this is to handle errors in using the CLI for testing motors
 try:
-    from modules.motors.USB_Transmit import USB_Transmitter
+    from modules.motors.USB_Transmit        import USB_Transmitter
 except:
-    from USB_Transmit import USB_Transmitter
-"""
-usbData[0] = motor0; 
-usbData[1] = motor1; 
-usbData[2] = motor2; 
-usbData[3] = motor3; 
-usbData[4] = motor4; 
-usbData[5] = motor5;
-usbData[6] = motor6; 
-usbData[7] = motor7; 
-usbData[8] = killState; 
-usbData[9] = powerOffState; 
-usbData[10] = red; 
-usbData[11] = green; 
-usbData[12] = blue;
-"""
+    from USB_Transmit                       import USB_Transmitter
+
+'''
+    discord: @.kech
+    github: @rsunderr
+    
+    This class is a wrapper for the USB interface. It is used to send commands to the motors.
+    contains:
+        move methods for motors with the following protocol:
+        usbData[0] = motor0; 
+        usbData[1] = motor1; 
+        usbData[2] = motor2; 
+        usbData[3] = motor3; 
+        usbData[4] = motor4; 
+        usbData[5] = motor5;
+        usbData[6] = motor6; 
+        usbData[7] = motor7; 
+        usbData[8] = killState; 
+        usbData[9] = powerOffState; 
+        usbData[10] = red; 
+        usbData[11] = green; 
+        usbData[12] = blue;
+
+    NOTE: THIS WRAPPER IS MEANT FOR CARACARA ONLY, SCION USES A DIFFERENT MOTOR WRAPPER
+'''
+
 
 class MotorWrapper:
 

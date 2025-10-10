@@ -5,6 +5,7 @@ import numpy as np
     github: @kchan5071
 
     PID six DOF methods
+    this is a pretty standard implementation of a PID controller
 
 """
 

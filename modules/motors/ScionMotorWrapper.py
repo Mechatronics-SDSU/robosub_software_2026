@@ -1,6 +1,6 @@
 
 import math
-import numpy as np
+import numpy        as np
 import time
 
 try:
@@ -17,9 +17,8 @@ except:
         move methods for motors
         twos compliment conversion
 
-        test sequence if called as main
+    NOTE: THIS WRAPPER IS MEANT FOR SCION ONLY, CARACARA USES A DIFFERENT MOTOR WRAPPER
 '''
-
 
 class Can_Wrapper:
 

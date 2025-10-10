@@ -1,5 +1,13 @@
 from MotorWrapper import *
 
+
+"""
+    discord: @kialli
+    github: @kchan5071
+
+    Simple CLI for testing motor directions and speeds
+"""
+
 SharedMemoryWrapper = SharedMemoryWrapper()
 M = MotorWrapper(SharedMemoryWrapper)
 

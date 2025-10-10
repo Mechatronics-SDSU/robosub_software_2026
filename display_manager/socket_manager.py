@@ -1,10 +1,25 @@
 import socket
 import os
-from typing import List
-
-from config_parser import read_config
-
+import yaml
 import random
+from typing             import List
+
+"""
+    discord: @kialli
+    github: @kchan5071
+
+    manages the unix sockets used for inter-process communication
+    upon request, it will generate a unique socket name if the one requested is taken
+    it will also list all open sockets in the socket directory
+
+    socket directory is specified in config.yaml
+"""
+
+def read_config(config_file: str) -> dict:
+    with open(config_file, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
+
 def get_available_socket_name(socket_name: str=None) -> str:
     """
     Generates a unique socket name by appending a random number to the provided socket name.
