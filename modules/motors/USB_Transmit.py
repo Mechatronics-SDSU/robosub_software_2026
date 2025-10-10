@@ -7,6 +7,14 @@ baud_rate = 115200
 usb_port = None
 srl = None
 
+'''
+    discord: @kialli
+    github: @kchan5071
+    
+    Handles USB transmission from motor wrapper to central microcontroller
+    no print debug handle since it only prints once and its pretty useful
+'''
+
 class USB_Transmitter:
     def __init__(self):
         for port in ["/dev/ttyACM0"]:
@@ -29,6 +37,4 @@ class USB_Transmitter:
             for num in motor_vals:
                 packed_data += struct.pack('<i', num)
             self.srl.write(packed_data)
-            # print(f"Transmitted: {motor_vals}")
-            # # Optional test call
-            # usb_transmit([0, 0, 0, 0, 0, 0, 0, 0])
+

@@ -1,7 +1,6 @@
-import numpy as np
-import time
-from modules.pid.six_dof_pid import PID
-from scipy.spatial.transform import Rotation as R
+import numpy                                    as np
+from modules.pid.six_dof_pid                    import PID
+from scipy.spatial.transform                    import Rotation as R
 
 try: 
     from modules.motors.ScionMotorWrapper       import MotorWrapper
@@ -12,9 +11,11 @@ except ImportError:
     discord: @kialli
     github: @kchan5071
 
-    PID methods, integration (orientation code)
-
+    integrates the PID controller with shared memory and motor wrapper
 """
+
+
+#if you are print debugging this file, set to true
 P_DEBUG = False
 
 class PIDInterface:
@@ -22,17 +23,19 @@ class PIDInterface:
         self.shared_memory_object = shared_memory_object
         self.motor_wrapper = MotorWrapper(self.shared_memory_object)
 
-        #SIMULATION
-        # self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
-
         # array of PID k Values
         #                          x,      y,     z,    yaw,   pitch, roll
         self.K_array = np.array([[3000,  3000,  2500,    30,     2,    2], #kp
                                  [.5,   .5,      2,      2,    .5,   .5],  #ki
                                  [.1,   .1 ,    .1,     .2,    .5,   .5]]) #kd
         
-    
-    def run_pid(self):
+    def run_pid(self) -> None:
+        """
+        Runs the PID controller to compute motor commands based on current and desired states.
+        the current state is given by thr DVL, the target state is given by the FSM
+
+        this function should only be ran by the run_loop function
+        """
         desired_state = np.array([self.shared_memory_object.target_x.value, 
                                   self.shared_memory_object.target_y.value, 
                                   self.shared_memory_object.target_z.value, 
@@ -64,32 +67,38 @@ class PIDInterface:
 
         # Combine with angular commands (still in local frame)
         movement_global = np.concatenate([movement_global_linear, angular])
+
         if P_DEBUG:
             print("Untransformed: ", untransformed)
             print("Yaw, Pitch, Roll: ", (yaw, pitch, roll))
             print("Transformed: ",movement_global)
+
+        # Adjust for motor configuration (invert X, Y, Z, Yaw, Pitch, Roll as needed)
         movement_global = (np.multiply(movement_global, [1,-1,-1,-1,1,1]))
         return movement_global, untransformed
     
-    def run_loop(self):
+    def run_loop(self) -> None:
+        """
+        Main loop to continuously run the PID controller and send commands to motors.
+        """
         np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
         while self.shared_memory_object.running.value:
             direction, untransformed_direction = self.run_pid()
             self.motor_wrapper.move_from_matrix(direction)
             self.motor_wrapper.send_command()
-            error = np.subtract(np.array([self.shared_memory_object.target_x.value, 
-                                          self.shared_memory_object.target_y.value, 
-                                          self.shared_memory_object.target_z.value, 
-                                          self.shared_memory_object.target_yaw.value, 
-                                          self.shared_memory_object.target_pitch.value, 
-                                          self.shared_memory_object.target_roll.value]), 
-                                np.array([self.shared_memory_object.dvl_x.value, 
-                                          self.shared_memory_object.dvl_y.value, 
-                                          self.shared_memory_object.dvl_z.value, 
-                                          self.shared_memory_object.dvl_yaw.value, 
-                                          self.shared_memory_object.dvl_pitch.value, 
-                                          self.shared_memory_object.dvl_roll.value]))
             if P_DEBUG:
+                error = np.subtract(np.array([self.shared_memory_object.target_x.value, 
+                                self.shared_memory_object.target_y.value, 
+                                self.shared_memory_object.target_z.value, 
+                                self.shared_memory_object.target_yaw.value, 
+                                self.shared_memory_object.target_pitch.value, 
+                                self.shared_memory_object.target_roll.value]), 
+                    np.array([self.shared_memory_object.dvl_x.value, 
+                                self.shared_memory_object.dvl_y.value, 
+                                self.shared_memory_object.dvl_z.value, 
+                                self.shared_memory_object.dvl_yaw.value, 
+                                self.shared_memory_object.dvl_pitch.value, 
+                                self.shared_memory_object.dvl_roll.value]))
                 print("Direction: ", direction)
                 print("Untransformed Direction: ", untransformed_direction)
                 print("Linear Error: ", np.sum(error[:3]))
