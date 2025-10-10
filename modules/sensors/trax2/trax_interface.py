@@ -1,10 +1,9 @@
 from multiprocessing                        import Process, Value
-#from shared_memory                          import SharedMemoryWrapper
+from shared_memory                          import SharedMemoryWrapper
 from trax_fxns                              import TRAX
 from trax_fxns                              import TRAX
 import time
 
-class Trax_Interface(TRAX):
 class Trax_Interface(TRAX):
 
     """
@@ -12,21 +11,21 @@ class Trax_Interface(TRAX):
     github: @rsunderr
     """
 
-    def __init__(self, shared_memory_object):
+    def __init__(self, shared_memory_object: SharedMemoryWrapper):
         """
         Trax interface constructor
         """
         self.shared_memory_object = shared_memory_object
         super().__init__()
 
-    def run_loop(self):
+    def run_loop(self) -> None:
         """
         Function targeted by looping multiprocessing calls, called only once
         """
         self.connect()
         super().__init__()
 
-    def run_loop(self):
+    def run_loop(self) -> None:
         """
         Function targeted by looping multiprocessing calls, called only once
         """
@@ -72,12 +71,14 @@ class Trax_Interface(TRAX):
                 self.send_packet(frameID)
                 self.close()
     
-    def get_data(self, components):# 6 comp's: ax ay az yaw pitch roll
+    #THIS METHOD IS BROKEN AND NEEDS TO BE FIXED
+    def get_data(self, components: str):# 6 comp's: ax ay az yaw pitch roll
         payload = []
         if type(components[0]) == type("str"):
             for comp in components:
-                match(comp):
-                    case 
+                # match(comp):
+                pass
+                    # case 
         
         # kSetDataComponents
         frameID = "kSetDataComponents"

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import socket
 import json
 
@@ -15,7 +13,7 @@ class DVL:
         self.buffer = bytearray(BUFFER_SIZE) 
         self.resetDeadReckoning()
 
-    def resetDeadReckoning(self):
+    def resetDeadReckoning(self) -> None:
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect(self.serv_addr)
@@ -25,7 +23,7 @@ class DVL:
         except Exception as e:
             print("Failed to reset dead reckoning:", e)
 
-    def connectToSocket(self):
+    def connectToSocket(self) -> socket.socket | None:
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect(self.serv_addr)
@@ -34,7 +32,7 @@ class DVL:
             print("Failed to connect to socket:", e)
             return None 
 
-    def parseJson(self, json_dict):
+    def parseJson(self, json_dict: dict) -> tuple[str, list] | list:
         try:
             vx = json_dict["vx"]
             vy = json_dict["vy"]
@@ -65,13 +63,11 @@ class DVL:
 
             return [] 
 
-    def printData(self, a50_data):
+    def printData(self, a50_data: list) -> None:
         print("yaw:", a50_data[0], "pitch:", a50_data[1], "roll:", a50_data[2])
         print("x:", a50_data[3], "y:", a50_data[4], "z:", a50_data[5])
 
-        #a50_data = [yaw, pitch, roll, x, y, z]
-
-    def recieveData(self):
+    def recieveData(self) -> tuple[str, list] | list:
         dvl_data = ""
         try:
             # print("reading")
@@ -87,7 +83,7 @@ class DVL:
         # print("ret:", ret)
         return message_type, ret
         
-    def run(self):
+    def run(self) -> None: #only for testing
 
         frames = 1
 
