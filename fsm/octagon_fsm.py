@@ -23,7 +23,7 @@ class Octagon_FSM(FSM_Template):
         self.name = "OCTAGON"
         
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.x_buffer = self.y_buffer = self.z_buffer = self.oct_x = self.oct_y = self.oct_z = self.depth = self.pause = 0
+        self.x_buffer = self.y_buffer = self.z_buffer = self.oct_x = self.oct_y = self.oct_z = self.depth = self.pause = self.angle = 0
         try:
             with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
@@ -36,6 +36,7 @@ class Octagon_FSM(FSM_Template):
                 self.oct_z =    data[course]['octagon']['z']
                 self.depth =    data[course]['octagon']['depth'] # swimming depth
                 self.pause =    data[course]['octagon']['pause'] # pause duration
+                self.angle =    data[course]['octagon']['angle'] # angle to turn at surface
         except FileNotFoundError:
             print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
             
@@ -61,7 +62,7 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_z.value = self.depth
             case "RISE": # surface in octagon
                 self.shared_memory_object.target_z.value = self.oct_z
-                self.shared_memory_object.target_yaw.value = -45 # degrees of turn
+                self.shared_memory_object.target_yaw.value = self.angle # degrees of turn
             case "PAUSE": # pause after surfacing
                 time.sleep(self.pause) # wait at surface, turn direction
                 self.shared_memory_object.target_yaw.value = 0 # turn back to 0

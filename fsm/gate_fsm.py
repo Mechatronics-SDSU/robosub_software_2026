@@ -1,6 +1,6 @@
 from utils.socket_send                              import set_screen
 from fsm.fsm                                        import FSM_Template
-import yaml, os
+import time, yaml, os
 """
     discord: @.kech
     github: @rsunderr
@@ -21,7 +21,7 @@ class Gate_FSM(FSM_Template):
         self.name = "GATE"
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.x_buffer = self.y_buffer = self.z_buffer = self.gate_x = self.gate_y = self.gate_z = self.drop = 0
+        self.x_buffer = self.y_buffer = self.z_buffer = self.gate_x = self.gate_y = self.gate_z = self.drop = self.pause = 0
         try:
             with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
@@ -33,6 +33,7 @@ class Gate_FSM(FSM_Template):
                 self.gate_y = data[course]['gate']['y']
                 self.gate_z = data[course]['gate']['z']
                 self.drop  = data[course]['gate']['drop'] # initial drop depth
+                self.pause = data[course]['gate']['pause'] # initial drop duration
         except FileNotFoundError:
             print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
 
@@ -55,6 +56,7 @@ class Gate_FSM(FSM_Template):
             case "INIT": return # initial state
             case "DIVE":
                 self.shared_memory_object.target_z.value = self.drop
+                time.sleep(self.pause) # wait before switching to next state (to ramp up motors more gradually)
             case "TO_GATE": # drive toward gate
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
