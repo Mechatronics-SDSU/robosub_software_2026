@@ -11,8 +11,8 @@ except:
     from USB_Transmit                       import USB_Transmitter
 
 '''
-    discord: @.kech
-    github: @rsunderr
+    discord: @kialli, @.kech
+    github: @kchan5071, @rsunderr
     
     This class is a wrapper for the USB interface. It is used to send commands to the motors.
     contains:
@@ -42,7 +42,7 @@ class MotorWrapper:
         self.usb_transmitter = USB_Transmitter()
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 4000
-        self.MOTOR_FACTOR = 0.7 # [0.0, 1.0] -- set ~0.1 for in air, ~0.3 in water
+        self.MOTOR_FACTOR = 0.1 # [0.0, 1.0] -- set ~0.1 for in air, ~0.7 in water
         #-------------------------------------------------------------------------------------------------
 
         self.motors = np.array([
