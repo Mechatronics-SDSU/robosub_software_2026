@@ -37,9 +37,9 @@ class Octagon_FSM(FSM_Template):
                 self.depth =    data[course]['octagon']['depth'] # swimming depth
                 self.pause =    data[course]['octagon']['pause'] # pause duration
                 self.angle =    data[course]['octagon']['angle'] # angle to turn at surface
-        except FileNotFoundError:
-            print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
-            
+        except KeyError:
+            print("ERROR: Invalid data format in objects.yaml, using all 0's")
+
     def start(self) -> None:
         """
         Start FSM by enabling and starting processes

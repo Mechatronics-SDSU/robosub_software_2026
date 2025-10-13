@@ -28,7 +28,6 @@ class FSM_Template:
         self.state = "INIT"     # state tracking variable
         self.active = False     # enable/disable boolean
         self.complete = False   # boolean for when the mode has completed its tasks
-        self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
         self.display_on = False # enable/disable display output
         self.last_display_command = time.time()
@@ -47,6 +46,9 @@ class FSM_Template:
             temp_process = Process(target=run_object.run_loop)
             self.process_objects.append(temp_process)
 
+    def loop(self) -> None: # dummy loop function to prevent errors
+        pass
+    
     def start(self) -> None:
         """
         Start FSM by enabling and starting processes
@@ -59,7 +61,7 @@ class FSM_Template:
     
     def reached_xy(self, x: float, y: float) -> bool:
         """
-        Returns true if near a location in terms of x and y (requires x,y, buffer and dvl to work), use ignore to ignore a value
+        Returns true if near a location in terms of x and y (requires x,y, buffers and dvl to work)
         """
         if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer:
             return True
@@ -68,7 +70,7 @@ class FSM_Template:
     
     def reached_xyz(self, x: float, y: float, z: float) -> bool:
         """
-        Returns true if near a location (requires x,y,z buffer and dvl to work), use ignore to ignore a value
+        Returns true if near a location (requires x,y,z buffers and dvl to work)
         """
         if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
             return True
@@ -84,7 +86,7 @@ class FSM_Template:
             return
         tgt_txt = f"DVL: \t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
-        if not self.display_on: # don't run display if in testing mode
+        if not self.display_on: # don't run display if display set to off
             print(f"{tgt_txt}\n{dvl_txt}")
             return
         try:
@@ -106,6 +108,25 @@ class FSM_Template:
         for process in self.process_objects:
             if process.is_alive():
                 process.join()
+    
+    def kill_process(self, process) -> None:
+        """
+        Kill a specific process
+        """
+        for p in self.process_objects:
+            if p is process and p.is_alive():
+                p.terminate()
+                return
+        print("ERROR: Process not found or already dead")
+        
+    def add_process(self, process) -> None:
+        """
+        Add a process to the process list
+        """
+        if process not in self.process_objects:
+            self.process_objects.append(process)
+        else:
+            print("ERROR: Process already in process list")
 
     def stop(self) -> None:
         """
@@ -125,20 +146,20 @@ class FSM_Template:
         self.active = False
         self.complete = True
     
-    def next(self, mode: 'FSM_Template' = None):
+    def next(self, mode = None) -> 'FSM_Template | None':
         """
         Transition to the next mode, stops if no next mode
         """
         self.suspend() # soft kill current mode
 
-        # if parameter passed, start parameter mode
-        if mode is not None:
+        # if valid parameter passed, start parameter mode
+        if isinstance(mode, FSM_Template):
             self.next_mode = mode
             self.next_mode.start()
         # if no parameter passed, start next_mode if it exists
         elif self.next_mode is not None:
             self.next_mode.start()
-        # if no parameter or next_mode, stop
+        # if invalid parameter, no parameter or no next_mode, stop
         else:
             self.stop()
         

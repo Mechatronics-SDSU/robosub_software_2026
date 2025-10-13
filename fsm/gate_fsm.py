@@ -21,7 +21,7 @@ class Gate_FSM(FSM_Template):
         self.name = "GATE"
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.x_buffer = self.y_buffer = self.z_buffer = self.gate_x = self.gate_y = self.gate_z = self.drop = self.pause = 0
+        self.x_buffer = self.y_buffer = self.z_buffer = self.gate_x = self.gate_y = self.gate_z = self.drop = self.t_drop = 0
         try:
             with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
@@ -33,9 +33,9 @@ class Gate_FSM(FSM_Template):
                 self.gate_y = data[course]['gate']['y']
                 self.gate_z = data[course]['gate']['z']
                 self.drop  = data[course]['gate']['drop'] # initial drop depth
-                self.pause = data[course]['gate']['pause'] # initial drop duration
-        except FileNotFoundError:
-            print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
+                self.t_drop = data[course]['gate']['t_drop'] # initial drop duration
+        except KeyError:
+            print("ERROR: Invalid data format in objects.yaml, using all 0's")
 
     def start(self) -> None:
         """
@@ -56,7 +56,7 @@ class Gate_FSM(FSM_Template):
             case "INIT": return # initial state
             case "DIVE":
                 self.shared_memory_object.target_z.value = self.drop
-                time.sleep(self.pause) # wait before switching to next state (to ramp up motors more gradually)
+                time.sleep(self.t_drop) # wait before switching to next state (to ramp up motors more gradually)
             case "TO_GATE": # drive toward gate
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y

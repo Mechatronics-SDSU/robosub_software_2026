@@ -1,6 +1,66 @@
-course: jesse_pool
+course: test
 
-lane_D:
+jesse_pool: # ------------------------------------------------------------------------------------------------------
+  # smaller coordinates for jesse's pool (~8m long, ~2m deep)
+  gate: # gate coordinates (in m)
+    # buffers
+    x_buf: 0.3 # m forward buffer for all objects
+    y_buf: 0.3 # m left/right buffer for all objects
+    z_buf: 0.3 # m up/down buffer for all objects
+    # values
+    x:  0 # forward is positive x
+    y:  0 # left is positive y
+    z:  1.5
+    drop: 0.2 # initial drop depth
+    t_drop: 0.25 # initial drop duration
+
+  slalom: # slalom coordinates
+    # buffers
+    x_buf: 0.3 # m forward buffer for all objects
+    y_buf: 0.3 # m left/right buffer for all objects
+    z_buf: 1 # m up/down buffer for all objects
+    # depth
+    z:  0.5
+    # start
+    x1: 2
+    y1: 0  
+    # middle
+    x2: 2.5
+    y2: -0.5 
+    # end
+    x3: 3
+    y3: 0 
+
+  octagon: # octagon coordinates
+    # buffers
+    x_buf: 0.3 # m forward buffer for all objects
+    y_buf: 0.3 # m left/right buffer for all objects
+    z_buf: 0.3 # m up/down buffer for all objects
+    x: 4
+    y: 0
+    z: -0.3 # set to < 0 to rise consistently (consider buffers)
+    pause: 5 # seconds to pause at surface
+    depth: 0.5 # swimming depth during oct mode
+    angle: -45 # angle to look at target
+
+  return: # these should be in between oct and gate, and should avoid slalom, and cause some left/right motion
+    # buffers
+    x_buf: 0.3 # m forward buffer for all objects
+    y_buf: 0.3 # m left/right buffer for all objects
+    z_buf: 0.5 # m up/down buffer for all objects
+    # midpoint 1
+    x1: 3
+    y1: 0
+    # midpoint 2
+    x2: 2
+    y2: 0.5
+    # depth
+    drop: 0.2 # initial drop depth
+    t_drop: 0.25 # initial drop duration
+    depth: 0.5 # swimming depth
+
+lane_D: # ------------------------------------------------------------------------------------------------------
+  # lane D from robosub finals 2025
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 10 # m forward buffer for all objects
@@ -11,6 +71,7 @@ lane_D:
     y:  -0.7 # left is positive y
     z:  1.6
     drop: 0.2 # initial drop depth
+    t_drop: 0.3 # initial drop duration
 
   slalom: # slalom coordinates
     # buffers
@@ -55,66 +116,11 @@ lane_D:
     y2: -1.5
     # depth
     drop: 1 # initial drop depth
+    t_drop: 0.3 # initial drop duration
     depth: 1.6
 
-jesse_pool:
-  gate: # gate coordinates (in m)
-    # buffers
-    x_buf: 0.3 # m forward buffer for all objects
-    y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 0.3 # m up/down buffer for all objects
-    # values
-    x:  0 # forward is positive x
-    y:  0 # left is positive y
-    z:  1.5
-    drop: 0.2 # initial drop depth
-    pause: 0.25 # initial drop duration
-
-  slalom: # slalom coordinates
-    # buffers
-    x_buf: 0.3 # m forward buffer for all objects
-    y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 1 # m up/down buffer for all objects
-    # depth
-    z:  0.5
-    # start
-    x1: 2
-    y1: 0  
-    # middle
-    x2: 2.5
-    y2: -0.5 
-    # end
-    x3: 3
-    y3: 0 
-
-  octagon: # octagon coordinates
-    # buffers
-    x_buf: 0.3 # m forward buffer for all objects
-    y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 0.3 # m up/down buffer for all objects
-    x: 4
-    y: 0
-    z: -0.3 # set to < 0 to rise consistently (consider buffers)
-    pause: 5 # seconds to pause at surface
-    depth: 0.5 # swimming depth during oct mode
-    angle: -45 # angle to look at target
-
-  return: # these should be in between oct and gate, and should avoid slalom, and cause some left/right motion
-    # buffers
-    x_buf: 0.3 # m forward buffer for all objects
-    y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 0.5 # m up/down buffer for all objects
-    # midpoint 1
-    x1: 3
-    y1: 0
-    # midpoint 2
-    x2: 2
-    y2: 0.5
-    # depth
-    drop: 0.2 # initial drop depth
-    depth: 0.5 # swimming depth
-
-test: # for testing purposes only (never actually runs)
+test: # ------------------------------------------------------------------------------------------------------
+  # for testing purposes only (never actually runs, pass fsm constructors [] for 2nd arg in launch.py)
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 0.2 # m forward buffer for all objects
@@ -125,6 +131,7 @@ test: # for testing purposes only (never actually runs)
     y:  0 # left is positive y
     z:  0
     drop: 0 # initial drop depth
+    t_drop: 0 # initial drop duration
 
   slalom: # slalom coordinates
     # buffers
@@ -154,7 +161,7 @@ test: # for testing purposes only (never actually runs)
     z: 0 # set to < 0 to rise consistently (consider buffers)
     pause: 0 # seconds to pause at surface
     depth: 0 # swimming depth during oct mode and return mode
-    angle: -45 # angle to look at target
+    angle: 0 # angle to look at target
     
   return: # these should be in between oct and gate, and should avoid slalom, and cause some left/right motion
     # buffers
@@ -169,4 +176,5 @@ test: # for testing purposes only (never actually runs)
     y2: 0
     # depth
     drop: 0 # initial drop depth
+    t_drop: 0 # initial drop duration
     depth: 0 # swimming depth
