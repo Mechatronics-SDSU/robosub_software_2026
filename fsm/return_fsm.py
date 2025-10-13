@@ -31,6 +31,7 @@ class Return_FSM(FSM_Template):
                 self.y_buffer = data[course]['return']['y_buf']
                 self.z_buffer = data[course]['return']['z_buf']
                 self.drop   =   data[course]['return']['drop'] # drop depth to avoid octagon
+                self.t_drop =   data[course]['return']['t_drop'] # initial drop duration
                 self.depth  =   data[course]['return']['depth'] # swimming depth
                 self.gate_x =   data[course]['gate']['x']
                 self.gate_y =   data[course]['gate']['y']
@@ -38,8 +39,8 @@ class Return_FSM(FSM_Template):
                 self.y1     =   data[course]['return']['y1']
                 self.x2     =   data[course]['return']['x2']
                 self.y2     =   data[course]['return']['y2']
-        except FileNotFoundError:
-            print("ERROR: objects.yaml file not found or attempting to read invalid data, using all 0's")
+        except KeyError:
+            print("ERROR: Invalid data format in objects.yaml, using all 0's")
 
     def start(self) -> None:
         """
@@ -69,7 +70,7 @@ class Return_FSM(FSM_Template):
             case "TO_GATE": # return to gate after octagon
                 self.shared_memory_object.target_x.value = self.gate_x
                 self.shared_memory_object.target_y.value = self.gate_y
-            case "RETURN": # return to starting position
+            case "HOME": # return to starting position
                 self.shared_memory_object.target_x.value = 0
                 self.shared_memory_object.target_y.value = 0
             case "RISE_END": # surface at end of run
@@ -104,8 +105,8 @@ class Return_FSM(FSM_Template):
                     self.next_state("TO_GATE")
             case "TO_GATE": # transition: TO_GATE -> RETURN
                 if self.reached_xy(self.gate_x, self.gate_y):
-                    self.next_state("RETURN")
-            case "RETURN": # transition: RETURN -> RISE_END
+                    self.next_state("HOME")
+            case "HOME": # transition: HOME -> RISE_END
                 if self.reached_xy(0, 0):
                     self.next_state("RISE_END")
             case "RISE_END": # transition: RISE_END -> DONE

@@ -22,20 +22,23 @@ class Slalom_FSM(FSM_Template):
         self.name = "SLALOM"
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.x_buffer = self.y_buffer = self.z_buffer = self.x1 = self.y1 = self.x2 = self.y2 = self.x3 = self.y3 = self.depth = (None, None, None, None, None, None, None)
-        with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
-            data = yaml.safe_load(file)
-            course = data['course']
-            self.x_buffer = data[course]['slalom']['x_buf']
-            self.y_buffer = data[course]['slalom']['y_buf']
-            self.z_buffer = data[course]['slalom']['z_buf']
-            self.x1 = data[course]['slalom']['x1']
-            self.y1 = data[course]['slalom']['y1']
-            self.x2 = data[course]['slalom']['x2']
-            self.y2 = data[course]['slalom']['y2']
-            self.x3 = data[course]['slalom']['x3']
-            self.y3 = data[course]['slalom']['y3']
-            self.depth = data[course]['slalom']['z']
+        self.x_buffer = self.y_buffer = self.z_buffer = self.x1 = self.y1 = self.x2 = self.y2 = self.x3 = self.y3 = self.depth = 0
+        try:
+            with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+                data = yaml.safe_load(file)
+                course = data['course']
+                self.x_buffer = data[course]['slalom']['x_buf']
+                self.y_buffer = data[course]['slalom']['y_buf']
+                self.z_buffer = data[course]['slalom']['z_buf']
+                self.x1 = data[course]['slalom']['x1']
+                self.y1 = data[course]['slalom']['y1']
+                self.x2 = data[course]['slalom']['x2']
+                self.y2 = data[course]['slalom']['y2']
+                self.x3 = data[course]['slalom']['x3']
+                self.y3 = data[course]['slalom']['y3']
+                self.depth = data[course]['slalom']['z']
+        except KeyError:
+            print("ERROR: Invalid data format in objects.yaml, using all 0's")
 
     def start(self) -> None:
         """

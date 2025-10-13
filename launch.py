@@ -1,4 +1,5 @@
 import subprocess, time
+from multiprocessing                        import Process, Value
 
 # import FSMs
 from shared_memory                          import SharedMemoryWrapper
@@ -29,7 +30,7 @@ try:
     subprocess.run(["sudo", "chmod", "777", device_path], check=True)
     print(f"Permissions changed for {device_path}")
 except:
-    print("PERMISSIONS FIX FAILED")
+    print("ERROR: Permissions fix failed")
 
 
 # create shared memory object
@@ -48,14 +49,14 @@ slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
-mode_list = [gate_mode] #slalom_mode, oct_mode, return_mode] # order of modes
+mode_list = [gate_mode] #, slalom_mode, oct_mode, return_mode] # order of modes
 
 def main():
     """
     Main function - intializes mode and starts loop
     """
     # make linked list of modes
-    make_list(mode_list)
+    make_list(mode_list) #type: ignore
     
     # start initial mode
     mode = mode_list[0] # mode pointer
@@ -63,7 +64,7 @@ def main():
     # loop
     run_loop(mode)
 
-def run_loop(mode: FSM_Template) -> None:
+def run_loop(mode: FSM_Template | None) -> None:
     """
     Looping function, handles mode transitions
     """
