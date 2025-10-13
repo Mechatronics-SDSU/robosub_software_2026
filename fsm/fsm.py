@@ -29,7 +29,7 @@ class FSM_Template:
         self.active = False     # enable/disable boolean
         self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
-        self.display_on = False # enable/disable display output
+        self.display_on = shared_memory_object.display_on.value # enable/disable display output
         self.last_display_command = time.time()
         self.next_mode = None  # next mode pointer
 
@@ -45,9 +45,6 @@ class FSM_Template:
         for run_object in run_list:
             temp_process = Process(target=run_object.run_loop)
             self.process_objects.append(temp_process)
-
-    def loop(self) -> None: # dummy loop function to prevent errors
-        pass
     
     def start(self) -> None:
         """
@@ -58,6 +55,12 @@ class FSM_Template:
         # start processes
         for process in self.process_objects:
             process.start()
+    
+    def loop(self) -> None:
+        """
+        Dummy loop function, override in child classes
+        """
+        pass
     
     def reached_xy(self, x: float, y: float) -> bool:
         """
@@ -125,6 +128,7 @@ class FSM_Template:
         """
         if process not in self.process_objects:
             self.process_objects.append(process)
+            process.start()
         else:
             print("ERROR: Process already in process list")
 

@@ -26,6 +26,7 @@ START_LAUNCH_CODE = 426
 DEBUG_MODE_COLOR = (0, 0, 150) # blue
 START_LAUNCH_COLOR = (0, 150, 0) # green
 STARTUP_COLOR = (0, 0, 0) # black
+DISPLAY_ON = False # whether or not to run display code
 
 TIMEOUT = 1  # seconds
 
@@ -123,15 +124,18 @@ def start_launch():
     launch.py starts the main sub code
     start_services.py starts the background services,in this case just the display manager
     """
-    os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py")) # startup display
+    if DISPLAY_ON:
+        os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py")) # startup display
     os.system(os.path.expanduser("python3 ~/robosub_software_2025/launch.py")) # run launch
 
 def main():
     """
     Main function to handle start button input and trigger launch or debug mode.
     """
+    print("Starting start button handler...")
     #start screen
-    socket_send.set_screen(STARTUP_COLOR, "RoboSub", "Starting...")  # Set initial screen state
+    if DISPLAY_ON:
+        socket_send.set_screen(STARTUP_COLOR, "RoboSub", "Starting...")  # Set initial screen state
 
     #this next loop should never exit, it will just keep trying to connect to the start button
     while True:
@@ -140,14 +144,16 @@ def main():
         value = driver.recieve_data()
         # check what value was received
         if value is not None and value == START_LAUNCH_CODE:
-            socket_send.set_screen(START_LAUNCH_COLOR, "RoboSub", "Starting Launch")  # Set screen to green
+            if DISPLAY_ON:
+                socket_send.set_screen(START_LAUNCH_COLOR, "RoboSub", "Starting Launch")  # Set screen to green
             start_launch()
             driver.clear_socket()
             driver.disconnect()
             time.sleep(TIMEOUT)
             continue
         elif value is not None and value == DEBUG_MODE_CODE:
-            socket_send.set_screen(DEBUG_MODE_COLOR, "RoboSub", "Debug Mode")  # Set screen to blue
+            if DISPLAY_ON:
+                socket_send.set_screen(DEBUG_MODE_COLOR, "RoboSub", "Debug Mode")  # Set screen to blue
             # we should figure out what to do in debug mode and put it here
             # -------------
             # start_launch()
