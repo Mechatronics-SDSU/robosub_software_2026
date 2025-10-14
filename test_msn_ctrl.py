@@ -6,14 +6,6 @@ from fsm.gate_fsm                           import Gate_FSM
 from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
-# from fsm.coinflip_fsm                     import CoinFlip_FSM
-
-#import modules
-#from modules.pid.pid_interface              import PIDInterface
-#from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
-#from modules.vision.vision_main             import VisionDetection
-#from modules.motors.kill_motors             import kill_motors
-#from utils.socket_send                      import set_screen
 
 
 """
@@ -24,21 +16,10 @@ from fsm.return_fsm                         import Return_FSM
     
 """
 
-# permissions fix
-#device_path = '/dev/ttyACM0'
-#subprocess.run(["sudo", "chmod", "777", device_path], check=True)
-#print(f"Permissions changed for {device_path}")
-
-
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
 DELAY = 0.2 #s
 
-# initialize modes
-#cf_modules = [pid_object, dvl_object]
-#gate_modules = [pid_object, dvl_object]
-
-# cf_mode     = CoinFlip_FSM(shared_memory_object, cf_modules)
 gate_mode   = Gate_FSM(shared_memory_object, [])
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])

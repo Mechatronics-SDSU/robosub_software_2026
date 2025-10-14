@@ -25,7 +25,7 @@ class FSM_Template:
         # create shared memory
         self.shared_memory_object = shared_memory_object
         # initial state
-        self.state = "INIT"     # state tracking variable
+        self.state = None     # state tracking variable
         self.active = False     # enable/disable boolean
         self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
