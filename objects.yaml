@@ -127,11 +127,11 @@ test: # ------------------------------------------------------------------------
     y_buf: 0.2 # m left/right buffer for all objects
     z_buf: 0.2 # m up/down buffer for all objects
     # values
-    x:  0 # forward is positive x
+    x:  1 # forward is positive x
     y:  0 # left is positive y
-    z:  1
-    drop: 0.2 # initial drop depth
-    t_drop: 0.25 # initial drop duration
+    z:  0
+    drop: 0 # initial drop depth
+    t_drop: 0 # initial drop duration
 
   slalom: # slalom coordinates
     # buffers
