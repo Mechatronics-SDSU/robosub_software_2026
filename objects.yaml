@@ -1,7 +1,7 @@
 course: jesse_pool
 
 jesse_pool: # ------------------------------------------------------------------------------------------------------
-  # smaller coordinates for jesse's pool (~8m long, ~2m deep)
+  # smaller coordinates for jesse's pool (~9.02m long, ~1.2m min depth, ~3m wide)
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
