@@ -129,8 +129,8 @@ test: # ------------------------------------------------------------------------
     # values
     x:  1 # forward is positive x
     y:  0 # left is positive y
-    z:  0.75
-    drop: 0.3 # initial drop depth
+    z:  0
+    drop: 0 # initial drop depth
     t_drop: 0.25 # initial drop duration
 
   slalom: # slalom coordinates
@@ -159,7 +159,7 @@ test: # ------------------------------------------------------------------------
     x: 5
     y: 0
     z: 0 # set to < 0 to rise consistently (consider buffers)
-    pause: 3 # seconds to pause at surface
+    pause: 0 # seconds to pause at surface
     depth: 0 # swimming depth during oct mode and return mode
     angle: 0 # angle to look at target
     
@@ -176,5 +176,5 @@ test: # ------------------------------------------------------------------------
     y2: 0
     # depth
     drop: 0 # initial drop depth
-    t_drop: 0.25 # initial drop duration
+    t_drop: 0 # initial drop duration
     depth: 0 # swimming depth
