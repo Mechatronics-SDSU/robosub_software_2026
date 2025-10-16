@@ -20,8 +20,6 @@ class SharedMemoryWrapper:
         self.imu_y                  = Value('d', 0)
         self.imu_z                  = Value('d', 0)
 
-
-
         # offsets
         self.yolo_offset            = Array('d', 2)
         self.color_offset           = Array('d', 2)
@@ -65,4 +63,7 @@ class SharedMemoryWrapper:
 
         # motor values
         self.motor_values           = Value('d', 0)
+        
+        # whether or not to run display code
+        self.display_on             = Value('b', False)
     

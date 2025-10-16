@@ -8,16 +8,16 @@ class DepthSensor:
         self.ser = Serial(PORT,BAUDRATE)
         self.ser.flushInput()
     
-    def print_data(self, depth):
+    def print_data(self, depth: str) -> None:
         print("z:", depth)
 
-    def receive_data(self):
+    def receive_data(self) -> str | None:
         try:
             return self.ser.readline().decode('ascii')
         except:
             pass
 
-    def run(self):
+    def run(self) -> None:
         while True:
             if self.ser:
                 data = self.receive_data() 

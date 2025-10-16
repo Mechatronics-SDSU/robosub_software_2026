@@ -1,7 +1,7 @@
 
-import math
-import numpy as np
-import time
+import numpy        as np
+from numpy.typing   import NDArray
+from typing         import Union
 
 try:
     import can
@@ -17,9 +17,8 @@ except:
         move methods for motors
         twos compliment conversion
 
-        test sequence if called as main
+    NOTE: THIS WRAPPER IS MEANT FOR SCION ONLY, CARACARA USES A DIFFERENT MOTOR WRAPPER
 '''
-
 
 class Can_Wrapper:
 
@@ -54,57 +53,57 @@ class Can_Wrapper:
 
     #custom two's compliment for 2 byte values
     #returns int
-    def twos_complement(self, value):
+    def twos_complement(self, value: Union[int, float]) -> int:
         if (value < 0):
             value = (255 - abs(value))
         return value
 
-    def move_forward(self, value):
+    def move_forward(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([value, 0, 0, 0, 0, 0]))
 
-    def move_backward(self, value):
+    def move_backward(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([-value, 0, 0, 0, 0, 0]))
 
-    def move_left(self, value):
+    def move_left(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, value, 0, 0, 0, 0]))
 
-    def move_right(self, value):
+    def move_right(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, -value, 0, 0, 0, 0]))
 
-    def move_up(self, value):
+    def move_up(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, value, 0, 0, 0]))
 
-    def move_down(self, value):
+    def move_down(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, -value, 0, 0, 0]))
 
-    def turn_up(self, value):
+    def turn_up(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, 0, value, 0, 0]))
 
-    def turn_down(self, value):
+    def turn_down(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, 0, -value, 0, 0]))
 
-    def turn_left(self, value):
+    def turn_left(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, 0, 0, value, 0]))
 
-    def turn_right(self, value):
+    def turn_right(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, 0, 0, -value, 0]))
 
-    def roll_left(self, value):
+    def roll_left(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, 0, 0, 0, value]))
 
-    def roll_right(self, value):
+    def roll_right(self, value: Union[int, float]) -> None:
         self.move_from_matrix(np.array([0, 0, 0, 0, 0, -value]))
 
-    def move_from_matrix(self, matrix):
+    def move_from_matrix(self, matrix: NDArray) -> None:
         #translate the direction vector matrix to motor values
         temp_list = np.round(np.dot(matrix, self.motors.transpose()))
         self.input_list += temp_list
 
-    def stop(self):
+    def stop(self) -> None:
         self.input_list = [0,0,0,0,0,0,0,0]
 
     #sends commands to motors
-    def send_command(self):
+    def send_command(self) -> list:
         motor_value = 0
         command = ""
         for i in range(len(self.input_list)):

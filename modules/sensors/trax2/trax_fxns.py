@@ -13,7 +13,7 @@ class TRAX:
     """
     Wrapper class for trax-related functions
     """
-    def __init__(self, ser=serial.Serial(), baud=38400):
+    def __init__(self, ser=serial.Serial(), baud: int=38400): #not sure how to handle default serial
         """
         Constructor (serial and baud rate)
         """
@@ -21,7 +21,7 @@ class TRAX:
         self.baud = baud
         self.lg = logging.getLogger(__name__) # TODO replace some prints with debugs
     
-    def connect(self):
+    def connect(self) -> None:
         """
         Establishes usb serial connection to trax
         """
@@ -41,14 +41,14 @@ class TRAX:
         self.lg.critical("NO TRAX FOUND")
 
     
-    def close(self):
+    def close(self) -> None:
         """
         Closes serial connection
         """
         self.ser.close()
     
     @staticmethod
-    def help():
+    def help() -> None:
         """
         Prints information about using the TRAX wrapper class
         """
@@ -67,7 +67,7 @@ class TRAX:
 
 
     @staticmethod
-    def get_packet(frameID, payload=None): # datagram: [ byte count uint16 ] [ frame ID uint8 ] [ payload (opt) ] [ CRC uint16 ]
+    def get_packet(frameID: str, payload=None) -> bytearray: # datagram: [ byte count uint16 ] [ frame ID uint8 ] [ payload (opt) ] [ CRC uint16 ]
         """
         Returns and prints byte array packet based on frame ID and payload in trax-readable format
         Used for sending data
@@ -82,7 +82,7 @@ class TRAX:
         return packet
     
     @staticmethod
-    def get_payload_bytes(frameID, payload=None):
+    def get_payload_bytes(frameID: str, payload=None) -> bytearray:
         """
         Generates a byte array based on frameID and tuple/array of specification IDs
         Used for sending data
@@ -116,7 +116,7 @@ class TRAX:
         payload_bytes = struct.pack(encode_str, *payload)
         return payload_bytes
 
-    def send_packet(self, frameID, payload=None):
+    def send_packet(self, frameID, payload=None) -> None:
         """
         Transmits packet over USB, frame ID is an int, tuple/array for payload values if applicable
         Used for sending data
@@ -129,7 +129,7 @@ class TRAX:
         print("TRANSMISSION:\t", TRAX.parse_bytes(packet))
 
     @staticmethod
-    def get_frame_id(frameID_str):
+    def get_frame_id(frameID_str: str) -> int:
         """
         Returs an int for the frame ID given the string name of a frame
         Used for sending data
@@ -254,7 +254,7 @@ class TRAX:
         return encode_str
 
     @staticmethod
-    def componentID_type(compID):
+    def componentID_type(compID: int):
         """
         Returns the struct lib char based on the Component ID
         """
@@ -279,7 +279,7 @@ class TRAX:
             case _:     return "f"   # Default - UInt8
     
     @staticmethod
-    def configID_type(configID):
+    def configID_type(configID: int):
         """
         Returns the struct lib char based on the config ID
         """
@@ -298,21 +298,21 @@ class TRAX:
             case _:     return "B" # Default - UInt8
     
     @staticmethod
-    def parse_bytes(bytes):
+    def parse_bytes(bytes: bytearray) -> str:
         """
         Parses bytes to make legible string
         """
         return "".join(f"{b:02X} " for b in bytes)        
 
     @staticmethod
-    def uint_to_str(num, size=32):
+    def uint_to_str(num: int, size=32) -> str:
         """
         Converts a uint (that was converted from bytes) to a string, taking the number followed by the bit size (default is uint32)
         """
         return num.to_bytes(int(size/8), 'big').decode('ascii', errors='ignore')
     
     @staticmethod
-    def calc_byte_count(packet):
+    def calc_byte_count(packet: bytearray) -> int:
         """
         Calculates integer byte count based on packet
         """
@@ -321,7 +321,7 @@ class TRAX:
         return count
     
     @staticmethod
-    def verify_CRC(packet):
+    def verify_CRC(packet: bytearray) -> bool:
         """
         Verifies a packet (in bytes) based on its checksum
         """
@@ -332,7 +332,7 @@ class TRAX:
         return packet_crc == test_crc
     
     @staticmethod
-    def calc_CRC(packet):
+    def calc_CRC(packet: bytearray) -> int:
         """
         Calculates checksum (CRC-16) of packet (based on data sheet C fxn)
         """

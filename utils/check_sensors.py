@@ -7,11 +7,12 @@ from modules.sensors.depth_sensor import DepthSensor
     discord: @kialli
     github: @kchan5071
 
-    zed implementation, sensor testing
+    zed implementation, sensor testing, this only is configured for scion
+    TODO: modify for other subs
 
 """
 
-def test_depth_sensor():
+def test_depth_sensor() -> bool:
     print("DEPTH SENSOR")
     depth_sensor = DepthSensor()
     depth = depth_sensor.recieve_data()
@@ -19,7 +20,7 @@ def test_depth_sensor():
         return False
     return True
 
-def test_zed_camera():
+def test_zed_camera() -> bool:
     print("ZED CAM")
     zed = sl.Camera()
     init_params = sl.InitParameters()
@@ -32,7 +33,7 @@ def test_zed_camera():
         return False
     return True
 
-def test_DVL():
+def test_DVL() -> bool:
     print("DVL")
     try:
         serv_addr = ('192.168.194.95' , 16171)

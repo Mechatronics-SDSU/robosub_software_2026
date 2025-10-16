@@ -6,7 +6,7 @@ class DepthSensorInterface:
         self.depth_sensor = DepthSensor()
         self.shared_memory_object = shared_memory_object
 
-    def update(self):
+    def update(self) -> None:
         depth = self.depth_sensor.receive_data()
         if depth != None and len(depth) > 3:
             if depth.split():
@@ -14,9 +14,9 @@ class DepthSensorInterface:
                 print(depth)
                 self.shared_memory_object.depth.value = float(depth)
 
-    def print_data(self):
+    def print_data(self) -> None:
         print(self.shared_memory_object.depth.value)
 
-    def run_loop(self):
+    def run_loop(self) -> None:
         while self.shared_memory_object.running.value:
             self.update()

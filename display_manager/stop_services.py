@@ -1,10 +1,20 @@
-#!/usr/bin/python3
-
 import subprocess
 import os
 import shutil
+import yaml
 
-import config_parser
+"""
+    discord: @kialli
+    github: @kchan5071
+
+    stops all python services in the services directory using the pids stored in the csv file (services.csv by default)
+    also clears all sockets in the socket directory if specified in config.yaml
+"""
+
+def read_config(config_file: str) -> dict:
+    with open(config_file, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
 
 def get_service_pids(service_csv: str) -> dict:
     """
@@ -38,7 +48,7 @@ def stop_services(service_csv: str):
     if os.path.exists(service_csv):
         service_csv = os.path.join(os.getcwd(), service_csv)
     else:
-        service_csv = os.path.join(os.getcwd(), config_parser.read_config('config.yaml')['services_csv'])
+        service_csv = os.path.join(os.getcwd(), read_config('config.yaml')['services_csv'])
  
     # Read the service CSV file and get the PIDs
     service_pids = get_service_pids(service_csv)
@@ -62,7 +72,7 @@ def clear_sockets(socket_directory: str):
     print('Sockets cleared.')
 
 if __name__ == '__main__':
-    config = config_parser.read_config('config.yaml')
+    config = read_config('config.yaml')
     if config['stop_services']:
         stop_services(config['services_csv'])
     if config['clear_socket']:

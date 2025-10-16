@@ -6,6 +6,15 @@ USB_PORT = None
 
 DATA = [0, 0, 0, 0, 0, 0, 0, 0]
 
+"""
+    discord: @kialli
+    github: @kchan5071
+
+    quick and dirty way to kill motors, this can honestly be done in a single function
+    but it was copy pasted from start_button.py
+"""
+
+
 class MotorKill:
     def __init__(self):
         for port in ["/dev/ttyACM0"]:
@@ -18,7 +27,7 @@ class MotorKill:
                 print(f"Failed to connect on {port}: {e}")
 
 
-    def send_data(self,motor_vals):
+    def send_data(self,motor_vals: list) -> None:
         # Check if connection was successful
         if self.srl is None:
             print("❌ Unable to connect to any serial port.")

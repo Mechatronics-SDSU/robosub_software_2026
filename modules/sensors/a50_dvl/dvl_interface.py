@@ -14,11 +14,13 @@ class DVL_Interface:
     this class acts as a bridge, should be unproblematic(hopefully)
     """
 
+    P_DEBUG = False
+
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object
         self.dvl = DVL()
 
-    def update(self):
+    def update(self) -> None:
         try:
             message_type, dvl_data = self.dvl.recieveData()
             if dvl_data != None and message_type == "dead_reckoning":
@@ -28,12 +30,6 @@ class DVL_Interface:
                 self.shared_memory_object.dvl_x.value = -dvl_data[3]
                 self.shared_memory_object.dvl_y.value = dvl_data[4]
                 self.shared_memory_object.dvl_z.value = dvl_data[5]
-                # print("dvl_yaw:", self.shared_memory_object.dvl_yaw.value)
-                # print("dvl_pitch:", self.shared_memory_object.dvl_pitch.value)
-                # print("dvl_roll:", self.shared_memory_object.dvl_roll.value)
-                # print("dvl_x:", self.shared_memory_object.dvl_x.value)
-                # print("dvl_y:", self.shared_memory_object.dvl_y.value)
-                # print("dvl_z:", self.shared_memory_object.dvl_z.value)
             elif dvl_data != None and message_type == "velocity":
                 self.shared_memory_object.dvl_x_velocity.value = dvl_data[0]
                 self.shared_memory_object.dvl_y_velocity.value = dvl_data[1]
@@ -41,12 +37,20 @@ class DVL_Interface:
                 self.shared_memory_object.dvl_altitude.value = dvl_data[3]
                 self.shared_memory_object.dvl_velocity_valid.value = dvl_data[4]
                 self.shared_memory_object.dvl_status.value = dvl_data[5]
-                # print("dvl_x_velocity:", self.shared_memory_object.dvl_x_velocity.value)
-                # print("dvl_y_velocity:", self.shared_memory_object.dvl_y_velocity.value)
-                # print("dvl_z_velocity:", self.shared_memory_object.dvl_z_velocity.value)
-                # print("dvl_altitude:", self.shared_memory_object.dvl_altitude.value)
-                # print("dvl_velocity_valid:", self.shared_memory_object.dvl_velocity_valid.value)
-                # print("dvl_status:", self.shared_memory_object.dvl_status.value)
+
+            if self.P_DEBUG:
+                print("dvl_yaw:", self.shared_memory_object.dvl_yaw.value)
+                print("dvl_pitch:", self.shared_memory_object.dvl_pitch.value)
+                print("dvl_roll:", self.shared_memory_object.dvl_roll.value)
+                print("dvl_x:", self.shared_memory_object.dvl_x.value)
+                print("dvl_y:", self.shared_memory_object.dvl_y.value)
+                print("dvl_z:", self.shared_memory_object.dvl_z.value)
+                print("dvl_x_velocity:", self.shared_memory_object.dvl_x_velocity.value)
+                print("dvl_y_velocity:", self.shared_memory_object.dvl_y_velocity.value)
+                print("dvl_z_velocity:", self.shared_memory_object.dvl_z_velocity.value)
+                print("dvl_altitude:", self.shared_memory_object.dvl_altitude.value)
+                print("dvl_velocity_valid:", self.shared_memory_object.dvl_velocity_valid.value)
+                print("dvl_status:", self.shared_memory_object.dvl_status.value)
         except:
             print("NO DVL DATA")
 

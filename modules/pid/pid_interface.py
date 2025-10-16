@@ -4,7 +4,7 @@ from modules.pid.six_dof_pid import PID
 from scipy.spatial.transform import Rotation as R
 
 try: 
-    from modules.motors.ScionMotorWrapper       import MotorWrapper
+    from modules.motors.ScionMotorWrapper       import MotorWrapper # type: ignore
 except ImportError:
     from modules.motors.MotorWrapper            import MotorWrapper
 
@@ -97,10 +97,3 @@ class PIDInterface:
 
             
             time.sleep(0.2)
-            
-
-            
-
-
-        
-        

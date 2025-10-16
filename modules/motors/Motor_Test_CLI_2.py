@@ -1,7 +1,18 @@
-from MotorWrapper import *
+import sys, os, numpy as np
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+from shared_memory import SharedMemoryWrapper
+from modules.motors.MotorWrapper import *
 
-SharedMemoryWrapper = SharedMemoryWrapper()
-M = MotorWrapper(SharedMemoryWrapper)
+
+"""
+    discord: @kialli
+    github: @kchan5071
+
+    Simple CLI for testing motor directions and speeds
+"""
+
+shared_memory_object = SharedMemoryWrapper()
+M = MotorWrapper(shared_memory_object)
 
 for i in range(8):
     d = input("Enter direction (e.g. f, b, tl, rr): ").lower()

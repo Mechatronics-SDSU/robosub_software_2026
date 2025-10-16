@@ -1,65 +1,85 @@
-from multiprocessing                        import Process, Value
-from shared_memory                          import SharedMemoryWrapper
-from fsm.test_fsm                               import Test_FSM
-from utils.socket_send                            import set_screen
-from modules.test_module.test_process       import Test_Process
-from fsm.gate_fsm                               import Gate_FSM
-from fsm.slalom_fsm                             import Slalom_FSM
-from fsm.octagon_fsm                            import Octagon_FSM
-from fsm.return_fsm                             import Return_FSM
-import time
-import os
+import subprocess, time
 
-#import modules
-#from modules.pid.pid_interface              import PIDInterface
-#from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
-#from modules.vision.vision_main             import VisionDetection
-#from socket_send                            import set_screen
-#from coinflip_fsm                           import CoinFlip_FSM
+# import FSMs
+from shared_memory                          import SharedMemoryWrapper
+from fsm.gate_fsm                           import Gate_FSM
+from fsm.octagon_fsm                        import Octagon_FSM
+from fsm.slalom_fsm                         import Slalom_FSM
+from fsm.return_fsm                         import Return_FSM
+
 
 """
     discord: @.kech
     github: @rsunderr
-
-    Mission Control for managing modes
+    
+    Meant for testing launch logic and FSMs
     
 """
+
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
-delay = 0.25#s
+DELAY = 0.2 #s
 
-# create test processes
-#test_object = Test_Process(shared_memory_object)
-
-# initialize modes
+gate_mode   = Gate_FSM(shared_memory_object, [])
+slalom_mode = Slalom_FSM(shared_memory_object, [])
+oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
-# initialize values
-shared_memory_object.dvl_x.value = 0
-shared_memory_object.dvl_y.value = 0
-shared_memory_object.dvl_z.value = 0.5
+mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
 
 def main():
-    return_mode.start()
-    return_mode.state = "MP1"
-    return_mode.x1 = 0
-    return_mode.y1 = 0
-    return_mode.x2 = 1
-    return_mode.y2 = 0
-    loop("RETURN")
-
-def loop(mode):
     """
-    Looping function, mostly mode transitions within conditionals
+    Main function
+    """
+    # make linked list of modes
+    make_list(mode_list)
+    
+    # start initial mode
+    mode = mode_list[0] # mode pointer
+    mode.start()
+    # loop
+    run_loop(mode)
+
+def run_loop(mode):
+    """
+    Looping function, handles mode transitions
     """
     while shared_memory_object.running.value:
-        #time.sleep(delay)
+        time.sleep(DELAY) # loop delay
+        # tester code ------------------------------------------
+        if mode != return_mode:
+            shared_memory_object.dvl_x.value += 0.1
+        else:
+            shared_memory_object.dvl_x.value -= 0.1
+        # ----------------------------------------------------------
+        
+        if mode is not None:
+            mode.loop() # run current mode loop
+            display(mode)
+            if mode.complete:
+                mode = mode.next()   # transition to next mode
+        else: # exit loop if no mode
+            stop()
+            break
 
-        return_mode.loop()
+def make_list(modes):
+    """
+    Make a linked list of modes from a list of modes
+    """
+    for i in range(len(modes)-1):
+        modes[i].next_mode = modes[i+1]
+        
+    modes[len(modes)-1].next_mode = None # end chain
 
-        # increment x
-        shared_memory_object.dvl_x.value += 0.5
-    
+def display(mode):
+    """
+    Display function for testing
+    """
+    if mode is not None: print(f"MODE: {mode.name}:{mode.state}")
+    print("x: %.1f -> %.1f" % (shared_memory_object.dvl_x.value, shared_memory_object.target_x.value))
+    print("y: %.1f -> %.1f" % (shared_memory_object.dvl_y.value, shared_memory_object.target_y.value))
+    print("z: %.1f -> %.1f" % (shared_memory_object.dvl_z.value, shared_memory_object.target_z.value))
+    print("\n")
 
 def stop():
     """
@@ -68,9 +88,13 @@ def stop():
     shared_memory_object.running.value = 0 # kill gracefully
 
 if __name__ == '__main__':
-    print("RUN FROM MISSION CONTROL")
+    print("RUN FROM LAUNCH")
     try:
         main()
     except KeyboardInterrupt:
-        print("Keyboard interrupt received, stopping mission control.")
-        stop()
+        print("keyboard interrupt detected, stopping program")
+        shared_memory_object.running.value = 0
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+        
+        
