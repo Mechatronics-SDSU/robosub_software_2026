@@ -14,7 +14,7 @@ SOCKET_DIRECTORY = '/tmp/python-services/'
 SOCKET_NAME = 'screen_service.sock'
 
 
-def send_message(socket_name: str, message: str):
+def send_message(socket_name: str, message: str) -> None:
     """
     Sends a message to the server through the specified socket.
     """
@@ -78,17 +78,17 @@ if __name__ == '__main__':
     screen_title = "Test_Title"
     screen_subtitle = "Test_Subtitle"
     set_screen(screen_color, screen_title, screen_subtitle)
-    # #SHOULD ERROR
-    # screen_color = (255, 0, 0)
-    # screen_title = "Test_Title 2"
-    # screen_subtitle = "Test_Subtitle"
-    # set_screen(screen_color, screen_title, screen_subtitle)
-    # screen_color = (0, 255, 0)  # Green color
-    # screen_title = "Test_Title 3"
-    # screen_subtitle = "Test_Subtitle"
-    # set_screen(screen_color, screen_title, screen_subtitle)
-    # #SHOULD ERROR
-    # screen_color = (255, 0, 0)
-    # screen_title = "Test_Title 4"
-    # screen_subtitle = "Test_Subtitle"
-    # set_screen(screen_color, screen_title, screen_subtitle)
+    # #SHOULD ERROR FROM SPAM
+    screen_color = (255, 0, 0)
+    screen_title = "Test_Title 2"
+    screen_subtitle = "Test_Subtitle"
+    set_screen(screen_color, screen_title, screen_subtitle)
+    screen_color = (0, 255, 0)  # Green color
+    screen_title = "Test_Title 3"
+    screen_subtitle = "Test_Subtitle"
+    set_screen(screen_color, screen_title, screen_subtitle)
+    # #SHOULD ERROR FROM SPAM
+    screen_color = (255, 0, 0)
+    screen_title = "Test_Title 4"
+    screen_subtitle = "Test_Subtitle"
+    set_screen(screen_color, screen_title, screen_subtitle)

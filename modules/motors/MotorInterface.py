@@ -7,7 +7,7 @@ import time
     discord: @kialli
     github: @kchan5071
 
-    This module is responsible for interfacing the shared memory object with the hierarchical state machine.
+    DEPRECIATED: use as reference only
     
 """
 

@@ -1,10 +1,24 @@
-#!/usr/bin/python3
-
-from typing import List, Tuple
 import os
 import subprocess
+import yaml
+from typing             import List, Tuple
 
-import config_parser
+"""
+    discord: @kialli
+    github: @kchan5071
+
+    starts all python services in the services directory
+    it will run each one as its own subprocess and store the pid
+    writes the service name and pid to a csv file (services.csv by default)
+
+    it also clearas the services.csv file and socket directory on startup
+    (this can leave subrocesses running with no PID stored if they were not properly killed)
+"""
+
+def read_config(config_file: str) -> dict:
+    with open(config_file, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
 
 def initialize_socket_directory(socket_directory: str) -> str:
     """
@@ -78,9 +92,9 @@ def write_to_csv(services: List[Tuple[str, int]], filename: str) -> None:
             file.write(f'{service[0]},{service[1]}\n')
 
 if __name__ == '__main__':
-    config_parser = config_parser.read_config('config.yaml')
-    initialize_socket_directory(config_parser['socket_directory'])
-    service_list = start_services(config_parser['service_directory'], config_parser['python_executable'])
-    write_to_csv(service_list, config_parser['services_csv'])
+    config = read_config('config.yaml')
+    initialize_socket_directory(config['socket_directory'])
+    service_list = start_services(config['service_directory'], config['python_executable'])
+    write_to_csv(service_list, config['services_csv'])
     print('Services started.')
     print('Service list:', service_list)

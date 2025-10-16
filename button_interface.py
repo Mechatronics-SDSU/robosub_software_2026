@@ -9,7 +9,7 @@ class ButtonInterface:
         self.ser = serial.Serial(usb_port, baud_rate, timeout=1)
         self.delay = 0.001
     
-    def read_packet(self):
+    def read_packet(self) -> tuple[int, int, int, int, float]:
         """
         Reads data packet from electrical system
         """
@@ -48,14 +48,14 @@ class ButtonInterface:
         time.sleep(self.delay) # delay
 
     
-    def print_data(self):
+    def print_data(self) -> None:
         """
         Prints data read from button USB
         """
         gp, bp, ek, ik, depth = self.read_packet()
         print(f"Green: {gp}, Blue: {bp}, ExtKill: {ek}, IntKill: {ik}, Depth: {depth}")
 
-    def close(self):
+    def close(self) -> None:
         """
         Close serial connection
         """

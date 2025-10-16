@@ -1,5 +1,5 @@
 from multiprocessing                        import Process, Value
-#from shared_memory                          import SharedMemoryWrapper
+from shared_memory                          import SharedMemoryWrapper
 from trax_fxns import *
 import time
 
@@ -10,7 +10,7 @@ class Compass:
     github: @rsunderr
     """
 
-    def __init__(self, shared_memory_object):
+    def __init__(self, shared_memory_object :SharedMemoryWrapper):
         """
         Trax interface constructor
         """
@@ -34,19 +34,19 @@ class Compass:
         self.trax_pitch = 0
         self.trax_roll  = 0
     
-    def connect(self):
+    def connect(self) -> None:
         """
         Connect to trax
         """
         self.trax.connect()
     
-    def close(self):
+    def close(self) -> None:
         """
         Close trax connection
         """
         self.trax.close()
 
-    def run_loop(self):
+    def run_loop(self) -> None:
         """
         Function targeted by looping multiprocessing calls, called only once
         """
@@ -84,7 +84,7 @@ class Compass:
                 self.trax.send_packet(frameID)
                 self.trax.close()
     
-    def get_data(self):# 6 comp's: ax ay az yaw pitch roll
+    def get_data(self) -> tuple:# 6 comp's: ax ay az yaw pitch roll
         data = self.trax.recv_packet(self.payload)
         print(data)
         ax = data[4]
@@ -96,6 +96,6 @@ class Compass:
         return (ax, ay, az, yaw, pitch, roll)
 
 if __name__ == "__main__":
-    shared_memory_object = "placeholder"
+    shared_memory_object = SharedMemoryWrapper()
     trax = Trax_Interface(shared_memory_object)
     trax.run_loop()

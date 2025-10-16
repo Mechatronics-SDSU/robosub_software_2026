@@ -17,7 +17,7 @@ import utils.socket_send as socket_send
 DISPLAY_TIMER = 2
 
 class FSM_Template:
-    def __init__(self, shared_memory_object, run_list):
+    def __init__(self, shared_memory_object, run_list: list):
         """
         FSM parent class constructor to setup inherited attributes for modes
         """
@@ -25,13 +25,13 @@ class FSM_Template:
         # create shared memory
         self.shared_memory_object = shared_memory_object
         # initial state
-        self.state = "INIT"     # state tracking variable
+        self.state = None     # state tracking variable
         self.active = False     # enable/disable boolean
         self.complete = False   # boolean for when the mode has completed its tasks
-        self.complete = False   # boolean for when the mode has completed its tasks
         self.name = "PARENT"    # mode name string
-        self.testing = False    # testing mode
+        self.display_on = shared_memory_object.display_on.value # enable/disable display output
         self.last_display_command = time.time()
+        self.next_mode = None  # next mode pointer
 
         # buffers
         self.x_buffer = 0.5
@@ -45,8 +45,8 @@ class FSM_Template:
         for run_object in run_list:
             temp_process = Process(target=run_object.run_loop)
             self.process_objects.append(temp_process)
-
-    def start(self):
+    
+    def start(self) -> None:
         """
         Start FSM by enabling and starting processes
         """
@@ -56,25 +56,31 @@ class FSM_Template:
         for process in self.process_objects:
             process.start()
     
-    def reached_xy(self, x, y):
+    def loop(self) -> None:
         """
-        Returns true if near a location in terms of x and y (requires x,y, buffer and dvl to work), use ignore to ignore a value
+        Dummy loop function, override in child classes
+        """
+        pass
+    
+    def reached_xy(self, x: float, y: float) -> bool:
+        """
+        Returns true if near a location in terms of x and y (requires x,y, buffers and dvl to work)
         """
         if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer:
             return True
         # else
         return False
     
-    def reached_xyz(self, x, y, z):
+    def reached_xyz(self, x: float, y: float, z: float) -> bool:
         """
-        Returns true if near a location (requires x,y,z buffer and dvl to work), use ignore to ignore a value
+        Returns true if near a location (requires x,y,z buffers and dvl to work)
         """
         if abs(self.shared_memory_object.dvl_x.value - x) <= self.x_buffer and abs(self.shared_memory_object.dvl_y.value - y) <= self.y_buffer and abs(self.shared_memory_object.dvl_z.value - z) <= self.z_buffer:
             return True
         # else
         return False
     
-    def display(self, r, g, b):
+    def display(self, r: int, g: int, b: int) -> None:
         """
         Sends color and text to display
         """
@@ -83,7 +89,7 @@ class FSM_Template:
             return
         tgt_txt = f"DVL: \t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
-        if self.testing: # don't run display if in testing mode
+        if not self.display_on: # don't run display if display set to off
             print(f"{tgt_txt}\n{dvl_txt}")
             return
         try:
@@ -96,7 +102,7 @@ class FSM_Template:
         except:
             return
     
-    def join(self):
+    def join(self) -> None:
         """
         Wait until child processes terminate
         """
@@ -105,8 +111,28 @@ class FSM_Template:
         for process in self.process_objects:
             if process.is_alive():
                 process.join()
+    
+    def kill_process(self, process) -> None:
+        """
+        Kill a specific process
+        """
+        for p in self.process_objects:
+            if p is process and p.is_alive():
+                p.terminate()
+                return
+        print("ERROR: Process not found or already dead")
+        
+    def add_process(self, process) -> None:
+        """
+        Add a process to the process list
+        """
+        if process not in self.process_objects:
+            self.process_objects.append(process)
+            process.start()
+        else:
+            print("ERROR: Process already in process list")
 
-    def stop(self):
+    def stop(self) -> None:
         """
         Stop FSM by disabling and killing processes, mark as complete
         """
@@ -117,9 +143,28 @@ class FSM_Template:
             if process.is_alive():
                 process.terminate()
     
-    def suspend(self):
+    def suspend(self) -> None:
         """
         Soft kill FSM, use when a mode is done to be ready for the next mode to start
         """
         self.active = False
         self.complete = True
+    
+    def next(self, mode = None) -> 'FSM_Template | None':
+        """
+        Transition to the next mode, stops if no next mode
+        """
+        self.suspend() # soft kill current mode
+
+        # if valid parameter passed, start parameter mode
+        if isinstance(mode, FSM_Template):
+            self.next_mode = mode
+            self.next_mode.start()
+        # if no parameter passed, start next_mode if it exists
+        elif self.next_mode is not None:
+            self.next_mode.start()
+        # if invalid parameter, no parameter or no next_mode, stop
+        else:
+            self.stop()
+        
+        return self.next_mode
