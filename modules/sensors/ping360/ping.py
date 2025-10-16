@@ -71,42 +71,34 @@ for row in range(len(scan)):
     row_sums.append(sum)
 
 quarter_sum  = 0
-angle_index = 0
+gradian_index = 0
 
-for angle in range(0, 40): 
-    if np.sum(row_sums[angle:angle+10]) > quarter_sum:
-        quarter_sum = np.sum(row_sums[angle:angle+10])
-        angle_index = (angle * 10) + 50 # midpoint of the quarter
+for gradian in range(0, 40): 
+    if np.sum(row_sums[gradian:gradian+10]) > quarter_sum:
+        quarter_sum = np.sum(row_sums[gradian:gradian+10])
+        gradian_index = (gradian * 10) + 50 # midpoint of the quarter
 
 wall_forward = False
 wall_left = False
 wall_right = False
 wall_back = False
 
-if angle_index < 25 or angle_index >= 375:
-    wall_back = True
-elif angle_index >= 25 and angle_index < 75:
-    wall_back = True
-    wall_left = True
-elif angle_index >= 75 and angle_index < 125:
-    wall_left = True
-elif angle_index >= 125 and angle_index < 175:
-    wall_left = True
-    wall_foward = True
-elif angle_index >= 175 and angle_index < 225:
+if gradian_index <= 50 or gradian_index >= 350:
     wall_forward = True
-elif angle_index >= 225 and angle_index < 275:
-    wall_forward = True
+elif gradian_index > 50 and gradian_index < 150:
     wall_right = True
-elif angle_index >= 275 and angle_index < 325:
-    wall_right = True
-elif angle_index >= 325 and angle_index < 375:
-    wall_right = True
+elif gradian_index >= 150 and gradian_index < 250:
     wall_back = True
+elif gradian_index >= 250 and gradian_index < 350:
+    wall_left = True
+
+angle_index = gradian_index * (360 / 400) # convert from gradians to degrees
+
+angle = (angle_index + 180) % 360 # adjust by 180 degrees
 
 print("Wall forward:", wall_forward)
 print("Wall right:", wall_right)
 print("Wall backward:", wall_back)
 print("Wall left:", wall_left)
-print("Angle: ", angle_index)
+print("Angle: ", angle)
 

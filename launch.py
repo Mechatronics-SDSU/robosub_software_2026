@@ -13,8 +13,9 @@ from fsm.fsm                                import FSM_Template
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
+
+#kill module
 from modules.motors.kill_motors             import kill_motors
-from utils.socket_send                      import set_screen
 
 
 """
