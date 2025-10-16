@@ -91,8 +91,7 @@ class Gate_FSM(FSM_Template):
         match(self.state):
             case States.INIT: return
             case States.DIVE: # transition: DIVE -> TO_GATE
-                if self.shared_memory_object.dvl_z.value >= self.drop - self.z_buffer:
-                    self.next_state(States.TO_GATE)
+                self.next_state(States.TO_GATE)
             case States.TO_GATE: # transition: TO_GATE -> DONE
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z): # if it passes gate past at least 1m or reaches tgt
                     self.suspend()
