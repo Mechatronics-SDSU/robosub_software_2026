@@ -49,6 +49,18 @@ class SharedMemoryWrapper:
         self.dvl_status             = Value('b', False)
         self.dvl_altitude           = Value('d', 0)
 
+        # depth sensors
+        self.trax_depth_z           = Value('d', 0)
+        self.other_depth_z          = Value('d', 0)
+
+        # validated z Note: if it equals -10 all depth sensors are out of valid range
+        self.validated_z            = Value('d', 0) 
+
+        # tracks how much each depth sensor's depth reading is used for validated z
+        self.used_dvl               = Value('i',0)
+        self.used_trax              = Value('i',0)    
+        self.used_other             = Value('i',0)
+
         ### change these values for PID testing ###
         self.target_x               = Value('d', 0)
         self.target_y               = Value('d', 0)
