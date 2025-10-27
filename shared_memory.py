@@ -40,6 +40,14 @@ class SharedMemoryWrapper:
         self.dvl_x                  = Value('d', 0)
         self.dvl_y                  = Value('d', 0)
         self.dvl_z                  = Value('d', 0)
+        
+        # trax/orientation
+        self.trax_yaw               = Value('d', 0)
+        self.trax_pitch             = Value('d', 0)
+        self.trax_roll              = Value('d', 0)
+        self.trax_x                 = Value('d', 0)
+        self.trax_y                 = Value('d', 0)
+        self.trax_z                 = Value('d', 0)
 
         # velocities/position
         self.dvl_x_velocity         = Value('d', 0)

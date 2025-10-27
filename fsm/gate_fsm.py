@@ -29,13 +29,13 @@ class Gate_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "GATE"
-        self.state = States.INIT  # initial state
+        self.name: str      = "GATE"
+        self.state: States  = States.INIT  # initial state
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x = self.gate_y = self.gate_z = self.drop = self.t_drop = 0
         try:
-            with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+            with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
                 course = data['course']
                 self.x_buffer = data[course]['gate']['x_buf']
@@ -93,7 +93,7 @@ class Gate_FSM(FSM_Template):
             case States.DIVE: # transition: DIVE -> TO_GATE
                 self.next_state(States.TO_GATE)
             case States.TO_GATE: # transition: TO_GATE -> DONE
-                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z): # if it passes gate past at least 1m or reaches tgt
+                if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
                     self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")

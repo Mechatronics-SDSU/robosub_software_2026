@@ -38,9 +38,9 @@ def main():
     mode = mode_list[0] # mode pointer
     mode.start()
     # loop
-    run_loop(mode)
+    main_loop(mode)
 
-def run_loop(mode):
+def main_loop(mode):
     """
     Looping function, handles mode transitions
     """

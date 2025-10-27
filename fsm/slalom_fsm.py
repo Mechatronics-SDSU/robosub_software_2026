@@ -31,13 +31,13 @@ class Slalom_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "SLALOM"
-        self.state = States.INIT  # initial state
+        self.name: str      = "SLALOM"
+        self.state: States  = States.INIT  # initial state
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.x1 = self.y1 = self.x2 = self.y2 = self.x3 = self.y3 = self.depth = 0
         try:
-            with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+            with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
                 course = data['course']
                 self.x_buffer = data[course]['slalom']['x_buf']
