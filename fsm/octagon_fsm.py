@@ -31,13 +31,13 @@ class Octagon_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "OCTAGON"
-        self.state = States.INIT  # initial state
+        self.name: str      = "OCTAGON"
+        self.state: States  = States.INIT  # initial state
         
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.oct_x = self.oct_y = self.oct_z = self.depth = self.pause = self.angle = 0
         try:
-            with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+            with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
                 course = data['course']
                 self.x_buffer = data[course]['octagon']['x_buf']

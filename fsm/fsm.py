@@ -1,6 +1,7 @@
 from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from utils.socket_send                      import set_screen
+from enum                                   import Enum
 import os
 import yaml
 import time
@@ -25,25 +26,25 @@ class FSM_Template:
         # create shared memory
         self.shared_memory_object = shared_memory_object
         # initial state
-        self.state = None     # state tracking variable
-        self.active = False     # enable/disable boolean
-        self.complete = False   # boolean for when the mode has completed its tasks
-        self.name = "PARENT"    # mode name string
-        self.display_on = shared_memory_object.display_on.value # enable/disable display output
-        self.last_display_command = time.time()
-        self.next_mode = None  # next mode pointer
+        self.state              = None     # state tracking variable
+        self.active: bool       = False     # enable/disable boolean
+        self.complete: bool     = False   # boolean for when the mode has completed its tasks
+        self.name: str          = "PARENT"    # mode name string
+        self.display_on         = shared_memory_object.display_on.value # enable/disable display output
+        self.last_display_command: float = time.time()
+        self.next_mode          = None  # next mode pointer
 
         # buffers
-        self.x_buffer = 0.5
-        self.y_buffer = 0.5
-        self.z_buffer = 0.5
+        self.x_buffer: float = 0.5
+        self.y_buffer: float = 0.5
+        self.z_buffer: float = 0.5
 
         # process saving
         self.process_objects = []  
 
         # create processes
         for run_object in run_list:
-            temp_process = Process(target=run_object.run_loop)
+            temp_process = Process(target=run_object.run_loop) # NOTE: make sure all run_objects have looping run_loop method
             self.process_objects.append(temp_process)
     
     def start(self) -> None:

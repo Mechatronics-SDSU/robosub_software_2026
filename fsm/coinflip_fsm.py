@@ -1,6 +1,6 @@
-from utils.socket_send                            import set_screen
 from fsm.fsm                                    import FSM_Template
-from modules.sensors.trax2.trax_fxns         import TRAX
+from modules.sensors.trax2.trax_fxns            import TRAX
+from enum                                       import Enum
 import yaml, os, subprocess
 """
     discord: @.kech
@@ -9,8 +9,17 @@ import yaml, os, subprocess
     FSM for coin flip
     
 """
+class States(Enum):
+    """
+    Enumeration for FSM states
+    """
+    INIT    = "INIT"
+    TURN    = "TURN"
+    
+    def __str__(self) -> str: # make elegant string
+        return self.value
 
-class CoinFlip_FSM(FSM_Template):
+class CoinFlip_FSM(FSM_Template): # FIXME not finished
     """
     FSM for coin flip mode - aiming toward gate after being turned by diver
     """
@@ -20,22 +29,18 @@ class CoinFlip_FSM(FSM_Template):
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
-        self.name = "COIN_FLIP"
-
-        # buffers
-        self.x_buffer = 0.3#m
-        self.y_buffer = 0.3#m
-        self.z_buffer = 1#m
-        self.yaw_buffer = 15#deg
+        self.name: str      = "COIN_FLIP"
+        self.state: States  = States.INIT  # initial state
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
-        self.pool_yaw, self.depth = (None, None)
+        self.pool_yaw = self.yaw_buffer = self.depth = 0
         self.trax_yaw = 90 # default has a chance of being correct
-        with open(os.path.expanduser("~/robosub_software_2025/objects.yaml"), 'r') as file: # read from yaml
+        with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
             data = yaml.safe_load(file)
-            self.depth = data['objects']['coin_flip']['yaw']
-            self.pool_yaw = data['objects']['coin_flip']['yaw']
-            if self.pool_yaw > 180: self.pool_yaw = self.pool_yaw - 360 # correct for dvl range [-180,180]
+            # FIXME add coin flip section to yaml
+            #self.yaw_buffer = data['objects']['coin_flip']['yaw_buff']
+            #self.pool_yaw = data['objects']['coin_flip']['pool_yaw']
+            # FIXME does PID code work with trax degree convention?
 
     def start(self) -> None:
         """
@@ -43,66 +48,20 @@ class CoinFlip_FSM(FSM_Template):
         """
         super().start()  # call parent start method
 
-        print("STARTING COIN_FLIP MODE")
-
-        # GET TRAX DATA --------------------------------------------------------------------------------------------------------------------------------
-        try:
-            subprocess.run(["sudo", "chmod", "777", "/dev/ttyUSB1"], check=True)
-            print("updated USB1 perms")
-        except:
-            pass
-
-        trax = TRAX()
-        trax.connect()
-
-        # kSetDataComponents
-        frameID = "kSetDataComponents"
-        payload = (1, 0x5)
-        trax.send_packet(frameID, payload)
-
-        # kGetData
-        frameID = "kGetData"
-        trax.send_packet(frameID)
-
-        # kGetDataResp
-        # TODO make it try catch to read first resp, then take a few angles and average them
-        try:
-            data = trax.recv_packet(payload)
-            if len(data) == 6:
-                print(f"\n{data[4]} degrees")
-                self.trax_yaw = data[4]
-        except: # FIXME try again
-            try:
-                data = trax.recv_packet(payload)
-                if len(data) == 6:
-                    print(f"\n{data[4]} degrees")
-                    self.trax_yaw = data[4]
-            except:
-                print("TRAX FAILED")
-
-        if self.trax_yaw > 180: self.trax_yaw = self.trax_yaw - 360 # correct for dvl range [-180,180]
-
-        trax.close()
-
-
         # set initial state
-        self.next_state("SPIN")
+        self.next_state(States.TURN)
 
-    def next_state(self, next: str) -> None:
+    def next_state(self, next: States) -> None:
         """
         Change to next state
         """
         if not self.active or self.state == next: return # do nothing if not enabled or no state change
         # STATES-----------------------------------------------------------------------------------------------------------------------
         match(next):
-            case "INIT": return # initial state
-            case "SPIN": # drop to correct depth and turn towards gate
+            case States.INIT: return # initial state
+            case States.TURN: # drop to correct depth and turn towards gate
                 self.shared_memory_object.target_yaw.value = self.pool_yaw
                 #self.shared_memory_object.target_z.value = self.depth
-            case "DONE": # disable but not kill (go to next mode)
-                # TODO re-zero the dvl values
-                self.active = False
-                self.complete = True
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID NEXT STATE {next}")
                 return
@@ -118,10 +77,21 @@ class CoinFlip_FSM(FSM_Template):
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
-            case "INIT" | "DONE": return
-            case "SPIN": # transition: SPIN -> DONE
-                if abs(self.shared_memory_object.dvl_yaw.value - self.trax_yaw) <= self.yaw_buffer and abs(self.shared_memory_object.dvl_z.value - self.depth) <= self.z_buffer:
-                    self.next_state("DONE")
+            case States.INIT: return
+            case States.TURN: # transition: TURN -> DONE
+                if self.pool_yaw + self.yaw_buffer >= 360:
+                    if abs(self.shared_memory_object.trax_yaw.value - self.pool_yaw + 360) <= self.yaw_buffer:
+                        self.rezero_trax_yaw() # rezero trax yaw
+                        self.suspend()
+                elif abs(self.shared_memory_object.trax_yaw.value - self.pool_yaw) <= self.yaw_buffer:
+                    self.rezero_trax_yaw() # rezero trax yaw
+                    self.suspend()
             case _: # do nothing if invalid state
                 print(f"{self.name} INVALID STATE {self.state}")
+    
+    def rezero_trax_yaw(self) -> None: # FIXME
+        """
+        Rezero trax yaw to make current heading 0 degrees
+        """
+        pass
 
