@@ -1,0 +1,41 @@
+function [a_e,b_e,g_e] = RPY2ZYZ(a_r,b_r,g_r)
+    % This function converts the set of roll-pitch-yaw-angles (g_r,b_r,a_r) to the equivalent
+    % ZYZ Euler angles (a_e,b_e,g_e) 
+    % it only gives the solution for the singularity-free case
+    % a_r, b_r, and g_r are the given roll-pitch-yaw angles in degrees
+    % a_r represents a rotation about the fixed z-axis
+    % b_r represents a rotation about the fixed y-axis
+    % g_r represents a rotation about the fixed x-axis
+    % This function is written by Dr. Madi Babaiasl
+    % The code is not optimized for efficiency nor robustness
+    % the code also does not do full error-checking on its inputs
+    % It is meerly for educational purposes
+    a_r = (a_r*pi)./180;
+    b_r = (b_r*pi)./180;
+    g_r = (g_r*pi)./180;
+
+    a_e1 = atan2((sin(a_r)*sin(b_r)*cos(g_r)-cos(a_r)*sin(g_r))./(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))),(cos(a_r)*sin(b_r)*cos(g_r)+sin(a_r)*sin(g_r))./(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))));
+    a_e1 = (a_e1*180)/pi;
+
+    b_e1 = atan2(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r)),cos(b_r)*cos(g_r));
+    b_e1 = (b_e1*180)/pi;
+
+    g_e1 = atan2((cos(b_r)*sin(g_r))./(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))),(sin(b_r))./(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))));
+    g_e1 = (g_e1*180)/pi;
+
+    a_e2 = atan2((sin(a_r)*sin(b_r)*cos(g_r)-cos(a_r)*sin(g_r))./-(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))),(cos(a_r)*sin(b_r)*cos(g_r)+sin(a_r)*sin(g_r))./(-sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))));
+    a_e2 = (a_e2*180)/pi;
+
+    b_e2 = atan2(-sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r)),cos(b_r)*cos(g_r));
+    b_e2 = (b_e2*180)/pi;
+
+    g_e2 = atan2((cos(b_r)*sin(g_r))./-(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))),(sin(b_r))./-(sqrt(sin(g_r)*sin(g_r)+sin(b_r)*sin(b_r)*cos(g_r)*cos(g_r))));
+    g_e2 = (g_e2*180)/pi;
+
+    a_e = [a_e1,a_e2];
+    b_e = [b_e1,b_e2];
+    g_e = [g_e1,g_e2];
+
+    fprintf('One set of ZYZ Euler angles are %f,%f,and %f',a_e1,b_e1,g_e1); 
+    fprintf(',and the other set of ZYZ Euler angles are %f,%f,and %f',a_e2,b_e2,g_e2);
+ends

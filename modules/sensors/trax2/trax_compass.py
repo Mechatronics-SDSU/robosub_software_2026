@@ -10,7 +10,7 @@ class Compass:
     github: @rsunderr
     """
 
-    def __init__(self, shared_memory_object :SharedMemoryWrapper):
+    def __init__(self, shared_memory_object: SharedMemoryWrapper):
         """
         Trax interface constructor
         """

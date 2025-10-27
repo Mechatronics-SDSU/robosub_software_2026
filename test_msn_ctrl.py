@@ -7,7 +7,7 @@ from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
 
-
+from modules.sensors.trax2.trax_interface import Trax_Interface
 """
     discord: @.kech
     github: @rsunderr
@@ -18,9 +18,11 @@ from fsm.return_fsm                         import Return_FSM
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
-DELAY = 0.2 #s
+DELAY = 0.2 # if you want to stay on one mode longer, increase delay to a high number
 
-gate_mode   = Gate_FSM(shared_memory_object, [])
+#trax_object = Trax_Interface(shared_memory_object)
+
+gate_mode   = Gate_FSM(shared_memory_object, []) #[trax_object])
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])

@@ -9,87 +9,169 @@ from serial.tools import list_ports
     mechatronics@sundermeyer.com
 """
 
+
+# set up module level logger
+LEVEL = logging.INFO
+logger = logging.getLogger(__name__)
+logger.setLevel(LEVEL)
+
+# create console handler if it doesnt exist
+if not logger.handlers:
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(LEVEL)
+    
+    # create formatter
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    
+    # add handler to logger
+    logger.addHandler(console_handler)
+
 class TRAX:
     """
     Wrapper class for trax-related functions
     """
-    def __init__(self, ser=serial.Serial(), baud: int=38400): #not sure how to handle default serial
+    # CONNECTION AND SETUP ------------------------------------------------------------------------------------------------------------------------------------------------
+    def __init__(self, ser=serial.Serial(), baud: int=38400):
         """
-        Constructor (serial and baud rate)
+        Constructor (serial, baud rate)
         """
-        self.ser = ser
-        self.baud = baud
-        self.lg = logging.getLogger(__name__) # TODO replace some prints with debugs
+        self.ser: serial.Serial = ser
+        self.baud: int = baud
     
     def connect(self) -> None:
         """
         Establishes usb serial connection to trax
         """
-        trax1 = "A1019O07"
-        trax2 = "FTBD1LEK"
-        ports = list_ports.comports()
+        trax1: str = "A1019O07"
+        trax2: str = "FTBD1LEK"
+        ports: list = list_ports.comports()
         for port in ports:
             if port.serial_number == trax1 or port.serial_number == trax2: # connect to a trax
-                #print(f"PORT SERIAL #: {port}")
                 try:
                     self.ser = serial.Serial(port.device, self.baud, timeout=1)
-                    print("TRAX CONNECTED: ", port.device)
+                    logger.info(f"TRAX CONNECTED: {port.device}")
                     return
                 except:
-                    self.lg.critical("TRAX FOUND, UNABLE TO CONNECT")
+                    logger.critical("TRAX FOUND, UNABLE TO CONNECT")
                     return
-        self.lg.critical("NO TRAX FOUND")
+        logger.critical("NO TRAX FOUND")
 
     
     def close(self) -> None:
         """
-        Closes serial connection
+        Closes serial connection to trax
         """
         self.ser.close()
+
+    # RECEVING DATA ------------------------------------------------------------------------------------------------------------------------------------------------
+    def recv_packet(self, payload: list | tuple | None = None) -> tuple:
+        """
+        Receives and reads packet from TRAX, checks checksum, returns a tuple of values read 
+        If the datagram includes ID Specific types, pass the payload tuple/array from the prior send_packet() 
+        call that made the query (otherwise no need for 2nd parameter)
+        """
+        packet: bytes = self.ser.read(2) # read first 2 bytes to get byte count
+        usable_payload: tuple = tuple(payload) if payload is not None else () # make usable payload tuple for fxn call
+        byteCount: int = struct.unpack(">H", packet)[0] # get byte count
+        if byteCount < 5: # invalid byte count, warn user and stop fxn
+            logger.critical("INVALID BYTE COUNT RECEIVED")
+            raise Exception("INVALID BYTE COUNT RECEIVED")
+        restOfPacket: bytes = self.ser.read(byteCount - 2) # continue reading rest of packet based on byte count
+        if restOfPacket != None: packet += restOfPacket # concatenate rest of packet bytes
+
+        if packet == b'': # if packet is empty, warn user and stop fxn
+            logger.critical("NO MESSAGE RECEIVED")
+            raise Exception("NO MESSAGE RECEIVED")
+
+        log_string: str = f"RECEIVED:\t{TRAX.parse_bytes(packet)}"
+        response: tuple = TRAX.read_packet(packet, usable_payload) # read packet into tuple of values
+
+        verified: bool = TRAX.verify_CRC(packet) # verify packet using checksum
+        if verified:
+            log_string += f"\tCHECKSUM VALID"
+            logger.info(log_string)
+            return response
+        else:
+            logger.critical("CORRUPTED PACKET: CHECKSUM FAILED")
+            raise Exception("CORRUPTED PACKET: CHECKSUM FAILED")
     
     @staticmethod
-    def help() -> None:
+    def read_packet(packet: bytes, payload: list | tuple) -> tuple:
         """
-        Prints information about using the TRAX wrapper class
+        Reads packet of bytes in trax-readable format, returns tuple of values read
+        If the datagram includes ID Specific types, pass the payload tuple from the prior send_packet() call 
+        that made the query
         """
-        print("This is the TRAX python wrapper class to interface with the PNI TRAX 2 AHRSE sensor.")
-        print("Please refer to Chapter 7 'Operation with PNI Binary Protocol' of the data sheet:\nhttps://www.pnisensor.com/wp-content/uploads/TRAX2-User-Manual.pdf\n")
-        print("SETUP")
-        print("To use this wrapper class, start with the following:\ntrax = TRAX()\ntrax.connect()\n#your code here\ntrax.close()\n")
-        print("SENDING DATA")
-        print("trax.send_packet(frame ID, payload)\nUsage: frame ID should be an int from the table or the string name of the command, and payload should be a tuple or array of values.")
-        print("This function returns nothing.\n")
-        print("RECEIVING DATA")
-        print("trax.recv_packet()\nUsage: In most cases, you can leave the parameters empty. If the command says it has ID specific values, just pass the payload from whatever previous command this one is answering.")
-        print("This function returns a tuple of values according to the datagram in the data sheet.\n")
-        print("DATAGRAM")
-        print("[ byte count uint16 ] [ frame ID uint8 ] [ payload (optional) ] [ CRC uint16 ]\n\n")
+        frameID: int = packet[2] # get frame ID from packet (bytes)
+        decode_str: str = ">HB" # big endian, byte count, ID
+        match frameID:
+            # NORMAL FRAMES
+            case 2:     decode_str += "II" # kGetModInfoResp    
+            case 16:    decode_str += "H" # kSaveDone
+            case 18:    decode_str += "ffffff" # kUserCalScore
+            case 27:    decode_str += "BBff" # kSetAcqParamsResp
+            case 53:    decode_str += "I" # kSerialNumberResp
+            case 81:    decode_str += "B" # kGetFunctionalModeResp
+            case 109:   decode_str += "B" # kGetDistortionModeResp
+            case 121:   decode_str += "B" # kGetMagTruthMethodResp
+            # ID SPECIFIC FRAMES: TODO: not sure if quaternion works
+            case 130:   decode_str += "Bf" # kGetMergeRateResp
+            case 5: # kGetDataResp
+                decode_str += "B" # ID Count
+                id_list = payload[1:]
+                for id in id_list: # NOTE: expected tuple payload from prior kSetDataComponents call: (ID count, ID, ID, ...)
+                    decode_str += "B" # reads: ID Count, ID, Status, ID, Status, ...
+                    decode_str += TRAX.componentID_type(id) # gets struct lib char based on Component ID
+            case 8: # kGetConfigResp
+                decode_str += "B" + TRAX.configID_type(payload[0]) # NOTE: expected tuple payload from prior kGetConfig call: (Config ID,)
+            case 14: # kGetFIRFiltersResp
+                decode_str += "BBB"
+                N = payload[2] # NOTE: number of float 64 filter vals in payload based on 3rd bit of payload from prior kSetFirFilters call: (x,x, N, ...)
+                if N == 0 or N == 4 or N == 8 or N == 16 or N == 32:
+                    for _ in range(N): decode_str += "F" # meant to be 0, 4, 8, 16, or 32 tap filter values
+            # ID # 19, 23, 26, 28, 30, 37, 44 have no payload
+        
+        decode_str += "H" # CRC
+        try:
+            return struct.unpack(decode_str, packet)
+        except:
+            logger.warning("WARNING: CORRUPTED PACKET")
+            raise Exception("CORRUPTED PACKET")
+    
+    # SENDING DATA ------------------------------------------------------------------------------------------------------------------------------------------------
+    def send_packet(self, frameID: int | str, payload: list | tuple | None = None) -> None:
+        """
+        Transmits packet over USB, frame ID is an int or string (name), tuple/array for payload values if applicable
+        """
+        usable_payload: tuple = tuple(payload) if payload is not None else () # make usable payload tuple for fxn call
+        usable_frameID: int = TRAX.get_frame_id(frameID) if type(frameID) == str else int(frameID) # if frameID is string, get int value with fxn
 
+        packet: bytes = TRAX.create_packet(usable_frameID, usable_payload) # create packet in bytes
+        self.ser.write(packet) # send packet over serial
+        logger.info(f"TRANSMISSION:\t{TRAX.parse_bytes(packet)}") # print transmission contents
 
     @staticmethod
-    def get_packet(frameID: str, payload=None) -> bytearray: # datagram: [ byte count uint16 ] [ frame ID uint8 ] [ payload (opt) ] [ CRC uint16 ]
+    def create_packet(frameID: int, payload: list | tuple) -> bytes: # datagram: [ byte count uint16 ] [ frame ID uint8 ] [ payload (opt) ] [ CRC uint16 ]
         """
-        Returns and prints byte array packet based on frame ID and payload in trax-readable format
-        Used for sending data
+        Returns and prints bytes packet based on frame ID and payload in trax-readable format
         """
-        payload_bytes = TRAX.get_payload_bytes(frameID, payload)
-        byte_count = 5 + TRAX.calc_byte_count(payload_bytes) # 2 bits byte count + 1 bit ID + payload + 2 bits CRC
+        payload_bytes: bytes = TRAX.get_payload_bytes(frameID, payload)
+        byte_count: int = 5 + TRAX.calc_byte_count(payload_bytes) # 2 bits byte count + 1 bit ID + payload + 2 bits CRC
 
-        packet  = byte_count.to_bytes(2, byteorder='big')
+        packet: bytes = byte_count.to_bytes(2, byteorder='big')
         packet += frameID.to_bytes(1, byteorder='big')
         packet += payload_bytes
         packet += TRAX.calc_CRC(packet).to_bytes(2, byteorder='big')
         return packet
     
     @staticmethod
-    def get_payload_bytes(frameID: str, payload=None) -> bytearray:
+    def get_payload_bytes(frameID: int, payload: list | tuple) -> bytes:
         """
-        Generates a byte array based on frameID and tuple/array of specification IDs
-        Used for sending data
+        Generates bytes for payload based on frameID and tuple/array of specification IDs
         """
-        payload_bytes = bytearray()
-        if payload == None: return payload_bytes # return empty payload if no payload tuple/array passed
-        encode_str = ">" # struct pack encode string (big endian)
+        payload_bytes = bytes()
+        encode_str: str = ">" # struct pack encode string (big endian)
         match frameID:
             case 7:     encode_str += "B" # kGetConfig - UInt8 
             case 10:    encode_str += "I" # kStartCal - UInt32
@@ -112,26 +194,14 @@ class TRAX:
                 N = payload[2] # NOTE: number of Float64 filter vals in payload based on 3rd bit of payload: (x,x, N, ...)
                 if N == 0 or N == 4 or N == 8 or N == 16 or N == 32:
                     for _ in range(N): encode_str += "F" # meant to be 0, 4, 8, 16, or 32 tap filter values
-            # no payload: 1, 4, 9, 11, 15, 21, 22, 25, 29, 31, 36, 52, 80, 108, 110, 120, 129
-        payload_bytes = struct.pack(encode_str, *payload)
+            # ID # 1, 4, 9, 11, 15, 21, 22, 25, 29, 31, 36, 52, 80, 108, 110, 120, 129 have no payload
+        payload_bytes: bytes = struct.pack(encode_str, *payload)
         return payload_bytes
-
-    def send_packet(self, frameID, payload=None) -> None:
-        """
-        Transmits packet over USB, frame ID is an int, tuple/array for payload values if applicable
-        Used for sending data
-        """
-        fID = frameID
-        if type(frameID) == type("str"): fID = TRAX.get_frame_id(frameID)
-
-        packet = TRAX.get_packet(fID, payload)
-        self.ser.write(packet)
-        print("TRANSMISSION:\t", TRAX.parse_bytes(packet))
 
     @staticmethod
     def get_frame_id(frameID_str: str) -> int:
         """
-        Returs an int for the frame ID given the string name of a frame
+        Returns an int for the frame ID given the string name of a frame
         Used for sending data
         """
         match frameID_str:
@@ -166,97 +236,27 @@ class TRAX:
             case "kSetMergeRate":       return 128
             case "kGetMergeRate":       return 129
             case _: 
-                print("Invalid Frame ID")
-                return -1
+                logger.error("Invalid Frame ID")
+                raise Exception("Invalid Frame ID")
     
-    def recv_packet(self, payload=None):
-        """
-        Receives and reads packet from TRAX, checks checksum, returns a tuple of values read 
-        If the datagram includes ID Specific types, pass the payload tuple/array from the prior send_packet() call that made the query
-        Used for receiving data
-        """
-        #packet = self.ser.readline() # read input message
-        packet = self.ser.read(2)
-        byteCount = struct.unpack(">H", packet)[0]
-        restOfPacket = self.ser.read(byteCount - 2)
-        if restOfPacket != None: packet += restOfPacket
-
-        if packet == b'': # if packet is empty, warn user and stop fxn
-            self.lg.critical("NO MESSAGE RECEIVED")
-            return -1
-        
-        print("RECEIVED:\t", TRAX.parse_bytes(packet), end="\t")
-        response = TRAX.read_packet(packet, payload)
-
-        verified = TRAX.verify_CRC(packet) # verify packet using checksum
-        if verified:
-            print("CHECKSUM VERIFIED")
-            return response
-        else:
-            self.lg.critical("CORRUPTED PACKET: CHECKSUM FAILED")
-            return -1
-    
+    # HELPER FUNCTIONS ------------------------------------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def read_packet(packet, payload=[]):
-        """
-        Reads packet of bytes in trax-readable format, returns tuple of values read
-        If the datagram includes ID Specific types, pass the payload tuple from the prior send_packet() call that made the query
-        Used for receiving data
-        """
-        #byteCount = struct.unpack(">H", packet[:2])[0]
-        frameID = packet[2] # get frame ID from packet (bytes)
-        decode_str = ">HB" # big endian, byte count, ID
-        match frameID:
-            case 2:     decode_str += "II" # kGetModInfoResp    
-            case 16:    decode_str += "H" # kSaveDone
-            case 18:    decode_str += "ffffff" # kUserCalScore
-            case 27:    decode_str += "BBff" # kSetAcqParamsResp
-            case 53:    decode_str += "I" # kSerialNumberResp
-            case 81:    decode_str += "B" # kGetFunctionalModeResp
-            case 109:   decode_str += "B" # kGetDistortionModeResp
-            case 121:   decode_str += "B" # kGetMagTruthMethodResp
-            # ID SPECIFIC FRAMES: TODO: not sure if quaternion works
-            case 130:   decode_str += "Bf" # kGetMergeRateResp
-            case 5: # kGetDataResp 
-                decode_str += "B" # ID Count
-                if payload == None: return (-1,)
-                id_list = payload[1:]
-                for id in id_list: # NOTE: expected tuple payload from prior kSetDataComponents call: (ID count, ID, ID, ...)
-                    decode_str += "B" # reads: ID Count, ID, Status, ID, Status, ...
-                    decode_str += TRAX.componentID_type(id) # gets struct lib char based on Component ID
-            case 8: # kGetConfigResp
-                decode_str += "B" + TRAX.configID_type(payload[0]) # NOTE: expected tuple payload from prior kGetConfig call: (Config ID,)
-            case 14: # kGetFIRFiltersResp
-                decode_str += "BBB"
-                N = payload[2] # NOTE: number of float 64 filter vals in payload based on 3rd bit of payload from prior kSetFirFilters call: (x,x, N, ...)
-                if N == 0 or N == 4 or N == 8 or N == 16 or N == 32:
-                    for _ in range(N): decode_str += "F" # meant to be 0, 4, 8, 16, or 32 tap filter values
-            # 19, 23, 26, 28, 30, 37, 44 have no payload
-        
-        decode_str += "H" # CRC
-        try:
-            return struct.unpack(decode_str, packet)
-        except:
-            print("WARNING: CORRUPTED PACKET")
-            return (-1,)
-    
-    @staticmethod
-    def struct_chars(payload):
+    def struct_chars(payload: list | tuple) -> str:
         """
         Returns a struct lib char string based on payload automatically
         """
-        encode_str = ""
+        encode_str: str = ""
         for p in payload:
             if type(p)   == type(1):    encode_str += "B" # UInt8
             elif type(p) == type(1.0):  encode_str += "f" # Float32
             elif type(p) == type(True): encode_str += "B" # Boolean represented as UInt8
             else:                       encode_str += "f" # Default - Float32
         return encode_str
-
+    
     @staticmethod
-    def componentID_type(compID: int):
+    def componentID_type(compID: int) -> str:
         """
-        Returns the struct lib char based on the Component ID
+        Returns the struct library character based on the Component ID (which can then be used for unpacking)
         """
         match compID:
             case 5:     return "f"   # kHeading - Float32
@@ -279,9 +279,9 @@ class TRAX:
             case _:     return "f"   # Default - UInt8
     
     @staticmethod
-    def configID_type(configID: int):
+    def configID_type(configID: int) -> str:
         """
-        Returns the struct lib char based on the config ID
+        Returns the struct library character based on the config ID
         """
         match configID:
             case 1:     return "f" # kDeclination - Float32
@@ -298,7 +298,7 @@ class TRAX:
             case _:     return "B" # Default - UInt8
     
     @staticmethod
-    def parse_bytes(bytes: bytearray) -> str:
+    def parse_bytes(bytes: bytes) -> str:
         """
         Parses bytes to make legible string
         """
@@ -307,36 +307,37 @@ class TRAX:
     @staticmethod
     def uint_to_str(num: int, size=32) -> str:
         """
-        Converts a uint (that was converted from bytes) to a string, taking the number followed by the bit size (default is uint32)
+        Converts a uint (that was converted from bytes) to a string, taking the number followed by the bit 
+        size (default is uint32)
         """
         return num.to_bytes(int(size/8), 'big').decode('ascii', errors='ignore')
     
     @staticmethod
-    def calc_byte_count(packet: bytearray) -> int:
+    def calc_byte_count(packet: bytes) -> int:
         """
         Calculates integer byte count based on packet
         """
-        count = 0
+        count: int = 0
         for _ in packet: count += 1
         return count
     
     @staticmethod
-    def verify_CRC(packet: bytearray) -> bool:
+    def verify_CRC(packet: bytes) -> bool:
         """
         Verifies a packet (in bytes) based on its checksum
         """
-        index = len(packet) - 2
-        packet_crc = struct.unpack(">H", packet[index:])[0] # CRC decoded from last 2 bits in packet
-        test_crc = TRAX.calc_CRC(packet[:index]) # CRC calculated from byte count, ID, payload in packet
-        
+        index: int = len(packet) - 2
+        packet_crc: int = struct.unpack(">H", packet[index:])[0] # CRC decoded from last 2 bits in packet
+        test_crc: int = TRAX.calc_CRC(packet[:index]) # CRC calculated from byte count, ID, payload in packet
+
         return packet_crc == test_crc
     
     @staticmethod
-    def calc_CRC(packet: bytearray) -> int:
+    def calc_CRC(packet: bytes) -> int:
         """
         Calculates checksum (CRC-16) of packet (based on data sheet C fxn)
         """
-        crc = 0
+        crc: int = 0
         for byte in packet:
             crc = ((crc >> 8) & 0xFF) | ((crc << 8) & 0xFFFF)
             crc ^= byte
@@ -345,22 +346,3 @@ class TRAX:
             crc ^= ((crc & 0xFF) << 4) << 1
             crc &= 0xFFFF # trim to 16 bit
         return int(crc)
-
-    """
-    DATA SHEET CRC FXN:
-    UInt16 CommProtocol::CRC(void * data, UInt32 len)
-    {
-        UInt8 * dataPtr = (UInt8 *)data;
-        UInt32 index = 0;
-        UInt16 crc = 0;
-        while (len--)
-        {
-            crc = (unsigned char)(crc >> 8) | (crc << 8);
-            crc ^= dataPtr[index++];
-            crc ^= (unsigned char)(crc & 0xff) >> 4;
-            crc ^= (crc << 8) << 4;
-            crc ^= ((crc & 0xff) << 4) << 1;
-        }
-        return crc;
-    }
-    """
