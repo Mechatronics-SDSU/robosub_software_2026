@@ -1,0 +1,42 @@
+[project]
+name = "robosub-software-2026"
+version = "0.0.1"
+description = "fork of the award winnning 2025 software repo!"
+authors = [
+    {name = "Kai Chan"},
+    {name = "Ryan Sundermeyer"},
+    {name = "Sam Georges"},
+    {name = "Joe Lofrese"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "yolov5==7.0.13",
+    "argparse==1.4.0",
+    "inputs==0.5",
+    "python-can==3.3.3",
+    "cffi==1.16.0",
+    "onnx==1.16.1",
+    "PyYAML==6.0",
+    "pyserial==3.5",
+    "matplotlib==3.7.2"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[docs]
+dependencies = [
+    "pdoc3==0.11.1",
+]
+
+[non-orin-dependencies]
+dependencies = [
+    "opencv-python==4.9.0.80",
+    "numpy==1.24.3",
+    "torch==2.4.1",
+    "torchvision==0.19.1"
+]
+
+    
