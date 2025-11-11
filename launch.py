@@ -4,7 +4,7 @@ import os
 
 # import FSMs
 from shared_memory                          import SharedMemoryWrapper
-'''from fsm.gate_fsm                           import Gate_FSM
+from fsm.gate_fsm                           import Gate_FSM
 from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
@@ -16,7 +16,17 @@ from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
 
 #kill module
-from modules.motors.kill_motors             import kill_motors'''
+from modules.motors.kill_motors             import kill_motors
+
+import django, sys
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+GUI_DIR = os.path.join(BASE_DIR, "modules", "gui")
+if GUI_DIR not in sys.path:
+    sys.path.insert(0, GUI_DIR)
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")  # or "modules.gui.mysite.settings" if you prefer
+django.setup()
+
 
 from modules.gui.web_gui.gui_launch import Gui_launch
 

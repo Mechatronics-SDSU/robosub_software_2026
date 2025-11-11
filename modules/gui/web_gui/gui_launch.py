@@ -1,7 +1,7 @@
 
 import json
 import time, os
-import views # may or may not get angry at trying to import views idk
+from . import views # may or may not get angry at trying to import views idk
 
 class Gui_launch:
 
@@ -15,20 +15,20 @@ class Gui_launch:
         self.write_values()
 
     def write_values(self):
-        while self.running.value:
+        while self.shared_memory_object.running.value:
 
             #Writes to JSON file
             telemetry = {
                 "dvl": {
-                    "x": self.dvl_x.value,
-                    "y": self.dvl_y.value,
-                    "z": self.dvl_z.value,
-                    "yaw": self.dvl_yaw.value,
-                    "pitch": self.dvl_pitch.value,
-                    "roll": self.dvl_roll.value,
-                    "vx": self.dvl_x_velocity.value,
-                    "vy": self.dvl_y_velocity.value,
-                    "vz": self.dvl_z_velocity.value,
+                    "x": self.shared_memory_object.dvl_x.value,
+                    "y": self.shared_memory_object.dvl_y.value,
+                    "z": self.shared_memory_object.dvl_z.value,
+                    "yaw": self.shared_memory_object.dvl_yaw.value,
+                    "pitch": self.shared_memory_object.dvl_pitch.value,
+                    "roll": self.shared_memory_object.dvl_roll.value,
+                    "vx": self.shared_memory_object.dvl_x_velocity.value,
+                    "vy": self.shared_memory_object.dvl_y_velocity.value,
+                    "vz": self.shared_memory_object.dvl_z_velocity.value,
                 }
             }
 
