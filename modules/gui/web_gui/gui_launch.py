@@ -16,7 +16,7 @@ class Gui_launch:
 
     def write_values(self):
         while self.shared_memory_object.running.value:
-
+            
             #Writes to JSON file
             telemetry = {
                 "dvl": {

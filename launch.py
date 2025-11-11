@@ -1,7 +1,7 @@
 import subprocess, time
 from multiprocessing                        import Process, Value
 import os
-
+from pathlib import Path
 # import FSMs
 from shared_memory                          import SharedMemoryWrapper
 from fsm.gate_fsm                           import Gate_FSM
@@ -46,11 +46,16 @@ try:
 except:
     print("ERROR: Permissions fix failed")
 
-'''subprocess.run([
-    "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-    "manage.py",
-    "runserver"
-], cwd="/Users/clayejoiner/projects/robosub2026/robosub_software_2026/modules/gui")'''
+# Resolve repo paths relative to this file
+REPO_ROOT = Path(__file__).resolve().parent
+GUI_DIR = REPO_ROOT / "modules" / "gui"
+
+# Run Django with the same Python you're using to run launch.py
+subprocess.run(
+    [sys.executable, "manage.py", "runserver"], 
+    cwd=str(GUI_DIR), 
+    check=True
+)
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
