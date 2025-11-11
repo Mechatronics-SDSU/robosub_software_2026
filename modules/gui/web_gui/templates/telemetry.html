@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+            <script src="https://cdn.plot.ly/plotly-3.2.0.min.js" charset="utf-8"></script>
+                
+            <style>
+                    body {
+                            background-color: #ffe5f0;
+                            padding: 20px;
+                    }
+                    h2 {
+                            color: #f6b1bc;
+                            font-size: 48px;
+                            margin-bottom: 20px;
+                     }
+                    .button{
+                            margin-bottom: 50px;
+                            font-size: 25px;
+                            color:  #f6b1bc;
+                            background-color: rgb(255, 255, 255);
+                            border-color: rgb(111, 111, 111);
+                            padding: 10px;
+                    }
+            </style>
+    </head>
+
+    <body>
+
+        <h2>Telemetry Viewer</h2>
+
+        <button class="button" id="test_mode">
+                Switch to use test values
+        </button>
+        <button class="button" id="real_mode">
+                Switch to use real data
+        </button>
+
+        <button class="button" id="dvl_reset_button">
+                DVL RESET
+        </button>
+
+        <div id="dvlV" style="width:600px;height:250px;"></div>
+        <div id="dvlYPR" style="width:600px;height:250px;"></div>
+        <div id="dvlPos" style="width:600px;height:250px;"></div>
+        <pre id="out"></pre>
+
+
+        <script>
+                const test = document.getElementById("test_mode");
+                test.addEventListener("click", SwitchTest);
+
+                const real = document.getElementById("real_mode");
+                real.addEventListener("click", SwitchReal);
+
+                var mode = "real_mode_activated";
+
+                const reset_button = document.getElementById("dvl_reset_button");
+                resetç_button.addEventListener("click", DVLRESET);
+
+                const out = document.getElementById('out');
+                const DVLV = document.getElementById('dvlV');
+                const DVLYPR = document.getElementById('dvlYPR');
+                const DVLPos = document.getElementById('dvlPos');
+                
+                let plotReadyV = false; let plotReadyYPR = false; let plotReadyPos = false;
+
+                var vx1ago = 0; var vx2ago = 0; var vx3ago = 0;
+                var vy1ago = 0; var vy2ago = 0; var vy3ago = 0;
+                var vz1ago = 0; var vz2ago = 0; var vz3ago = 0;
+                var yaw1ago = 0; var yaw2ago = 0; var yaw3ago = 0;
+                var pitch1ago = 0; var pitch2ago = 0; var pitch3ago = 0;
+                var roll1ago = 0; var roll2ago = 0; var roll3ago = 0;
+                var x1ago = 0; var x2ago = 0; var x3ago = 0;
+                var y1ago = 0; var y2ago = 0; var y3ago = 0;
+                var z1ago = 0; var z2ago = 0; var z3ago = 0;
+
+                async function DVLRESET(){
+                    await fetch("{% url 'DVLreset' %}");
+                }
+
+                async function SwitchTest(){
+                    mode = "test_mode_activated";
+                }
+
+                async function SwitchReal(){
+                    mode = "real_mode_activated";
+                }
+      
+                async function tick(){
+                    let r;
+                    // use test_telemetry or get_telemetry depending if youre using testing values or real values
+                    if(mode=="test_mode_activated"){
+                        r = await fetch("{% url 'test_telemetry' %}");
+                    }
+                    if(mode=="real_mode_activated"){
+                        r = await fetch("{% url 'get_telemetry' %}");
+                    }
+                    const j = await r.json();
+                    out.textContent = JSON.stringify(j, null, 2)
+                    const d = j.dvl;
+
+                    const traceVX = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [vx3ago, vx2ago, vx1ago, d.vx],
+                        type: 'scatter',
+                        marker: {color: 'blue'},
+                        name: 'X'
+                    };
+                    
+                    const traceVY = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [vy3ago, vy2ago, vy1ago, d.vy],
+                        type: 'scatter',
+                        marker: {color: 'red'},
+                        name: 'Y'
+                    };
+                    
+                    const traceVZ = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [vz3ago, vz2ago, vz1ago, d.vz],
+                        type: 'scatter',
+                        marker: {color: 'black'},
+                        name: 'Z'
+                    };
+
+                    const traceYaw = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [yaw1ago, yaw2ago, yaw1ago, d.yaw],
+                        type: 'scatter',
+                        marker: {color: 'black'},
+                        name: 'Yaw'
+                    };
+
+                    const tracePitch = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [pitch1ago, pitch2ago, pitch1ago, d.pitch],
+                        type: 'scatter',
+                        marker: {color: 'blue'},
+                        name: 'Pitch'
+                    };
+
+                    const traceRoll = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [roll1ago, roll2ago, roll1ago, d.roll],
+                        type: 'scatter',
+                        marker: {color: 'red'},
+                        name: 'Roll'
+                    };
+
+                    const traceX = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [x1ago, x2ago, x1ago, d.x],
+                        type: 'scatter',
+                        marker: {color: 'red'},
+                        name: 'X'
+                    };
+
+                    const traceY = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [y1ago, y2ago, y1ago, d.y],
+                        type: 'scatter',
+                        marker: {color: 'blue'},
+                        name: 'Y'
+                    };
+
+                    const traceZ = {
+                        x: ['3ago', '2ago', '1ago', 'now'],
+                        y: [z1ago, z2ago, z1ago, d.z],
+                        type: 'scatter',
+                        marker: {color: 'black'},
+                        name: 'Z'
+                    };
+
+                    roll3ago = roll2ago; roll2ago = roll1ago; roll1ago = d.roll;
+                    pitch3ago = pitch2ago; pitch2ago = pitch1ago; pitch1ago = d.pitch;
+                    yaw3ago = yaw2ago; yaw2ago = yaw1ago; yaw1ago = d.yaw;
+                    vx3ago = vx2ago; vx2ago = vx1ago; vx1ago = d.vx;
+                    vy3ago = vy2ago; vy2ago = vy1ago; vy1ago = d.vy;
+                    vz3ago = vz2ago; vz2ago = vz1ago; vz1ago = d.vz;
+                    x3ago = x2ago; x2ago = x1ago; x1ago = d.x;
+                    y3ago = y2ago; y2ago = y1ago; y1ago = d.y;
+                    z3ago = z2ago; z2ago = z1ago; z1ago = d.z;
+
+                    if (!plotReadyV) {
+                            Plotly.newPlot(DVLV, [traceVX, traceVY, traceVZ], {
+                                title: {
+                                        text: 'Velocity',
+                                        font: { size: 30, color: 'pink'}},
+                                xaxis: { showticklabels: false,},
+                                margin: { t: 80 }
+                            });
+                        plotReadyV = true;
+                    } else {
+                            Plotly.react(DVLV, [traceVX, traceVY, traceVZ], DVLV.layout);
+                    }  
+
+
+                    if (!plotReadyYPR) {
+                            Plotly.newPlot(DVLYPR, [traceYaw, tracePitch, traceRoll], {
+                                title: {
+                                        text: 'Rotation',
+                                        font: {size: 30, color: 'pink'}},
+                                xaxis: {showticklabels: false,},
+                                margin: { t: 50 }
+                            });
+                        plotReadyYPR = true;
+                    } else {
+                            Plotly.react(DVLYPR, [traceYaw, tracePitch, traceRoll], DVLYPR.layout);
+                    }
+
+
+                    if (!plotReadyPos) {
+                            Plotly.newPlot(DVLPos, [traceX, traceY, traceZ], {
+                                title: {
+                                        text: 'Position',
+                                        font: { size: 30, color: 'pink'}},
+                                xaxis: {showticklabels: false,},
+                                margin: { t: 50 }
+                            });
+                        plotReadyPos = true;
+                    } else {
+                            Plotly.react(DVLPos, [traceX, traceY, traceZ], DVLPos.layout);
+                    }
+                }
+                tick();
+                setInterval(tick, 500);
+        </script>
+
+    </body>
+</html>

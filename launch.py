@@ -1,9 +1,10 @@
 import subprocess, time
 from multiprocessing                        import Process, Value
+import os
 
 # import FSMs
 from shared_memory                          import SharedMemoryWrapper
-from fsm.gate_fsm                           import Gate_FSM
+'''from fsm.gate_fsm                           import Gate_FSM
 from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
@@ -15,7 +16,9 @@ from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
 
 #kill module
-from modules.motors.kill_motors             import kill_motors
+from modules.motors.kill_motors             import kill_motors'''
+
+from modules.gui.web_gui.gui_launch import Gui_launch
 
 
 """
@@ -33,10 +36,18 @@ try:
 except:
     print("ERROR: Permissions fix failed")
 
+'''subprocess.run([
+    "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
+    "manage.py",
+    "runserver"
+], cwd="/Users/clayejoiner/projects/robosub2026/robosub_software_2026/modules/gui")'''
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
 DELAY = 0 #s
+
+gui = Gui_launch(shared_memory_object)
+
 
 # initialize objects
 pid_object = PIDInterface(shared_memory_object)
