@@ -2,6 +2,8 @@ import subprocess, time
 from multiprocessing                        import Process, Value
 import os
 from pathlib import Path
+import django, sys
+
 # import FSMs
 from shared_memory                          import SharedMemoryWrapper
 from fsm.gate_fsm                           import Gate_FSM
@@ -14,22 +16,10 @@ from fsm.fsm                                import FSM_Template
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
+from modules.gui.web_gui.gui_launch         import Gui_launch
 
 #kill module
 from modules.motors.kill_motors             import kill_motors
-
-import django, sys
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-GUI_DIR = os.path.join(BASE_DIR, "modules", "gui")
-if GUI_DIR not in sys.path:
-    sys.path.insert(0, GUI_DIR)
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")  # or "modules.gui.mysite.settings" if you prefer
-django.setup()
-
-
-from modules.gui.web_gui.gui_launch import Gui_launch
-
 
 """
     discord: @.kech, @kialli
@@ -46,11 +36,17 @@ try:
 except:
     print("ERROR: Permissions fix failed")
 
-# Resolve repo paths relative to this file
+#sets up web gui
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+GUI_DIR = os.path.join(BASE_DIR, "modules", "gui")
+if GUI_DIR not in sys.path:
+    sys.path.insert(0, GUI_DIR)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+django.setup()
+
 REPO_ROOT = Path(__file__).resolve().parent
 GUI_DIR = REPO_ROOT / "modules" / "gui"
 
-# Run Django with the same Python you're using to run launch.py
 subprocess.run(
     [sys.executable, "manage.py", "runserver"], 
     cwd=str(GUI_DIR), 
@@ -61,13 +57,11 @@ subprocess.run(
 shared_memory_object = SharedMemoryWrapper()
 DELAY = 0 #s
 
-gui = Gui_launch(shared_memory_object)
-
-
 # initialize objects
 pid_object = PIDInterface(shared_memory_object)
 dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
+gui_object = Gui_launch(shared_memory_object)
 
 # initialize modes
 gate_modules = [pid_object, dvl_object]

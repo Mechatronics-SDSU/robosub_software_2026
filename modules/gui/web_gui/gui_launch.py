@@ -1,7 +1,7 @@
 
 import json
 import time, os
-from . import views # may or may not get angry at trying to import views idk
+from . import views
 
 class Gui_launch:
 
