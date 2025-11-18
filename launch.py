@@ -16,7 +16,6 @@ from fsm.fsm                                import FSM_Template
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
-from modules.gui.web_gui.gui_launch         import Gui_launch
 
 #kill module
 from modules.motors.kill_motors             import kill_motors
@@ -37,20 +36,16 @@ except:
     print("ERROR: Permissions fix failed")
 
 #sets up web gui
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-GUI_DIR = os.path.join(BASE_DIR, "modules", "gui")
-if GUI_DIR not in sys.path:
-    sys.path.insert(0, GUI_DIR)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
+GUI_DIR = os.path.join(BASE_DIR, "modules", "gui") 
+if GUI_DIR not in sys.path: sys.path.insert(0, GUI_DIR)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
 django.setup()
+from modules.gui.web_gui.gui_launch         import Gui_launch
 
-REPO_ROOT = Path(__file__).resolve().parent
-GUI_DIR = REPO_ROOT / "modules" / "gui"
-
-subprocess.run(
+subprocess.Popen(
     [sys.executable, "manage.py", "runserver"], 
     cwd=str(GUI_DIR), 
-    check=True
 )
 
 # create shared memory object
@@ -62,6 +57,8 @@ pid_object = PIDInterface(shared_memory_object)
 dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
 gui_object = Gui_launch(shared_memory_object)
+print("Value:")
+print(shared_memory_object.dvl_x.value)
 
 # initialize modes
 gate_modules = [pid_object, dvl_object]
