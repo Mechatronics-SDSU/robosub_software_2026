@@ -57,8 +57,6 @@ pid_object = PIDInterface(shared_memory_object)
 dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
 gui_object = Gui_launch(shared_memory_object)
-print("Value:")
-print(shared_memory_object.dvl_x.value)
 
 # initialize modes
 gate_modules = [pid_object, dvl_object]
