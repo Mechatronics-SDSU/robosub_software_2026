@@ -5,7 +5,7 @@ from shared_memory                          import SharedMemoryWrapper
 shared_memory = SharedMemoryWrapper()
 
 def main():
-        print("*\n*\n*\n   NOTE!!!! if testing without the sub, make sure to comment out import launch in views.py\n*\n*\n*")
+        print("*\n*\n*\n   NOTE!!!! \n   if testing without the sub, make sure to comment out import launch in views.py\n   if connected to sub, uncomment import launch instead\n*\n*\n*")
         #sets up web gui
         BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
         GUI_DIR = os.path.join(BASE_DIR, "modules", "gui") 
