@@ -3,10 +3,11 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 import json
-import os
+import os, subprocess, sys
+from pathlib import Path
+import launch
 
 shared_memory_object = None
-
 
 def DVLreset(request):
         global shared_memory_object
@@ -26,6 +27,19 @@ def recieveMemory(memory=None):
 def index(request):
     #homepage render
     return render(request, 'index.html')
+
+def launch(request):
+    repo_root = Path(settings.BASE_DIR).parents[1]
+    script = repo_root / "launch.py"
+    process = subprocess.Popen(
+             [sys.executable, "-u", str(script)],
+             cwd = str(repo_root)
+    )
+    return render(request, 'index.html')
+
+def stop(request):
+     launch.stop()
+     return render(request, 'index.html')
 
 def view_telemetry(request): 
     #telemetry page render

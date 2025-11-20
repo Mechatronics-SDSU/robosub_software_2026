@@ -1,10 +1,11 @@
 import subprocess, time
 from multiprocessing                        import Process, Value
 import os
-from pathlib import Path
-import django, sys
+from pathlib                                import Path
+from start                                  import shared_memory
 
 # import FSMs
+
 from shared_memory                          import SharedMemoryWrapper
 from fsm.gate_fsm                           import Gate_FSM
 from fsm.octagon_fsm                        import Octagon_FSM
@@ -19,6 +20,7 @@ from modules.vision.vision_main             import VisionDetection
 
 #kill module
 from modules.motors.kill_motors             import kill_motors
+
 
 """
     discord: @.kech, @kialli
@@ -35,30 +37,15 @@ try:
 except:
     print("ERROR: Permissions fix failed")
 
-#sets up web gui
-BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
-GUI_DIR = os.path.join(BASE_DIR, "modules", "gui") 
-if GUI_DIR not in sys.path: sys.path.insert(0, GUI_DIR)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
-django.setup()
-from modules.gui.web_gui.gui_launch         import Gui_launch
-
-subprocess.Popen(
-    [sys.executable, "manage.py", "runserver"], 
-    cwd=str(GUI_DIR), 
-)
-
 # create shared memory object
-shared_memory_object = SharedMemoryWrapper()
+shared_memory_object = shared_memory
 DELAY = 0 #s
 
 # initialize objects
+
 pid_object = PIDInterface(shared_memory_object)
 dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
-gui_object = Gui_launch(shared_memory_object)
-print("Value:")
-print(shared_memory_object.dvl_x.value)
 
 # initialize modes
 gate_modules = [pid_object, dvl_object]
@@ -68,6 +55,7 @@ oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
 mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
+
 
 def main():
     """

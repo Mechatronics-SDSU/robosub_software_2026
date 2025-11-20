@@ -8,5 +8,7 @@ urlpatterns = [
     path('get_telemetry/', views.get_telemetry, name='get_telemetry'),
     path('test_telemetry/', views.test_telemetry, name = 'test_telemetry'),
     path('DVLreset/', views.DVLreset, name = 'DVLreset'),
-    path('recieveMemory/', views.recieveMemory, name = 'recieveMemory')
+    path('recieveMemory/', views.recieveMemory, name = 'recieveMemory'),
+    path('launch/', views.launch, name = 'launch'),
+    path('stop/', views.stop, name = 'stop')
 ]
