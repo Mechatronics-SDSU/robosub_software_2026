@@ -20,6 +20,21 @@
                    ">
                  Welcome to the Mechatronics Homepage 
         </h1>
+        <a  href = "{% url 'start_button' %}"
+            style=  "
+                    padding: 15px;
+                    background-color: rgb(255, 255, 255);
+                    color: pink;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    display: inline-block;
+                    margin-top: 10px;
+                    margin-left: 30px;
+                    font-size: 20px;
+            ">
+                    Start Button
+        </a>
         <a  href = "{% url 'launch' %}"
             style=  "
                     padding: 15px;
@@ -35,7 +50,7 @@
             ">
                     Launch
         </a>
-        <a  href = "{% url 'stop' %}"
+        <a  href = "{% url 'soft_kill' %}"
             style=  "
                     padding: 15px;
                     background-color: rgb(255, 255, 255);
@@ -48,7 +63,22 @@
                     margin-left: 30px;
                     font-size: 20px;
             ">
-                    Stop
+                    Soft Kill
+        </a>
+        <a  href = "{% url 'hard_kill' %}"
+            style=  "
+                    padding: 15px;
+                    background-color: rgb(255, 255, 255);
+                    color: pink;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    display: inline-block;
+                    margin-top: 10px;
+                    margin-left: 30px;
+                    font-size: 20px;
+            ">
+                    Hard Kill
         </a>
         <a  href = "{% url 'view_telemetry' %}"
             style=  "

@@ -10,5 +10,7 @@ urlpatterns = [
     path('DVLreset/', views.DVLreset, name = 'DVLreset'),
     path('recieveMemory/', views.recieveMemory, name = 'recieveMemory'),
     path('launch/', views.launch, name = 'launch'),
-    path('stop/', views.stop, name = 'stop')
+    path('start_button/', views.start_button, name = 'start_button'),
+    path('hard_kill/', views.hard_kill, name = 'hard_kill'),
+    path('soft_kill/', views.soft_kill, name = 'soft_kill')
 ]

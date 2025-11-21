@@ -5,7 +5,6 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import os, subprocess, sys
 from pathlib import Path
-import launch
 
 shared_memory_object = None
 
@@ -29,6 +28,7 @@ def index(request):
     return render(request, 'index.html')
 
 def launch(request):
+    #runs launch.py
     repo_root = Path(settings.BASE_DIR).parents[1]
     script = repo_root / "launch.py"
     process = subprocess.Popen(
@@ -37,9 +37,35 @@ def launch(request):
     )
     return render(request, 'index.html')
 
-def stop(request):
-     launch.stop()
-     return render(request, 'index.html')
+def hard_kill(request):
+    #runs stop alias
+    repo_root = Path(settings.BASE_DIR).parents[1]
+    script = repo_root / "hard_kill.sh"
+    process = subprocess.Popen(
+             ["sh", str(script)],
+             cwd = str(repo_root)
+    )
+    return render(request, 'index.html')
+
+def soft_kill(request):
+    #runs soft stop (from launch.py)
+    repo_root = Path(settings.BASE_DIR).parents[1]
+    script = repo_root / "soft_kill.py"
+    process = subprocess.Popen(
+             [sys.executable, "-u", str(script)],
+             cwd = str(repo_root)
+    )
+    return render(request, 'index.html')
+
+def start_button(request):
+    #runs start_button.py
+    repo_root = Path(settings.BASE_DIR).parents[1]
+    script = repo_root / "start_button.py"
+    process = subprocess.Popen(
+             [sys.executable, "-u", str(script)],
+             cwd = str(repo_root)
+    )
+    return render(request, 'index.html')
 
 def view_telemetry(request): 
     #telemetry page render

@@ -1,11 +1,12 @@
 import django, sys, os, subprocess
 from shared_memory                          import SharedMemoryWrapper
 
-# create shared memory object
+#File that starts up the website
+
+
 shared_memory = SharedMemoryWrapper()
 
 def main():
-        print("*\n*\n*\n   NOTE!!!! \n   if testing without the sub, make sure to comment out import launch in views.py\n   if connected to sub, uncomment import launch instead\n*\n*\n*")
         #sets up web gui
         BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
         GUI_DIR = os.path.join(BASE_DIR, "modules", "gui") 
@@ -20,7 +21,7 @@ def main():
             cwd=str(GUI_DIR), 
         )
 
-        # initialize object
+        # initialize object with shared memory
         gui_object = Gui_launch(shared_memory)
 
 if __name__ == '__main__':

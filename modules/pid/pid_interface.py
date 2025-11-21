@@ -77,6 +77,7 @@ class PIDInterface:
             direction, untransformed_direction = self.run_pid()
             self.motor_wrapper.move_from_matrix(direction)
             self.motor_wrapper.send_command()
+            self.shared_memory_object.motor_values.value = self.motor_wrapper.send_command() #this line added by Malaika :/ attempting to send values to shared memory
             error = np.subtract(np.array([self.shared_memory_object.target_x.value, 
                                           self.shared_memory_object.target_y.value, 
                                           self.shared_memory_object.target_z.value, 
