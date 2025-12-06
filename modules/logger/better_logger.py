@@ -1,7 +1,9 @@
 import logging
 import time
 import os
+import yaml
 from multiprocessing import Array, Value
+from io import StringIO
 
 class Better_Logger:
     def __init__(self):
@@ -9,46 +11,40 @@ class Better_Logger:
         
         # Ascending order: DEBUG, INFO, WARNING, ERROR, CRITICAL
         level = logging.DEBUG  # Default level
-        self.logger.setLevel(level)
         
-        """
-        Create a formatter with filename and lineno
-        asctime: time of the log
-        name: name of the logger
-        levelname: level of the log
-        filename: file where the log was called
-        lineno: line number in the file
-        message: the log message
-        """
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s')
-        # Create a console handler and set the formatter
-        self.logger.handlers.clear()
-        ch = logging.StreamHandler()
-        ch.setFormatter(formatter)
-        # Add the handler to the logger
-        self.logger.addHandler(ch)
+        self.logger.setLevel(level)
+        # Avoid adding handlers multiple times if this class is instantiated again
+        if not self.logger.handlers:
+            formatter = logging.Formatter(
+                "%(asctime)s - %(name)s - %(levelname)s - "
+                "%(filename)s:%(lineno)d - %(message)s"
+            )
 
-    def write_log(self, message):
-        with open(os.path.expanduser("~/robosub_software_2025/modules/logger/logs.yaml"), 'w') as file:
-            file.write(message)
+            # Console handler
+            stream_handler = logging.StreamHandler()
+            stream_handler.setFormatter(formatter)
+            stream_handler.setLevel(logging.DEBUG)
+            self.logger.addHandler(stream_handler)
+
+            # File handler
+            file_handler = logging.FileHandler('log.yaml', mode='a')
+            file_handler.setFormatter(formatter)
+            file_handler.setLevel(logging.DEBUG)
+            self.logger.addHandler(file_handler)
+
+
 
     def info(self, message):
         self.logger.info(message)
-        self.write_log(message)
 
     def debug(self, message):
         self.logger.debug(message)
-        self.write_log(message)
 
     def warning(self, message):
         self.logger.warning(message)
-        self.write_log(message)
 
     def error(self, message):
         self.logger.error(message)
-        self.write_log(message)
 
     def critical(self, message):
         self.logger.critical(message)
-        self.write_log(message)
-    

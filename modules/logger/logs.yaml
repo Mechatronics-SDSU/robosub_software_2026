@@ -1,9 +1,0 @@
-- This is an info message
-- This is an info message
-- This is an info message
-- !!python/object:logging.Formatter
-  _fmt: '%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s'
-  _style: !!python/object:logging.PercentStyle
-    _defaults: null
-    _fmt: '%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s'
-  datefmt: null
