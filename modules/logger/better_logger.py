@@ -27,7 +27,7 @@ class Better_Logger:
             self.logger.addHandler(stream_handler)
 
             # File handler
-            file_handler = logging.FileHandler('log.yaml', mode='a')
+            file_handler = logging.FileHandler('log.txt', mode='a')
             file_handler.setFormatter(formatter)
             file_handler.setLevel(logging.DEBUG)
             self.logger.addHandler(file_handler)
