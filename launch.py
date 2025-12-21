@@ -54,7 +54,9 @@ slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
-mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
+
+
+#mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
 
 
 def main():

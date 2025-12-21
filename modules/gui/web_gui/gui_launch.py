@@ -29,8 +29,17 @@ class Gui_launch:
                     "vy": self.shared_memory_object.dvl_y_velocity.value,
                     "vz": self.shared_memory_object.dvl_z_velocity.value
                     },
-                "motor": self.shared_memory_object.motor_values.value
+                "motors": {
+                         "motor0": self.shared_memory_object.motor_values[0],
+                         "motor1": self.shared_memory_object.motor_values[1],
+                         "motor2": self.shared_memory_object.motor_values[2],
+                         "motor3": self.shared_memory_object.motor_values[3],
+                         "motor4": self.shared_memory_object.motor_values[4],
+                         "motor5": self.shared_memory_object.motor_values[5],
+                         "motor6": self.shared_memory_object.motor_values[6],
+                         "motor7": self.shared_memory_object.motor_values[7]
                 }
+            }
 
             tmp = self.FILE + ".tmp"  #writes into a temp json file and replaces old file once done writing
             with open(tmp, "w") as f:

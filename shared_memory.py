@@ -70,7 +70,7 @@ class SharedMemoryWrapper:
         self.gps_longitude          = Value('d', 0)
 
         # motor values
-        self.motor_values           = Value('d', 0)
+        self.motor_values           = Array('d', 8)
         
         # whether or not to run display code
         self.display_on             = Value('b', False)

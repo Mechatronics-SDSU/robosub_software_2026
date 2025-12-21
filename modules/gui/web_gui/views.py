@@ -5,17 +5,24 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import os, subprocess, sys
 from pathlib import Path
+import socket
+from modules.sensors.a50_dvl.dvl import UDP_IP, UDP_PORT
 
 shared_memory_object = None
 
 def DVLreset(request):
-        global shared_memory_object
-        shared_memory_object.dvl_x.value = 0
-        shared_memory_object.dvl_y.value = 0
-        shared_memory_object.dvl_z.value = 0
+        serv_addr = (UDP_IP, UDP_PORT)
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect(serv_addr)
+            json_command = {"command": "reset_dead_reckoning"}
+            sock.send(json.dumps(json_command).encode())
+            sock.close()
+        except Exception as e:
+            print("Failed to reset dead reckoning:", e)
         return HttpResponse("reset complete")
 
-        
+
 def recieveMemory(memory=None):
     #if called with parameter, reassigns memory object. if called with no parameter, returns the existing object
     global shared_memory_object
