@@ -6,6 +6,7 @@ from fsm.gate_fsm                           import Gate_FSM
 from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
+from fsm.prequal_fsm                        import Prequal_FSM
 
 from modules.sensors.trax2.trax_interface import Trax_Interface
 """
@@ -26,8 +27,10 @@ gate_mode   = Gate_FSM(shared_memory_object, []) #[trax_object])
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
+prequal_mode = Prequal_FSM(shared_memory_object, [])
 
-mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
+#mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
+mode_list = [prequal_mode]
 
 def main():
     """

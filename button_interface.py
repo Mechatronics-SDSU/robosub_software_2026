@@ -43,8 +43,8 @@ class ButtonInterface:
         Check if green button is pressed
         """
         if self.read_packet()[0]: # if green pressed
-            os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py")) # startup display
-            os.system(os.path.expanduser("python3 ~/robosub_software_2025/launch.py")) # run launch
+            os.system(os.path.expanduser("python3 ~/robosub_software_2026/display_manager/start_services.py")) # startup display
+            os.system(os.path.expanduser("python3 ~/robosub_software_2026/launch.py")) # run launch
         time.sleep(self.delay) # delay
 
     

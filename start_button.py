@@ -30,7 +30,7 @@ DISPLAY_ON = False # whether or not to run display code
 
 TIMEOUT = 1  # seconds
 
-P_DEBUG = False  # set to true to enable print debugging for this file
+P_DEBUG = True  # set to true to enable print debugging for this file
 
 class StartButtonDriver:
     def __init__(self):
@@ -108,6 +108,9 @@ class StartButtonDriver:
             
             # Unpack the data as an unsigned integer
             value = struct.unpack('I', data)[0]
+            if P_DEBUG:
+                print(f"Received value: {value}")
+                
             return value
         except serial.SerialException as e:
             if P_DEBUG:
@@ -125,8 +128,8 @@ def start_launch():
     start_services.py starts the background services,in this case just the display manager
     """
     if DISPLAY_ON:
-        os.system(os.path.expanduser("python3 ~/robosub_software_2025/display_manager/start_services.py")) # startup display
-    os.system(os.path.expanduser("python3 ~/robosub_software_2025/launch.py")) # run launch
+        os.system(os.path.expanduser("python3 ~/robosub_software_2026/display_manager/start_services.py")) # startup display
+    os.system(os.path.expanduser("python3 ~/robosub_software_2026/launch.py")) # run launch
 
 def main():
     """

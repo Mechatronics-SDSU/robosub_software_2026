@@ -2,6 +2,7 @@ import numpy                                as np
 from numpy.typing                           import NDArray
 from shared_memory                          import SharedMemoryWrapper
 from typing                                 import Union
+import os, yaml
 
 
 #this is to handle errors in using the CLI for testing motors
@@ -42,7 +43,14 @@ class MotorWrapper:
         self.usb_transmitter = USB_Transmitter()
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 4000
-        self.MOTOR_FACTOR = 0.7 # [0.0, 1.0] -- set ~0.1 for in air, ~0.7 in water
+        self.MOTOR_FACTOR = 0
+        try: # set motor factor from yaml
+            with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
+                data = yaml.safe_load(file)
+                self.MOTOR_FACTOR = float(data['motor_factor'])
+        except KeyError:
+            print("ERROR: Invalid data format in objects.yaml, using 0")
+            
         #-------------------------------------------------------------------------------------------------
 
         self.motors = np.array([

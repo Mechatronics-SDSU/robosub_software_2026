@@ -1,4 +1,5 @@
-course: jesse_pool
+course: prequal # course that the sub is running in
+motor_factor: 0.1 # changes motor speed, ~0.1 for air, ~0.7 for water
 
 jesse_pool: # ------------------------------------------------------------------------------------------------------
   # smaller coordinates for jesse's pool (~9.02m long, ~1.2m min depth, ~3m wide)
@@ -178,3 +179,19 @@ test: # ------------------------------------------------------------------------
     drop: 0 # initial drop depth
     t_drop: 0 # initial drop duration
     depth: 0 # swimming depth
+
+prequal: # ------------------------------------------------------------------------------------------------------
+  # for prequalification run
+  tgt: # tgt coordinates (in m)
+    # buffers
+    x_buf: 0.3 # m forward buffer for all objects
+    y_buf: 0.3 # m left/right buffer for all objects
+    z_buf: 0.3 # m up/down buffer for all objects
+    # gap (how far away from target for each turning point)
+    gap: 1
+    # values
+    x:  4 # forward is positive x
+    y:  -0.5 # left is positive y
+    depth:  0.7
+    drop: 0.3 # initial drop depth
+    t_drop: 0.25 # initial drop duration
