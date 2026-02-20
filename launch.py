@@ -31,8 +31,14 @@ try:
     device_path = '/dev/ttyACM0'
     subprocess.run(["sudo", "chmod", "777", device_path], check=True)
     print(f"Permissions changed for {device_path}")
-except Exception as e:
-    print(f"ERROR: Permissions fix failed: {e}")
+except subprocess.CalledProcessError as e:
+    print(f"ERROR: Permissions fix failed (subprocess error): {e}")
+except FileNotFoundError as e:
+    print(f"ERROR: Permissions fix failed (command or device not found): {e}")
+except PermissionError as e:
+    print(f"ERROR: Permissions fix failed (permission denied): {e}")
+except OSError as e:
+    print(f"ERROR: Permissions fix failed (OS error): {e}")
 
 
 # create shared memory object
