@@ -20,7 +20,7 @@ from modules.motors.kill_motors             import kill_motors
 
 
 """
-    discord: @.kech, @kialli
+    discord: @.kech, @kialli∏
     github: @rsunderr, @kchan5071
     
     Runs mission control code and starts the sub
@@ -31,8 +31,8 @@ try:
     device_path = '/dev/ttyACM0'
     subprocess.run(["sudo", "chmod", "777", device_path], check=True)
     print(f"Permissions changed for {device_path}")
-except:
-    print("ERROR: Permissions fix failed")
+except Exception as e:
+    print(f"ERROR: Permissions fix failed: {e}")
 
 
 # create shared memory object
