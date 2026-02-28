@@ -21,6 +21,7 @@ class M16:
     CHANNELS = [1, 2, 3, 4, 5 ,6, 7, 8, 9, 10, 11, 12]
     LEVELS = [1, 2, 3, 4]
     PACKET_LENGTH = 18
+    date_store = ""
 
     def __init__(self, port: str, baudrate: int = 9600, channel: int = 1, level: int = 1, diagnostic: bool = False, 
                  timeout: float = 0.5) -> None:
@@ -64,6 +65,16 @@ class M16:
         else:
             self.reset_diagnostic_mode()
         self.logger.info(f"Setting diagnostic mode: {diagnostic}")
+
+    def reset_diagnostic_mode(self) -> None:
+        """
+        Reset the modem from diagnostic mode (enter transparent mode).
+        """
+        self.send_data('t')
+        sleep(1)
+        self.send_data('t')
+        self.diagnostic = False  # Update internal state
+        sleep(1)
 
 
     def send_data(self, data: str) -> int | None:
@@ -167,11 +178,10 @@ class M16:
 
     def read_packet(self) -> Optional[bytes]:
         """
-        Read data from the serial port and search for a valid diagnostic packet.
-        A valid packet starts with '$' (0x24) and ends with '\\n' (0x0A) and is exactly 18 bytes long.
+        Read data from the serial port.
         
         Returns:
-            Optional[bytes]: The valid packet if found, otherwise the buffer if it is not empty.
+            bytes: The buffer if it is not empty.
         """
         # Stores incoming data in buffer until a valid packet is found or timeout occurs.
         buffer = b""
@@ -183,26 +193,21 @@ class M16:
                 data = self.ser.read(self.ser.in_waiting)
                 buffer += data
                 self.logger.debug(f"Buffer length: {len(buffer)}, buffer: {str(buffer)}")
-
-            if b'$' in buffer and b'\n' in buffer:
-                start_index = buffer.rfind(b'$')
-                end_index = buffer.rfind(b'\n', start_index)
-                packet = buffer[start_index:end_index + 1]
-                if len(packet) == self.PACKET_LENGTH:
-                    self.logger.debug(f"Returning packet: {str(packet)}")
-                    return packet
-                elif len(packet) > self.PACKET_LENGTH:
-                    self.logger.debug(f"Returning packet: {str(packet)}")
-                    return packet[:self.PACKET_LENGTH]
-            sleep(0.1)
-
         if len(buffer) == 0:
             self.logger.debug(f"Returning None")
             return None
+        elif b'$' in buffer:
+            buffer = buffer.split(b"$")[0]  # Get data before the '$' character
+            self.date_store = self.date_store + buffer.decode('ascii')
+            self.logger.info(f"Complete message received: {str(self.date_store)}")
+            self.date_store = ""
+            return buffer
         else:
             self.logger.debug(f"Returning buffer: {str(buffer)}")
+            self.date_store = self.date_store + buffer.decode('ascii')
             return buffer
 
+    
 
     def close(self) -> None:
         """

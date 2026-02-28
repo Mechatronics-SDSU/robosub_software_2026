@@ -13,7 +13,7 @@ DIAGNOSTIC_MODE = False
 modem = M16(PORT, baudrate=9600, channel=CHANNEL, level=POWER_LEVEL, diagnostic=DIAGNOSTIC_MODE)
 
 # Send a message with the modem
-msg = str(datetime.today())
+msg = str(datetime.now().replace(microsecond=0)) + "$"
 modem.send_msg(msg)
 print(f"Sent {msg} on channel {CHANNEL}")
 
