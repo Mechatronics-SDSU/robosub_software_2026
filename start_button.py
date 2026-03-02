@@ -1,15 +1,11 @@
 import serial
 import struct
-import time
-import os
-import utils.socket_send as socket_send
-
-baud_rate = 115200
-usb_port = None
+import subprocess
+import logging
 
 """
-    discord: @.kech, @kialli
-    github: @rsunderr, @kchan5071
+    discord: @will.craychee,    @.kech
+    github:                     @rsunderr
 
     Handles the start button input from the central microcontroller
     the button colors are as follows:
@@ -18,35 +14,43 @@ usb_port = None
     blue: debug mode (tbd)
 """
 
-#these codes are sent from the microcontroller to indicate button presses
-#from what I can tell, they are just arbitrary values
-DEBUG_MODE_CODE = 65706
-START_LAUNCH_CODE = 426
+# set up module level logger
+LEVEL = logging.INFO
+logger = logging.getLogger(__name__)
+logger.setLevel(LEVEL)
 
-DEBUG_MODE_COLOR = (0, 0, 150) # blue
-START_LAUNCH_COLOR = (0, 150, 0) # green
-STARTUP_COLOR = (0, 0, 0) # black
-DISPLAY_ON = False # whether or not to run display code
-
-TIMEOUT = 1  # seconds
-
-P_DEBUG = True  # set to true to enable print debugging for this file
-
+# create console handler if it doesnt exist
+if not logger.handlers:
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(LEVEL)
+    
+    # create formatter
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    
+    # add handler to logger
+    logger.addHandler(console_handler)
+    
 class StartButtonDriver:
-    def __init__(self):
-        self.srl = None
-        for port in ["COM3", "/dev/ttyACM0"]:
-            try:
-                self.srl = serial.Serial(port, baud_rate)
-                usb_port = port
-                if P_DEBUG:
-                    print(f"Connected on {usb_port}")
-                break
-            except serial.SerialException as e:
-                if P_DEBUG:
-                    print(f"Failed to connect on {port}: {e}")
-                pass
-
+    """
+    StartButtonDriver: Connects to and receives data from microcontroller over USB
+    """
+    def __init__(self, port="/dev/ttyACM0", baud_rate=921600):
+        """
+        Start button contstructor: Attempts to connect to the specified serial port
+        """
+        self.srl: serial.Serial = serial.Serial()
+        self.port = port
+        self.baud_rate = baud_rate
+        try:
+            # Open ttyACM0 at 921600 baud
+            self.srl = serial.Serial(self.port, self.baud_rate, timeout=1)
+            logger.info(f"Connected on {self.port}")
+            logger.debug(f"Listening on {self.port} at {self.baud_rate} baud...")
+            
+        except serial.SerialException as e:
+            logger.error(f"Failed to connect on {self.port}: {e}")
+            pass
 
     def disconnect(self):
         """
@@ -54,119 +58,51 @@ class StartButtonDriver:
         """
         if self.srl is not None:
             self.srl.close()
-            if P_DEBUG:
-                print("Disconnected from serial port.")
-        else:
-            if P_DEBUG:
-                print("No serial port to disconnect from.")
-
-    def send_data(self,motor_vals):
-        """
-        sends motor values and extra commands to the microcontroller via serial communication
-        (see /modules/motors/new_motor_format.txt for more details)
-        """
-        # Check if connection was successful
-        if self.srl is None:
-            if P_DEBUG:
-                print("❌ Unable to connect to any serial port.")
-        else:
-            # Proceed with transmitting if serial port is valid
-            packed_data = b''
-            for num in motor_vals:
-                packed_data += struct.pack('<i', num)
-            self.srl.write(packed_data)
-
-    def clear_socket(self):
-        """
-        clears the serial buffer to avoid overflow
-        """
-        if self.srl is not None:
-            self.srl.reset_input_buffer()
-            self.srl.reset_output_buffer()
-            if P_DEBUG:
-                print("Cleared serial buffers.")
-        else:
-            if P_DEBUG:
-                print("No serial port to clear buffers from.")
-
-
-    def recieve_data(self):
-        """
-        receives data from the microcontroller via serial communication, expects a 4 byte unsigned int
-        """
-        if self.srl is None:
-            if P_DEBUG:
-                print("Serial port not initialized.")
-            return None
-        
-        try:
-            data = self.srl.read(4)  # Read 4 bytes
-            if len(data) < 4:
-                if P_DEBUG:
-                    print("Incomplete data received.")
-                return None
+            logger.info("Serial connection closed.")
             
-            # Unpack the data as an unsigned integer
-            value = struct.unpack('I', data)[0]
-            if P_DEBUG:
-                print(f"Received value: {value}")
+    def loop(self):
+        """
+        Main loop to read and parse incoming serial data
+        """
+        byte: bytes = b''
+        packet: bytes = b''
+        
+        while True:
+            # Look for the header byte 0xAA
+            try: 
+                byte = self.srl.read(1)
                 
-            return value
-        except serial.SerialException as e:
-            if P_DEBUG:
-                print(f"Serial error: {e}")
-            return None
-        except struct.error as e:
-            if P_DEBUG:
-                print(f"Struct error: {e}")
-            return None
+                if byte[0] == 0xAA:
+                    # Read the next 10 bytes (rest of the packet)
+                    packet = self.srl.read(10)
+                
+                if len(packet) != 10:
+                    continue  # incomplete packet, skip
 
-def start_launch():
-    """
-    Starts the launch sequence by running the necessary scripts.
-    launch.py starts the main sub code
-    start_services.py starts the background services,in this case just the display manager
-    """
-    if DISPLAY_ON:
-        os.system(os.path.expanduser("python3 ~/robosub_software_2026/display_manager/start_services.py")) # startup display
-    os.system(os.path.expanduser("python3 ~/robosub_software_2026/launch.py")) # run launch
+                # parse fields
+                greenPressed = packet[0]
+                bluePressed  = packet[1]
+                extKillState = packet[2]
+                intKillState = packet[3]
+                depth_bytes  = packet[4:8]
 
-def main():
-    """
-    Main function to handle start button input and trigger launch or debug mode.
-    """
-    print("Starting start button handler...")
-    #start screen
-    if DISPLAY_ON:
-        socket_send.set_screen(STARTUP_COLOR, "RoboSub", "Starting...")  # Set initial screen state
+                # Unpack little-endian float
+                depth = struct.unpack('<f', depth_bytes)[0]
 
-    #this next loop should never exit, it will just keep trying to connect to the start button
-    while True:
-        driver = StartButtonDriver()
-        driver.send_data([0, 0, 0, 0, 0, 0, 0, 0])
-        value = driver.recieve_data()
-        # check what value was received
-        if value is not None and value == START_LAUNCH_CODE:
-            if DISPLAY_ON:
-                socket_send.set_screen(START_LAUNCH_COLOR, "RoboSub", "Starting Launch")  # Set screen to green
-            start_launch()
-            driver.clear_socket()
-            driver.disconnect()
-            time.sleep(TIMEOUT)
-            continue
-        elif value is not None and value == DEBUG_MODE_CODE:
-            if DISPLAY_ON:
-                socket_send.set_screen(DEBUG_MODE_COLOR, "RoboSub", "Debug Mode")  # Set screen to blue
-            # we should figure out what to do in debug mode and put it here
-            # -------------
-            # start_launch()
-            # -------------
-            driver.clear_socket()
-            driver.disconnect()
-            time.sleep(TIMEOUT)
-        else:
-            driver.clear_socket()
-        time.sleep(1)
+                # Optional: check packet terminator
+                if packet[8:] != b'\r\n':
+                    continue  # bad packet, skip
+                
+                if (int(greenPressed) == 1):  # if green button pressed, run launch script
+                    subprocess.run(["python3", "launch.py"])
+
+                # Print neatly
+                logger.debug(f"Green: {greenPressed}, Blue: {bluePressed}, ExtKill: {extKillState}, IntKill: {intKillState}, Depth: {depth:.6f} m")
+                
+            except serial.SerialException:
+                logger.warning("Failed to read from serial port.")
+                continue
 
 if __name__ == "__main__":
-    main()
+    driver = StartButtonDriver("/dev/ttyACM0", 921600)
+    driver.loop()
