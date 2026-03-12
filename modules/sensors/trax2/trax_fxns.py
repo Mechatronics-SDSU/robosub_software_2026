@@ -12,6 +12,7 @@ from serial.tools import list_ports
 
 # set up module level logger
 LEVEL = logging.INFO
+#logging.basicConfig(filename="packet_test4",level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.setLevel(LEVEL)
 
@@ -43,8 +44,10 @@ class TRAX:
         """
         Establishes usb serial connection to trax
         """
-        trax1: str = "A1019O07"
-        trax2: str = "FTBD1LEK"
+        #trax1: str = "A1019O07"
+        trax1: str = "A1019O07A" # for windows
+        #trax2: str = "FTBD1LEK"
+        trax2: str = "FTBD1LEKA" # for windows
         ports: list = list_ports.comports()
         for port in ports:
             if port.serial_number == trax1 or port.serial_number == trax2: # connect to a trax
@@ -63,6 +66,9 @@ class TRAX:
         Closes serial connection to trax
         """
         self.ser.close()
+    def print_data(self,string):
+        self.log_string: str = string
+        logger.info(self.log_string)
 
     # RECEVING DATA ------------------------------------------------------------------------------------------------------------------------------------------------
     def recv_packet(self, payload: list | tuple | None = None) -> tuple:
@@ -83,17 +89,18 @@ class TRAX:
         if packet == b'': # if packet is empty, warn user and stop fxn
             logger.critical("NO MESSAGE RECEIVED")
             raise Exception("NO MESSAGE RECEIVED")
-
-        log_string: str = f"RECEIVED:\t{TRAX.parse_bytes(packet)}"
+# for windows logger is the only output visible so must use it to print the positional data
+        log_string: str=""
+        #log_string: str = f"RECEIVED:\t{TRAX.parse_bytes(packet)}"
         response: tuple = TRAX.read_packet(packet, usable_payload) # read packet into tuple of values
 
         verified: bool = TRAX.verify_CRC(packet) # verify packet using checksum
         if verified:
-            log_string += f"\tCHECKSUM VALID"
-            logger.info(log_string)
+            #log_string += f"\tCHECKSUM VALID"
+            #logger.info(log_string)
             return response
         else:
-            logger.critical("CORRUPTED PACKET: CHECKSUM FAILED")
+            logger.critical("CORRUPTED PACKET: CHECKSUM FAILED"+log_string)
             raise Exception("CORRUPTED PACKET: CHECKSUM FAILED")
     
     @staticmethod
@@ -136,7 +143,7 @@ class TRAX:
         try:
             return struct.unpack(decode_str, packet)
         except:
-            logger.warning("WARNING: CORRUPTED PACKET")
+            logger.warning("WARNING: CORRUPTED PACKET"+packet)
             raise Exception("CORRUPTED PACKET")
     
     # SENDING DATA ------------------------------------------------------------------------------------------------------------------------------------------------

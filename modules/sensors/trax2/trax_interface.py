@@ -59,6 +59,13 @@ class Trax_Interface(TRAX):
         self.send_packet("kStartContinuousMode") # kStartContinuousMode - start continuous mode
         while self.shared_memory_object.running.value:
             self.update()
+            
+    @staticmethod        
+    def to_360(angle):
+        if angle < 0:
+            return angle + 360
+        return angle
+
 
     def adjust_accel(self, accel_x: float, accel_y: float, acel_z: float, yw: float, ptch: float, rll: float) -> tuple:
         """
@@ -69,11 +76,29 @@ class Trax_Interface(TRAX):
         ay = accel_y * G_TO_MS2
         ax = accel_x * G_TO_MS2
         az = acel_z * G_TO_MS2
-        # convert from degrees to radians
+        # convert from degrees to radians and convert to 0-360 range
         yaw = math.radians(yw)
-        pitch = math.radians(ptch)
-        roll = math.radians(rll)
-        
+        pitch = math.radians(Trax_Interface.to_360(ptch))
+        roll = math.radians(Trax_Interface.to_360(rll))
+        cy=math.cos(roll)
+        sy=math.sin(roll)
+        sB=math.sin(pitch)
+        cB=math.cos(pitch)
+        sa=math.sin(yaw)
+        ca=math.cos(yaw)
+        # Rotate the body acceleration to world then subtract world gravity
+        rollRot=np.array([[1,0,0],[0,cy,-sy],[0,sy,cy]])
+        pitchRot=np.array([[cB, 0, sB],[0, 1, 0],[-sB, 0, cB]])
+        yawRot=np.array([[ca, -sa, 0],[sa, ca, 0],[0, 0, 1]])
+        R=np.matmul(yawRot,np.matmul(pitchRot,rollRot))
+        # R=np.array([[ca*cB, ca*sB*sy-sa*cy, ca*sB*cy+sa*sy], [sa*cB, sa*sB*sy+ca*cy, sa*sB*cy-ca*sy], [-sB, cB*sy, cB*cy]])
+        Rinv=np.linalg.inv(R)
+        localAccel=np.array([ax, ay, az]).T
+        globalAccel=np.matmul(R,localAccel)
+        globalAccel=globalAccel-np.array([0,0,G_TO_MS2]).T #force of gravity is felt by accelerometer in opposite direction
+        ax=globalAccel[0]
+        ay=globalAccel[1]
+        az=globalAccel[2]
         
         
         
@@ -96,16 +121,16 @@ class Trax_Interface(TRAX):
             pitch:      float = data[12]
             roll:       float = data[14]
             
-            #accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
+            accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
             
             self.shared_memory_object.trax_yaw.value   = yaw
             self.shared_memory_object.trax_pitch.value = pitch
             self.shared_memory_object.trax_roll.value  = roll
             
             # integrate velocity and position
-            dx: float = accel_x if abs(accel_x) > self.threshold else 0
-            dy: float = accel_y if abs(accel_y) > self.threshold else 0
-            dz: float = accel_z if abs(accel_z) > self.threshold else 0
+            dx: float = accel_x 
+            dy: float = accel_y 
+            dz: float = accel_z 
             
             # accumulate velocity
             self.vel_x += dx * dt
@@ -116,8 +141,8 @@ class Trax_Interface(TRAX):
             self.pos_x += self.vel_x * dt
             self.pos_y += self.vel_y * dt
             self.pos_z += self.vel_z * dt
-
-            print(f"TRAX x: {self.pos_x:.2f}, y: {self.pos_y:.2f}, z: {self.pos_z:.2f}, Yaw: {yaw:.2f}, Pitch: {pitch:.2f}, Roll: {roll:.2f}, X Accel: {accel_x:.2f}, Y Accel: {accel_y:.2f}, Z Accel: {accel_z:.2f}")
+            
+            self.print_data(str(f"TRAX x: {self.pos_x:.2f}, y: {self.pos_y:.2f}, z: {self.pos_z:.2f}, Yaw: {yaw:.2f}, Pitch: {pitch:.2f}, Roll: {roll:.2f}, X Accel: {accel_x:.2f}, Y Accel: {accel_y:.2f}, Z Accel: {accel_z:.2f}"))
         except KeyboardInterrupt:
             self.send_packet("kStopContinuousMode")
             self.close()
