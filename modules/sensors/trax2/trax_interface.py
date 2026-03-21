@@ -12,11 +12,11 @@ class Trax_Interface(TRAX):
     github: @rsunderr
     """
 
-    def __init__(self, shared_memory_object) -> None:
+    def __init__(self, shared_memory_object, preferred_trax) -> None:
         """
         Trax interface constructor
         """
-        super().__init__()
+        super().__init__(preferred_trax)
         self.shared_memory_object = shared_memory_object
         self.interval: float = 0
         self.acq_params: tuple = (False, False, 0, self.interval) # poll mode false, flush filter false, PNI reserved, interval
@@ -142,7 +142,7 @@ class Trax_Interface(TRAX):
             self.pos_y += self.vel_y * dt
             self.pos_z += self.vel_z * dt
             
-            self.print_data(str(f"TRAX x: {self.pos_x:.2f}, y: {self.pos_y:.2f}, z: {self.pos_z:.2f}, Yaw: {yaw:.2f}, Pitch: {pitch:.2f}, Roll: {roll:.2f}, X Accel: {accel_x:.2f}, Y Accel: {accel_y:.2f}, Z Accel: {accel_z:.2f}"))
+            self.print_data("Trax"+ str(self.preferred_trax+1)+str(f"x: {self.pos_x:.2f}, y: {self.pos_y:.2f}, z: {self.pos_z:.2f}, Yaw: {yaw:.2f}, Pitch: {pitch:.2f}, Roll: {roll:.2f}, X Accel: {accel_x:.2f}, Y Accel: {accel_y:.2f}, Z Accel: {accel_z:.2f}"))
         except KeyboardInterrupt:
             self.send_packet("kStopContinuousMode")
             self.close()

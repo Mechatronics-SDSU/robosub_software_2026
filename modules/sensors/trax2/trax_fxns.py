@@ -33,22 +33,33 @@ class TRAX:
     Wrapper class for trax-related functions
     """
     # CONNECTION AND SETUP ------------------------------------------------------------------------------------------------------------------------------------------------
-    def __init__(self, ser=serial.Serial(), baud: int=38400):
+    def __init__(self, preferred_trax, ser=serial.Serial(), baud: int=38400):
         """
         Constructor (serial, baud rate)
         """
         self.ser: serial.Serial = ser
         self.baud: int = baud
+        self.preferred_trax=preferred_trax
     
     def connect(self) -> None:
         """
         Establishes usb serial connection to trax
         """
-        #trax1: str = "A1019O07"
-        trax1: str = "A1019O07A" # for windows
-        #trax2: str = "FTBD1LEK"
-        trax2: str = "FTBD1LEKA" # for windows
+        trax1: str = "A1019O07"
+        #trax1: str = "A1019O07A" # for windows
+        trax2: str = "FTBD1LEK"
+        #trax2: str = "FTBD1LEKA" # for windows
+        trax_list = [trax1,trax2]
         ports: list = list_ports.comports()
+        for port in ports:
+            if port.serial_number == trax_list[self.preferred_trax]: # connect to a trax
+                try:
+                    self.ser = serial.Serial(port.device, self.baud, timeout=1)
+                    logger.info(f"TRAX CONNECTED: {port.device}")
+                    return
+                except:
+                    logger.critical("TRAX FOUND, UNABLE TO CONNECT")
+                    return
         for port in ports:
             if port.serial_number == trax1 or port.serial_number == trax2: # connect to a trax
                 try:

@@ -30,7 +30,7 @@ class FSM_Template:
         self.active: bool       = False     # enable/disable boolean
         self.complete: bool     = False   # boolean for when the mode has completed its tasks
         self.name: str          = "PARENT"    # mode name string
-        self.display_on         = shared_memory_object.display_on.value # enable/disable display output
+        self.display_off         = shared_memory_object.display_on.value # enable/disable display output
         self.last_display_command: float = time.time()
         self.next_mode          = None  # next mode pointer
 
@@ -39,7 +39,7 @@ class FSM_Template:
         self.y_buffer: float = 0.5
         self.z_buffer: float = 0.5
 
-        # process saving
+        # process savingp) ->
         self.process_objects = []  
 
         # create processes
