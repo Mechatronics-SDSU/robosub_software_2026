@@ -20,7 +20,7 @@ trax.connect()
 #trax.send_packet(frameID)
 
 frameID = "kSetDataComponents"
-payload = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 6 comp's: ax ay az yaw pitch roll
+payload = (1, 0x15) # 6 comp's: ax ay az yaw pitch roll
 trax.send_packet(frameID, payload)
 
 # kGetData
@@ -29,6 +29,13 @@ trax.send_packet(frameID)
 
 # kGetDataResp
 data = trax.recv_packet(payload)
+print(data)
+
+
+frameID = "kGetFunctionalMode"
+trax.send_packet(frameID)
+
+data = trax.recv_packet()
 print(data)
 
 trax.close()

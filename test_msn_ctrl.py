@@ -20,9 +20,11 @@ from modules.sensors.trax2.trax_interface import Trax_Interface
 shared_memory_object = SharedMemoryWrapper()
 DELAY = 0.2 # if you want to stay on one mode longer, increase delay to a high number
 
-#trax_object = Trax_Interface(shared_memory_object)
+trax_object = Trax_Interface(shared_memory_object)
+trax_object.setup()
+trax_object.run_loop()
 
-gate_mode   = Gate_FSM(shared_memory_object, []) #[trax_object])
+gate_mode   = Gate_FSM(shared_memory_object, []) #[trax_object]
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
@@ -64,7 +66,7 @@ def main_loop(mode):
             stop()
             break
 
-def make_list(modes):
+def make_list(modes):   
     """
     Make a linked list of modes from a list of modes
     """

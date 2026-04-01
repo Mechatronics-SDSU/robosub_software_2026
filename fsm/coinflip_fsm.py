@@ -93,5 +93,7 @@ class CoinFlip_FSM(FSM_Template): # FIXME not finished
         """
         Rezero trax yaw to make current heading 0 degrees
         """
+
+        
         pass
 
