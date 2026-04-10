@@ -59,6 +59,11 @@ class Trax_Interface(TRAX):
         self.send_packet("kStartContinuousMode") # kStartContinuousMode - start continuous mode
         while self.shared_memory_object.running.value:
             self.update()
+
+    def first_update(self)->None:
+        #self.setup() # only run once ever
+        self.connect()
+        self.send_packet("kStartContinuousMode") # kStartContinuousMode - start continuous mode
             
     @staticmethod        
     def to_360(angle):
@@ -68,9 +73,6 @@ class Trax_Interface(TRAX):
 
 
     def adjust_accel(self, accel_x: float, accel_y: float, acel_z: float, yw: float, ptch: float, rll: float) -> tuple:
-        """
-        TODO make this adjust acceleration based on orientation (ie gravity pulling on it at an angle) and convert to m/s^2
-        """
         # ADJUST VALUES ---------------------------------------------------------------------------------------------------------------
         # convert from g to m/s^2
         ay = accel_y * G_TO_MS2
@@ -90,11 +92,11 @@ class Trax_Interface(TRAX):
         rollRot=np.array([[1,0,0],[0,cy,-sy],[0,sy,cy]])
         pitchRot=np.array([[cB, 0, sB],[0, 1, 0],[-sB, 0, cB]])
         yawRot=np.array([[ca, -sa, 0],[sa, ca, 0],[0, 0, 1]])
-        R=np.matmul(yawRot,np.matmul(pitchRot,rollRot))
+        self.R=np.matmul(yawRot,np.matmul(pitchRot,rollRot))
         # R=np.array([[ca*cB, ca*sB*sy-sa*cy, ca*sB*cy+sa*sy], [sa*cB, sa*sB*sy+ca*cy, sa*sB*cy-ca*sy], [-sB, cB*sy, cB*cy]])
-        Rinv=np.linalg.inv(R)
+        Rinv=np.linalg.inv(self.R)
         localAccel=np.array([ax, ay, az]).T
-        globalAccel=np.matmul(R,localAccel)
+        globalAccel=np.matmul(self.R,localAccel)
         globalAccel=globalAccel-np.array([0,0,G_TO_MS2]).T #force of gravity is felt by accelerometer in opposite direction
         ax=globalAccel[0]
         ay=globalAccel[1]
@@ -120,6 +122,10 @@ class Trax_Interface(TRAX):
             yaw:        float = data[10]
             pitch:      float = data[12]
             roll:       float = data[14]
+            gyro_x:     float = data[16]
+            gyro_y:     float = data[18]
+            gyro_z:     float = data[20]
+            
             
             accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
             
@@ -142,7 +148,80 @@ class Trax_Interface(TRAX):
             self.pos_y += self.vel_y * dt
             self.pos_z += self.vel_z * dt
             
+            # get angular acceleration
+
+            self.angular_x = (gyro_x - self.prev_x) / dt 
+            self.angular_y = (gyro_y - self.prev_y) / dt
+            self.angular_z = (gyro_x - self.prev_z) / dt
+
+            self.prev_x = gyro_x
+            self.prev_y = gyro_y
+            self.prev_z = gyro_z
+
+
+            lin_accel = np.array([[accel_x], [accel_y], [accel_z]])
+            ang_accel = np.array([[self.angular_x], [self.angular_y], [self.angular_z]])
+            
             self.print_data("Trax"+ str(self.preferred_trax+1)+str(f"x: {self.pos_x:.2f}, y: {self.pos_y:.2f}, z: {self.pos_z:.2f}, Yaw: {yaw:.2f}, Pitch: {pitch:.2f}, Roll: {roll:.2f}, X Accel: {accel_x:.2f}, Y Accel: {accel_y:.2f}, Z Accel: {accel_z:.2f}"))
+        except KeyboardInterrupt:
+            self.send_packet("kStopContinuousMode")
+            self.close()
+        except Exception as e:
+            print(f"INVALID TRAX DATA: {e}") # errors are expected
+    
+    def get_data(self):
+        """
+        Function targeted by looping multiprocessing calls, called only once
+        """
+        t:  float = time.time()
+        dt: float = t - self.t_prev
+        self.t_prev = t
+        try:
+            # READ DATA
+            data:       tuple = self.recv_packet(self.data_components)
+            accel_x:    float = data[4]
+            accel_y:    float = data[6]
+            accel_z:    float = data[8]
+            yaw:        float = data[10]
+            pitch:      float = data[12]
+            roll:       float = data[14]
+            gyro_x:     float = data[16]
+            gyro_y:     float = data[18]
+            gyro_z:     float = data[20]
+            
+            
+            accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
+            
+            # integrate velocity and position
+            dx: float = accel_x 
+            dy: float = accel_y 
+            dz: float = accel_z 
+            
+            # accumulate velocity
+            self.vel_x += dx * dt
+            self.vel_y += dy * dt
+            self.vel_z += dz * dt
+            
+            # update position
+            self.pos_x += self.vel_x * dt
+            self.pos_y += self.vel_y * dt
+            self.pos_z += self.vel_z * dt
+            
+            # You switched this from acceleration to velocity so ask Erik if he knows the gyro variables are actually angular velocity
+            self.angular_vel_x = (gyro_x - self.prev_x) / dt 
+            self.angular_vel_y = (gyro_y - self.prev_y) / dt
+            self.angular_vel_z = (gyro_x - self.prev_z) / dt
+            
+            self.prev_x = gyro_x
+            self.prev_y = gyro_y
+            self.prev_z = gyro_z
+
+            lin_pos = np.array([[self.pos_x], [self.pos_y], [self.pos_z]])
+            lin_accel = np.array([[accel_x], [accel_y], [accel_z]])
+            ang_vel = np.array([[self.angular_vel_x], [self.angular_vel_y], [self.angular_vel_z]])
+            ang_pos = np.array([[gyro_x], [gyro_y], [gyro_z]])
+
+            return lin_accel, self.R, ang_vel, lin_pos, ang_pos
         except KeyboardInterrupt:
             self.send_packet("kStopContinuousMode")
             self.close()
