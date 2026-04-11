@@ -45,17 +45,18 @@ class TRAX:
         """
         Establishes usb serial connection to trax
         """
-        trax1: str = "A1019O07"
+        trax2: str = "A1019O07"
         #trax1: str = "A1019O07A" # for windows
-        trax2: str = "FTBD1LEK"
+        trax1: str = "FTBD1LEK"
         #trax2: str = "FTBD1LEKA" # for windows
         trax_list = [trax1,trax2]
         ports: list = list_ports.comports()
         for port in ports:
-            if port.serial_number == trax_list[self.preferred_trax]: # connect to a trax
+            if port.serial_number == trax_list[self.preferred_trax-1]: # connect to preferred trax if found
                 try:
                     self.ser = serial.Serial(port.device, self.baud, timeout=1)
                     logger.info(f"TRAX CONNECTED: {port.device}")
+                    self.current_trax = 1 if port.serial_number == trax1 else 2
                     return
                 except:
                     logger.critical("TRAX FOUND, UNABLE TO CONNECT")
@@ -65,6 +66,7 @@ class TRAX:
                 try:
                     self.ser = serial.Serial(port.device, self.baud, timeout=1)
                     logger.info(f"TRAX CONNECTED: {port.device}")
+                    self.current_trax = 1 if port.serial_number == trax1 else 2
                     return
                 except:
                     logger.critical("TRAX FOUND, UNABLE TO CONNECT")
