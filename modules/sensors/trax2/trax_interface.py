@@ -12,7 +12,7 @@ class Trax_Interface(TRAX):
     github: @rsunderr
     """
 
-    def __init__(self, shared_memory_object, include_gyro=False, preferred_trax = 2 ) -> None:
+    def __init__(self, shared_memory_object, include_gyro=False, preferred_trax = 1 ) -> None:
         """
         Trax interface constructor
         """
@@ -34,7 +34,11 @@ class Trax_Interface(TRAX):
         self.pos_x:     float = 0
         self.pos_y:     float = 0
         self.pos_z:     float = 0
-        
+        # Don't be confused these relate to angular velocity, not linear position
+        self.prev_x:    float = 0
+        self.prev_y:    float = 0
+        self.prev_z:    float = 0
+
         # bias compensation
         self.accel_x_bias:  float = 0
         self.accel_y_bias:  float = 0
@@ -157,7 +161,7 @@ class Trax_Interface(TRAX):
         self.connect()
         self.send_packet("kStartContinuousMode") # kStartContinuousMode - start continuous mode
         
-    # single data call so function can be looped outside of Trax_Interface
+    # single data call so function can be looped outside of Trax_Interface (meant for multi IMU sensor fusion algorithm)
     def get_data(self):
         """
         Function targeted by looping multiprocessing calls, called only once
@@ -175,7 +179,6 @@ class Trax_Interface(TRAX):
             pitch:      float = data[12]
             roll:       float = data[14]
             
-
 
             accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
 
@@ -196,24 +199,33 @@ class Trax_Interface(TRAX):
             lin_accel = np.array([[accel_x], [accel_y], [accel_z]])
 
             if self.include_gyro:
-                self.prev_x = 0
-                self.prev_y = 0
-                self.prev_z = 0
+                
                 gyro_x:     float = data[16]
                 gyro_y:     float = data[18]
                 gyro_z:     float = data[20]
-                # angular acceleration
-                self.angular_acc_x = (gyro_x - self.prev_x) / dt 
-                self.angular_acc_y = (gyro_y - self.prev_y) / dt
-                self.angular_acc_z = (gyro_x - self.prev_z) / dt
-                self.prev_x = gyro_x
-                self.prev_y = gyro_y
-                self.prev_z = gyro_z
+                ang_rate = np.array([[gyro_x], [gyro_y], [gyro_z]])
 
-                ang_acc = np.array([[self.angular_acc_x], [self.angular_acc_y], [self.angular_acc_z]])
-                ang_vel = np.array([[gyro_x], [gyro_y], [gyro_z]])
-                self.shared_memory_object.trax_ang_vel[:] = ang_vel.reshape(-1) # store angular velocity in shared memory
-                self.shared_memory_object.trax_ang_acc[:] = ang_acc.reshape(-1) # store angular acceleration in shared memory
+                # needed to calculate T matrix for converting angular rate to angular velocity
+                yaw = math.radians(yaw)
+                pitch = math.radians(Trax_Interface.to_360(pitch))
+                roll = math.radians(Trax_Interface.to_360(roll))
+                cy=math.cos(roll)
+                sy=math.sin(roll)
+                sB=math.sin(pitch)
+                cB=math.cos(pitch)
+                sa=math.sin(yaw)
+                ca=math.cos(yaw)
+                T=np.array([[-sa, 0 , 1], [ca*sy, cy, 0], [cy*ca, -sy, 0]])
+                ang_vel = T @ ang_rate
+                global_ang_vel = self.R @ ang_vel
+                # angular acceleration
+                self.global_angular_acc_x = (global_ang_vel[0] - self.prev_x) / dt
+                self.global_angular_acc_y = (global_ang_vel[1] - self.prev_y) / dt
+                self.global_angular_acc_z = (global_ang_vel[2] - self.prev_z) / dt
+                self.prev_x,self.prev_y,self.prev_z = global_ang_vel[0], global_ang_vel[1], global_ang_vel[2]
+
+                global_ang_acc = np.array([[self.global_angular_acc_x], [self.global_angular_acc_y], [self.global_angular_acc_z]])
+                return lin_accel, global_ang_vel, global_ang_acc
             return lin_accel
         except KeyboardInterrupt:
             self.send_packet("kStopContinuousMode")

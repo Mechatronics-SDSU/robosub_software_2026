@@ -115,5 +115,21 @@ class Node:
 	def run_loop(self)->None:
 		self.imu.first_update()
 		while self.shared_memory_object.running.value:
-			self.measured_accel=self.imu.get_data()
+			match self.ID:
+				case "SPARTON":
+					print("SPARTON DATA NOT IMPLEMENTED YET")
+				case "TRAX1":
+					self.measured_accel=self.imu.get_data()
+					try:
+						self.shared_memory_object.trax_lin_acc[:] = self.measured_accel.reshape(-1) # store trax2 accel in shared memory
+					except Exception as e:
+						logger.critical(f"Error occurred while storing TRAX1 data: {e}")
+				case "TRAX2":
+					self.measured_accel, self.measured_wvel, self.measured_wacc = self.imu.get_data()
+					try:
+						self.shared_memory_object.trax2_lin_acc[:] = self.measured_accel.reshape(-1) # store trax2 accel in shared memory
+						self.shared_memory_object.trax2_ang_vel[:] = self.measured_wvel.reshape(-1) # store angular velocity in shared memory
+						self.shared_memory_object.trax2_ang_acc[:] = self.measured_wacc.reshape(-1) # store angular acceleration in shared memory
+					except Exception as e:
+							logger.critical(f"Error occurred while storing TRAX2 data: {e}")
 			self.print_state()

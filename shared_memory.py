@@ -48,10 +48,23 @@ class SharedMemoryWrapper:
         self.trax_x                 = Value('d', 0)
         self.trax_y                 = Value('d', 0)
         self.trax_z                 = Value('d', 0)
+        self.trax_lin_acc           = Array('d', 3)
         self.trax_ang_vel           = Array('d', 3)
         self.trax_ang_acc           = Array('d', 3)
         self.trax_R                 = Array('d', 9)
 
+        # temporary seperate trax2 information for testing, will be merged with above trax values later
+        self.trax2_yaw               = Value('d', 0)
+        self.trax2_pitch             = Value('d', 0)
+        self.trax2_roll              = Value('d', 0)
+        self.trax2_x                 = Value('d', 0)
+        self.trax2_y                 = Value('d', 0)
+        self.trax2_z                 = Value('d', 0)
+        self.trax2_lin_acc           = Array('d', 3)
+        self.trax2_ang_vel           = Array('d', 3)
+        self.trax2_ang_acc           = Array('d', 3)
+        self.trax2_R                 = Array('d', 9)
+        
         # velocities/position
         self.dvl_x_velocity         = Value('d', 0)
         self.dvl_y_velocity         = Value('d', 0)
