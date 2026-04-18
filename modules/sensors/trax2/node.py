@@ -132,4 +132,4 @@ class Node:
 						self.shared_memory_object.trax2_ang_acc[:] = self.measured_wacc.reshape(-1) # store angular acceleration in shared memory
 					except Exception as e:
 							logger.critical(f"Error occurred while storing TRAX2 data: {e}")
-			self.print_state()
+			#self.print_state()

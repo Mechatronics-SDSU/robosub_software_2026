@@ -4,13 +4,20 @@
 
 
 import numpy as np
-from node import Node
+from modules.sensors.trax2.node import Node
 from utils import *
+from multiprocessing                        import Process, Value
+import time
 
 class Model:
 
     """ I am so glad I am not a programmer by trade """
 
+    trax1t_a_ci = None
+    trax2t_a_ci = None
+    trax1t_a_di = None
+    trax2t_a_di = None
+    node_pos_list = [] # just a temporary list of the node positions relative to the center (r_i)
     nodes_list = []         # All the nodes in the model from which measurement takes place
 
     center_T = None         # 4 x 4 transformation matrix representing the and orientation of the
@@ -55,54 +62,73 @@ class Model:
     fn_get_accel = None
     __CURR_TIME = 0
 
-
-
     def print_state(self, flags=None):
+        def tprint(s) -> None:
+            print(f"\t\t{s}")
 
-        print("=== PRINTING MODEL ===")
+        def tprint_m(m) -> None:
+            try:
+                arr = np.array(m)
+                if arr.ndim == 0:
+                    tprint(arr)
+                    return
+                if arr.ndim == 1:
+                    arr = arr.reshape(1, -1)
+                for row in np.vsplit(arr, arr.shape[0]):
+                    tprint(row)
+            except Exception:
+                tprint(m)
+
+        # flags
         if flags is None:
             flags = self.__DEFAULT_PRINT_FLAGS
 
-        def __upck(flag_name):
-            # Check if flag_name is in flags, and if it
-            # is true
-            if (flag_name in flags) and (flags[flag_name] is True):
-                return True
-            return False
+        def _flag(name: str) -> bool:
+            return (name in flags) and flags[name]
 
-        if __upck('print_time'):
-            print("\tlast_time: {}".format(self.last_time))
+        # ===== HEADER =====
+        tprint("=== MODEL STATE ===")
 
-        if __upck('print_hist'):
-            print("\taccel_hist: {}".format(self.accel_hist))
-            print("\thist_idx: {}".format(self.hist_idx))
+        # ===== TIME =====
+        if _flag('print_time'):
+            tprint("Time: ")
+            tprint(self.last_time)
 
-        if __upck('print_pos'):
-            pdict = {'t_pos'  : self.t_pos,
-                     't_tht'  : self.t_tht,
-                     't_vel'  : self.t_vel,
-                     't_wvel' : self.t_wvel,
-                     't_acc'  : self.t_acc,
-                     't_wacc' : self.t_wacc,
-                     'm_pos'  : self.m_pos,
-                     'm_acc'  : self.m_acc,
-                     'm_vel'  : self.m_vel 
-                     }
+        # ===== TRANSFORM =====
+        if _flag('print_tsfm'):
+            tprint("center_T: ")
+            tprint_m(self.center_T)
 
-            for k, v in pdict.items():
-                if v is not None:
-                    v = v.T
-                print("\t{} : {}".format(k, v))
+        # ===== VECTORS (MATCH NODE STRUCTURE) =====
+        if _flag('print_pos'):
+            tprint("Vectors: ")
 
-        if __upck('print_tsfm'):
-            print("\tcenter_T: \n{}".format(self.center_T))
+            vectors = {
+                't_pos': self.t_pos,
+                't_vel': self.t_vel,
+                't_acc': self.t_acc,
+                'm_pos': self.m_pos,
+                'm_vel': self.m_vel,
+                'm_acc': self.m_acc,
+            }
 
-        if __upck('print_nodes'):
+            for key, value in vectors.items():
+                tprint(f"--- {key} :")
+                if value is not None:
+                    try:
+                        value = np.array(value).T
+                    except Exception:
+                        pass
+                tprint_m(value)
+
+        # ===== NODES =====
+        if _flag('print_nodes'):
             for node in self.nodes_list:
                 node.print_state()
 
-        print("======================")
+        print("")
 
+    
     def update_T(self):
         pos = self.t_pos.reshape(-1)
         tht = self.t_tht
@@ -122,11 +148,11 @@ class Model:
         delta_t, lin_acc, ang_acc = self.fn_get_accel()
         self.__CURR_TIME += delta_t
         return (self.__CURR_TIME, lin_acc, ang_acc)
+    
 
     def init_nodes(self):
         # Initialize the true and error positions for each
         # node
-    
         center_rot, center_pos = unpack_T(self.center_T)
         for node in self.nodes_list:
             # TODO: THIS CODE IS REPEATED 3 PLACES, PUT INTO FUNCTION?
@@ -135,7 +161,40 @@ class Model:
             node.t_pos = self.t_pos + node_pos_s
             node.e_pos = node.t_pos
 
-    def step(self):
+    def run_loop(self):
+        while self.shared_memory_object.running.value:
+            curr_time = time.time()
+            delta_t = curr_time - self.last_time
+            # temporarily just hard coding the step function to run for trax 1 and 2
+            # multiprocessing.Array slices return lists; convert to numpy arrays before reshaping
+            try:
+                self.trax1_lin_acc = np.array(self.shared_memory_object.trax_lin_acc[:]).reshape((3, 1))
+                self.trax2_lin_acc = np.array(self.shared_memory_object.trax2_lin_acc[:]).reshape((3, 1))
+                self.ang_vel = np.array(self.shared_memory_object.trax2_ang_vel[:]).reshape((3, 1))
+                self.ang_acc = np.array(self.shared_memory_object.trax2_ang_acc[:]).reshape((3, 1))
+
+                # ensure 1-D length-3 arrays for cross product
+                ang_acc_v = np.array(self.ang_acc).reshape(-1)
+                ang_vel_v = np.array(self.ang_vel).reshape(-1)
+                node0 = np.array(self.node_pos_list[0]).reshape(-1)
+                node1 = np.array(self.node_pos_list[1]).reshape(-1)
+
+                self.trax1t_a_ci = np.cross(ang_acc_v, node0).reshape(-1, 1)
+                self.trax1t_a_di = np.cross(ang_vel_v, np.cross(ang_vel_v, node0)).reshape(-1, 1)
+
+                self.trax2t_a_ci = np.cross(ang_acc_v, node1).reshape(-1, 1)
+                self.trax2t_a_di = np.cross(ang_vel_v, np.cross(ang_vel_v, node1)).reshape(-1, 1)
+
+                total_err = (self.trax1_lin_acc - (self.trax1t_a_ci + self.trax1t_a_di)) + (self.trax2_lin_acc - (self.trax2t_a_ci + self.trax2t_a_di))
+                self.m_acc = total_err / 2
+                self.m_vel += self.m_acc * delta_t
+                self.m_pos += self.m_vel * delta_t
+                self.print_state()
+            except Exception as e:
+                # shared memory may not be populated yet on first call; skip this iteration
+                print(f"MODEL SKIPPING STEP (shared memory not ready or invalid shapes): {e}")
+            time.sleep(0.05) # loop delay
+        """
         # Flag-controlled breakpoint for debugging
         c_bp(_RUN_STATE)
 
@@ -154,7 +213,7 @@ class Model:
         self.t_tht += delta_t * self.t_wvel
         self.update_T()
         center_rot, center_pos = unpack_T(self.center_T)
-
+        
         # Calculate the ground-truth acceleration of each node
         for node in self.nodes_list:
   
@@ -217,13 +276,13 @@ class Model:
         self.last_time = curr_time
 
         return
+        """
 
-    def __init__(self, nodes, accel_hist, 
+    def __init__(self, shared_memory_object, nodes_pos,  
                  init_pos = np.zeros((3, 1)),
                  init_tht = np.zeros((3, 1)),
                  init_vel = np.zeros((3, 1)),
                  init_wvel = np.zeros((3, 1)),
-                 fn_get_accel = None
                  ):
    
         # Initial conditions
@@ -232,16 +291,20 @@ class Model:
 
         self.t_vel = init_vel
         self.t_wvel = init_wvel
+        self.node_pos_list.append(nodes_pos[0])
+        self.node_pos_list.append(nodes_pos[1])
+        self.last_time:    float = time.time()
+        self.shared_memory_object = shared_memory_object
 
-        self.nodes_list = nodes
+        #self.nodes_list = nodes
         self.center_T = np.zeros((4, 4))        # Initial position and orientation relative to global coordinates
-        self.update_T()
-        self.init_nodes()
+        #self.update_T()
+        #self.init_nodes()
 
 
-        self.accel_hist = accel_hist
-        self.hist_idx = 0
-        self.last_time = 0
+        #self.accel_hist = accel_hist
+        #self.hist_idx = 0
+        #self.last_time = 0
 
         # Initialize measurements to zero (No way to measure position, velocity
         # offset at start!)
@@ -252,7 +315,7 @@ class Model:
 
         # Function to be used to get the acceleration at 
         # each timestep
-        self.fn_get_accel = fn_get_accel
+        #self.fn_get_accel = fn_get_accel
 
 
 

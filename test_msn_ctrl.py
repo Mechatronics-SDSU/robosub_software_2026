@@ -8,6 +8,7 @@ from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
 from modules.sensors.trax2.trax_interface import Trax_Interface 
 import modules.sensors.trax2.node as node
+import modules.sensors.trax2.algorithm as trax_algorithm
 """
     discord: @.kech
     github: @rsunderr
@@ -19,10 +20,11 @@ import modules.sensors.trax2.node as node
 shared_memory_object = SharedMemoryWrapper()
 DELAY = 0.2 # if you want to stay on one modce longer, increase delay to a high number
 
-trax_object_0 = node.Node(shared_memory_object, "TRAX1", [0,0,0]) # location is dummy for now
-trax_object_1 = node.Node(shared_memory_object,"TRAX2", [0,0,0]) # location is dummy for now
+trax_object_0 = node.Node(shared_memory_object, "TRAX1", [1,0,0]) # location is dummy for now
+trax_object_1 = node.Node(shared_memory_object,"TRAX2", [-1,0,0]) # location is dummy for now
 #trax_object_0 = Trax_Interface(shared_memory_object, False, 1)
-gate_mode   = Gate_FSM(shared_memory_object, [trax_object_0, trax_object_1])
+trax_algorithm_object = trax_algorithm.Model(shared_memory_object, [trax_object_0.node_location, trax_object_1.node_location])
+gate_mode   = Gate_FSM(shared_memory_object, [trax_object_0, trax_object_1, trax_algorithm_object])
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
