@@ -6,7 +6,8 @@ authors = [
     {name = "Kai Chan"},
     {name = "Ryan Sundermeyer"},
     {name = "Sam Georges"},
-    {name = "Joe Lofrese"}
+    {name = "Joe Lofrese"},
+    {name = "Andy Chen"}
 ]
 readme = "README.md"
 requires-python = ">=3.11"
