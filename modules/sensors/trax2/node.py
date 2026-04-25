@@ -24,9 +24,8 @@ if not logger.handlers:
 
 
 class Node:
-
-	   # Class responsible for abstracting each IMU node because the IMU's behave differently. Also provides data for testing and plotting.
-
+# TODO keep the acceleration due to gravity in this class to remove it as a last step
+# Class responsible for abstracting each IMU node because the IMU's behave differently. Also provides data for testing and plotting.
 	node_location = None # 4x4 describing position and orientation relative to center of mount/sub
 	ID = None #IMU name
 	measured_accel = None
@@ -127,6 +126,7 @@ class Node:
 				case "TRAX2":
 					self.measured_accel, self.measured_wvel, self.measured_wacc = self.imu.get_data()
 					try:
+						# TODO could make angular velocity and accel a median of multuple recordings
 						self.shared_memory_object.trax2_lin_acc[:] = self.measured_accel.reshape(-1) # store trax2 accel in shared memory
 						self.shared_memory_object.trax2_ang_vel[:] = self.measured_wvel.reshape(-1) # store angular velocity in shared memory
 						self.shared_memory_object.trax2_ang_acc[:] = self.measured_wacc.reshape(-1) # store angular acceleration in shared memory

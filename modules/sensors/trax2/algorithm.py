@@ -165,6 +165,7 @@ class Model:
         while self.shared_memory_object.running.value:
             curr_time = time.time()
             delta_t = curr_time - self.last_time
+            # TODO ask ryan about protection from reading from shared memory while its being written to 
             # temporarily just hard coding the step function to run for trax 1 and 2
             # multiprocessing.Array slices return lists; convert to numpy arrays before reshaping
             try:
@@ -176,6 +177,7 @@ class Model:
                 # ensure 1-D length-3 arrays for cross product
                 ang_acc_v = np.array(self.ang_acc).reshape(-1)
                 ang_vel_v = np.array(self.ang_vel).reshape(-1)
+                # TODO make angular velocity and this (r) are both in space or body frame (they must match)
                 node0 = np.array(self.node_pos_list[0]).reshape(-1)
                 node1 = np.array(self.node_pos_list[1]).reshape(-1)
 
