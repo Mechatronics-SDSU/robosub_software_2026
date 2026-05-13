@@ -1,3 +1,7 @@
+"""
+This script sends a predefined binary pattern through the modem.
+"""
+
 from modem_driver import M16
 from time import sleep
 
@@ -11,7 +15,7 @@ DIAGNOSTIC_MODE = False
 # Initialize the modem
 modem = M16(PORT, baudrate=9600, channel=CHANNEL, level=POWER_LEVEL, diagnostic=DIAGNOSTIC_MODE)
 
-# Send two bytes with the modem
+# Filler binary
 binary = 0b00001
 bytes = (binary << 10) | (binary << 5) | (binary << 1) | 1
 

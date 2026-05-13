@@ -1,5 +1,10 @@
+"""
+This script continuously listens for packets from the modem. It converts the received packet into a binary string, checks the last bit to determine if the packet should be processed, and then splits the binary string into 5-bit chunks. The script uses a majority voting mechanism on the first three 5-bit chunks to determine a trusted chunk, which is then printed to the console. If there is no majority match among the three chunks, it indicates that all chunks differ.
+"""
+
 from modem_driver import M16
 
+# Configuration parameters for the modem
 PORT = "COM7"
 CHANNEL = 1
 POWER_LEVEL = 1
@@ -11,8 +16,11 @@ print("Starting loop, exit with ctrl + c")
 
 last_chunk = None
 repeat_count = 0
+listening = True
 
-while True:
+#Need to update once we figure out how we want to write the task codes
+
+while listening and modem.is_connected():
     packet = modem.read_packet()
 
     if packet is None:
@@ -55,5 +63,9 @@ while True:
 
         if trusted_chunk is not None:
             print(f"Trusted chunk: {trusted_chunk}")
+            listening = False
+            modem.close()
         else:
             print("No majority match found, all 3 chunks differ")
+            listening = False
+            modem.close()
