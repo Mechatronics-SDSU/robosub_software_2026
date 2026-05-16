@@ -5,7 +5,7 @@ This script continuously listens for packets from the modem. It converts the rec
 from modem_driver import M16
 
 # Configuration parameters for the modem
-PORT = "COM7"
+PORT = "dev/ttyUSB0"
 CHANNEL = 1
 POWER_LEVEL = 1
 DIAGNOSTIC_MODE = False
@@ -20,7 +20,7 @@ listening = True
 
 #Need to update once we figure out how we want to write the task codes
 
-while listening and modem.is_connected():
+while listening:
     packet = modem.read_packet()
 
     if packet is None:

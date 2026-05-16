@@ -7,7 +7,7 @@ from time import sleep
 
 # PORT = input("Please input the port where the modem is connected (e.g. COM3 or /dev/ttyUSB0): ")
 
-PORT = "COM9"
+PORT = "/dev/ttyUSB1"
 CHANNEL = 1
 POWER_LEVEL = 1
 DIAGNOSTIC_MODE = False
