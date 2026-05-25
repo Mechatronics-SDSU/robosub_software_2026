@@ -26,7 +26,7 @@ This is the codebase for the SDSU Mechatronics Club competing in Robosub 2026, w
     - Zed SDK
     - NVIDIA Orin SDK
 
-### Important Directories
+### Key Directories
 
 - modules
     - Where the key features of the code are kept, primarily sensor handling, PIDs, and motor control
@@ -39,7 +39,7 @@ This is the codebase for the SDSU Mechatronics Club competing in Robosub 2026, w
 - display_manager
     - Display code kept here
 
-### Important Files
+### Key Files
 
 - launch.py
     - The primary file of the code base, manages mission control by switching between modes and handling subprocesses

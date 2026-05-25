@@ -9,14 +9,14 @@ Paragraph description.
 - Dependencies:
     - List dependencies with sub-bullets
 
-### Important Directories
+### Key Directories
 
 - Directory 1
     - Brief description
 - Directory 2
     - Brief description
 
-### Important Files
+### Key Files
 
 - myfile1.py
     - Brief description
