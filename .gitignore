@@ -2,3 +2,15 @@
 __pycache__/
 .venv/
 env/
+
+# Vision
+## Ignore everything in blender_environment/ except underwater_dataset_gen.py
+blender_environment/*
+!blender_environment/underwater_dataset_gen.py
+
+## Ignore files in data/ but keep subdirectories
+data/*
+!data/*/
+
+## Ignore files in recordings/ but keep the directory
+recordings/*
