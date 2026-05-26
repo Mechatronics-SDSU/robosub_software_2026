@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PID Tuning</title>
+
+    <style>
+        body {
+            margin-top: 30px;
+            margin-left: 30px;
+        }
+        body.pink{
+            background-color: rgb(255, 229, 240);
+        }     
+        body.dark{
+            background-color: rgb(28,28,28);
+        }
+        .title{
+            font-size: 48px;
+            margin-bottom: 20px;
+            margin-left: 30px;
+        }
+        .title.pink{
+            color: rgb(249, 121, 138);
+            font-weight: bolder;
+        }
+        .title.dark{
+            color: rgb(255, 255, 255);
+            font-weight: lighter;
+        }
+        .buttons{
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            margin-left: 30px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .buttons.pink{
+            color: rgb(255, 177, 188);
+            background-color: rgb(255, 255, 255);
+            border-width: 1px;
+            outline: 1px solid rgb(255,177,188);
+        }
+        .buttons.dark{
+            color: rgb(255,255,255);
+            background-color: rgb(0,0,0);
+            outline: 1px solid rgb(255,255,255);
+        }
+        table{
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: 30px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th.pink, td.pink{
+            color: rgb(249, 121, 138);
+            border: 1px solid #aaa;
+        }
+        th.dark, td.dark{
+            color: rgb(255,255,255);
+            border: 1px solid #ffffff;
+        }
+        th.pink{
+            background-color: #fff0f6;
+        }
+        th.dark {
+            background-color: #2f2f2f;
+        }
+
+        input {
+            width: 80px;
+            padding: 5px;
+        }
+
+         .toggle {
+                        position: relative;
+                        display: inline-block;
+                        width: 60px;
+                        height: 34px;
+                }
+                .slider {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: #333;
+                        border-radius: 34px;
+                }
+                .slider:before {
+                        position: absolute;
+                        content: "";
+                        height: 26px;
+                        width: 26px;
+                        left: 4px;
+                        bottom: 4px;
+                        background-color: #FFF;
+                        border-radius: 50%;
+                }
+                input:checked + .slider {
+                        background-color: rgb(255, 177, 188);
+                }
+                input:checked + .slider:before {
+                        transform: translateX(26px);
+                }
+    </style>
+</head>
+
+<body class="{{ color_mode }}">
+
+    <label class="toggle">
+        <input type="checkbox" id="btnToggle" name="btnToggle" onchange="color_switch()"
+        {% if color_mode == "dark" %}checked{% endif %} />
+        <span class="slider"></span>
+        </label>
+
+    <a  href = "{% url 'index' %}"
+            class=  "{{ color_mode }} buttons"
+            style=  "border-radius: 50px;"  
+            >
+                    Return to Homepage
+        </a>
+    
+    <h1 class="{{ color_mode }} title"
+    >
+        PID Tuning
+    </h1>
+    
+    <br>
+
+    <div    style="margin-bottom: 10px; margin-top: 10px;">
+    
+            <button 
+                class="{{ color_mode }} buttons"
+                style="margin: 5px 0;
+                        margin-left: 30px;
+                        font-size: 20px;
+                        padding: 5px 5px;"
+                onClick="update()"
+            >   Update
+            </button>
+    </div>
+
+    <!-- PID Table -->
+    <table>
+        <tr>
+            <th class="{{ color_mode }}"></th>
+            <th class="{{ color_mode }}">x</th>
+            <th class="{{ color_mode }}">y</th>
+            <th class="{{ color_mode }}">z</th>
+            <th class="{{ color_mode }}">yaw</th>
+            <th class="{{ color_mode }}">pitch</th>
+            <th class="{{ color_mode }}">roll</th>
+        </tr>
+
+        <tr>
+            <th class="{{ color_mode }}">kp</th>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kp_x" value="{{ kp_x }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kp_y" value="{{ kp_y }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kp_z" value="{{ kp_z }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kp_yaw" value="{{ kp_yaw }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kp_pitch" value="{{ kp_pitch }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kp_roll" value="{{ kp_roll }}">
+            </td>
+        </tr>
+
+        <tr>
+            <th class="{{ color_mode }}">kp</th>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="ki_x" value="{{ ki_x }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="ki_y" value="{{ ki_y }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="ki_z" value="{{ ki_z }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="ki_yaw" value="{{ ki_yaw }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="ki_pitch" value="{{ ki_pitch }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="ki_roll" value="{{ ki_roll }}">
+            </td>
+        </tr>
+
+        <tr>
+            <th class="{{ color_mode }}">kp</th>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kd_x" value="{{ kd_x }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kd_y" value="{{ kd_y }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kd_z" value="{{ kd_z }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kd_yaw" value="{{ kd_yaw }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kd_pitch" value="{{ kd_pitch }}">
+            </td>
+
+            <td class="{{ color_mode }}">
+                <input type="text" id="kd_roll" value="{{ kd_roll }}">
+            </td>
+        </tr>
+    </table>
+
+    <script>
+
+        const Yvalues = ["kp", "ki", "kd"];
+        const Xvalues = ["x", "y", "z", "yaw", "pitch", "roll"];
+
+        function color_switch(){
+                        fetch(`{% url 'change_color_mode' %}`)
+                                .then(() => location.reload());
+                }
+     
+        async function tick(){
+
+            let kp_x_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kp')}&x=${encodeURIComponent('x')}`);
+            kp_x.value = await kp_x_val.text();
+
+            let kp_y_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kp')}&x=${encodeURIComponent('y')}`);
+            kp_y.value = await kp_y_val.text();
+            
+            let kp_z_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kp')}&x=${encodeURIComponent('z')}`);
+            kp_z.value = await kp_z_val.text();
+
+            let kp_yaw_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kp')}&x=${encodeURIComponent('yaw')}`);
+            kp_yaw.value = await kp_yaw_val.text();
+            
+            let kp_pitch_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kp')}&x=${encodeURIComponent('pitch')}`);
+            kp_pitch.value = await kp_pitch_val.text();
+
+            let kp_roll_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kp')}&x=${encodeURIComponent('roll')}`);
+            kp_roll.value = await kp_roll_val.text();
+
+            let ki_x_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('ki')}&x=${encodeURIComponent('x')}`);
+            ki_x.value = await ki_x_val.text();
+
+            let ki_y_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('ki')}&x=${encodeURIComponent('y')}`);
+            ki_y.value = await ki_y_val.text();
+            
+            let ki_z_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('ki')}&x=${encodeURIComponent('z')}`);
+            ki_z.value = await ki_z_val.text();
+
+            let ki_yaw_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('ki')}&x=${encodeURIComponent('yaw')}`);
+            ki_yaw.value = await ki_yaw_val.text();
+            
+            let ki_pitch_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('ki')}&x=${encodeURIComponent('pitch')}`);
+            ki_pitch.value = await ki_pitch_val.text();
+
+            let ki_roll_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('ki')}&x=${encodeURIComponent('roll')}`);
+            ki_roll.value = await ki_roll_val.text();
+            
+            let kd_x_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kd')}&x=${encodeURIComponent('x')}`);
+            kd_x.value = await kd_x_val.text();
+
+            let kd_y_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kd')}&x=${encodeURIComponent('y')}`);
+            kd_y.value = await kd_y_val.text();
+            
+            let kd_z_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kd')}&x=${encodeURIComponent('z')}`);
+            kd_z.value = await kd_z_val.text();
+
+            let kd_yaw_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kd')}&x=${encodeURIComponent('yaw')}`);
+            kd_yaw.value = await kd_yaw_val.text();
+            
+            let kd_pitch_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kd')}&x=${encodeURIComponent('pitch')}`);
+            kd_pitch.value = await kd_pitch_val.text();
+
+            let kd_roll_val = await fetch(`{% url 'get_pid' %}?y=${encodeURIComponent('kd')}&x=${encodeURIComponent('roll')}`);
+            kd_roll.value = await kd_roll_val.text();
+
+        };
+
+        async function enter(x,y,val){
+        await fetch(`{% url 'set_pid' %}?y=${encodeURIComponent(y)}&x=${encodeURIComponent(x)}&val=${encodeURIComponent(val)}`);
+        }
+
+        async function update(){
+            Yvalues.forEach((Yitem) => {
+                Xvalues.forEach((Xitem) => {
+                    val = document.getElementById((Yitem+("_")+Xitem)).value;
+                    enter(Xitem,Yitem,val)
+                });
+            });
+        }
+
+        tick()
+        
+    </script>
+
+</body>
+</html>

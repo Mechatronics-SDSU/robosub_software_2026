@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
+        <style> 
                 body{
                         margin-top: 30px;
                         margin-left: 30px;
@@ -12,7 +12,7 @@
                 }     
                 body.dark{
                         background-color: rgb(28,28,28);
-                }
+                }  
                 .buttons{
                         padding: 15px;
                         border-radius: 5px;
@@ -47,7 +47,6 @@
                 .title.dark{
                         color: rgb(255, 255, 255);
                 }
-                
                 .toggle {
                         position: relative;
                         display: inline-block;
@@ -81,71 +80,44 @@
                 }
         </style>
     </head>
-
     <body class="{{ color_mode }}">
-        
-        
+
         <label class="toggle">
         <input type="checkbox" id="btnToggle" name="btnToggle" onchange="color_switch()"
         {% if color_mode == "dark" %}checked{% endif %} />
         <span class="slider"></span>
         </label>
-        
+
+
+       <a  href = "{% url 'index' %}"
+            class=  "{{ color_mode }} buttons"
+            style=  "border-radius: 50px;"  
+            >
+                    Return to Homepage
+        </a>
 
         <h1 class="{{ color_mode }} title"
         >
-                Homepage
+            Mission Planner
         </h1>
 
-        <a  href = "{% url 'start_button' %}"
+        <a  href = "{% url 'edit_mode_list' %}"
             class="{{ color_mode }} buttons"
         >
-                Start Button
+            Edit Mode List
         </a>
 
-        <a  href = "{% url 'launch' %}"
+        <a  href = "{% url 'edit_courses' %}"
             class="{{ color_mode }} buttons"
         >
-                Launch
-        </a>
-
-        <a  href = "{% url 'soft_kill' %}"
-            class="{{ color_mode }} buttons"
-        >
-                Soft Kill
-        </a>
-
-        <a  href = "{% url 'hard_kill' %}"
-            class="{{ color_mode }} buttons"
-        >
-                Hard Kill
-        </a>
-        <a  href = "{% url 'view_telemetry' %}"
-            class="{{ color_mode }} buttons"
-        >
-                View Telemetry
-        </a>
-
-        <a  href = "{% url 'pid_tuning' %}"
-            class="{{ color_mode }} buttons"
-        >
-                PID Tuning
-        </a>
-
-        <a  href = "{% url 'mission_planner' %}"
-            class="{{ color_mode }} buttons"
-        >
-                Mission Planner
+            Edit Courses
         </a>
 
         <script>
-
                 function color_switch(){
                         fetch(`{% url 'change_color_mode' %}`)
                                 .then(() => location.reload());
                 }
-
         </script>
     </body>
-
 </html>

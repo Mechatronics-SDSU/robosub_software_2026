@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                    margin-top: 30px;
+                    margin-left: 30px;
+            }
+            body.pink{
+                    background-color: rgb(255, 229, 240);
+            }     
+            body.dark{
+                    background-color: rgb(28,28,28);
+            }
+            .buttons{
+                    padding: 10px;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    display: inline-block;
+                    margin-top: 10px;
+                    margin-left: 30px;
+                    margin-bottom: 10px;
+                    font-size: 17px;
+            }
+            .buttons.pink{
+                    color: rgb(255, 177, 188);
+                    background-color: rgb(255, 255, 255);
+                    border-width: 1px;
+            }
+            .buttons.dark{
+                    color: rgb(255,255,255);
+                    background-color: rgb(0,0,0);
+                    outline: 1px solid rgb(255,255,255);
+            }
+            .title{
+                    outline: 0px;
+                    background-color: transparent;
+                    font-size: 50px;
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                    margin-left: 30px;
+            }
+            .title.pink{
+                    color: rgb(249, 121, 138);
+                    font-weight: bolder;
+            }
+            .title.dark{
+                    color: rgb(255, 255, 255);
+                    font-weight: lighter;
+            }
+            .toggle {
+                        position: relative;
+                        display: inline-block;
+                        width: 60px;
+                        height: 34px;
+                }
+                .slider {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: #333;
+                        border-radius: 34px;
+                }
+                .slider:before {
+                        position: absolute;
+                        content: "";
+                        height: 26px;
+                        width: 26px;
+                        left: 4px;
+                        bottom: 4px;
+                        background-color: #FFF;
+                        border-radius: 50%;
+                }
+                input:checked + .slider {
+                        background-color: rgb(255, 177, 188);
+                }
+                input:checked + .slider:before {
+                        transform: translateX(26px);
+                }
+        </style>
+
+    </head>
+
+    <body class="{{ color_mode }}">
+
+        <label class="toggle">
+        <input type="checkbox" id="btnToggle" name="btnToggle" onchange="color_switch()"
+        {% if color_mode == "dark" %}checked{% endif %} />
+        <span class="slider"></span>
+        </label>
+
+       
+        <a  href = "{% url 'index' %}"
+            class=  "{{ color_mode }} buttons"
+            style=  "border-radius: 50px;"  
+            >
+                    Return to Homepage
+        </a>
+
+        <h1 class="{{ color_mode }} title"
+            style="margin-bottom: 50px;">
+                 Edit Mode Lists
+        </h1>
+
+        <h1 class="{{ color_mode }} title"
+            style="font-size: 20px;" 
+        >
+            ~Create copy of yaml file~
+        </h1>
+    
+        <div>
+            <label  class="{{ color_mode }} title"
+                    style="font-size: 15px;"
+                    for="title">
+                    File Title
+            </label>
+            <input  type="text" id="title">
+            <button class="{{ color_mode }} buttons"
+                    style="font-size: 12px; padding: 5px; margin-bottom: 50px; margin-left: 3px;"
+                    onClick="copy()">
+                    Create:
+            </button>
+        </div>
+        
+            <label  class= "{{ color_mode }} title"
+                    style="font-size: 15px;"
+                    for="course">Switch Course:</label>
+
+            <select id="course" name="course">
+
+                <!-- 
+                        ADD NEW COURSE:
+                                add a line using this template:
+                                <option value="COURSE_NAME">COURSE_NAME</option>
+                -->
+
+                <option value="jesse_pool">Jesse Pool</option>
+                <option value="lane_D">Lane D</option>
+                <option value="test">Test</option>
+                <option value="prequal">Prequal</option>
+            </select>
+
+        <h1 class= "{{ color_mode }} title"
+            style="font-size: 30px; margin-bottom: 3px; margin-top: 10px;">
+            Click to add mode
+        </h1>
+
+        <!-- 
+                ADD NEW MODE:
+                add a line using this template:
+                        <div>
+                        <button class="{{ color_mode }} buttons" id="MODE_NAME" class="buttons" onclick="add_Mode('MODE_NAME')">MODE NAME</button>
+                        </div>
+        -->
+    
+    
+    <div>
+    <button class="{{ color_mode }} buttons" id="gate_mode" class="buttons" onclick="add_Mode('gate_mode')">Gate Mode</button>
+    </div>
+
+    <div>
+    <button class="{{ color_mode }} buttons" id="gate_mode" class="buttons" onclick="add_Mode('slalom_mode')">Slalom Mode</button>
+    </div>
+
+    <div>
+    <button class="{{ color_mode }} buttons" id="gate_mode" class="buttons" onclick="add_Mode('oct_mode')">Oct Mode</button>
+    </div>
+
+    <div>
+    <button class="{{ color_mode }} buttons" id="gate_mode" class="buttons" onclick="add_Mode('return_mode')">Return Mode</button>
+    </div>
+
+    <div>
+    <button class="{{ color_mode }} buttons" id="gate_mode" class="buttons" onclick="reset()">Reset</button>
+    </div>
+
+    <pre 
+    class="{{ color_mode }} title"
+    style="margin-bottom: 10px; font-size: 15px; height: 300px; margin-top:50px;"
+    id="output">
+    </pre>
+
+    <script>
+
+        function color_switch(){
+                        fetch(`{% url 'change_color_mode' %}`)
+                                .then(() => location.reload());
+        }
+
+        console.log("script loaded");
+        const output = document.getElementById('output');
+
+        async function tick(){
+                    course = document.getElementById("course").value;
+                    let r = await fetch(`{% url 'send_mode_list' %}?course=${encodeURIComponent(course)}`);
+                    const j = await r.text();
+                    output.textContent = j
+        };
+
+        function copy(){
+            fetch(`{% url 'copy_yaml' %}?title=${encodeURIComponent(document.getElementById("title").value)}`);
+        }
+
+        async function add_Mode(m){
+            mode = m
+            course = document.getElementById("course").value;
+            await fetch(`{% url 'add_mode' %}?mode=${encodeURIComponent(mode)}&course=${encodeURIComponent(course)}`);
+        };
+
+        async function reset(){
+            course = document.getElementById("course").value;
+            await fetch(`{% url 'reset_mode_list' %}?course=${encodeURIComponent(course)}`);
+        }
+
+        tick();
+        setInterval(tick, 500);
+
+    </script>
+    </body>
+</html>

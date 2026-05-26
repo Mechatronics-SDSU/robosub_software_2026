@@ -1,6 +1,5 @@
 import django, sys, os, subprocess
 from shared_memory                          import SharedMemoryWrapper
-
 #File that starts up the website
 
 
@@ -10,14 +9,17 @@ def main():
         #sets up web gui
         BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
         GUI_DIR = os.path.join(BASE_DIR, "modules", "gui") 
+        
         if GUI_DIR not in sys.path: sys.path.insert(0, GUI_DIR)
+        if BASE_DIR not in sys.path: sys.path.insert(0, BASE_DIR)
+        
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
         django.setup()
 
         from modules.gui.web_gui.gui_launch         import Gui_launch
 
-        subprocess.Popen(
-            [sys.executable, "manage.py", "runserver"], 
+        subprocess.Popen(                                               
+            [sys.executable, "manage.py", "runserver", "--noreload"], 
             cwd=str(GUI_DIR), 
         )
 

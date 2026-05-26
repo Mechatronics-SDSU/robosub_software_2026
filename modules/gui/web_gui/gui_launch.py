@@ -1,20 +1,29 @@
+import json, time, os
+from .  import views
 
-import json
-import time, os
-from . import views
+"""
+    discord: @314_piekitty
+    github: @malaikajoiner
+    
+    Object created from start.py that attaches the shared memory to the rest of the GUI files.
+    This object will be constantly updating a JSON file with the shared memory values.
+    
+"""
 
 class Gui_launch:
 
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object
-        views.recieveMemory(shared_memory_object)
+        views.recieveMemory(self.shared_memory_object)
+
         self.FILE = os.environ.get(
                     "TELEMETRY_FILE",
                     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "telemetry.json")) #finds telemetry.json filepath
         )
-        self.write_values()
+        
+        self.write_shared_memory()
 
-    def write_values(self):
+    def write_shared_memory(self):
         while True:
             #Writes to JSON file
             telemetry = {
@@ -46,12 +55,6 @@ class Gui_launch:
                 json.dump(telemetry, f, indent=2)
             os.replace(tmp, self.FILE)
             time.sleep(1)
+   
+
     
-    def DVL_RESET(self):
-        #might delete. moved this function to views.
-        self.shared_memory_object.dvl_x.value = 0
-        self.shared_memory_object.dvl_y.value = 0
-        self.shared_memory_object.dvl_z.value = 0
-
-
-        

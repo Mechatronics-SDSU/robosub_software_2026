@@ -87,7 +87,7 @@ jesse_pool: # ------------------------------------------------------------------
 
 lane_D: # ------------------------------------------------------------------------------------------------------
   # lane D from robosub finals 2025
-  mode_list: "gate_mode, slalom_mode"
+  mode_list: ""
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 10 # m forward buffer for all objects

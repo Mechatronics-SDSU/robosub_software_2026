@@ -5,73 +5,158 @@
             <script src="https://cdn.plot.ly/plotly-3.2.0.min.js" charset="utf-8"></script>
                 
             <style>
-                    body {
-                            background-color: #ffe5f0;
-                            padding: 20px;
-                    }
-                    h2 {
-                            color: #f6b1bc;
-                            font-size: 48px;
-                            margin-bottom: 20px;
-                     }
-                    .button{
-                            margin-bottom: 50px;
-                            font-size: 25px;
-                            color:  #f6b1bc;
-                            background-color: rgb(255, 255, 255);
-                            border-color: rgb(111, 111, 111);
-                            padding: 10px;
-                    }
+                body{
+                        margin-top: 30px;
+                        margin-left: 30px;
+                }
+                body.pink{
+                        background-color: rgb(255, 229, 240);
+                }     
+                body.dark{
+                        background-color: rgb(28,28,28);
+                }  
+                .container{
+                    display: flex;
+                    gap: 20px;
+                    align-items: flex-start;
+                    width: 180px;
+                }
+                .blockR{
+                    margin-top: 150px;
+                    margin-left: 100px;
+                }
+                .buttons{
+                        padding: 15px;
+                        border-radius: 5px;
+                        text-decoration: none;
+                        font-weight: bold;
+                        display: inline-block;
+                        margin-top: 10px;
+                        margin-left: 30px;
+                        margin-bottom: 20px;
+                        font-size: 20px;
+                }
+                .buttons.pink{
+                        color: rgb(255, 177, 188);
+                        border: none;
+                        background-color: rgb(255, 255, 255);
+                        outline: 1px solid rgb(255,177,188);
+                }
+                .buttons.dark{
+                        color: rgb(255,255,255);
+                        background-color: rgb(0,0,0);
+                        outline: 1px solid rgb(255,255,255);
+                }
+                .title{
+                        outline: 0px;
+                        background-color: transparent;
+                        font-size: 50px;
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        margin-left: 30px;
+                }
+                .title.pink{
+                        color: rgb(255, 177, 188);
+                }
+                .title.dark{
+                        color: rgb(255, 255, 255);
+                }
+                .text{
+                        width:600px;
+                        height:250px;
+                        font-size: x-large;
+                }
+                .text.pink{
+                    color:black;
+                }
+                .text.dark{
+                    color: rgb(255,255,255);
+                }
+                
+
+                .toggle {
+                        position: relative;
+                        display: inline-block;
+                        width: 60px;
+                        height: 34px;
+                }
+                .slider {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: #333;
+                        border-radius: 34px;
+                }
+                .slider:before {
+                        position: absolute;
+                        content: "";
+                        height: 26px;
+                        width: 26px;
+                        left: 4px;
+                        bottom: 4px;
+                        background-color: #FFF;
+                        border-radius: 50%;
+                }
+                input:checked + .slider {
+                        background-color: rgb(255, 177, 188);
+                }
+                input:checked + .slider:before {
+                        transform: translateX(26px);
+                }
             </style>
     </head>
 
-    <body>
-
-        <h2>Telemetry Viewer</h2>
+    <body class="{{ color_mode }}">
+        
+        <label class="toggle">
+        <input type="checkbox" id="btnToggle" name="btnToggle" onchange="color_switch()"
+        {% if color_mode == "dark" %}checked{% endif %} />
+        <span class="slider"></span>
+        </label>
 
         <a  href = "{% url 'index' %}"
-            style=  "
-                    padding: 15px;
-                    background-color: rgb(255, 255, 255);
-                    color: pink;
-                    border-radius: 5px;
-                    text-decoration: none;
-                    font-weight: bold;
-                    display: inline-block;
-                    margin-top: 10px;
-                    margin-left: 30px;
-                    font-size: 20px;
-                    display: block;
-                    margin-bottom: 20px;
-                    width: 100px;
-            ">
-                    Homepage
+            class=  "{{ color_mode }} buttons"
+            style=  "border-radius: 50px;"  
+            >
+                    Return to Homepage
         </a>
-        <button class="button" id="test_mode">
-                Switch to use test values
-        </button>
-        <button class="button" id="real_mode">
-                Switch to use real data
-        </button>
 
-        <button class="button" id="dvl_reset_button">
+        <h2 class="{{ color_mode }} title">
+            Telemetry Viewer
+        </h2>
+
+        <div class="container">
+        <div>
+
+        <button class="{{ color_mode }} buttons" id="dvl_reset_button">
                 DVL RESET
         </button>
 
         <div id="dvlV" style="width:600px;height:250px;"></div>
         <div id="dvlYPR" style="width:600px;height:250px;"></div>
         <div id="dvlPos" style="width:600px;height:250px;"></div>
-        <pre id="out"></pre>
 
+        </div>
+
+
+        <div class="blockR">
+
+        <pre id="out"
+             style="width:600px;height:250px;"
+             class="{{ color_mode }} text">
+        </pre>
+
+
+        </div>
+        </div>
 
         <script>
-                const test = document.getElementById("test_mode");
-                test.addEventListener("click", SwitchTest);
-
-                const real = document.getElementById("real_mode");
-                real.addEventListener("click", SwitchReal);
-
-                var mode = "real_mode_activated";
+                function color_switch(){
+                        fetch(`{% url 'change_color_mode' %}`)
+                                .then(() => location.reload());
+                }
 
                 const reset_button = document.getElementById("dvl_reset_button");
                 reset_button.addEventListener("click", DVLRESET);
@@ -97,23 +182,10 @@
                     await fetch("{% url 'DVLreset' %}");
                 }
 
-                async function SwitchTest(){
-                    mode = "test_mode_activated";
-                }
-
-                async function SwitchReal(){
-                    mode = "real_mode_activated";
-                }
-      
                 async function tick(){
-                    let r;
-                    // use test_telemetry or get_telemetry depending if youre using testing values or real values
-                    if(mode=="test_mode_activated"){
-                        r = await fetch("{% url 'test_telemetry' %}");
-                    }
-                    if(mode=="real_mode_activated"){
-                        r = await fetch("{% url 'get_telemetry' %}");
-                    }
+
+                    let r = await fetch("{% url 'get_telemetry' %}");
+
                     const j = await r.json();
                     out.textContent = JSON.stringify(j, null, 2)
                     const d = j.dvl;
@@ -204,7 +276,7 @@
                             Plotly.newPlot(DVLV, [traceVX, traceVY, traceVZ], {
                                 title: {
                                         text: 'Velocity',
-                                        font: { size: 30, color: 'pink'}},
+                                        font: { size: 30, color: 'black'}},
                                 xaxis: { showticklabels: false,},
                                 margin: { t: 80 }
                             });
@@ -218,7 +290,7 @@
                             Plotly.newPlot(DVLYPR, [traceYaw, tracePitch, traceRoll], {
                                 title: {
                                         text: 'Rotation',
-                                        font: {size: 30, color: 'pink'}},
+                                        font: {size: 30, color: 'black'}},
                                 xaxis: {showticklabels: false,},
                                 margin: { t: 50 }
                             });
@@ -232,7 +304,7 @@
                             Plotly.newPlot(DVLPos, [traceX, traceY, traceZ], {
                                 title: {
                                         text: 'Position',
-                                        font: { size: 30, color: 'pink'}},
+                                        font: { size: 30, color: 'black'}},
                                 xaxis: {showticklabels: false,},
                                 margin: { t: 50 }
                             });

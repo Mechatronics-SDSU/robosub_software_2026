@@ -1,5 +1,5 @@
 import numpy as np
-import time
+import time, yaml, os
 from modules.pid.six_dof_pid import PID
 from scipy.spatial.transform import Rotation as R
 
@@ -26,11 +26,20 @@ class PIDInterface:
         # self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
 
         # array of PID k Values
-        #                          x,      y,     z,    yaw,   pitch, roll
+        '''#                          x,      y,     z,    yaw,   pitch, roll
         self.K_array = np.array([[3000,  3000,  2500,    30,     2,    2], #kp
                                  [.5,   .5,      2,      2,    .5,   .5],  #ki
                                  [.1,   .1 ,    .1,     .2,    .5,   .5]]) #kd
-        
+        '''
+
+        try:
+            with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"),'r') as file:
+                data = yaml.safe_load(file)
+        except KeyError:
+            print("ERROR: Invalid data format in objects.yaml")
+
+        pid = data["pid"]
+        self.K_array = np.array([ pid["kp"], pid["ki"], pid["kd"] ])
     
     def run_pid(self):
         desired_state = np.array([self.shared_memory_object.target_x.value, 

@@ -1,9 +1,11 @@
-import subprocess, time
+import subprocess, time, yaml
 from multiprocessing                        import Process, Value
 import os
 from pathlib                                import Path
 from start                                  import shared_memory
-
+from ruamel.yaml import YAML
+yaml = YAML()
+yaml.preserve_quotes = True
 # import FSMs
 
 from shared_memory                          import SharedMemoryWrapper
@@ -54,10 +56,12 @@ slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
-
-
-#mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
-
+try:
+    with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"),'r') as file:
+        data = yaml.safe_load(file)
+        mode_list = data['mode_list']
+except KeyError:
+        print("ERROR: Invalid data format in objects.yaml")
 
 def main():
     """
