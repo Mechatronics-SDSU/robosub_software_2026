@@ -74,6 +74,9 @@ A simple locally hosted web interface to help run commands and edit values for t
         - you can use javascript in the html templates to call python functions in views.py using commands such as fetch("{% url 'title' %}");
     - to create a new function:
         - define new python functions in modules/gui/web_gui/views.py
+        - add a line in modules/gui/web_gui/urls.py using this template:
+            - "path('title/', views.title, name = 'title'),"
+            - the "title" should match the name of the new function defined in views.py.
         - call the functions from html templates using javascript (explained above)
 - How to add a new course:
     - Note: must manually initialize new course values in objects.yaml first before making it accessible by the gui
