@@ -1,5 +1,5 @@
-# Project Name
-Paragraph description.
+# Modem
+Program to control the M16 modem, which is used for communication between the subs.
 
 ### Outline
 
