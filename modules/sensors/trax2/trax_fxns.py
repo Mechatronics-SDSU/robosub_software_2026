@@ -38,13 +38,15 @@ class TRAX:
         """
         self.ser: serial.Serial = ser
         self.baud: int = baud
+
+        print(self.baud)
     
     def connect(self) -> None:
         """
         Establishes usb serial connection to trax
         """
         trax1: str = "A1019O07"
-        trax2: str = "FTBD1LEK"
+        trax2: str = "FTBD1LDE"
         ports: list = list_ports.comports()
         for port in ports:
             if port.serial_number == trax1 or port.serial_number == trax2: # connect to a trax
@@ -66,6 +68,7 @@ class TRAX:
 
     # RECEVING DATA ------------------------------------------------------------------------------------------------------------------------------------------------
     def recv_packet(self, payload: list | tuple | None = None) -> tuple:
+
         """
         Receives and reads packet from TRAX, checks checksum, returns a tuple of values read 
         If the datagram includes ID Specific types, pass the payload tuple/array from the prior send_packet() 
@@ -133,6 +136,7 @@ class TRAX:
             # ID # 19, 23, 26, 28, 30, 37, 44 have no payload
         
         decode_str += "H" # CRC
+
         try:
             return struct.unpack(decode_str, packet)
         except:

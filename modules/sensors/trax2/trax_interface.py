@@ -1,7 +1,8 @@
 import sys, os, time, math
 import numpy                                as np
 from multiprocessing                        import Process, Value
-from modules.sensors.trax2.trax_fxns        import TRAX
+from trax_fxns        import TRAX
+
 
 G_TO_MS2 = 9.80665 # gravity conversion
 
@@ -20,7 +21,7 @@ class Trax_Interface(TRAX):
         self.shared_memory_object = shared_memory_object
         self.interval: float = 0
         self.acq_params: tuple = (False, False, 0, self.interval) # poll mode false, flush filter false, PNI reserved, interval
-        self.data_components: tuple = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19, 0x4A, 0x4B, 0x4C) # 9 comp's: ax ay az yaw pitch roll gyrox gryoy gryoz
+        self.data_components: tuple = (6, 0x15, 0x16, 0x17, 0x5, 0x18, 0x19) # 9 comp's: ax ay az yaw pitch roll gyrox gryoy gryoz 0x4A, 0x4B, 0x4C
 
         # positional values
         self.t_prev:    float = time.time()
@@ -30,6 +31,11 @@ class Trax_Interface(TRAX):
         self.pos_x:     float = 0
         self.pos_y:     float = 0
         self.pos_z:     float = 0
+
+        #angular values
+        self.angular_accel =     np.zeros((3,1))
+        self.prev_omega_s =  np.zeros((3,1))
+        self.angular_vel =  np.zeros((3,1))
 
         
         # bias compensation
@@ -125,7 +131,10 @@ class Trax_Interface(TRAX):
             yaw:        float = data[10]
             pitch:      float = data[12]
             roll:       float = data[14]
-            
+            gyro_x:     float = data[16]
+            gyro_y:     float = data[18]
+            gyro_z:     float = data[20]
+           
             
             accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
 
@@ -157,16 +166,18 @@ class Trax_Interface(TRAX):
 
 
 
+            print(f"TRAX x: {self.pos_x:.2f}, y: {self.pos_y:.2f}, z: {self.pos_z:.2f}, Yaw: {yaw:.2f}, Pitch: {pitch:.2f}, Roll: {roll:.2f}, X Accel: {accel_x:.2f}, Y Accel: {accel_y:.2f}, Z Accel: {accel_z:.2f}, X gyro: {gyro_x:.2f}, Y gyro: {gyro_y:.2f}, Z gyro: {gyro_z:.2f}")
 
-
-            print(f"TRAX x: {self.pos_x:.2f}, y: {self.pos_y:.2f}, z: {self.pos_z:.2f}, Yaw: {yaw:.2f}, Pitch: {pitch:.2f}, Roll: {roll:.2f}, X Accel: {accel_x:.2f}, Y Accel: {accel_y:.2f}, Z Accel: {accel_z:.2f}")
         except KeyboardInterrupt:
             self.send_packet("kStopContinuousMode")
             self.close()
+
         except Exception as e:
             print(f"INVALID TRAX DATA: {e}") # errors are expected
 
-    def get_data(self): #for sensior fusion algorithm
+    
+
+    def get_data(self): #for sensior fusion algorithm, just need accel because sparton will track gyro/compass
         """
         Function targeted by looping multiprocessing calls, called only once
         """
@@ -186,8 +197,10 @@ class Trax_Interface(TRAX):
             gyro_y:     float = data[18]
             gyro_z:     float = data[20]
             
-            accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
-
+            #accel_x, accel_y, accel_z = self.adjust_accel(accel_x, accel_y, accel_z, yaw, pitch, roll)
+            accel_x = accel_x  * G_TO_MS2 
+            accel_y = accel_y  * G_TO_MS2 
+            accel_z = accel_z  * G_TO_MS2 - (9.80665)
 
             self.shared_memory_object.trax_yaw.value   = yaw
             self.shared_memory_object.trax_pitch.value = pitch
@@ -212,21 +225,10 @@ class Trax_Interface(TRAX):
             self.pos_y += self.vel_y * dt
             self.pos_z += self.vel_z * dt
 
-            # get angular acceleration
-
-            self.angular_x = (gyro_x - self.prev_x) / dt 
-            self.angular_y = (gyro_y - self.prev_y) / dt
-            self.angular_z = (gyro_x - self.prev_z) / dt
-
-            self.prev_x = gryo_x
-            self.prev_y = gyro_y
-            self.prev_z = gyro_z
+            lin_accel = np.array([[accel_x], [accel_y], [accel_z]])
 
 
-            lin_accel = np.array([[ax], [ay], [az]])
-            ang_accel = np.array([[self.angular_x], [self.angular_y], [self.angular_z]])
-
-            return lin_accel, ang_accel
+            return lin_accel
 
 
             
@@ -236,6 +238,4 @@ class Trax_Interface(TRAX):
         except Exception as e:
             print(f"INVALID TRAX DATA: {e}") # errors are expected
 
-
-
-
+    

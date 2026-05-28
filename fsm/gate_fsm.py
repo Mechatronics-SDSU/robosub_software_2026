@@ -1,7 +1,10 @@
-from utils.socket_send                              import set_screen
+
 from fsm.fsm                                        import FSM_Template
 from enum                                           import Enum
 import time, yaml, os
+import utils.socket_send as socket_send
+from utils.socket_send                              import set_screen
+
 """
     discord: @.kech
     github: @rsunderr

@@ -1,4 +1,5 @@
 from trax_fxns import TRAX
+from trax_interface import trax_interface
 
 """
     Created by Ryan Sundermeyer
@@ -12,30 +13,30 @@ except:
     pass
 """
 
-trax = TRAX()
-trax.connect()
+trax = trax_interface()
+trax.setup()
+
+
 
 # kStopContinuousMode
 #frameID = "kStopContinuousMode"
 #trax.send_packet(frameID)
 
-frameID = "kSetDataComponents"
-payload = (1, 0x15) # 6 comp's: ax ay az yaw pitch roll
-trax.send_packet(frameID, payload)
+#frameID = "kSetDataComponents"
+#payload = (3, 0x4A, 0x4B, 0x4C) # 6 comp's: ax ay az yaw pitch roll
+#trax.send_packet(frameID, payload)
 
 # kGetData
-frameID = "kGetData"
-trax.send_packet(frameID)
+#frameID = "kGetData"
+#trax.send_packet(frameID)
 
 # kGetDataResp
-data = trax.recv_packet(payload)
-print(data)
+#data = trax.recv_packet(payload)
+#print(data)
 
 
-frameID = "kGetFunctionalMode"
-trax.send_packet(frameID)
+#frameID = "kGetFunctionalMode"
+#trax.send_packet(frameID)
 
-data = trax.recv_packet()
-print(data)
 
 trax.close()
