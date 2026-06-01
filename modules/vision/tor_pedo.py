@@ -1,7 +1,7 @@
 import math
 
 class TorpedoLineup:
-    def __init__(self):
+    def __init__(self,):
         pass
 
     def vision_to_coordinates(
@@ -14,7 +14,7 @@ class TorpedoLineup:
             math.radians((vision_coordinate - 0.5) * fov_deg)
         )
 
-    def dist_from_target(
+    def depth_vision_lineup(
         self,
         vision_distance: float,
         desired_distance: float
