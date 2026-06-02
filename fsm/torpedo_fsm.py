@@ -1,17 +1,22 @@
 from utils.socket_send                      import set_screen
 from fsm.fsm                                import FSM_Template
 from enum                                   import Enum
+from modules.vision.tor_pedo                import lineup
+from dotenv                                 import load_dotenv
+
 import yaml, os, time
-from modules.vision.tor_pedo import lineup
+
+
 """
     discord: @.kech
     github: @rsunderr
 
-    FSM for navigating through gate
+    FSM for navigating through torpedo
     
 """
-ZED_XFOV: int = 110 # FIXME idk what env file is ryan tell me next timee
-ZED_YFOV: int = 80 #FIXME idk what env file is ryan tell me next timee
+load_dotenv("torpico.env", override=True)
+X_ZED_FOV: int = int(os.getenv("X_ZEDMINI_FOV_DEG"))
+Y_ZED_FOV: int = int(os.getenv("Y_ZEDMINI_FOV_DEG")) 
 
 class States(Enum):
     """
@@ -38,7 +43,6 @@ class Torpedo_FSM(FSM_Template):
         self.name: str      = "TORPEDO"
         self.state: States  = States.INIT  # initial state
         self.wait_time: time = time.time() # time tracking variable
-
         self.lineup = lineup(shared_memory_object)
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
@@ -60,7 +64,7 @@ class Torpedo_FSM(FSM_Template):
 
                 self.timeout = data[course]['torpedo']['timeout'] #FIXME how long before looking for torpedoes gives up
                 self.t_loop = data[course]['torpedo']['t_loop'] # FIXME how long to wait before updating torpedo coordinates in loop
-                self.desired_distance = data[course]['torpedo']['desired_distance'] # FIXME how far away do we want to be from torpedo target
+                self.desired_distance = data[course]['torpedo']['desired_distance'] # FIXME how far away do we want to be facing the torpedo target
 
         except KeyError:
             print("ERROR: Invalid data format in objects.yaml, using all 0's")
@@ -118,9 +122,7 @@ class Torpedo_FSM(FSM_Template):
                 if self.reached_xyz(self.x1, self.y1, self.depth):
                     self.next_state(States.TO_MID)
             case States.AT_TORPEDO: 
-                """
-                call vision logic to check if target found, if found transition to lining up, else keep looking
-                """
+                # call vision logic to check if target found, if found transition to lining up, else keep looking
                 self.next_state(States.LINING_UP)
             case States.LINING_UP: # transition: TO_END -> DONE
                 self.update_xy_lineup(self.shared_memory_object.target_x, self.x1, ZED_X, ZED_DISTANCE, ZED_XFOV)

@@ -1,8 +1,8 @@
 import math
 
 class TorpedoLineup:
-    def __init__(self,):
-        pass
+    def __init__(self, shared_memory_object):
+        self.shared_memory = shared_memory_object
 
     def vision_to_coordinates(
         self,
@@ -21,30 +21,3 @@ class TorpedoLineup:
     ) -> float:
         
         return vision_distance - desired_distance
-
-
-if __name__ == "__main__":
-    lineup = TorpedoLineup(None)
-
-    x_err = lineup.vision_to_coordinates(
-        vision_coordinate=0.6,
-        vision_distance=5.0,
-        fov_deg=90.0
-    )
-
-    y_err = lineup.vision_to_coordinates(
-        vision_coordinate=0.4,
-        vision_distance=5.0,
-        fov_deg=60.0
-    )
-
-    z_err = lineup.dist_from_target(
-        vision_distance=5.0,
-        desired_distance=3.0
-    )
-
-    print(
-        f"X Error (m): {x_err:.2f}, "
-        f"Y Error (m): {y_err:.2f}, "
-        f"Z Error (m): {z_err:.2f}"
-    )
