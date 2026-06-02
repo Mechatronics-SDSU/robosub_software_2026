@@ -44,7 +44,9 @@ class FSM_Template:
 
         # create processes
         for run_object in run_list:
-            temp_process = Process(target=run_object.run_loop) # NOTE: make sure all run_objects have looping run_loop method
+            temp_process = Process(target=run_object.run_loop,
+                                   name=run_object.process_name) # NOTE: make sure all run_objects have looping run_loop method
+            
             self.process_objects.append(temp_process)
     
     def start(self) -> None:

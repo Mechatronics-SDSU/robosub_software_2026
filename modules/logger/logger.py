@@ -1,6 +1,7 @@
 import logging
 import os
-class Better_Logger:
+
+class Logger:
     def __init__(self,):
         self.logger = logging.getLogger('BetterLogger')
         
@@ -29,8 +30,11 @@ class Better_Logger:
 
 
 
-    def info(self, message):
-        self.logger.info(message)
+    def info(self, message, state=None):
+        if state is not None:
+            self.logger.info(f"[{state}] {message}")
+        else:
+            self.logger.info(message)
 
     def debug(self, message):
         self.logger.debug(message)
