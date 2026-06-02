@@ -1,12 +1,7 @@
 import logging
-import time
 import os
-import yaml
-from multiprocessing import Array, Value
-from io import StringIO
-
 class Better_Logger:
-    def __init__(self):
+    def __init__(self,):
         self.logger = logging.getLogger('BetterLogger')
         
         # Ascending order: DEBUG, INFO, WARNING, ERROR, CRITICAL
@@ -27,7 +22,7 @@ class Better_Logger:
             self.logger.addHandler(stream_handler)
 
             # File handler
-            file_handler = logging.FileHandler('log.txt', mode='a')
+            file_handler = logging.FileHandler(f'log_{os.getpid()}.txt', mode='a')
             file_handler.setFormatter(formatter)
             file_handler.setLevel(logging.DEBUG)
             self.logger.addHandler(file_handler)

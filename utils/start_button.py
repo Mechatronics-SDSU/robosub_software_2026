@@ -1,7 +1,7 @@
 import serial
 import struct
 import subprocess
-import logging
+from modules.logger.better_logger import logger
 
 """
     discord: @will.craychee,    @.kech
@@ -13,23 +13,6 @@ import logging
     green: ready to launch
     blue: debug mode (tbd)
 """
-
-# set up module level logger
-LEVEL = logging.INFO
-logger = logging.getLogger(__name__)
-logger.setLevel(LEVEL)
-
-# create console handler if it doesnt exist
-if not logger.handlers:
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(LEVEL)
-    
-    # create formatter
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    console_handler.setFormatter(formatter)
-    
-    # add handler to logger
-    logger.addHandler(console_handler)
     
 class StartButtonDriver:
     """
@@ -42,14 +25,15 @@ class StartButtonDriver:
         self.srl: serial.Serial = serial.Serial()
         self.port = port
         self.baud_rate = baud_rate
+        self.logger = logger
         try:
             # Open ttyACM0 at 921600 baud
             self.srl = serial.Serial(self.port, self.baud_rate, timeout=1)
-            logger.info(f"Connected on {self.port}")
-            logger.debug(f"Listening on {self.port} at {self.baud_rate} baud...")
+            self.logger.info(f"Connected on {self.port}")
+            self.logger.debug(f"Listening on {self.port} at {self.baud_rate} baud...")
             
         except serial.SerialException as e:
-            logger.error(f"Failed to connect on {self.port}: {e}")
+            self.logger.error(f"Failed to connect on {self.port}: {e}")
             pass
 
     def disconnect(self):
@@ -58,7 +42,7 @@ class StartButtonDriver:
         """
         if self.srl is not None:
             self.srl.close()
-            logger.info("Serial connection closed.")
+            self.logger.info("Serial connection closed.")
             
     def loop(self):
         """
