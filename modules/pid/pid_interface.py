@@ -2,6 +2,7 @@ import numpy as np
 import time
 from modules.pid.six_dof_pid import PID
 from scipy.spatial.transform import Rotation as R
+from modules.logger.logger import Logger
 
 try: 
     from modules.motors.ScionMotorWrapper       import MotorWrapper # type: ignore
@@ -21,7 +22,8 @@ class PIDInterface:
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object
         self.motor_wrapper = MotorWrapper(self.shared_memory_object)
-        self.process_name = "PID    "
+        self.process_name = "PIDInterface"
+        self.logger = Logger()
         #SIMULATION
         # self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
 
@@ -65,9 +67,9 @@ class PIDInterface:
         # Combine with angular commands (still in local frame)
         movement_global = np.concatenate([movement_global_linear, angular])
         if P_DEBUG:
-            print("Untransformed: ", untransformed)
-            print("Yaw, Pitch, Roll: ", (yaw, pitch, roll))
-            print("Transformed: ",movement_global)
+            self.logger.info(f"Untransformed: {untransformed}")
+            self.logger.info(f"Yaw, Pitch, Roll: {(yaw, pitch, roll)}")
+            self.logger.info(f"Transformed: {movement_global}")
         movement_global = (np.multiply(movement_global, [1,-1,-1,-1,1,1]))
         return movement_global, untransformed
     
@@ -90,10 +92,10 @@ class PIDInterface:
                                           self.shared_memory_object.dvl_pitch.value, 
                                           self.shared_memory_object.dvl_roll.value]))
             if P_DEBUG:
-                print("Direction: ", direction)
-                print("Untransformed Direction: ", untransformed_direction)
-                print("Linear Error: ", np.sum(error[:3]))
-                print("Angular Error: ", np.sum(error[3:]))
+                self.logger.info(f"Direction: {direction}")
+                self.logger.info(f"Untransformed Direction: {untransformed_direction}")
+                self.logger.info(f"Linear Error: {np.sum(error[:3])}")
+                self.logger.info(f"Angular Error: {np.sum(error[3:])}")
 
             
             time.sleep(0.2)

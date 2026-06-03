@@ -12,7 +12,7 @@ class Logger:
         # Avoid adding handlers multiple times if this class is instantiated again
         if not self.logger.handlers:
             formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - "
+                "%(asctime)s - %(processName)s[PID:%(process)d] - %(levelname)s - "
                 "%(filename)s:%(lineno)d - %(message)s"
             )
 
@@ -28,7 +28,11 @@ class Logger:
             file_handler.setLevel(logging.DEBUG)
             self.logger.addHandler(file_handler)
 
-
+    def debug(self, message, state=None):
+        if state is not None:
+            self.logger.debug(f"[{state}] {message}")
+        else:
+            self.logger.debug(message)
 
     def info(self, message, state=None):
         if state is not None:
@@ -36,14 +40,20 @@ class Logger:
         else:
             self.logger.info(message)
 
-    def debug(self, message):
-        self.logger.debug(message)
+    def warning(self, message, state=None):
+        if state is not None:
+            self.logger.warning(f"[{state}] {message}")
+        else:
+            self.logger.warning(message)
 
-    def warning(self, message):
-        self.logger.warning(message)
+    def error(self, message, state=None):
+        if state is not None:
+            self.logger.error(f"[{state}] {message}")
+        else:
+            self.logger.error(message)
 
-    def error(self, message):
-        self.logger.error(message)
-
-    def critical(self, message):
-        self.logger.critical(message)
+    def critical(self, message, state=None):
+        if state is not None:
+            self.logger.critical(f"[{state}] {message}")
+        else:
+            self.logger.critical(message)
