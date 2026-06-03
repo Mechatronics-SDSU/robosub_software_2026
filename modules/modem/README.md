@@ -37,4 +37,5 @@ Program to control the M16 modem, which is used for communication between the su
 
 ### Status
 
-- Current status: In Progress
+- Current status: Complete
+- Last updated: 06/2/2026
