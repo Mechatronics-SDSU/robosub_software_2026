@@ -39,11 +39,11 @@ PID control for motors given DVL values (or other if configured correctly)
 
 ### Status
 
-- Current status: Stable since robosub 2025
+- Current status: Complete
 
 ### Improvements
 
-- KP/I/D array should be parameterized instead of hardcoded
+- K values array should be parameterized instead of hardcoded
 - find a better way to switch between depth sensor and DVL to minimize depth drift
 - setup proper logging instead of debug prints
 - add typing
