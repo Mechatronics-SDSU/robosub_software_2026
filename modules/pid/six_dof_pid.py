@@ -1,6 +1,3 @@
-import numpy as np
-from numpy.typing import NDArray
-
 """
     discord: @kialli
     github: @kchan5071
@@ -9,6 +6,9 @@ from numpy.typing import NDArray
     this is a pretty standard implementation of a PID controller
 
 """
+
+import numpy as np
+from numpy.typing import NDArray
 
 P_DEBUG = True
 
@@ -36,7 +36,7 @@ class PID:
         # derivative errors is basically slope, so:
         # (current error - prev error) / time
         self.derivative_error = np.subtract(self.error, self.prev_error) / self.dt
-    
+
 
     def update(self, initial_state: NDArray, desired_state: NDArray) -> NDArray:
 
@@ -68,9 +68,3 @@ class PID:
             print("desired stae: ", desired_state)
             print("Output: ", self.output)
         return self.output
-
-        
-        
-    
-
-
