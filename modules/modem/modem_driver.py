@@ -228,7 +228,7 @@ class M16:
         self.logger.debug(f"State updated: channel={self.channel}, level={self.level}, diagnostic={self.diagnostic}")
 
 
-    def send_two_bytes(self, data: str) -> (int | None):
+    def send_two_bytes(self, data: str | bytes) -> (int | None):
         """
         Send two bytes of data to the modem.
         
