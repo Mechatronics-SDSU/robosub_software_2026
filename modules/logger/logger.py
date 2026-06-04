@@ -1,11 +1,6 @@
 import logging
-import time
-import os
-import yaml
-from multiprocessing import Array, Value
-from io import StringIO
 
-class Better_Logger:
+class Logger:
     def __init__(self):
         self.logger = logging.getLogger('BetterLogger')
         
