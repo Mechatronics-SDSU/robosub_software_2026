@@ -14,6 +14,7 @@ from fsm.fsm                                import FSM_Template
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
+from modules.logger.logger                  import Logger
 
 #kill module
 from modules.motors.kill_motors             import kill_motors
@@ -26,19 +27,21 @@ from modules.motors.kill_motors             import kill_motors
     Runs mission control code and starts the sub
     
 """
+logger = Logger()
+
 # permissions fix
 try:
     device_path = '/dev/ttyACM0'
     subprocess.run(["sudo", "chmod", "777", device_path], check=True)
-    print(f"Permissions changed for {device_path}")
+    logger.info(f"Permissions changed for {device_path}")
 except subprocess.CalledProcessError as e:
-    print(f"ERROR: Permissions fix failed (subprocess error): {e}")
+    logger.error(f"ERROR: Permissions fix failed (subprocess error): {e}")
 except FileNotFoundError as e:
-    print(f"ERROR: Permissions fix failed (command or device not found): {e}")
+    logger.error(f"ERROR: Permissions fix failed (command or device not found): {e}")
 except PermissionError as e:
-    print(f"ERROR: Permissions fix failed (permission denied): {e}")
+    logger.error(f"ERROR: Permissions fix failed (permission denied): {e}")
 except OSError as e:
-    print(f"ERROR: Permissions fix failed (OS error): {e}")
+    logger.error(f"ERROR: Permissions fix failed (OS error): {e}")
 
 
 # create shared memory object
@@ -108,13 +111,13 @@ def make_list(modes: list[FSM_Template]) -> None:
 
 
 if __name__ == '__main__':
-    print("RUN FROM LAUNCH")
+    logger.info("RUN FROM LAUNCH")
     try:
         main()
     except KeyboardInterrupt:
-        print("keyboard interrupt detected, stopping program")
+        logger.info("keyboard interrupt detected, stopping program")
         shared_memory_object.running.value = 0
     except subprocess.CalledProcessError as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
         
         

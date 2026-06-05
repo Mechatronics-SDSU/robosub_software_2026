@@ -1,6 +1,7 @@
 from utils.socket_send                              import set_screen
 from fsm.fsm                                        import FSM_Template
 from enum                                           import Enum
+from modules.logger.logger                          import Logger
 import time, yaml, os
 """
     discord: @.kech
@@ -36,6 +37,7 @@ class Prequal_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "PREQUAL"
         self.state: States  = States.INIT  # initial state
+        self.logger = Logger()
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.tgt_x = self.tgt_y = self.depth = self.drop = self.t_drop = self.gap = 0
@@ -53,7 +55,7 @@ class Prequal_FSM(FSM_Template):
                 self.drop  = data[course]['tgt']['drop'] # initial drop depth
                 self.t_drop = data[course]['tgt']['t_drop'] # initial drop duration
         except KeyError:
-            print("ERROR: Invalid data format in objects.yaml, using all 0's")
+            self.logger.error("ERROR: Invalid data format in objects.yaml, using all 0's", state=self.state)
 
     def start(self) -> None:
         """
@@ -95,10 +97,11 @@ class Prequal_FSM(FSM_Template):
                 self.shared_memory_object.target_x.value = 0
                 self.shared_memory_object.target_y.value = 0
             case _: # do nothing if invalid state
-                print(f"{self.name} INVALID NEXT STATE {next}")
+                self.logger.error(f"{self.name} INVALID NEXT STATE {next}", state=self.state)
                 return
+        old_state = self.state
         self.state = next
-        print(f"{self.name}:{self.state}")
+        self.logger.info(f"State changed: {old_state} -> {self.state}", state=self.state)
 
     def loop(self) -> None:
         """
@@ -107,7 +110,7 @@ class Prequal_FSM(FSM_Template):
         if not self.active: return # do nothing if not enabled
         self.display(0, 255, 0) # update display
         
-        print(self.state)
+        self.logger.info(f"Current state: {self.state}", state=self.state)
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case States.INIT: return
@@ -132,5 +135,5 @@ class Prequal_FSM(FSM_Template):
                 if self.reached_xy(0, 0):
                     self.suspend()
             case _: # do nothing if invalid state
-                print(f"{self.name} INVALID STATE {self.state}")
+                self.logger.error(f"{self.name} INVALID STATE {self.state}", state=self.state)
 

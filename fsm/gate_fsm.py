@@ -1,7 +1,9 @@
 from utils.socket_send                              import set_screen
 from fsm.fsm                                        import FSM_Template
+from modules.logger.logger                          import Logger
 from enum                                           import Enum
 import time, yaml, os
+
 """
     discord: @.kech
     github: @rsunderr
@@ -31,6 +33,7 @@ class Gate_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "GATE"
         self.state: States  = States.INIT  # initial state
+        self.logger = Logger()
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x = self.gate_y = self.gate_z = self.drop = self.t_drop = 0
@@ -47,7 +50,7 @@ class Gate_FSM(FSM_Template):
                 self.drop  = data[course]['gate']['drop'] # initial drop depth
                 self.t_drop = data[course]['gate']['t_drop'] # initial drop duration
         except KeyError:
-            print("ERROR: Invalid data format in objects.yaml, using all 0's")
+            self.logger.error("ERROR: Invalid data format in objects.yaml, using all 0's")
 
     def start(self) -> None:
         """
@@ -74,10 +77,11 @@ class Gate_FSM(FSM_Template):
                 self.shared_memory_object.target_y.value = self.gate_y
                 self.shared_memory_object.target_z.value = self.gate_z
             case _: # do nothing if invalid state
-                print(f"{self.name} INVALID NEXT STATE {next}")
+                self.logger.warning(f"{self.name} INVALID NEXT STATE {next}")
                 return
+        old_state = self.state
         self.state = next
-        print(f"{self.name}:{self.state}")
+        self.logger.info(f"State changed: {old_state} -> {self.state}", state=self.state)
 
     def loop(self) -> None:
         """
@@ -86,7 +90,6 @@ class Gate_FSM(FSM_Template):
         if not self.active: return # do nothing if not enabled
         self.display(0, 255, 0) # update display
         
-        print(self.state)
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case States.INIT: return
@@ -96,5 +99,5 @@ class Gate_FSM(FSM_Template):
                 if self.reached_xyz(self.gate_x, self.gate_y, self.gate_z):
                     self.suspend()
             case _: # do nothing if invalid state
-                print(f"{self.name} INVALID STATE {self.state}")
+                self.logger.warning(f"{self.name} INVALID STATE {self.state}")
 
