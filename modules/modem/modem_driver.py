@@ -1,5 +1,5 @@
 """
-M16 modem driver for two-byte transparent-mode handshakes.
+M16 modem driver from the Waterlinked Website for two-byte transparent-mode handshakes.
 """
 
 from modules.logger.logger import Logger 

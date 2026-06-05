@@ -1,7 +1,5 @@
 """
 Reusable two-byte handshake helper for the M16 modem.
-
-This file assumes m16_driver.py handles the low-level serial setup and timing.
 """
 
 from modules.logger.logger import Logger
@@ -15,7 +13,9 @@ class ModemComms:
         self.logger = Logger()
 
     def encode_message(self, code: int) -> bytes:
-        """Encode one 5-bit code into exactly two bytes."""
+        """
+        Encode one 5-bit code into exactly two bytes.
+        """
         if not 0 <= code <= 0b11111:
             raise ValueError("code must be between 0 and 31")
 
@@ -23,7 +23,9 @@ class ModemComms:
         return packed.to_bytes(2, byteorder="big")
 
     def majority_vote(self, chunk1: str, chunk2: str, chunk3: str):
-        """Return the trusted 5-bit chunk when at least two chunks match."""
+        """
+        Return the trusted 5-bit chunk when at least two chunks match.
+        """
         if chunk1 == chunk2 or chunk1 == chunk3:
             return chunk1
         if chunk2 == chunk3:
@@ -31,7 +33,9 @@ class ModemComms:
         return None
 
     def decode_message(self, raw):
-        """Decode two modem bytes back into the original 5-bit code."""
+        """
+        Decode two modem bytes back into the original 5-bit code.
+        """
         if raw is None or len(raw) != 2:
             self.logger.warning(f"Invalid raw message: expected 2 bytes, got {raw!r}")
             return None
@@ -63,7 +67,9 @@ class ModemComms:
         power_level: int = 1,
         baudrate: int = 9600,
     ) -> M16:
-        """Open and fully configure the modem before the handshake phase starts."""
+        """
+        Open and fully configure the modem before the handshake phase starts.
+        """
         return M16(
             port,
             baudrate=baudrate,
@@ -73,7 +79,9 @@ class ModemComms:
         )
 
     def send_message(self, modem: M16, code: int) -> bool:
-        """Encode and send one 2-byte message using the driver."""
+        """
+        Encode and send one 2-byte message using the driver.
+        """
         message = self.encode_message(code)
 
         print(f"DEBUG: sending raw bytes {message!r}")
@@ -88,7 +96,9 @@ class ModemComms:
         return True
 
     def wait_for_message(self, modem: M16, timeout: float = 30.0):
-        """Wait for one valid 2-byte message using the driver's read_two_bytes function."""
+        """
+        Wait for one valid 2-byte message using the driver's read_two_bytes function.
+        """
         raw = modem.read_two_bytes(timeout=timeout)
         decoded = self.decode_message(raw)
 
@@ -100,7 +110,9 @@ class ModemComms:
         return decoded
 
     def listen_and_reply_with_modem(self, modem: M16, reply: int, timeout: float = 30.0) -> bool:
-        """Use an already-configured modem to listen, then reply."""
+        """
+        Use an already-configured modem to listen, then reply.
+        """
         modem.clear_buffers()
 
         received = self.wait_for_message(modem, timeout=timeout)
@@ -117,7 +129,9 @@ class ModemComms:
         expected_reply=None,
         reply_timeout: float = 30.0,
     ) -> bool:
-        """Use an already-configured modem to send first, then wait for the reply."""
+        """
+        Use an already-configured modem to send first, then wait for the reply.
+        """
         modem.clear_buffers()
 
         if not self.send_message(modem, message):
@@ -145,7 +159,9 @@ class ModemComms:
         baudrate: int = 9600,
         timeout: float = 30.0,
     ) -> bool:
-        """Open/configure modem, listen for a message, and reply."""
+        """
+        Open/configure modem, listen for a message, and reply.
+        """
         modem = self.open_modem(port, channel=channel, power_level=power_level, baudrate=baudrate)
         try:
             return self.listen_and_reply_with_modem(modem, reply=reply, timeout=timeout)
