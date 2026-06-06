@@ -1,3 +1,5 @@
+from modules.logger.logger import Logger
+
 import pyzed.sl as sl
 import cv2
 import copy
@@ -40,6 +42,7 @@ class Zed:
         self.tracking_parameters.enable_imu_fusion  = True
 
         self.runtime_parameters                     = sl.RuntimeParameters()
+        self.logger                                 = Logger()
 
         # self.py_translation                         = sl.Translation()
         #self.zed.set_camera_settings(sl.VIDEO_SETTINGS.EXPOSURE, 50)
@@ -77,7 +80,7 @@ class Zed:
                 self.zed.retrieve_image(image_zed, sl.VIEW.RIGHT)
                 return copy.deepcopy(image_zed.get_data())
         except RuntimeError:
-            print(RuntimeError)
+            self.logger.error(RuntimeError)
             pass
 
     def get_imu(self):
@@ -107,7 +110,7 @@ class Zed:
                 return t.get()              # numpy-like array of [x,y,z]
                 # print(f"translation (world): {tx:.3f}, {ty:.3f}, {tz:.3f}")
             else:
-                print("tracking:", state)         # SEARCHING / FPS_TOO_LOW / etc.
+                self.logger.info(f"tracking: {state}")         # SEARCHING / FPS_TOO_LOW / etc.
                 return (0, 0, 0)
             
     def get_imu_rotation(self):
@@ -118,9 +121,10 @@ class Zed:
                 rotation = R.from_quat([orientation])
                 euler_angles = rotation.as_euler('yxz', degrees=False)
                 angles_wrapped = (euler_angles + 180) % 360 - 180
-                print(angles_wrapped)
-                return angled_wrapped
+                self.logger.info(f"IMU rotation (wrapped): {angles_wrapped}")
+                return angles_wrapped
             except:
+                self.logger.error("Failed to get IMU rotation")
                 return False
 
     def get_distance_image(self):
@@ -229,7 +233,8 @@ if __name__ == '__main__':
                 cv2.waitKey(1)
             time.sleep(1)
         if MODE == "POS":
-            print(zed.get_translation())
+            translation = zed.get_translation()
+            self.logger.info(f"Translation: {translation}")
         
         if MODE == "ROT":
             rotation = zed.get_imu_rotation()

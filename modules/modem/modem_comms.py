@@ -85,9 +85,9 @@ class ModemComms:
         """
         message = self.encode_message(code)
 
-        print(f"DEBUG: sending raw bytes {message!r}")
+        self.logger.debug(f"DEBUG: sending raw bytes {message!r}")
         bytes_written = modem.send_two_bytes(message)
-        print(f"DEBUG: bytes_written = {bytes_written}")
+        self.logger.debug(f"DEBUG: bytes_written = {bytes_written}")
 
         if bytes_written != 2:
             self.logger.warning(f"Expected to send 2 bytes, but sent {bytes_written}")

@@ -2,8 +2,8 @@ import numpy                                as np
 from numpy.typing                           import NDArray
 from shared_memory                          import SharedMemoryWrapper
 from typing                                 import Union
+from modules.logger.logger                  import Logger
 import os, yaml
-
 
 #this is to handle errors in using the CLI for testing motors
 try:
@@ -41,6 +41,7 @@ class MotorWrapper:
     def __init__(self, shared_memory_object):    
         self.shared_memory_object = shared_memory_object
         self.usb_transmitter = USB_Transmitter()
+        self.logger = Logger()
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 4000
         self.MOTOR_FACTOR = 0
@@ -49,7 +50,7 @@ class MotorWrapper:
                 data = yaml.safe_load(file)
                 self.MOTOR_FACTOR = float(data['motor_factor'])
         except KeyError:
-            print("ERROR: Invalid data format in objects.yaml, using 0")
+            self.logger.error("ERROR: Invalid data format in objects.yaml, using 0")
             
         #-------------------------------------------------------------------------------------------------
 
