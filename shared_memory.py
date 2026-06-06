@@ -71,6 +71,12 @@ class SharedMemoryWrapper:
 
         # motor values
         self.motor_values           = Value('d', 0)
+
+        # servos
+        self.dropper_pwm            = Value('i', 300)
+        self.grabber1_pwm           = Value('i', 300)
+        self.grabber2_pwm           = Value('i', 300)
+        self.torpedo_pwm            = Value('i', 300)
         
         # whether or not to run display code
         self.display_on             = Value('b', False)
