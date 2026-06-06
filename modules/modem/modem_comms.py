@@ -11,6 +11,7 @@ from modem_driver import M16
 class ModemComms:
     def __init__(self):
         self.logger = Logger()
+        self.process_name = "ModemComms"
 
     def encode_message(self, code: int) -> bytes:
         """
