@@ -1,41 +1,16 @@
-course: jesse_pool                    # course that the sub is running in
+course: prequal # course that the sub is running in
 motor_factor: 0.1 # changes motor speed, ~0.1 for air, ~0.7 for water
-mode_list: oct_mode, slalom_mode
-
-pid:
-  kp:
-  - 1.0
-  - 3000
-  - 2500
-  - 30
-  - 2
-  - 2
-  ki:
-  - 0.5
-  - 0.5
-  - 2
-  - 2
-  - 0.5
-  - 0.5
-  kd:
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.2
-  - 0.5
-  - 0.5
 
 jesse_pool: # ------------------------------------------------------------------------------------------------------
   # smaller coordinates for jesse's pool (~9.02m long, ~1.2m min depth, ~3m wide)
-  mode_list: ""
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
     y_buf: 0.3 # m left/right buffer for all objects
     z_buf: 0.3 # m up/down buffer for all objects
     # values
-    x: 1.0 # forward is positive x
-    y: 0.0 # left is positive y
+    x: 1  # forward is positive x
+    y: 0  # left is positive y
     z: 0.7
     drop: 0.3 # initial drop depth
     t_drop: 0.25 # initial drop duration
@@ -44,41 +19,41 @@ jesse_pool: # ------------------------------------------------------------------
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
     y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 1.0 # m up/down buffer for all objects
+    z_buf: 1 # m up/down buffer for all objects
     # depth
     z: 0.7
     # start
-    x1: 2.0
-    y1: 0.0
+    x1: 2
+    y1: 0
     # middle
     x2: 2.5
     y2: -0.5
     # end
-    x3: 3.0
-    y3: 0.0
+    x3: 3
+    y3: 0
 
   octagon: # octagon coordinates
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
     y_buf: 0.3 # m left/right buffer for all objects
     z_buf: 0.3 # m up/down buffer for all objects
-    x: 4.0
-    y: 0.0
+    x: 4
+    y: 0
     z: -0.3 # set to < 0 to rise consistently (consider buffers)
-    pause: 5.0 # seconds to pause at surface
+    pause: 5 # seconds to pause at surface
     depth: 0.7 # swimming depth during oct mode
-    angle: -45.0 # angle to look at target
+    angle: -45 # angle to look at target
 
   return: # these should be in between oct and gate, and should avoid slalom, and cause some left/right motion
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
     y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 1.0 # m up/down buffer for all objects
+    z_buf: 1 # m up/down buffer for all objects
     # midpoint 1
-    x1: 3.0
-    y1: 0.0
+    x1: 3
+    y1: 0
     # midpoint 2
-    x2: 2.0
+    x2: 2
     y2: 0.5
     # depth
     drop: 0.3 # initial drop depth
@@ -87,7 +62,6 @@ jesse_pool: # ------------------------------------------------------------------
 
 lane_D: # ------------------------------------------------------------------------------------------------------
   # lane D from robosub finals 2025
-  mode_list: "gate_mode, slalom_mode"
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 10 # m forward buffer for all objects
@@ -148,7 +122,6 @@ lane_D: # ----------------------------------------------------------------------
 
 test: # ------------------------------------------------------------------------------------------------------
   # for testing purposes only (never actually runs, pass fsm constructors [] for 2nd arg in launch.py)
-  mode_list: ""
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 0.2 # m forward buffer for all objects
@@ -208,7 +181,6 @@ test: # ------------------------------------------------------------------------
 
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run
-  mode_list: ""
   tgt: # tgt coordinates (in m)
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
@@ -222,44 +194,3 @@ prequal: # ---------------------------------------------------------------------
     depth: 0.7
     drop: 0.3 # initial drop depth
     t_drop: 0.25 # initial drop duration
-  gate:
-    x_buf: 0.3
-    y_buf: 0.3
-    z_buf: 0.3
-    x: 1.0
-    y: 0.0
-    z: 0.7
-    drop: 0.3
-    t_drop: 0.25
-  slalom:
-    x_buf: 0.3
-    y_buf: 0.3
-    z_buf: 1.0
-    z: 0.7
-    x1: 2.0
-    y1: 0.0
-    x2: 2.5
-    y2: -0.5
-    x3: 3.0
-    y3: 0.0
-  octagon:
-    x_buf: 0.3
-    y_buf: 0.3
-    z_buf: 0.3
-    x: 4.0
-    y: 0.0
-    z: -0.3
-    pause: 5.0
-    depth: 0.7
-    angle: -45.0
-  return:
-    x_buf: 0.3
-    y_buf: 0.3
-    z_buf: 1.0
-    x1: 3.0
-    y1: 0.0
-    x2: 2.0
-    y2: 0.5
-    drop: 0.3
-    t_drop: 0.25
-    depth: 0.7

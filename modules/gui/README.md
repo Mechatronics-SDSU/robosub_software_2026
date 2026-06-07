@@ -75,15 +75,6 @@ A simple locally hosted web interface to help run commands and edit values for t
     - to create a new function:
         - define new python functions in modules/gui/web_gui/views.py
         - call the functions from html templates using javascript (explained above)
-- How to add a new course:
-    - Note: must manually initialize new course values in objects.yaml first before making it accessible by the gui
-    - Follow commented directions inside modules/gui/web_gui/templates/edit_courses.html
-        - (there are 3 steps in edit_courses.html, term search "ADD NEW COURSE" to find)
-    - Follow comented directions inside modules/gui/web_gui/templates/edit_mode_list.html
-        - (there is 1 step in edit_mode_list.html, term search "ADD NEW COURSE" to find)
-- How to add new Mode:
-        - Follow comented directions inside modules/gui/web_gui/templates/edit_mode_list.html
-        - (there is 1 step in edit_mode_list.html, term search "ADD NEW MODE" to find)
 
 ### Status
 

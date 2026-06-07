@@ -1,4 +1,4 @@
-import json, time, os
+import json, time, os, threading
 from .  import views
 
 """
@@ -21,7 +21,14 @@ class Gui_launch:
                     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "telemetry.json")) #finds telemetry.json filepath
         )
         
-        self.write_shared_memory()
+        self.thread = threading.Thread(
+            target=self.write_shared_memory,
+            daemon=True
+        )
+        self.thread.start()
+
+    def get_value(self, value):
+        return value.value if hasattr(value, "value") else value
 
     def write_shared_memory(self):
         while True:

@@ -118,9 +118,22 @@ def mission_planner(request):
 
 def edit_courses(request): 
     #edit courses page render
-    with yaml_writer.lock:
-        course = yaml_writer.data.get("course")
-    return render(request, "edit_courses.html", {"course": course, "color_mode": color_mode})
+    yamlfile = OBJECTS_YAML_FILE
+    with open(yamlfile, "r") as f:
+        data = yaml.load(f)
+    course = data.get("course")
+    courses = [ key for key, value in data.items()
+                   if isinstance(value, dict)
+                   and any(isinstance(v, dict) for v in value.values())
+                ]
+    objects = []
+    for mode, values in data[course].items():
+        if isinstance(values, dict):
+            objects.append({
+                    "mode": mode,
+                    "val": list(values.items())
+        })
+    return render(request, "edit_courses.html", {"course": course, "color_mode": color_mode, "courses": courses, "objects": objects, "motor": data.get("motor_factor")})
 
 OBJECTS_YAML_RESET = Path(settings.BASE_DIR).parent.parent / "modules/objects_yaml_COPIES/default.yaml"
 def reset_courses(request):
@@ -219,6 +232,22 @@ def send_objects_yaml(request):
         }
         return JsonResponse(filtered)
 
+def make_default(request):
+    file_name = "default"
+    copy_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../objects_yaml_COPIES", file_name + ".yaml"))
+
+    with open(OBJECTS_YAML_FILE, "r") as f:
+        data = yaml.load(f) or {}
+    tmp = copy_file + ".tmp"
+
+    with open(tmp, "w") as f:
+        yaml.dump(data, f)
+    
+    os.replace(tmp, copy_file)
+    return redirect(request.META.get("HTTP_REFERER", "/"))
+
+
+
 def copy_yaml(request):
     #creates a copy of the current yaml file and puts into objects_yaml_COPIES folder
     file_name = str(request.GET.get("title"))
@@ -241,9 +270,20 @@ def copy_yaml(request):
 def edit_mode_list(request):
     #edit mode list page render
     global color_mode 
-    with yaml_writer.lock:
-        mode_list = yaml_writer.data.get("mode_list")
-    return render(request, "edit_mode_list.html", {"color_mode": color_mode})
+    with open(OBJECTS_YAML_FILE, "r") as f:
+        data = yaml.load(f) or {}
+
+    courses = [
+        key for key, value in data.items()
+        if isinstance(value, dict)
+        and any(isinstance(v, dict) for v in value.values())
+    ]
+    current_course = data.get("course")
+    use_modes = [
+            key for key, value in data[current_course].items()
+            if isinstance(value, dict)
+    ]
+    return render(request, "edit_mode_list.html", {"color_mode": color_mode, "courses":courses, "use_modes": use_modes})
 
 def send_mode_list(request):
     #sends the mode list from objects.yaml

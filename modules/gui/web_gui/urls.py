@@ -36,5 +36,6 @@ urlpatterns = [
     path('set_pid/', views.set_pid, name = 'set_pid'),
     path('reset_courses/', views.reset_courses, name = 'reset_courses'),
     path('get_motor/', views.get_motor, name = 'get_motor'),
-    path('set_motor/', views.set_motor, name = 'set_motor')
+    path('set_motor/', views.set_motor, name = 'set_motor'),
+    path('make_default/', views.make_default, name = 'make_default')
 ]
