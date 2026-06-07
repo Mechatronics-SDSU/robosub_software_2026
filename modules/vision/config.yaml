@@ -1,3 +1,4 @@
+headless: true
 ## Vision Summer 2026
   # Edit this file to change inference behaviour; no code changes needed.
   # Pass a different file with: python main.py --config <path>
@@ -8,7 +9,7 @@
 ## Source
 # zed    : ZED stereo camera — full depth enabled
 # webcam : laptop / USB camera — no depth, depth_m will always be -1
-source: webcam
+source: zed
 webcam:
   # cv2.VideoCapture index (0 = built-in camera, 1 = first USB camera, etc.)
   index: 0
@@ -28,7 +29,7 @@ recording:
   # SVO : raw ZED stereo recording — ZED only, not available for webcam
   # Stores both stereo frames + IMU data; depth is NOT stored but recomputed on playback
   # Allows for parameter tweaking for both YOLO & DBSCAN (mp4 only allows for YOLO)
-  svo: false
+  svo: true
   # Compression options : H264 | H265 | LOSSLESS
   #   H264     : good quality, small file — recommended for most captures
   #   H265     : slightly smaller than H264 at the same quality
@@ -37,7 +38,7 @@ recording:
 
 ## Model
 model:
-  weights: models/v1.1/weights/best.pt
+  weights: /home/mechatronics/robosub_software_2026/modules/vision/models/best.pt
   # null = auto-detect (cuda:0 → mps → cpu)
   # cuda: best option if available
   # cpu:  default option when nothing else works

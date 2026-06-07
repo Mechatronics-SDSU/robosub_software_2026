@@ -45,7 +45,7 @@ def _auto_device() -> str:
     try:
         import torch
         if torch.cuda.is_available():
-            return '0'
+            return 0
         if torch.backends.mps.is_available():
             return 'mps'
     except Exception:
@@ -240,16 +240,16 @@ def _start_svo(zed, sl, cfg: dict, run_dir: Path) -> None:
     Call zed.disable_recording() to stop.
     """
     _COMPRESSION_MAP = {
-        'H264':     sl.SVO_COMPRESSION_TYPE.H264,
-        'H265':     sl.SVO_COMPRESSION_TYPE.H265,
-        'LOSSLESS': sl.SVO_COMPRESSION_TYPE.LOSSLESS,
+        'H264':     sl.SVO_COMPRESSION_MODE.H264,
+        'H265':     sl.SVO_COMPRESSION_MODE.H265,
+        'LOSSLESS': sl.SVO_COMPRESSION_MODE.LOSSLESS,
     }
     rec_cfg  = cfg.get('recording', {})
     comp_key = str(rec_cfg.get('svo_compression', 'H264')).upper()
 
     rec_params                  = sl.RecordingParameters()
     rec_params.video_filename   = str(run_dir / 'recording.svo')
-    rec_params.compression_mode = _COMPRESSION_MAP.get(comp_key, sl.SVO_COMPRESSION_TYPE.H264)
+    rec_params.compression_mode = _COMPRESSION_MAP.get(comp_key, sl.SVO_COMPRESSION_MODE.H264)
 
     err = zed.enable_recording(rec_params)
     if err != sl.ERROR_CODE.SUCCESS:
@@ -270,10 +270,11 @@ def main() -> None:
     args = parser.parse_args()
 
     cfg = load_config(args.config)
+    headless = bool(cfg.get('headless', False))
 
     ## MODEL
     model_cfg = cfg.get('model', {})
-    weights   = model_cfg.get('weights', 'runs_cnn_transfer/v1.1/weights/best.pt')
+    weights   = model_cfg.get('weights', '/home/mechatronics/robosub_software_2026/modules/vision/models/best.pt')
     device    = model_cfg.get('device') or _auto_device()
 
     ## YOLO
@@ -341,9 +342,10 @@ def main() -> None:
 
                 annotated = results[0].plot()
                 recorder.write(frame, annotated)
-                cv2.imshow('ZED + YOLO  (press q to quit)', annotated)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+                if not headless:
+                    cv2.imshow('ZED + YOLO  (press q to quit)', annotated)
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
 
         finally:
             if svo_active:
@@ -351,7 +353,8 @@ def main() -> None:
                 print('[SVO] recording stopped')
             recorder.close()
             zed.close()
-            cv2.destroyAllWindows()
+            if not headless:
+                cv2.destroyAllWindows()
             print('Done.')
 
     elif source == 'webcam':
