@@ -199,8 +199,10 @@ def set_course(request):
     course = request.GET.get("course")
 
     with yaml_writer.lock:
-
-        yaml_writer.data["course"] = course
+        with open(OBJECTS_YAML_FILE, "r") as f:
+            data = yaml.load(f)
+        data["course"]=course
+        yaml_writer.data = data
 
         tmp = yaml_writer.file + ".tmp"
         with open(tmp, "w") as f:
@@ -283,7 +285,7 @@ def edit_mode_list(request):
             key for key, value in data[current_course].items()
             if isinstance(value, dict)
     ]
-    return render(request, "edit_mode_list.html", {"color_mode": color_mode, "courses":courses, "use_modes": use_modes})
+    return render(request, "edit_mode_list.html", {"color_mode": color_mode, "course":current_course, "courses":courses, "use_modes": use_modes})
 
 def send_mode_list(request):
     #sends the mode list from objects.yaml

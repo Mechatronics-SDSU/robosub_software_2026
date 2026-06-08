@@ -264,8 +264,8 @@
         }
 
         async function re(){
-            c = document.getElementById("course").value;
-            await fetch(`{% url 'set_course' %}?course=${encodeURIComponent(c)}`);
+            const selectedCourse = document.getElementById("course").value;
+            await fetch(`{% url 'set_course' %}?course=${encodeURIComponent(selectedCourse)}`);
             location.reload();
         }
 
@@ -288,9 +288,8 @@
             const key = input.dataset.key;
             const val = input.value;
             await enter(mode, key, val);
-    }
         }
-
+    }
 
     </script>
     </body>

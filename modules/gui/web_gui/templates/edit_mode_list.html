@@ -143,9 +143,11 @@
                     style="font-size: 15px;"
                     for="course">Switch Course:</label>
 
-            <select id="course" name="course">
+            <select id="course" name="course" onchange="change_course()">
                         {% for c in courses %}
-                                <option value="{{ c }}">{{ c|title }}</option>
+                                <option value="{{ c }}" {% if course == c %}selected{% endif %}>
+                                {{ c|title }}
+                                </option>
                         {% endfor %}
             </select>
 
@@ -214,6 +216,11 @@
             await fetch(`{% url 'add_mode' %}?mode=${encodeURIComponent(mode)}&course=${encodeURIComponent(course)}`);
         };
 
+        async function change_course(){
+                const selectedCourse = document.getElementById("course").value;
+                await fetch(`{% url 'set_course' %}?course=${encodeURIComponent(selectedCourse)}`);
+                location.reload();
+        }
         tick();
         setInterval(tick, 500);
 

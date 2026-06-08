@@ -1,7 +1,33 @@
-course: prequal # course that the sub is running in
+course: jesse_pool # course that the sub is running in
 motor_factor: 0.1 # changes motor speed, ~0.1 for air, ~0.7 for water
 
+pid:
+  kp:
+  - 1.0
+  - 3000
+  - 2500
+  - 30
+  - 2
+  - 2
+  ki:
+  - 0.5
+  - 0.5
+  - 2
+  - 2
+  - 0.5
+  - 0.5
+  kd:
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.2
+  - 0.5
+  - 0.5
+
+
+
 jesse_pool: # ------------------------------------------------------------------------------------------------------
+  mode_list: ""
   # smaller coordinates for jesse's pool (~9.02m long, ~1.2m min depth, ~3m wide)
   gate: # gate coordinates (in m)
     # buffers
@@ -62,6 +88,7 @@ jesse_pool: # ------------------------------------------------------------------
 
 lane_D: # ------------------------------------------------------------------------------------------------------
   # lane D from robosub finals 2025
+  mode_list: ""
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 10 # m forward buffer for all objects
@@ -122,6 +149,7 @@ lane_D: # ----------------------------------------------------------------------
 
 test: # ------------------------------------------------------------------------------------------------------
   # for testing purposes only (never actually runs, pass fsm constructors [] for 2nd arg in launch.py)
+  mode_list: ""
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 0.2 # m forward buffer for all objects
@@ -181,6 +209,7 @@ test: # ------------------------------------------------------------------------
 
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run
+  mode_list: ""
   tgt: # tgt coordinates (in m)
     # buffers
     x_buf: 0.3 # m forward buffer for all objects

@@ -1,7 +1,33 @@
-course: prequal # course that the sub is running in
+course: jesse_pool # course that the sub is running in
 motor_factor: 0.1 # changes motor speed, ~0.1 for air, ~0.7 for water
 
+pid:
+  kp:
+  - 1.0
+  - 3000
+  - 2500
+  - 30
+  - 2
+  - 2
+  ki:
+  - 0.5
+  - 0.5
+  - 2
+  - 2
+  - 0.5
+  - 0.5
+  kd:
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.2
+  - 0.5
+  - 0.5
+
+
+
 jesse_pool: # ------------------------------------------------------------------------------------------------------
+  mode_list: ""
   # smaller coordinates for jesse's pool (~9.02m long, ~1.2m min depth, ~3m wide)
   gate: # gate coordinates (in m)
     # buffers
@@ -9,9 +35,9 @@ jesse_pool: # ------------------------------------------------------------------
     y_buf: 0.3 # m left/right buffer for all objects
     z_buf: 0.3 # m up/down buffer for all objects
     # values
-    x:  1 # forward is positive x
-    y:  0 # left is positive y
-    z:  0.7
+    x: 1  # forward is positive x
+    y: 0  # left is positive y
+    z: 0.7
     drop: 0.3 # initial drop depth
     t_drop: 0.25 # initial drop duration
 
@@ -24,13 +50,13 @@ jesse_pool: # ------------------------------------------------------------------
     z: 0.7
     # start
     x1: 2
-    y1: 0  
+    y1: 0
     # middle
     x2: 2.5
-    y2: -0.5 
+    y2: -0.5
     # end
     x3: 3
-    y3: 0 
+    y3: 0
 
   octagon: # octagon coordinates
     # buffers
@@ -62,15 +88,16 @@ jesse_pool: # ------------------------------------------------------------------
 
 lane_D: # ------------------------------------------------------------------------------------------------------
   # lane D from robosub finals 2025
+  mode_list: ""
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 10 # m forward buffer for all objects
     y_buf: 10 # m left/right buffer for all objects
     z_buf: 0.6 # m up/down buffer for all objects
     # values
-    x:  3.572 # forward is positive x
-    y:  -0.7 # left is positive y
-    z:  1.6
+    x: 3.572  # forward is positive x
+    y: -0.7  # left is positive y
+    z: 1.6
     drop: 0.2 # initial drop depth
     t_drop: 0.3 # initial drop duration
 
@@ -89,7 +116,7 @@ lane_D: # ----------------------------------------------------------------------
     x3: 10.506
     y3: 0.849
     # depth
-    z:  1.6
+    z: 1.6
 
   octagon: # octagon coordinates
     # buffers
@@ -98,7 +125,7 @@ lane_D: # ----------------------------------------------------------------------
     z_buf: 0.6 # m up/down buffer for all objects
     # values
     x: 18.65
-    y:  1.663
+    y: 1.663
     z: -0.3 # set to < 0 to rise most consistently (consider buffers)
     pause: 0 # seconds to pause at surface
     depth: 1.6 # swimming depth during oct mode and return mode
@@ -122,15 +149,16 @@ lane_D: # ----------------------------------------------------------------------
 
 test: # ------------------------------------------------------------------------------------------------------
   # for testing purposes only (never actually runs, pass fsm constructors [] for 2nd arg in launch.py)
+  mode_list: ""
   gate: # gate coordinates (in m)
     # buffers
     x_buf: 0.2 # m forward buffer for all objects
     y_buf: 0.2 # m left/right buffer for all objects
     z_buf: 0.2 # m up/down buffer for all objects
     # values
-    x:  1 # forward is positive x
-    y:  0 # left is positive y
-    z:  0
+    x: 1  # forward is positive x
+    y: 0  # left is positive y
+    z: 0
     drop: 0 # initial drop depth
     t_drop: 0.25 # initial drop duration
 
@@ -149,7 +177,7 @@ test: # ------------------------------------------------------------------------
     x3: 4
     y3: 0
     # depth
-    z:  0
+    z: 0
 
   octagon: # octagon coordinates
     # buffers
@@ -163,7 +191,6 @@ test: # ------------------------------------------------------------------------
     pause: 0 # seconds to pause at surface
     depth: 0 # swimming depth during oct mode and return mode
     angle: 0 # angle to look at target
-    
   return: # these should be in between oct and gate, and should avoid slalom, and cause some left/right motion
     # buffers
     x_buf: 0.2 # m forward buffer for all objects
@@ -182,6 +209,7 @@ test: # ------------------------------------------------------------------------
 
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run
+  mode_list: ""
   tgt: # tgt coordinates (in m)
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
@@ -190,8 +218,8 @@ prequal: # ---------------------------------------------------------------------
     # gap (how far away from target for each turning point)
     gap: 1
     # values
-    x:  4 # forward is positive x
-    y:  -0.5 # left is positive y
-    depth:  0.7
+    x: 4  # forward is positive x
+    y: -0.5  # left is positive y
+    depth: 0.7
     drop: 0.3 # initial drop depth
     t_drop: 0.25 # initial drop duration
