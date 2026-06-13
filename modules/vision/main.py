@@ -325,8 +325,9 @@ def main() -> None:
                 zed.retrieve_image(image_mat, sl.VIEW.LEFT)
                 zed.retrieve_measure(point_cloud, sl.MEASURE.XYZRGBA)
 
-                # RGBA → BGR for YOLO / cv2
-                frame = cv2.cvtColor(image_mat.get_data(), cv2.COLOR_RGBA2BGR)
+                # Corrected to Zed X returns BGRA
+                frame = cv2.cvtColor(image_mat.get_data(), cv2.COLOR_BGRA2BGR)
+                
                 h, w  = frame.shape[:2]
 
                 results = model.predict(
