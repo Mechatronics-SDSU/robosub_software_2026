@@ -10,6 +10,7 @@ class TorpedoLineup:
         vision_distance: float,
         fov_deg: float
     ) -> float:
+         
          return vision_distance * math.sin(
             math.radians((vision_coordinate - 0.5) * fov_deg)
         )

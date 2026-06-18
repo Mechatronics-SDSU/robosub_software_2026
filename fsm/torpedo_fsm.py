@@ -2,7 +2,6 @@ from utils.socket_send                      import set_screen
 from fsm.fsm                                import FSM_Template
 from enum                                   import Enum
 from modules.vision.tor_pedo                import lineup
-from dotenv                                 import load_dotenv
 
 import yaml, os, time
 
@@ -14,9 +13,6 @@ import yaml, os, time
     FSM for navigating through torpedo
     
 """
-load_dotenv("torpico.env", override=True)
-X_ZED_FOV: int = int(os.getenv("X_ZEDMINI_FOV_DEG"))
-Y_ZED_FOV: int = int(os.getenv("Y_ZEDMINI_FOV_DEG")) 
 
 class States(Enum):
     """
