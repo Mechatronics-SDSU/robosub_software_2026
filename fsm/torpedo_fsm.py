@@ -193,10 +193,13 @@ class Torpedo_FSM(FSM_Template):
 
             case States.SEARCHING:
                 self.update_detection_history()
-
-                if self.count_seen_frames(
-                    self.config.search_window_frames
-                ) >= self.config.search_required_frames:
+                conf = 0
+                vis_count = 0
+                for vis in dict:
+                    if vis["t"] > time.time() - self.config.time_window:
+                        conf += vis["conf"]
+                        vis_count += 1
+                if conf > threshold and vis_count > 10: #TODO ask vision guys how many samples they expect to see in a second
                     target = self.average_seen_target(self.config.search_window_frames)
 
                     if target is not None:
@@ -305,7 +308,7 @@ class Torpedo_FSM(FSM_Template):
         best_score = -1.0
 
         for detection in detections.values():
-            label, class_id, conf, x_norm, y_norm, depth_m = detection
+            t, label, class_id, conf, x_norm, y_norm, depth_m = detection
 
             if not self.is_valid_torpedo_detection(
                 label,
@@ -320,6 +323,7 @@ class Torpedo_FSM(FSM_Template):
 
             if score > best_score:
                 best_target = {
+                    "t" : time.time(),
                     "label": label,
                     "class_id": class_id,
                     "conf": conf,
