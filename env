@@ -1,0 +1,96 @@
+# Current sub.
+# On CARACARA, use:
+SUB_NAME=CARACARA
+
+# On TORPICO, change it to:
+# SUB_NAME=TORPICO
+
+
+# ---------------------------------------------------------------------------
+# Shared IVC modem settings
+# ---------------------------------------------------------------------------
+
+IVC_CHANNEL=1
+IVC_POWER_LEVEL=1
+IVC_BAUDRATE=9600
+
+# Total receive timeout for WAIT_FOR_REQUEST and WAIT_FOR_ACK.
+IVC_TIMEOUT=30.0
+
+# Short read timeout per FSM loop call.
+IVC_POLL_TIMEOUT=1.0
+
+
+# ---------------------------------------------------------------------------
+# Shared 5-bit message codes
+# Valid values are 0 to 31.
+# Binary notation is allowed.
+# ---------------------------------------------------------------------------
+
+IVC_REQUEST_CODE=0b00001
+IVC_ACK_CODE=0b00010
+
+
+# ---------------------------------------------------------------------------
+# CARACARA-specific values
+# ---------------------------------------------------------------------------
+
+CARACARA_IVC_ROLE=SENDER
+CARACARA_IVC_PORT=/dev/ttyUSB0
+
+# Optional delay so TORPICO can already be listening.
+CARACARA_IVC_SENDER_STARTUP_DELAY=0.0
+
+
+# ---------------------------------------------------------------------------
+# TORPICO-specific values
+# ---------------------------------------------------------------------------
+
+TORPICO_IVC_ROLE=LISTENER
+TORPICO_IVC_PORT=/dev/ttyUSB0
+TORPICO_IVC_SENDER_STARTUP_DELAY=0.0
+# ---------------------------------------------------------------------------
+# Torpedo vision / camera hardware settings
+# ---------------------------------------------------------------------------
+# The FOV values below are rectified-image FOV defaults for HD1080.
+# If the ZED resolution changes, update these values or remove them so
+# torpedo_config.py can use its resolution table.
+
+TORPEDO_TARGET_LABEL=torpedo
+TORPEDO_CONF_THRESHOLD=0.70
+TORPEDO_MIN_DISTANCE_M=0.5
+TORPEDO_MAX_DISTANCE_M=8.0
+
+TORPEDO_SEARCH_WINDOW_FRAMES=30
+TORPEDO_SEARCH_REQUIRED_FRAMES=10
+TORPEDO_TRACK_WINDOW_FRAMES=15
+TORPEDO_TRACK_REQUIRED_FRAMES=4
+TORPEDO_VERIFY_WINDOW_FRAMES=10
+TORPEDO_VERIFY_REQUIRED_FRAMES=6
+
+TORPEDO_SEARCH_TIMEOUT=30.0
+TORPEDO_MOVEMENT_TIMEOUT=30.0
+TORPEDO_CAMERA_STARTUP_DELAY=2.0
+TORPEDO_PRE_SHOOT_HOLD_SEC=0.5
+TORPEDO_POST_SHOOT_WAIT_SEC=1.0
+
+# Gains/signs let each sub correct for camera mounting and axis conventions
+# without changing code. Flip a sign if pool testing shows motion is reversed.
+TORPEDO_X_GAIN=1.0
+TORPEDO_Y_GAIN=1.0
+TORPEDO_Z_GAIN=1.0
+TORPEDO_X_SIGN=1.0
+TORPEDO_Y_SIGN=1.0
+TORPEDO_Z_SIGN=1.0
+
+CARACARA_CAMERA_MODEL=ZED_2I
+CARACARA_CAMERA_RESOLUTION=HD1080
+CARACARA_CAMERA_FOV_X_DEG=84.0
+CARACARA_CAMERA_FOV_Y_DEG=54.0
+CARACARA_VISION_CONFIG_PATH=~/robosub_software_2026/modules/vision/config.yaml
+
+TORPICO_CAMERA_MODEL=ZED_X_MINI
+TORPICO_CAMERA_RESOLUTION=HD1080
+TORPICO_CAMERA_FOV_X_DEG=105.0
+TORPICO_CAMERA_FOV_Y_DEG=72.0
+TORPICO_VISION_CONFIG_PATH=~/robosub_software_2026/modules/vision/config.yaml
