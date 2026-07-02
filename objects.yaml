@@ -48,22 +48,26 @@ jesse_pool: # ------------------------------------------------------------------
     t_drop: 0.25 # initial drop duration
     depth: 0.7 # swimming depth
 
-  torpedo: 
+  torpedo: # these should be in between oct and gate, and should avoid slalom, and cause some left/right motion
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
     y_buf: 0.3 # m left/right buffer for all objects
     z_buf: 1 # m up/down buffer for all objects
-    # torpedo spot
+    # midpoint 1
     x1: 3
     y1: 0
+    # midpoint 2
+    x2: 2
+    y2: 0.5
     # depth
     drop: 0.3 # initial drop depth
     t_drop: 0.25 # initial drop duration
     depth: 0.7 # swimming depth
     #helper variables
-    timeout: 10 # how long before looking for torpedoes gives up
-    t_loop: 2 # how long to wait before updating torpedo coordinates in loop
-    desired_distance: 1.0 # how far away do we want to be from torpedo target
+    timeout = 0 #FIXME how long before looking for torpedoes gives up
+    t_loop = 0 # FIXME how long to wait before updating torpedo coordinates in loop
+    desired_distance = 0 # FIXME how far away do we want to be from torpedo target
+
 
 
   octagon: # octagon coordinates
