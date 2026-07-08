@@ -4,13 +4,15 @@ Reads config.yaml, opens the ZED camera, and runs YOLO every frame.
 Per-frame detections are returned as a dict:
 
     {
-        'obj1': ['ambulance', 2, 0.74, 0.20, 0.85, 5.0],
-        'obj2': ['fire',      1, 0.97, 0.30, 0.60, 11.2],
+        'obj1': ['ambulance', 2, 0.74, 0.20, 0.85, 0.30, 0.25, 5.0],
+        'obj2': ['fire',      1, 0.97, 0.30, 0.60, 0.18, 0.20, 11.2],
     }
 
-Fields: [class_label, class_id, conf, x_norm, y_norm, depth_m]
-  x_norm  : 0 = far-left,  1 = far-right
-  y_norm  : 0 = bottom,    1 = top
+Fields: [class_label, class_id, conf, x_norm, y_norm, width, height, depth_m]
+  x_norm  : 0 = far-left,  1 = far-right  (normalised box centre)
+  y_norm  : 0 = bottom,    1 = top         (normalised box centre, y-flipped)
+  width   : normalised box width  (0–1)
+  height  : normalised box height (0–1)
   depth_m : Euclidean distance to box centre in metres (-1 if unavailable)
 
 Press q in the preview window to quit.
@@ -41,6 +43,29 @@ def load_config(path: str) -> dict:
         return yaml.safe_load(f)
 
 
+_VISION_DIR = Path(__file__).resolve().parent
+_DEFAULT_WEIGHTS = 'models/best.pt'
+
+
+def resolve_weights_path(weights: str) -> Path:
+    """Resolve a weights path from config.yaml.
+
+    Relative paths are resolved against this script's directory (not the
+    caller's cwd), so main.py works the same regardless of which machine or
+    working directory it's launched from.
+    """
+    path = Path(weights).expanduser()
+    if not path.is_absolute():
+        path = _VISION_DIR / path
+    if not path.is_file():
+        raise FileNotFoundError(
+            f'YOLO weights not found: {path}\n'
+            f"Check 'model.weights' in config.yaml — it should point to a "
+            f'.pt file that exists on this machine.'
+        )
+    return path
+
+
 def _auto_device() -> str:
     try:
         import torch
@@ -66,6 +91,9 @@ def open_zed(cfg: dict):
         'HD1080': sl.RESOLUTION.HD1080,
         'HD2K':   sl.RESOLUTION.HD2K,
     }
+    for _res_name in ('HD1200', 'SVGA', 'WVGA'):
+        if hasattr(sl.RESOLUTION, _res_name):
+            _RESOLUTION_MAP[_res_name] = getattr(sl.RESOLUTION, _res_name)
     _DEPTH_MODE_MAP = {
         'PERFORMANCE': sl.DEPTH_MODE.PERFORMANCE,
         'QUALITY':     sl.DEPTH_MODE.QUALITY,
@@ -119,7 +147,13 @@ def open_webcam(cfg: dict) -> cv2.VideoCapture:
 
 ## Detection Builder
 
-def build_detections(r, frame_h: int, frame_w: int, point_cloud=None) -> dict:
+def build_detections(
+    r,
+    frame_h: int,
+    frame_w: int,
+    point_cloud=None,
+    class_names: dict[int, str] | None = None,
+) -> dict:
     """Convert a YOLO result into the standard detection dict.
 
     point_cloud : sl.Mat when running with ZED, None when running with webcam.
@@ -127,7 +161,7 @@ def build_detections(r, frame_h: int, frame_w: int, point_cloud=None) -> dict:
 
     Returns
     -------
-    dict  e.g. {'obj1': ['ambulance', 2, 0.74, 0.20, 0.85, 5.0], ...}
+    dict  e.g. {'obj1': ['ambulance', 2, 0.74, 0.20, 0.85, 0.30, 0.25, 5.0], ...}
     """
     detections: dict = {}
     if r.boxes is None or len(r.boxes) == 0:
@@ -147,6 +181,10 @@ def build_detections(r, frame_h: int, frame_w: int, point_cloud=None) -> dict:
         # Invert y: image y=0 is top, but convention wants 0=bottom, 1=top
         y_norm = round(1.0 - cy / frame_h, 3)
 
+        # Normalised box dimensions
+        width  = round((x2 - x1) / frame_w, 3)
+        height = round((y2 - y1) / frame_h, 3)
+
         # Depth: Z component of the point-cloud at box centre (ZED only)
         depth = -1.0
         if point_cloud is not None:
@@ -155,8 +193,9 @@ def build_detections(r, frame_h: int, frame_w: int, point_cloud=None) -> dict:
             if np.isfinite(z) and z > 0:
                 depth = round(z, 2)
 
-        label = CLASS_NAMES.get(cls_id, str(cls_id))
-        detections[f'obj{idx}'] = [label, cls_id, conf, x_norm, y_norm, depth]
+        names = class_names or CLASS_NAMES
+        label = names.get(cls_id, str(cls_id))
+        detections[f'obj{idx}'] = [label, cls_id, conf, x_norm, y_norm, width, height, depth]
 
     return detections
 
@@ -259,6 +298,187 @@ def _start_svo(zed, sl, cfg: dict, run_dir: Path) -> None:
     print(f'[SVO] recording → {rec_params.video_filename}  compression={comp_key}')
 
 
+class VisionRuntime:
+    """
+    Small live vision wrapper for FSMs.
+
+    The CLI main() below is still useful for testing and recording, but FSMs
+    need a callable API that opens the camera/model once and returns one
+    detection dict per call.
+    """
+
+    def __init__(self, config_path: str = 'config.yaml'):
+        self.config_path = str(Path(config_path).expanduser())
+        self.cfg: dict | None = None
+        self.model = None
+        self.source = None
+        self.device = None
+        self.yolo_cfg = {}
+        self.classes = None
+
+        self.zed = None
+        self.runtime = None
+        self.image_mat = None
+        self.point_cloud = None
+        self.sl = None
+        self.cap = None
+
+    def open(self) -> 'VisionRuntime':
+        self.cfg = load_config(self.config_path)
+
+        model_cfg = self.cfg.get('model', {})
+        weights = resolve_weights_path(model_cfg.get('weights', _DEFAULT_WEIGHTS))
+        self.device = model_cfg.get('device') or _auto_device()
+
+        self.yolo_cfg = self.cfg.get('yolo', {})
+        self.classes = self.cfg.get('classes', None)
+
+        print(f'Loading weights: {weights}  device={self.device}')
+        self.model = YOLO(weights)
+        self.model.to(self.device)
+        print(f'Model class names: {self.model.names}')
+        print(f'Active classes filter: {self.classes}')
+
+        self.source = self.cfg.get('source', 'zed').strip().lower()
+
+        if self.source == 'zed':
+            (
+                self.zed,
+                self.runtime,
+                self.image_mat,
+                self.point_cloud,
+                self.sl,
+            ) = open_zed(self.cfg)
+
+        elif self.source == 'webcam':
+            self.cap = open_webcam(self.cfg)
+
+        else:
+            raise ValueError(
+                f'Unknown source "{self.source}". Set source to "zed" or "webcam".'
+            )
+
+        return self
+
+    def get_detections(self) -> dict:
+        if self.model is None:
+            self.open()
+
+        conf_thres = float(self.yolo_cfg.get('conf', 0.50))
+        iou_thres = float(self.yolo_cfg.get('iou', 0.50))
+        imgsz = int(self.yolo_cfg.get('imgsz', 640))
+        max_det = int(self.yolo_cfg.get('max_det', 4))
+        augment = bool(self.yolo_cfg.get('augment', False))
+
+        if self.source == 'zed':
+            if self.zed.grab(self.runtime) != self.sl.ERROR_CODE.SUCCESS:
+                return {}
+
+            self.zed.retrieve_image(self.image_mat, self.sl.VIEW.LEFT)
+            self.zed.retrieve_measure(self.point_cloud, self.sl.MEASURE.XYZRGBA)
+
+            frame = cv2.cvtColor(self.image_mat.get_data(), cv2.COLOR_RGBA2BGR)
+            h, w = frame.shape[:2]
+
+            results = self.model.predict(
+                frame,
+                conf=conf_thres,
+                iou=iou_thres,
+                imgsz=imgsz,
+                max_det=max_det,
+                classes=self.classes,
+                augment=augment,
+                device=self.device,
+                verbose=False,
+            )
+
+            return build_detections(
+                results[0],
+                h,
+                w,
+                self.point_cloud,
+                self.model.names,
+            )
+
+        if self.source == 'webcam':
+            ok, frame = self.cap.read()
+            if not ok:
+                return {}
+
+            h, w = frame.shape[:2]
+            results = self.model.predict(
+                frame,
+                conf=conf_thres,
+                iou=iou_thres,
+                imgsz=imgsz,
+                max_det=max_det,
+                classes=self.classes,
+                augment=augment,
+                device=self.device,
+                verbose=False,
+            )
+
+            return build_detections(
+                results[0],
+                h,
+                w,
+                point_cloud=None,
+                class_names=self.model.names,
+            )
+
+        return {}
+
+    def close(self) -> None:
+        if self.zed is not None:
+            self.zed.close()
+            self.zed = None
+
+        if self.cap is not None:
+            self.cap.release()
+            self.cap = None
+
+
+_DEFAULT_RUNTIME: VisionRuntime | None = None
+
+
+def open_vision(config_path: str = 'config.yaml') -> VisionRuntime:
+    """Open the camera and model once for FSM usage."""
+
+    global _DEFAULT_RUNTIME
+    _DEFAULT_RUNTIME = VisionRuntime(config_path).open()
+    return _DEFAULT_RUNTIME
+
+
+def get_detections(runtime: VisionRuntime | None = None) -> dict:
+    """Return one live detection dict for FSM usage."""
+
+    global _DEFAULT_RUNTIME
+
+    if runtime is None:
+        if _DEFAULT_RUNTIME is None:
+            _DEFAULT_RUNTIME = open_vision()
+        runtime = _DEFAULT_RUNTIME
+
+    return runtime.get_detections()
+
+
+def build_live_detections(runtime: VisionRuntime | None = None) -> dict:
+    """Backward-readable alias for get_detections()."""
+
+    return get_detections(runtime)
+
+
+def close_vision(runtime: VisionRuntime | None = None) -> None:
+    global _DEFAULT_RUNTIME
+
+    target = runtime or _DEFAULT_RUNTIME
+    if target is not None:
+        target.close()
+
+    if runtime is None:
+        _DEFAULT_RUNTIME = None
+
+
 ## Main
 
 def main() -> None:
@@ -274,7 +494,7 @@ def main() -> None:
 
     ## MODEL
     model_cfg = cfg.get('model', {})
-    weights   = model_cfg.get('weights', '/home/mechatronics/robosub_software_2026/modules/vision/models/best.pt')
+    weights   = resolve_weights_path(model_cfg.get('weights', _DEFAULT_WEIGHTS))
     device    = model_cfg.get('device') or _auto_device()
 
     ## YOLO
@@ -336,7 +556,7 @@ def main() -> None:
                     augment=augment, device=device, verbose=False,
                 )
 
-                detections = build_detections(results[0], h, w, point_cloud)
+                detections = build_detections(results[0], h, w, point_cloud, model.names)
                 if detections:
                     print(detections)
 
@@ -390,7 +610,7 @@ def main() -> None:
                 )
 
                 # point_cloud=None → depth_m will always be -1
-                detections = build_detections(results[0], h, w, point_cloud=None)
+                detections = build_detections(results[0], h, w, point_cloud=None, class_names=model.names)
                 if detections:
                     print(detections)
 
