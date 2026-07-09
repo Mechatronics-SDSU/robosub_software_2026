@@ -5,13 +5,20 @@ Reusable two-byte handshake helper for the M16 modem.
 from modules.logger.logger import Logger
 
 from time import sleep, monotonic
-from modem_driver import M16
+from modules.modem.modem_driver import M16
+import threading
 
 
 class ModemComms:
     def __init__(self):
         self.logger = Logger()
         self.process_name = "ModemComms"
+
+        # background listener state
+        self._listener_thread = None
+        self._listening = False
+        self._latest_message = None
+        self._lock = threading.Lock()
 
     def encode_message(self, code: int) -> bytes:
         """
@@ -109,6 +116,52 @@ class ModemComms:
 
         self.logger.info(f"Received message: code={decoded} binary={f'{decoded:05b}'}")
         return decoded
+
+    def _listen_loop(self, modem: M16, poll_timeout: float) -> None:
+        """
+        Background loop that keeps waiting for messages and stores the newest one.
+        """
+        while self._listening:
+            received = self.wait_for_message(modem, timeout=poll_timeout)
+            if received is not None:
+                with self._lock:
+                    self._latest_message = received
+
+    def start_listener(self, modem: M16, poll_timeout: float = 1.0) -> None:
+        """
+        Start a background thread that keeps listening for incoming messages.
+        """
+        if self._listener_thread is not None:
+            return
+
+        modem.clear_buffers()
+        self._listening = True
+        self._listener_thread = threading.Thread(
+            target=self._listen_loop, args=(modem, poll_timeout), daemon=True
+        )
+        self._listener_thread.start()
+        self.logger.info("Modem listener started")
+
+    def stop_listener(self) -> None:
+        """
+        Stop the background listener thread, if one is running.
+        """
+        if self._listener_thread is None:
+            return
+
+        self._listening = False
+        self._listener_thread.join(timeout=2.0)
+        self._listener_thread = None
+        self.logger.info("Modem listener stopped")
+
+    def get_latest_message(self):
+        """
+        Return the most recently received message, or None if nothing new has arrived.
+        """
+        with self._lock:
+            latest = self._latest_message
+            self._latest_message = None
+        return latest
 
     def listen_and_reply_with_modem(self, modem: M16, reply: int, timeout: float = 30.0) -> bool:
         """
