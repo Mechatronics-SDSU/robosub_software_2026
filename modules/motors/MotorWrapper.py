@@ -70,8 +70,8 @@ class MotorWrapper:
             [ 0,      0,       1,        0,       1,      1], # motor 6 FR6 (vertical)
             [-1,      1,       0,       -1,       0,      0]  # motor 7 FR7
         ])
-        self.controls   = [0, 0, 0, 255, 0, # control values (kill, power off, lights R,G,B) FIXME assign to shared mem vals
-                           0, 0, 0, 0] #  dropper pwm, grabber1 pwm, grabber2 pwm, torpedo pwm
+        self.controls   = [0, 0, # control values (kill, power off) FIXME assign to shared mem vals
+                           0, 0, 0, 0] # grabber1 pwm, grabber2 pwm, dropper pwm, torpedo pwm
         self.motor_vals = [0, 0, 0, 0, 0, 0, 0, 0] # motor values
 
     # returns a validated version of the motor value
@@ -129,10 +129,10 @@ class MotorWrapper:
         self.motor_vals += temp_list
 
     def update_servo_controls(self):
-        self.controls[5:9] = [
-            self.shared_memory_object.dropper_pwm.value,
+        self.controls[2:6] = [
             self.shared_memory_object.grabber1_pwm.value,
             self.shared_memory_object.grabber2_pwm.value,
+            self.shared_memory_object.dropper_pwm.value,
             self.shared_memory_object.torpedo_pwm.value,
         ]
 
