@@ -40,7 +40,7 @@ FAKE_MODEM_CODE = 7 # code the fake modem "receives" when testing the modem list
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "gate" # gate, octagon, slalom, return, prequal, coinflip, modem
+FSM_TO_TEST = "modem" # gate, octagon, slalom, return, prequal, coinflip, modem
 
 def build_fsm(name: str):
     """

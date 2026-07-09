@@ -5,6 +5,7 @@
     without the sub being in the water or a modem being plugged in.
     Only used for testing, never imported by the real mission code.
 """
+import time
 
 class FakeModem:
     """
@@ -26,12 +27,15 @@ class FakeModem:
 
     def read_two_bytes(self, timeout: float = 30.0):
         """
-        Pretend to receive fake_code once (encoded the same way a real message would be), then go quiet
+        Pretend to receive fake_code once (encoded the same way a real message would be), then go quiet.
+        Sleeps briefly like the real M16 driver does, so the background listener thread
+        doesn't spin in a tight loop once there is nothing left to receive.
         """
         if self.fake_code is not None and not self._sent:
             self._sent = True
             print(f"[FAKE MODEM] pretending to receive code {self.fake_code}")
             return self.comms.encode_message(self.fake_code)
+        time.sleep(min(timeout, 0.5))
         return None
 
     def clear_buffers(self) -> None:
