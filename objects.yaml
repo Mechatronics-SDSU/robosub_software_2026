@@ -236,6 +236,36 @@ test: # ------------------------------------------------------------------------
     zed_x_fov: 90 # camera horizontal field of view in degrees
     zed_y_fov: 60 # camera vertical field of view in degrees
 
+  dropper: # approximate dropper pipeline position
+    # buffers
+    x_buf: 0.2 # m forward buffer for all objects
+    y_buf: 0.2 # m left/right buffer for all objects
+    z_buf: 0.2 # m up/down buffer for all objects
+    # approach position (guestimate coordinates in front of the pipeline)
+    x1: 3
+    y1: 0
+    z: 0
+    # helper variables
+    timeout: 8 # seconds to wait before giving up on a state
+    t_loop: 0.1 # seconds to wait between vision checks in a loop
+    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
+    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+
+  grabber: # approximate grabber octagon position
+    # buffers
+    x_buf: 0.2 # m forward buffer for all objects
+    y_buf: 0.2 # m left/right buffer for all objects
+    z_buf: 0.2 # m up/down buffer for all objects
+    # approach position (guestimate coordinates in front of the octagon)
+    x1: 4
+    y1: 0
+    z: 0
+    # helper variables
+    timeout: 8 # seconds to wait before giving up on a state
+    t_loop: 0.1 # seconds to wait between vision checks in a loop
+    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
+    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run
   tgt: # tgt coordinates (in m)

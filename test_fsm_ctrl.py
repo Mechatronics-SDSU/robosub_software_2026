@@ -10,8 +10,13 @@ from fsm.prequal_fsm                        import Prequal_FSM
 from fsm.coinflip_fsm                       import CoinFlip_FSM
 from fsm.modem_fsm                          import Modem_FSM
 from fsm.torpedo_fsm                        import Torpedo_FSM
+from fsm.dropper_fsm                        import Dropper_FSM
+from fsm.grabber_fsm                        import Grabber_FSM
 
-from fsm_test_helpers                       import FakeModem, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA
+from fsm_test_helpers                       import (
+    FakeModem, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA,
+    FAKE_DROPPER_DETECTIONS, FAKE_GRABBER_DETECTIONS
+)
 
 """
     discord: @.kech
@@ -41,7 +46,8 @@ FAKE_MODEM_CODE = 7 # code the fake modem "receives" when testing the modem list
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "torpedo" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo
+FSM_TO_TEST = "grabber" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo, dropper, grabber
+TEST_ROLE = "survey_and_repair" # survey_and_repair or search_and_rescue, used by dropper and grabber
 
 def build_fsm(name: str):
     """
@@ -65,6 +71,10 @@ def build_fsm(name: str):
             return Modem_FSM(shared_memory_object, [], role="listener", port="COM_TEST", message=5)
         case "torpedo":
             return Torpedo_FSM(shared_memory_object, [])
+        case "dropper":
+            return Dropper_FSM(shared_memory_object, [], role=TEST_ROLE)
+        case "grabber":
+            return Grabber_FSM(shared_memory_object, [], role=TEST_ROLE)
         case _:
             print(f"Unknown FSM '{name}', check FSM_TO_TEST / build_fsm()")
             return None
@@ -87,6 +97,14 @@ def main():
         # no camera/vision pipeline attached, fake the circle data so a hole can be found
         mode.lineup.get_torpedo_circle_data = lambda: FAKE_TORPEDO_CIRCLE_DATA
 
+    if FAKE_INPUT and FSM_TO_TEST == "dropper":
+        # no camera/vision pipeline attached, fake the detections so a bin can be found
+        mode.helper.get_target_detections = lambda: FAKE_DROPPER_DETECTIONS[TEST_ROLE]
+
+    if FAKE_INPUT and FSM_TO_TEST == "grabber":
+        # no camera/vision pipeline attached, fake the detections so items/basket can be found
+        mode.helper.get_target_detections = lambda: FAKE_GRABBER_DETECTIONS[TEST_ROLE]
+
     mode.start()
     main_loop(mode)
 
@@ -106,7 +124,7 @@ def main_loop(mode):
         display(mode)
 
         if mode.complete: # exit condition: fsm finished on its own
-            print(f"{mode.name} finished (complete=True), stopping test")
+            print(f"{mode.name} finished (complete=True) in state {mode.state}, stopping test")
             mode.stop()
             stop()
             break
@@ -116,6 +134,10 @@ def display(mode):
     Display function for testing
     """
     print(f"MODE: {mode.name}:{mode.state}")
+    if hasattr(mode, "role"): # selected role, for dropper/grabber
+        print(f"ROLE: {mode.role}")
+    if getattr(mode, "current_target", None) is not None: # last target detection/hole tracked
+        print(f"TARGET: {mode.current_target}")
     print("x: %.1f -> %.1f" % (shared_memory_object.dvl_x.value, shared_memory_object.target_x.value))
     print("y: %.1f -> %.1f" % (shared_memory_object.dvl_y.value, shared_memory_object.target_y.value))
     print("z: %.1f -> %.1f" % (shared_memory_object.dvl_z.value, shared_memory_object.target_z.value))

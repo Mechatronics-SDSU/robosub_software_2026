@@ -60,6 +60,29 @@ FAKE_TORPEDO_CIRCLE_DATA = {
 }
 
 
+# sample vision target box detections for testing dropper/grabber without a camera attached
+# format: [class_label, class_id, conf, x_norm, y_norm, depth_m, width, height]
+FAKE_DROPPER_DETECTIONS = {
+    "survey_and_repair": [["fire", 1, 0.82, 0.50, 0.50, 0.9, 0.20, 0.18]],
+    "search_and_rescue": [["blood", 3, 0.82, 0.50, 0.50, 0.9, 0.20, 0.18]],
+}
+
+# NOTE: bolt/plug/medicine/bandage/warning/helmet are not real trained vision
+# classes yet, see modules/vision/grabber_helpers.py
+FAKE_GRABBER_DETECTIONS = {
+    "survey_and_repair": [
+        ["bolt", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
+        ["plug", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
+        ["warning", 0, 0.82, 0.50, 0.50, 0.9, 0.25, 0.20],
+    ],
+    "search_and_rescue": [
+        ["medicine", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
+        ["bandage", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
+        ["helmet", 0, 0.82, 0.50, 0.50, 0.9, 0.25, 0.20],
+    ],
+}
+
+
 def drift_toward_targets(shared_memory_object, step: float = 0.5) -> None:
     """
     Fake DVL movement: nudges dvl_x/y/z a little closer to target_x/y/z
