@@ -19,17 +19,6 @@ M = MotorWrapper(shared_memory_object)
 S = ServoWrapper(shared_memory_object)
 
 if __name__ == "__main__":
-    print("Servo tester commands:")
-    print("  dd  = dropper drop")
-    print("  dr  = dropper reset")
-    print("  g1o = grabber 1 open")
-    print("  g1c = grabber 1 close")
-    print("  g2o = grabber 2 open")
-    print("  g2c = grabber 2 close")
-    print("  tf  = torpedo fire")
-    print("  tr  = torpedo reset")
-    print("  set = manually set PWM by subsystem name")
-    print("  q   = quit")
 
     while True:
         command = input("\nEnter servo command: ").lower()
@@ -38,34 +27,47 @@ if __name__ == "__main__":
             break
 
         elif command == "dd":
-            S.dropper_drop()
+            S.dropper("drop")
 
         elif command == "dr":
-            S.dropper_reset()
+            S.dropper("reset")
 
         elif command == "g1o":
-            S.grabber1_open()
+            S.grabber1("open")
 
         elif command == "g1c":
-            S.grabber1_close()
+            S.grabber1("close")
 
         elif command == "g2o":
-            S.grabber2_open()
+            S.grabber2("open")
 
         elif command == "g2c":
-            S.grabber2_close()
+            S.grabber2("close")
 
         elif command == "tf":
-            S.torpedo_fire()
+            S.torpedo("fire")
 
         elif command == "tr":
-            S.torpedo_reset()
+            S.torpedo("reset")
 
         elif command == "set":
             subsystem = input("Enter subsystem (dropper, grabber1, grabber2, torpedo): ").lower()
             pwm = int(input("Enter PWM value: "))
             S.set_pwm(subsystem, pwm)
 
+        elif command == "help":
+            print("Available commands:")
+            print("  dd  - Dropper Drop")
+            print("  dr  - Dropper Reset")
+            print("  g1o - Grabber 1 Open")
+            print("  g1c - Grabber 1 Close")
+            print("  g2o - Grabber 2 Open")
+            print("  g2c - Grabber 2 Close")
+            print("  tf  - Torpedo Fire")
+            print("  tr  - Torpedo Reset")
+            print("  set - Set custom PWM value for a subsystem")
+            print(" help - Show this help message")
+            print("  q   - Quit the program")
         else:
             print("Invalid command")
             continue
