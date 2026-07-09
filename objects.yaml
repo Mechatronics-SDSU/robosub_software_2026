@@ -60,6 +60,47 @@ jesse_pool: # ------------------------------------------------------------------
     t_drop: 0.25 # initial drop duration
     depth: 0.7 # swimming depth
 
+
+  dropper: # dropper/basket coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for dropper target
+    y_buf: 0 # m left/right buffer for dropper target
+    z_buf: 0 # m up/down buffer for dropper target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the basket/bin
+    drop_depth: 0 # depth used when dropping the ball/marker
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for basket/bin detection
+    stable_frames: 0 # centered frames required before dropping
+    search_timeout: 0 # seconds before giving up search
+    drop_motor_power: 0 # brushless motor power for release
+    drop_spin_time: 0 # seconds to spin motor for one drop
+    rearm_time: 0 # seconds to wait before another drop
+    num_balls: 0 # number of balls/markers to drop
+
+  grabber: # grabber/claw coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for grabber target
+    y_buf: 0 # m left/right buffer for grabber target
+    z_buf: 0 # m up/down buffer for grabber target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the item/table
+    grab_depth: 0 # depth used when closing claw around item
+    carry_depth: 0 # depth used after lifting the item
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for item detection
+    stable_frames: 0 # centered frames required before grabbing
+    search_timeout: 0 # seconds before giving up search
+    open_time: 0 # seconds to wait after opening claw
+    close_time: 0 # seconds to wait after closing claw
+    verify_timeout: 0 # seconds to wait for pickup verification
+    hold_after_pickup: 0 # keep holding item after pickup
+
+
 lane_D: # ------------------------------------------------------------------------------------------------------
   # lane D from robosub finals 2025
   gate: # gate coordinates (in m)
@@ -119,6 +160,47 @@ lane_D: # ----------------------------------------------------------------------
     drop: 1 # initial drop depth
     t_drop: 0.3 # initial drop duration
     depth: 1.6
+
+
+  dropper: # dropper/basket coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for dropper target
+    y_buf: 0 # m left/right buffer for dropper target
+    z_buf: 0 # m up/down buffer for dropper target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the basket/bin
+    drop_depth: 0 # depth used when dropping the ball/marker
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for basket/bin detection
+    stable_frames: 0 # centered frames required before dropping
+    search_timeout: 0 # seconds before giving up search
+    drop_motor_power: 0 # brushless motor power for release
+    drop_spin_time: 0 # seconds to spin motor for one drop
+    rearm_time: 0 # seconds to wait before another drop
+    num_balls: 0 # number of balls/markers to drop
+
+  grabber: # grabber/claw coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for grabber target
+    y_buf: 0 # m left/right buffer for grabber target
+    z_buf: 0 # m up/down buffer for grabber target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the item/table
+    grab_depth: 0 # depth used when closing claw around item
+    carry_depth: 0 # depth used after lifting the item
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for item detection
+    stable_frames: 0 # centered frames required before grabbing
+    search_timeout: 0 # seconds before giving up search
+    open_time: 0 # seconds to wait after opening claw
+    close_time: 0 # seconds to wait after closing claw
+    verify_timeout: 0 # seconds to wait for pickup verification
+    hold_after_pickup: 0 # keep holding item after pickup
+
 
 test: # ------------------------------------------------------------------------------------------------------
   # for testing purposes only (never actually runs, pass fsm constructors [] for 2nd arg in launch.py)
@@ -180,6 +262,47 @@ test: # ------------------------------------------------------------------------
     t_drop: 0 # initial drop duration
     depth: 0 # swimming depth
 
+
+  dropper: # dropper/basket coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for dropper target
+    y_buf: 0 # m left/right buffer for dropper target
+    z_buf: 0 # m up/down buffer for dropper target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the basket/bin
+    drop_depth: 0 # depth used when dropping the ball/marker
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for basket/bin detection
+    stable_frames: 0 # centered frames required before dropping
+    search_timeout: 0 # seconds before giving up search
+    drop_motor_power: 0 # brushless motor power for release
+    drop_spin_time: 0 # seconds to spin motor for one drop
+    rearm_time: 0 # seconds to wait before another drop
+    num_balls: 0 # number of balls/markers to drop
+
+  grabber: # grabber/claw coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for grabber target
+    y_buf: 0 # m left/right buffer for grabber target
+    z_buf: 0 # m up/down buffer for grabber target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the item/table
+    grab_depth: 0 # depth used when closing claw around item
+    carry_depth: 0 # depth used after lifting the item
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for item detection
+    stable_frames: 0 # centered frames required before grabbing
+    search_timeout: 0 # seconds before giving up search
+    open_time: 0 # seconds to wait after opening claw
+    close_time: 0 # seconds to wait after closing claw
+    verify_timeout: 0 # seconds to wait for pickup verification
+    hold_after_pickup: 0 # keep holding item after pickup
+
+
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run
   tgt: # tgt coordinates (in m)
@@ -195,3 +318,43 @@ prequal: # ---------------------------------------------------------------------
     depth:  0.7
     drop: 0.3 # initial drop depth
     t_drop: 0.25 # initial drop duration
+
+  dropper: # dropper/basket coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for dropper target
+    y_buf: 0 # m left/right buffer for dropper target
+    z_buf: 0 # m up/down buffer for dropper target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the basket/bin
+    drop_depth: 0 # depth used when dropping the ball/marker
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for basket/bin detection
+    stable_frames: 0 # centered frames required before dropping
+    search_timeout: 0 # seconds before giving up search
+    drop_motor_power: 0 # brushless motor power for release
+    drop_spin_time: 0 # seconds to spin motor for one drop
+    rearm_time: 0 # seconds to wait before another drop
+    num_balls: 0 # number of balls/markers to drop
+
+  grabber: # grabber/claw coordinates (in m)
+    # buffers
+    x_buf: 0 # m forward buffer for grabber target
+    y_buf: 0 # m left/right buffer for grabber target
+    z_buf: 0 # m up/down buffer for grabber target
+    # values
+    x: 0 # forward is positive x
+    y: 0 # left is positive y
+    travel_depth: 0 # depth while driving to the item/table
+    grab_depth: 0 # depth used when closing claw around item
+    carry_depth: 0 # depth used after lifting the item
+    center_buf: 0 # normalized camera centering buffer
+    min_confidence: 0 # minimum vision confidence for item detection
+    stable_frames: 0 # centered frames required before grabbing
+    search_timeout: 0 # seconds before giving up search
+    open_time: 0 # seconds to wait after opening claw
+    close_time: 0 # seconds to wait after closing claw
+    verify_timeout: 0 # seconds to wait for pickup verification
+    hold_after_pickup: 0 # keep holding item after pickup
+

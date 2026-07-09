@@ -31,6 +31,10 @@ except:
         usbData[10] = red; 
         usbData[11] = green; 
         usbData[12] = blue;
+        usbData[13] = dropperPWM;
+        usbData[14] = grabber1PWM;
+        usbData[15] = grabber2PWM;
+        usbData[16] = torpedoPWM;
 
     NOTE: THIS WRAPPER IS MEANT FOR CARACARA ONLY, SCION USES A DIFFERENT MOTOR WRAPPER
 '''
@@ -66,7 +70,8 @@ class MotorWrapper:
             [ 0,      0,       1,        0,       1,      1], # motor 6 FR6 (vertical)
             [-1,      1,       0,       -1,       0,      0]  # motor 7 FR7
         ])
-        self.controls   = [0, 0, 0, 255, 0] # control values (kill, power off, lights R,G,B) FIXME assign to shared mem vals
+        self.controls   = [0, 0, # control values (kill, power off) FIXME assign to shared mem vals
+                           0, 0, 0, 0] # grabber1 pwm, grabber2 pwm, dropper pwm, torpedo pwm
         self.motor_vals = [0, 0, 0, 0, 0, 0, 0, 0] # motor values
 
     # returns a validated version of the motor value
@@ -118,17 +123,26 @@ class MotorWrapper:
     def kill(self) -> None:
         self.stop()
 
-
     def move_from_matrix(self, matrix: NDArray) -> None:
         #translate the direction vector matrix to motor values
         temp_list = np.round(np.dot(matrix, self.motors.transpose()))
         self.motor_vals += temp_list
 
+    def update_servo_controls(self):
+        self.controls[2:6] = [
+            self.shared_memory_object.grabber1_pwm.value,
+            self.shared_memory_object.grabber2_pwm.value,
+            self.shared_memory_object.dropper_pwm.value,
+            self.shared_memory_object.torpedo_pwm.value,
+        ]
+
     #sends commands to motors
     def send_command(self) -> list:
+        self.update_servo_controls() # update servo controls from shared memory
+
         send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
-        for i, data in enumerate(send_data):
-            send_data[i] = self.valid(data)
+        for i in range(8):
+            send_data[i] = self.valid(send_data[i]) # validate only motor values
         self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
 
         motor_values = self.motor_vals # save motor values
