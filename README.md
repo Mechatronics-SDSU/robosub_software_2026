@@ -31,7 +31,7 @@ This is the codebase for the SDSU Mechatronics Club competing in Robosub 2026, w
 - modules
     - Where the key features of the code are kept, primarily sensor handling, PIDs, and motor control
 - utils
-    - Miscellanious helper or setup scripts not used in real-time
+    - Miscellaneous helper or setup scripts not used in real-time
 - fsm
     - Where the various mode state machines are kept, which handle decision making
 - docs
