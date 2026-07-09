@@ -1,0 +1,95 @@
+headless: true
+## Vision Summer 2026
+  # Edit this file to change inference behaviour; no code changes needed.
+  # Pass a different file with: python main.py --config <path>
+
+## Terminology
+# | is used as a "logical or" meaning null | [0, 1] should be read as "null or a list of 0 and 1"
+
+## Source
+# zed    : ZED stereo camera — full depth enabled
+# webcam : laptop / USB camera — no depth, depth_m will always be -1
+source: zed
+webcam:
+  # cv2.VideoCapture index (0 = built-in camera, 1 = first USB camera, etc.)
+  index: 0
+  
+## Recording
+# Root folder — each run creates a timestamped sub-folder inside
+# e.g. recordings/20260524_143052/
+recording:
+  output_dir: recordings/
+
+  # MP4 : raw video; no annotations
+  mp4: true
+  # Annotated MP4 : second video with YOLO bounding boxes burned in — optional
+  # Saved as video_annotated.mp4 independent of video.mp4
+  annotated_mp4: false
+
+  # SVO : raw ZED stereo recording — ZED only, not available for webcam
+  # Stores both stereo frames + IMU data; depth is NOT stored but recomputed on playback
+  # Allows for parameter tweaking for both YOLO & DBSCAN (mp4 only allows for YOLO)
+  svo: true
+  # Compression options : H264 | H265 | LOSSLESS
+  #   H264     : good quality, small file — recommended for most captures
+  #   H265     : slightly smaller than H264 at the same quality
+  #   LOSSLESS : perfect fidelity, large file — use when quality is critical
+  svo_compression: H264
+
+## Model
+model:
+  weights: /home/mechatronics/robosub_software_2026/modules/vision/models/best.pt
+  # null = auto-detect (cuda:0 → mps → cpu)
+  # cuda: best option if available
+  # cpu:  default option when nothing else works
+  device: null
+
+## Classes
+# Class IDs:
+#   0 = firetruck
+#   1 = fire
+#   2 = ambulance
+#   3 = blood
+# To select all classes input: null | [0, 1, 2, 3]
+# To only select a few classes e.g. (blood & fire) input [1, 3]
+classes: [0, 1, 2, 3]
+
+## Ultralytics' YOLO
+yolo:
+  # confidence threshold : detections below this are discarded
+  conf: 0.70
+  # NMS IoU threshold : higher keeps more overlapping boxes
+  iou: 0.15
+  # inference resolution (px, square); must match training size
+  imgsz: 640
+  # max detections per frame (ZedBox: keep low to save memory)
+  max_det: 4
+  # test-time augmentation : slower but can improve recall
+  augment: false
+
+## ZED
+zed:
+  # Resolution options: VGA | HD720 | HD1080 | HD2K
+  resolution: HD1080
+
+  # Target frame rate : actual rate depends on resolution and depth mode
+  fps: 10
+
+  # Depth algorithm:
+  #   PERFORMANCE  : fastest; best for the ZedBox / Orin
+  #   QUALITY      : balanced; slightly slower
+  #   ULTRA        : highest accuracy; CPU/GPU heavy
+  #   NEURAL       : neural-network depth; heaviest, most accurate
+  depth_mode: PERFORMANCE
+
+## DBSCAN & Distance Thresholds
+# Ignore depth returns closer than this (metres)
+  depth_minimum_distance: 0.3
+
+# eps: radius, objects within eps radius are considered the same cluster if meeting all other requirements
+# min_samples   : minimum points to form a core sample; higher = fewer clusters
+# depth_downsample_step : stride when sampling depth matrix (saves compute)
+dbscan:
+  eps: 0.5
+  min_samples: 30
+  depth_downsample_step: 4
