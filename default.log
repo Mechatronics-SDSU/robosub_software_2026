@@ -1,980 +1,151 @@
-2026-07-08 - MainProcess - INFO - fsm.py:59 - STARTING SLALOM MODE
-2026-07-08 - MainProcess - INFO - slalom_fsm.py:91 - [TO_START] State changed: INIT -> TO_START
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.0	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.1	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.2	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.3	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.4	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.5	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.6	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.7	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.8	 y = 0.0	 z = 0.0
-TGT: 	 x = 2.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - slalom_fsm.py:91 - [TO_MID] State changed: TO_START -> TO_MID
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:59 - STARTING TORPEDO MODE
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: INIT -> TO_TORPEDO
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.0	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.1	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.1	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.2	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.2	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.3	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.3	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.4	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.4	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.5	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.5	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.6	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.6	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.7	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.7	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.8	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.8	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.9	 y = 0.0	 z = 0.0
 TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - slalom_fsm.py:91 - [TO_END] State changed: TO_MID -> TO_END
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.1	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.2	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.3	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.4	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.5	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.6	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.7	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.8	 y = 0.0	 z = 0.0
-TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
-2026-07-08 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
-2026-07-08 - MainProcess - INFO - modem_comms.py:117 - Received message: code=7 binary=00111
-2026-07-08 - MainProcess - INFO - modem_comms.py:143 - Modem listener started
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - INFO - modem_fsm.py:86 - State changed: INIT -> LISTEN
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - INFO - modem_fsm.py:104 - MODEM received message: 7
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - INFO - modem_comms.py:155 - Modem listener stopped
-2026-07-08 - MainProcess - INFO - modem_fsm.py:86 - State changed: LISTEN -> DONE
-2026-07-08 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
-2026-07-08 - MainProcess - INFO - modem_comms.py:143 - Modem listener started
-2026-07-08 - MainProcess - INFO - modem_comms.py:117 - Received message: code=7 binary=00111
-2026-07-08 - MainProcess - INFO - modem_fsm.py:86 - State changed: INIT -> LISTEN
-2026-07-08 - MainProcess - INFO - modem_fsm.py:104 - MODEM received message: 7
-2026-07-08 - MainProcess - WARNING - modem_comms.py:48 - Invalid raw message: expected 2 bytes, got None
-2026-07-08 - MainProcess - WARNING - modem_comms.py:114 - No valid message received
-2026-07-08 - MainProcess - INFO - modem_comms.py:155 - Modem listener stopped
-2026-07-08 - MainProcess - INFO - modem_fsm.py:86 - State changed: LISTEN -> DONE
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.1	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.2	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.3	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.4	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.5	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.6	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.7	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.8	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: TO_TORPEDO -> SEARCHING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SHOOTING -> SEARCHING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.88	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.88	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.88	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.88	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:59 - STARTING TORPEDO MODE
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: INIT -> TO_TORPEDO
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.88	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.88	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SHOOTING -> DONE
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.1	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.2	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.3	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.4	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.5	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.6	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.7	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.8	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 1.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.1	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.2	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.3	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.4	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.5	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.6	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.7	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.8	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: TO_TORPEDO -> SEARCHING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SHOOTING -> SEARCHING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.9	 y = 0.0	 z = 0.0
+TGT: 	 x = 2.9	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.88	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.88	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.88	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.88	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.88	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.88	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SHOOTING -> DONE
+2026-07-09 - MainProcess - INFO - fsm.py:59 - STARTING TORPEDO MODE
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: INIT -> TO_TORPEDO
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: TO_TORPEDO -> SEARCHING
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SHOOTING -> SEARCHING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.98	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.98	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.98	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.98	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-09 - MainProcess - INFO - fsm.py:98 - DVL: 	 x = 2.98	 y = 0.01	 z = 0.0
+TGT: 	 x = 2.98	 y = 0.01	 z = 0.0
+2026-07-09 - MainProcess - INFO - torpedo_fsm.py:165 - State changed: SHOOTING -> DONE

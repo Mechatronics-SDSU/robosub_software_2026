@@ -45,7 +45,22 @@ class FakeModem:
         print("[FAKE MODEM] closing (nothing to actually close)")
 
 
-def drift_toward_targets(shared_memory_object, step: float = 0.1) -> None:
+FAKE_TORPEDO_CIRCLE_DATA = {
+    # sample circle_data dict for testing the torpedo FSM without a camera/vision pipeline attached
+    "wheels": [
+        {"x_norm": 0.20, "y_norm": 0.50, "radius": 0.03},
+        {"x_norm": 0.80, "y_norm": 0.50, "radius": 0.03},
+    ],
+    "small_holes": [
+        {"x_norm": 0.45, "y_norm": 0.52, "radius": 0.05},
+    ],
+    "big_holes": [
+        {"x_norm": 0.50, "y_norm": 0.50, "radius": 0.08},
+    ],
+}
+
+
+def drift_toward_targets(shared_memory_object, step: float = 0.5) -> None:
     """
     Fake DVL movement: nudges dvl_x/y/z a little closer to target_x/y/z
     every call. Lets position based FSMs (gate, prequal, return, etc.)

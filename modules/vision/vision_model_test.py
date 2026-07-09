@@ -1,4 +1,4 @@
-from api import camera, yolo
+from modules.vision.vision_model_api import camera, yolo
 
 cam   = camera("downfacing")           # or "zed"
 model = yolo("models/best.pt")

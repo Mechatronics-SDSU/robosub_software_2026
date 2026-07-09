@@ -9,8 +9,9 @@ from fsm.return_fsm                         import Return_FSM
 from fsm.prequal_fsm                        import Prequal_FSM
 from fsm.coinflip_fsm                       import CoinFlip_FSM
 from fsm.modem_fsm                          import Modem_FSM
+from fsm.torpedo_fsm                        import Torpedo_FSM
 
-from fsm_test_helpers                       import FakeModem, drift_toward_targets
+from fsm_test_helpers                       import FakeModem, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA
 
 """
     discord: @.kech
@@ -40,7 +41,7 @@ FAKE_MODEM_CODE = 7 # code the fake modem "receives" when testing the modem list
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "modem" # gate, octagon, slalom, return, prequal, coinflip, modem
+FSM_TO_TEST = "torpedo" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo
 
 def build_fsm(name: str):
     """
@@ -62,11 +63,8 @@ def build_fsm(name: str):
         case "modem":
             # role/port/message are hardware settings, edit as needed for a real run
             return Modem_FSM(shared_memory_object, [], role="listener", port="COM_TEST", message=5)
-        # PLACEHOLDER: no fsm/torpedo_fsm.py exists yet.
-        # once a Torpedo_FSM(FSM_Template) class exists (same shape as Gate_FSM),
-        # import it above and uncomment the case below
-        # case "torpedo":
-        #     return Torpedo_FSM(shared_memory_object, [])
+        case "torpedo":
+            return Torpedo_FSM(shared_memory_object, [])
         case _:
             print(f"Unknown FSM '{name}', check FSM_TO_TEST / build_fsm()")
             return None
@@ -84,6 +82,10 @@ def main():
     if FAKE_INPUT and FSM_TO_TEST == "modem":
         # no modem hardware attached, fake it so start()/loop() never touch a real serial port
         mode.comms.open_modem = lambda *a, **kw: FakeModem(mode.comms, fake_code=FAKE_MODEM_CODE)
+
+    if FAKE_INPUT and FSM_TO_TEST == "torpedo":
+        # no camera/vision pipeline attached, fake the circle data so a hole can be found
+        mode.lineup.get_torpedo_circle_data = lambda: FAKE_TORPEDO_CIRCLE_DATA
 
     mode.start()
     main_loop(mode)

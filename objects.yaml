@@ -48,25 +48,24 @@ jesse_pool: # ------------------------------------------------------------------
     t_drop: 0.25 # initial drop duration
     depth: 0.7 # swimming depth
 
-  torpedo: # these should be in between oct and gate, and should avoid slalom, and cause some left/right motion
+  torpedo: # approximate torpedo board position
     # buffers
     x_buf: 0.3 # m forward buffer for all objects
     y_buf: 0.3 # m left/right buffer for all objects
-    z_buf: 1 # m up/down buffer for all objects
-    # midpoint 1
-    x1: 3
+    z_buf: 0.3 # m up/down buffer for all objects
+    # approach position (guestimate coordinates in front of the board)
+    x1: 5
     y1: 0
-    # midpoint 2
-    x2: 2
-    y2: 0.5
-    # depth
-    drop: 0.3 # initial drop depth
-    t_drop: 0.25 # initial drop duration
-    depth: 0.7 # swimming depth
-    #helper variables
-    timeout = 0 #FIXME how long before looking for torpedoes gives up
-    t_loop = 0 # FIXME how long to wait before updating torpedo coordinates in loop
-    desired_distance = 0 # FIXME how far away do we want to be from torpedo target
+    z: 0.7 # swimming depth in front of board
+    # helper variables
+    timeout: 8 # seconds to wait before giving up on a state
+    t_loop: 0.1 # seconds to wait between vision checks in a loop
+    distance_mode: medium # close=0.25m, medium=0.30m (~1ft), far=0.46m (~1.5ft, extra points)
+    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
+    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+    min_radius: 0 # optional minimum hole radius before firing, 0 = off
+    zed_x_fov: 90 # camera horizontal field of view in degrees
+    zed_y_fov: 60 # camera vertical field of view in degrees
 
 
 
@@ -217,6 +216,25 @@ test: # ------------------------------------------------------------------------
     drop: 0 # initial drop depth
     t_drop: 0 # initial drop duration
     depth: 0 # swimming depth
+
+  torpedo: # approximate torpedo board position
+    # buffers
+    x_buf: 0.2 # m forward buffer for all objects
+    y_buf: 0.2 # m left/right buffer for all objects
+    z_buf: 0.2 # m up/down buffer for all objects
+    # approach position (guestimate coordinates in front of the board)
+    x1: 3
+    y1: 0
+    z: 0
+    # helper variables
+    timeout: 8 # seconds to wait before giving up on a state
+    t_loop: 0.1 # seconds to wait between vision checks in a loop
+    distance_mode: medium # close=0.25m, medium=0.30m (~1ft), far=0.46m (~1.5ft, extra points)
+    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
+    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+    min_radius: 0 # optional minimum hole radius before firing, 0 = off
+    zed_x_fov: 90 # camera horizontal field of view in degrees
+    zed_y_fov: 60 # camera vertical field of view in degrees
 
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run

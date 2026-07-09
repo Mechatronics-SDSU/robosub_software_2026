@@ -2,10 +2,10 @@ import os
 import time
 import yaml
 
-from utils.socket_send                      import set_screen
 from fsm.fsm                                import FSM_Template
-from enum                                   import Enum
+from modules.logger.logger                  import Logger
 from modules.vision.torpedo_helpers         import TorpedoLineup
+from enum                                   import Enum
 
 
 """
@@ -16,13 +16,13 @@ class States(Enum):
     """
     Enumeration for FSM states
     """
-    INIT            = "INIT"
-    TO_TORPEDO      = "TO_TORPEDO"
-    SEARCHING       = "SEARCHING"
-    MOVING_TO_TARGET= "MOVING_TO_TARGET"
-    VERIFY_LINEUP   = "VERIFY_LINEUP"
-    SHOOTING        = "SHOOTING"
-    DONE            = "DONE"
+    INIT             = "INIT"
+    TO_TORPEDO       = "TO_TORPEDO"
+    SEARCHING        = "SEARCHING"
+    MOVING_TO_TARGET = "MOVING_TO_TARGET"
+    VERIFY_LINEUP    = "VERIFY_LINEUP"
+    SHOOTING         = "SHOOTING"
+    DONE             = "DONE"
 
     def __str__(self) -> str: # make elegant string
         return self.value
@@ -30,7 +30,7 @@ class States(Enum):
 
 class Torpedo_FSM(FSM_Template):
     """
-    FSM for torpedo mode - finding target, lining up, and shooting torpedoes
+    FSM for torpedo mode - finding a hole in the board, lining up, and shooting torpedoes
     """
     def __init__(self, shared_memory_object, run_list: list):
         """
@@ -40,6 +40,7 @@ class Torpedo_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "TORPEDO"
         self.state: States  = States.INIT  # initial state
+        self.logger = Logger()
 
         self.lineup = TorpedoLineup(shared_memory_object)
 
@@ -49,13 +50,15 @@ class Torpedo_FSM(FSM_Template):
         self.timeout = 8.0
         self.t_loop = 0.10
 
+        # TORPEDO COUNT-------------------------------------------------------------------------------------------------------------------------
+        self.torpedo_num = 1       # which torpedo we are currently lining up (1 or 2)
+        self.max_torpedoes = 2
+        self.current_target = None # hole picked out of the circle data dictionary
+
         # VISION / LINEUP VALUES--------------------------------------------------------------------------------------------------------------
-        self.min_confidence = 70.0
-        self.bbox_history_size = 5
-        self.bbox_tolerance = 0.20
         self.x_lineup_tolerance = 0.05
         self.y_lineup_tolerance = 0.05
-        self.distance_tolerance = 0.05
+        self.min_radius = 0.0 # optional minimum hole radius before firing, 0 = off
         self.distance_mode = "medium"
         self.desired_distance = self.lineup.select_target_distance(self.distance_mode)
 
@@ -63,9 +66,6 @@ class Torpedo_FSM(FSM_Template):
         self.zed_x_fov = 90.0
         self.zed_y_fov = 60.0
 
-        self.move_target_x = 0.0
-        self.move_target_y = 0.0
-        self.move_target_z = 0.0
         self.wait_time = 0.0
 
         try:
@@ -85,19 +85,16 @@ class Torpedo_FSM(FSM_Template):
                 self.distance_mode = data[course]['torpedo'].get('distance_mode', self.distance_mode)
                 self.desired_distance = self.lineup.select_target_distance(self.distance_mode)
 
-                self.min_confidence = data[course]['torpedo'].get('min_confidence', self.min_confidence)
-                self.bbox_history_size = data[course]['torpedo'].get('bbox_history_size', self.bbox_history_size)
-                self.bbox_tolerance = data[course]['torpedo'].get('bbox_tolerance', self.bbox_tolerance)
                 self.x_lineup_tolerance = data[course]['torpedo'].get('x_lineup_tolerance', self.x_lineup_tolerance)
                 self.y_lineup_tolerance = data[course]['torpedo'].get('y_lineup_tolerance', self.y_lineup_tolerance)
-                self.distance_tolerance = data[course]['torpedo'].get('distance_tolerance', self.distance_tolerance)
+                self.min_radius = data[course]['torpedo'].get('min_radius', self.min_radius)
                 self.zed_x_fov = data[course]['torpedo'].get('zed_x_fov', self.zed_x_fov)
                 self.zed_y_fov = data[course]['torpedo'].get('zed_y_fov', self.zed_y_fov)
 
         except FileNotFoundError:
-            print("ERROR: objects.yaml not found, using default torpedo values")
+            self.logger.error(f"{self.name} ERROR: objects.yaml not found, using default torpedo values")
         except KeyError:
-            print("ERROR: Invalid data format in objects.yaml, using default torpedo values")
+            self.logger.error(f"{self.name} ERROR: Invalid data format in objects.yaml, using default torpedo values")
 
     def start(self) -> None:
         """
@@ -107,6 +104,14 @@ class Torpedo_FSM(FSM_Template):
 
         # set initial state
         self.next_state(States.TO_TORPEDO)
+
+    def choose_target(self, circle_data: dict):
+        """
+        Picks which hole to aim at based on which torpedo we're currently lining up
+        """
+        if self.torpedo_num == 1:
+            return self.lineup.choose_first_torpedo_target(circle_data)
+        return self.lineup.choose_second_torpedo_target(circle_data)
 
     def next_state(self, next: States) -> None:
         """
@@ -125,34 +130,39 @@ class Torpedo_FSM(FSM_Template):
                 self.shared_memory_object.target_z.value = self.depth
                 self.wait_time = time.time()
 
-            case States.SEARCHING: # run vision until target checks pass
+            case States.SEARCHING: # look for a hole to aim at
                 self.wait_time = time.time()
 
-            case States.MOVING_TO_TARGET: # run pid to detected target location
-                self.lineup.send_movement_command(
+            case States.MOVING_TO_TARGET: # drive toward the chosen hole
+                self.lineup.move_to_torpedo_target(
                     self.shared_memory_object,
-                    self.move_target_x,
-                    self.move_target_y,
-                    self.move_target_z
+                    self.shared_memory_object.dvl_x.value,
+                    self.shared_memory_object.dvl_y.value,
+                    self.shared_memory_object.dvl_z.value,
+                    self.current_target,
+                    self.desired_distance,
+                    self.zed_x_fov,
+                    self.zed_y_fov
                 )
                 self.wait_time = time.time()
 
-            case States.VERIFY_LINEUP: # run vision again after movement
+            case States.VERIFY_LINEUP: # re-check the hole position before firing
                 self.wait_time = time.time()
 
-            case States.SHOOTING: # shoot torpedoes
+            case States.SHOOTING: # shoot one torpedo
                 self.lineup.fire_torpedo()
-                time.sleep(1) # give some time for torpedoes to move away from sub
+                time.sleep(1) # give some time for torpedo to move away from sub
 
             case States.DONE:
                 self.suspend() # finish torpedo mode, ready for next mode
 
             case _: # do nothing if invalid state
-                print(f"{self.name} INVALID NEXT STATE {next}")
+                self.logger.error(f"{self.name} INVALID NEXT STATE {next}")
                 return
 
+        old_state = self.state
         self.state = next
-        print(f"{self.name}:{self.state}")
+        self.logger.info(f"State changed: {old_state} -> {self.state}")
 
     def loop(self) -> None:
         """
@@ -166,93 +176,67 @@ class Torpedo_FSM(FSM_Template):
             case States.INIT:
                 return
 
-            case States.TO_TORPEDO:
+            case States.TO_TORPEDO: # transition: TO_TORPEDO -> SEARCHING
                 if self.reached_xyz(self.x1, self.y1, self.depth):
                     self.next_state(States.SEARCHING)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.SEARCHING)
 
-            case States.SEARCHING:
-                detection = self.get_checked_detection()
+            case States.SEARCHING: # transition: SEARCHING -> MOVING_TO_TARGET
+                circle_data = self.lineup.get_torpedo_circle_data()
+                target = self.choose_target(circle_data)
 
-                if detection is not None:
-                    self.set_movement_from_detection(detection)
+                if target is not None:
+                    self.current_target = target
                     self.next_state(States.MOVING_TO_TARGET)
                 elif time.time() - self.wait_time > self.timeout:
-                    # Could not find a good target. Keep this safe and stop torpedo mode.
+                    # no usable hole found in time, do not fire
+                    self.logger.warning(f"{self.name} no usable hole found, skipping torpedo {self.torpedo_num}")
                     self.next_state(States.DONE)
 
                 time.sleep(self.t_loop)
 
-            case States.MOVING_TO_TARGET:
-                if self.reached_xyz(self.move_target_x, self.move_target_y, self.move_target_z):
+            case States.MOVING_TO_TARGET: # transition: MOVING_TO_TARGET -> VERIFY_LINEUP
+                if self.reached_xyz(
+                    self.shared_memory_object.target_x.value,
+                    self.shared_memory_object.target_y.value,
+                    self.shared_memory_object.target_z.value
+                ):
                     self.next_state(States.VERIFY_LINEUP)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.VERIFY_LINEUP)
 
-            case States.VERIFY_LINEUP:
-                detection = self.get_checked_detection()
+            case States.VERIFY_LINEUP: # transition: VERIFY_LINEUP -> SHOOTING (or back to MOVING_TO_TARGET)
+                circle_data = self.lineup.get_torpedo_circle_data()
+                target = self.choose_target(circle_data)
 
-                if detection is not None and self.lineup.lineup_passed(
-                    detection,
-                    self.desired_distance,
-                    self.x_lineup_tolerance,
-                    self.y_lineup_tolerance,
-                    self.distance_tolerance
+                if target is not None and self.lineup.verify_fire_position(
+                    target, self.x_lineup_tolerance, self.y_lineup_tolerance, self.min_radius
                 ):
+                    self.current_target = target
                     self.next_state(States.SHOOTING)
 
-                elif detection is not None:
-                    # Detection is good, but not lined up yet. Move again.
-                    self.set_movement_from_detection(detection)
+                elif target is not None:
+                    # still see a hole, but not lined up yet, move again
+                    self.current_target = target
                     self.next_state(States.MOVING_TO_TARGET)
 
                 elif time.time() - self.wait_time > self.timeout:
-                    # Vision did not confirm lineup, so do not fire.
+                    # lost the hole, do not fire
+                    self.logger.warning(f"{self.name} lost the hole before firing torpedo {self.torpedo_num}")
                     self.next_state(States.DONE)
 
                 time.sleep(self.t_loop)
 
-            case States.SHOOTING:
-                self.next_state(States.DONE)
+            case States.SHOOTING: # transition: SHOOTING -> SEARCHING (2nd torpedo) or DONE
+                if self.torpedo_num < self.max_torpedoes:
+                    self.torpedo_num += 1
+                    self.next_state(States.SEARCHING)
+                else:
+                    self.next_state(States.DONE)
 
             case States.DONE:
                 return
 
             case _: # do nothing if invalid state
-                print(f"{self.name} INVALID STATE {self.state}")
-
-    def get_checked_detection(self):
-        """
-        Calls vision, parses the dictionary, then checks confidence and box stability.
-        """
-        vision_dict = self.lineup.call_vision_pipeline()
-        detection = self.lineup.parse_detection(vision_dict)
-
-        if self.lineup.target_check_passed(
-            detection,
-            self.min_confidence,
-            self.bbox_history_size,
-            self.bbox_tolerance
-        ):
-            return detection
-
-        return None
-
-    def set_movement_from_detection(self, detection) -> None:
-        """
-        Converts the vision output into movement coordinates and stores them.
-        """
-        current_x = self.shared_memory_object.current_x.value
-        current_y = self.shared_memory_object.current_y.value
-        current_z = self.shared_memory_object.current_z.value
-
-        self.move_target_x, self.move_target_y, self.move_target_z = self.lineup.calculate_target_coordinates(
-            current_x,
-            current_y,
-            current_z,
-            detection,
-            self.desired_distance,
-            self.zed_x_fov,
-            self.zed_y_fov
-        )
+                self.logger.error(f"{self.name} INVALID STATE {self.state}")
