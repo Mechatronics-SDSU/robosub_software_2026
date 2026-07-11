@@ -7,7 +7,7 @@ import os, yaml
 
 #this is to handle errors in using the CLI for testing motors
 try:
-    from modules.motors.USB_Transmit        import USB_Transmitter
+    from modules.USB_Transmit               import USB_Transmitter
 except:
     from USB_Transmit                       import USB_Transmitter
 

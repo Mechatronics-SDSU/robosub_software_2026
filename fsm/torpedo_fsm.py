@@ -4,7 +4,7 @@ import yaml
 
 from fsm.fsm                                import FSM_Template
 from modules.logger.logger                  import Logger
-from modules.vision.torpedo_helpers         import TorpedoLineup
+from modules.torpedo.torpedo_helpers        import TorpedoLineup
 from enum                                   import Enum
 
 
@@ -32,9 +32,13 @@ class Torpedo_FSM(FSM_Template):
     """
     FSM for torpedo mode - finding a hole in the board, lining up, and shooting torpedoes
     """
-    def __init__(self, shared_memory_object, run_list: list):
+    def __init__(self, shared_memory_object, run_list: list, torpedo_wrapper=None):
         """
         Torpedo FSM constructor
+
+        torpedo_wrapper: a real TorpedoWrapper (modules/torpedo/TorpedoWrapper.py)
+        built from a shared USB_Transmitter, or None to use safe print
+        placeholders instead of actuating real hardware (e.g. test mode).
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
@@ -42,7 +46,7 @@ class Torpedo_FSM(FSM_Template):
         self.state: States  = States.INIT  # initial state
         self.logger = Logger()
 
-        self.lineup = TorpedoLineup(shared_memory_object)
+        self.lineup = TorpedoLineup(shared_memory_object, torpedo_wrapper)
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.x1 = self.y1 = self.depth = 0.0
@@ -149,9 +153,8 @@ class Torpedo_FSM(FSM_Template):
             case States.VERIFY_LINEUP: # re-check the hole position before firing
                 self.wait_time = time.time()
 
-            case States.SHOOTING: # shoot one torpedo
+            case States.SHOOTING: # shoot one torpedo, fire_torpedo() handles its own timing/re-arm
                 self.lineup.fire_torpedo()
-                time.sleep(1) # give some time for torpedo to move away from sub
 
             case States.DONE:
                 self.suspend() # finish torpedo mode, ready for next mode

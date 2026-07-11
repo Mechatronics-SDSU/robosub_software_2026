@@ -45,6 +45,32 @@ class FakeModem:
         print("[FAKE MODEM] closing (nothing to actually close)")
 
 
+class FakeDropper:
+    """
+    Stand-in for DropperWrapper (modules/dropper/DropperWrapper.py). Prints
+    instead of sending real USB commands, so the tester can safely exercise
+    the FSM -> helper -> wrapper call path without hardware attached.
+    """
+    def open(self) -> None:
+        print("FAKE DROPPER OPEN")
+
+    def close(self) -> None:
+        print("FAKE DROPPER CLOSE")
+
+
+class FakeTorpedo:
+    """
+    Stand-in for TorpedoWrapper (modules/torpedo/TorpedoWrapper.py). Prints
+    instead of sending real USB commands, so the tester can safely exercise
+    the FSM -> helper -> wrapper call path without hardware attached.
+    """
+    def arm(self) -> None:
+        print("FAKE TORPEDO ARM")
+
+    def fire(self) -> None:
+        print("FAKE TORPEDO FIRE")
+
+
 FAKE_TORPEDO_CIRCLE_DATA = {
     # sample circle_data dict for testing the torpedo FSM without a camera/vision pipeline attached
     "wheels": [
@@ -62,23 +88,30 @@ FAKE_TORPEDO_CIRCLE_DATA = {
 
 # sample vision target box detections for testing dropper/grabber without a camera attached
 # format: [class_label, class_id, conf, x_norm, y_norm, depth_m, width, height]
+#
+# Dropper's x_norm/y_norm (0.506/0.528) are chosen so the metric back-projection
+# in target_box_helpers.py (using objects.yaml's placeholder target_depth=1.0 and
+# a default sub_depth of 0) lands within X_TOLERANCE_M/Y_TOLERANCE_M (~2cm error),
+# demonstrating a small real correction instead of a flat 0.0 every tick. depth_m
+# is unused by dropper now (it uses the pressure sensor, not vision depth) but
+# still read by grabber below.
 FAKE_DROPPER_DETECTIONS = {
-    "survey_and_repair": [["fire", 1, 0.82, 0.50, 0.50, 0.9, 0.20, 0.18]],
-    "search_and_rescue": [["blood", 3, 0.82, 0.50, 0.50, 0.9, 0.20, 0.18]],
+    "survey_and_repair": [["fire", 1, 0.82, 0.506, 0.528, 0.3, 0.20, 0.18]],
+    "search_and_rescue": [["blood", 3, 0.82, 0.506, 0.528, 0.3, 0.20, 0.18]],
 }
 
 # NOTE: bolt/plug/medicine/bandage/warning/helmet are not real trained vision
-# classes yet, see modules/vision/grabber_helpers.py
+# classes yet, see modules/grabber/grabber_helpers.py
 FAKE_GRABBER_DETECTIONS = {
     "survey_and_repair": [
-        ["bolt", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
-        ["plug", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
-        ["warning", 0, 0.82, 0.50, 0.50, 0.9, 0.25, 0.20],
+        ["bolt", 0, 0.82, 0.47, 0.52, 0.3, 0.15, 0.15],
+        ["plug", 0, 0.82, 0.47, 0.52, 0.3, 0.15, 0.15],
+        ["warning", 0, 0.82, 0.47, 0.52, 0.3, 0.25, 0.20],
     ],
     "search_and_rescue": [
-        ["medicine", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
-        ["bandage", 0, 0.82, 0.50, 0.50, 0.9, 0.15, 0.15],
-        ["helmet", 0, 0.82, 0.50, 0.50, 0.9, 0.25, 0.20],
+        ["medicine", 0, 0.82, 0.47, 0.52, 0.3, 0.15, 0.15],
+        ["bandage", 0, 0.82, 0.47, 0.52, 0.3, 0.15, 0.15],
+        ["helmet", 0, 0.82, 0.47, 0.52, 0.3, 0.25, 0.20],
     ],
 }
 

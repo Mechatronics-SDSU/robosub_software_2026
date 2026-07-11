@@ -4,8 +4,7 @@ import yaml
 
 from fsm.fsm                                import FSM_Template
 from modules.logger.logger                  import Logger
-from modules.vision.dropper_helpers         import DropperHelpers
-from modules.vision.target_box_helpers      import convert_target_to_movement
+from modules.dropper.dropper_helpers        import DropperHelpers
 from enum                                   import Enum
 
 
@@ -17,16 +16,15 @@ class States(Enum):
     """
     Enumeration for FSM states
     """
-    INIT                            = "INIT"
-    MOVE_TO_PIPELINE                = "MOVE_TO_PIPELINE"
-    SEARCH_FOR_BIN                  = "SEARCH_FOR_BIN"
-    VERIFY_BIN_TARGET               = "VERIFY_BIN_TARGET"
-    ALIGN_TO_BIN                    = "ALIGN_TO_BIN"
-    VERIFY_DROP_POSITION            = "VERIFY_DROP_POSITION"
-    DROP_MARKER                     = "DROP_MARKER"
-    INTERACT_WITH_MAGNETIC_DETECTOR = "INTERACT_WITH_MAGNETIC_DETECTOR"
-    COMPLETE                        = "COMPLETE"
-    FAIL                            = "FAIL"
+    INIT                 = "INIT"
+    MOVE_TO_PIPELINE     = "MOVE_TO_PIPELINE"
+    SEARCH_FOR_BIN       = "SEARCH_FOR_BIN"
+    VERIFY_BIN_TARGET    = "VERIFY_BIN_TARGET"
+    ALIGN_TO_BIN         = "ALIGN_TO_BIN"
+    VERIFY_DROP_POSITION = "VERIFY_DROP_POSITION"
+    DROP_MARKER          = "DROP_MARKER"
+    COMPLETE             = "COMPLETE"
+    FAIL                 = "FAIL"
 
     def __str__(self) -> str: # make elegant string
         return self.value
@@ -34,7 +32,8 @@ class States(Enum):
 
 class Dropper_FSM(FSM_Template):
     """
-    FSM for dropper mode - finding the role's bins, lining up, and dropping markers
+    FSM for dropper mode - finding the role's bins, lining up using the
+    downward camera, and dropping markers
 
     NOTE: the suggested state list for this task also included separate
     SEARCH_FOR_SECOND_BIN / VERIFY_SECOND_BIN_TARGET / ALIGN_TO_SECOND_BIN /
@@ -43,9 +42,13 @@ class Dropper_FSM(FSM_Template):
     counter instead, the same pattern already used by fsm/torpedo_fsm.py's
     SHOOTING -> SEARCHING loop for its second torpedo.
     """
-    def __init__(self, shared_memory_object, run_list: list, role: str = "survey_and_repair"):
+    def __init__(self, shared_memory_object, run_list: list, role: str = "survey_and_repair", dropper_wrapper=None):
         """
         Dropper FSM constructor
+
+        dropper_wrapper: a real DropperWrapper (modules/dropper/DropperWrapper.py)
+        built from a shared USB_Transmitter, or None to use safe print
+        placeholders instead of actuating real hardware (e.g. test mode).
         """
         # call parent constructor
         super().__init__(shared_memory_object, run_list)
@@ -53,7 +56,7 @@ class Dropper_FSM(FSM_Template):
         self.state: States  = States.INIT  # initial state
         self.logger = Logger()
 
-        self.helper = DropperHelpers(shared_memory_object)
+        self.helper = DropperHelpers(shared_memory_object, dropper_wrapper)
 
         # ROLE SETTINGS-----------------------------------------------------------------------------------------------------------------------
         self.role = role # "survey_and_repair" or "search_and_rescue"
@@ -71,8 +74,14 @@ class Dropper_FSM(FSM_Template):
         self.current_target = None # bin detection picked out of the vision target boxes
 
         # VISION / LINEUP VALUES--------------------------------------------------------------------------------------------------------------
-        self.x_lineup_tolerance = 0.05
-        self.y_lineup_tolerance = 0.05
+        # camera looks straight down, so this is how high above the bin to hover before dropping
+        self.desired_height = 0.3 # meters
+        # MISSING: waiting on the route plan to know which bin height (12/14/19/22 in
+        # options, see conversation) applies to which bin. Using one placeholder
+        # target_depth for now, update per-bin once the route plan is decided.
+        self.target_depth = 1.0 # meters, placeholder
+        self.x_lineup_tolerance = 0.05 # meters now (metric back-projection, not normalized image fraction)
+        self.y_lineup_tolerance = 0.05 # meters
 
         self.wait_time = 0.0
 
@@ -90,6 +99,8 @@ class Dropper_FSM(FSM_Template):
 
                 self.timeout = data[course]['dropper'].get('timeout', self.timeout)
                 self.t_loop = data[course]['dropper'].get('t_loop', self.t_loop)
+                self.desired_height = data[course]['dropper'].get('desired_height', self.desired_height)
+                self.target_depth = data[course]['dropper'].get('target_depth', self.target_depth)
                 self.x_lineup_tolerance = data[course]['dropper'].get('x_lineup_tolerance', self.x_lineup_tolerance)
                 self.y_lineup_tolerance = data[course]['dropper'].get('y_lineup_tolerance', self.y_lineup_tolerance)
 
@@ -125,34 +136,20 @@ class Dropper_FSM(FSM_Template):
                 self.wait_time = time.time()
 
             case States.SEARCH_FOR_BIN: # look for the role's bin
-                self.helper.reset_detection_history()
+                self.helper.reset_tracking()
                 self.wait_time = time.time()
 
             case States.VERIFY_BIN_TARGET: # keep checking the bin is a stable target
                 self.wait_time = time.time()
 
-            case States.ALIGN_TO_BIN: # drive toward the bin
-                move_x, move_y, move_z = convert_target_to_movement(
-                    self.current_target,
-                    self.shared_memory_object.dvl_x.value,
-                    self.shared_memory_object.dvl_y.value,
-                    self.shared_memory_object.dvl_z.value
-                )
-                self.shared_memory_object.target_x.value = move_x
-                self.shared_memory_object.target_y.value = move_y
-                self.shared_memory_object.target_z.value = move_z
+            case States.ALIGN_TO_BIN: # start driving toward the bin using the downward camera
                 self.wait_time = time.time()
 
             case States.VERIFY_DROP_POSITION: # re-check the bin position before dropping
                 self.wait_time = time.time()
 
-            case States.DROP_MARKER: # drop one marker
-                self.helper.activate_dropper()
-                self.helper.drop_marker()
-                time.sleep(1) # give some time for the marker to leave the sub
-
-            case States.INTERACT_WITH_MAGNETIC_DETECTOR: # interact with the magnetic detector
-                self.helper.interact_with_magnetic_detector()
+            case States.DROP_MARKER: # release one marker, release_marker() handles its own timing
+                self.helper.release_marker()
 
             case States.COMPLETE:
                 self.suspend() # finish dropper mode, ready for next mode
@@ -213,32 +210,37 @@ class Dropper_FSM(FSM_Template):
                 time.sleep(self.t_loop)
 
             case States.ALIGN_TO_BIN: # transition: ALIGN_TO_BIN -> VERIFY_DROP_POSITION
-                if self.reached_xyz(
-                    self.shared_memory_object.target_x.value,
-                    self.shared_memory_object.target_y.value,
-                    self.shared_memory_object.target_z.value
-                ):
+                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance)
+                self.current_target = result["target"]
+
+                if result["lost"]:
+                    self.next_state(States.SEARCH_FOR_BIN)
+                elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.VERIFY_DROP_POSITION)
                 elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.VERIFY_DROP_POSITION)
+                    self.next_state(States.FAIL)
+
+                time.sleep(self.t_loop)
 
             case States.VERIFY_DROP_POSITION: # transition: VERIFY_DROP_POSITION -> DROP_MARKER
-                if self.helper.is_target_centered(self.current_target, self.x_lineup_tolerance, self.y_lineup_tolerance):
+                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance)
+                self.current_target = result["target"]
+
+                if result["lost"]:
+                    self.next_state(States.SEARCH_FOR_BIN)
+                elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.DROP_MARKER)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.FAIL)
 
                 time.sleep(self.t_loop)
 
-            case States.DROP_MARKER: # transition: DROP_MARKER -> SEARCH_FOR_BIN (2nd marker) or INTERACT_WITH_MAGNETIC_DETECTOR
+            case States.DROP_MARKER: # transition: DROP_MARKER -> SEARCH_FOR_BIN (2nd marker) or COMPLETE
                 if self.marker_num < self.max_markers:
                     self.marker_num += 1
                     self.next_state(States.SEARCH_FOR_BIN)
                 else:
-                    self.next_state(States.INTERACT_WITH_MAGNETIC_DETECTOR)
-
-            case States.INTERACT_WITH_MAGNETIC_DETECTOR: # transition: INTERACT_WITH_MAGNETIC_DETECTOR -> COMPLETE
-                self.next_state(States.COMPLETE)
+                    self.next_state(States.COMPLETE)
 
             case States.COMPLETE:
                 return

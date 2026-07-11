@@ -248,8 +248,13 @@ test: # ------------------------------------------------------------------------
     # helper variables
     timeout: 8 # seconds to wait before giving up on a state
     t_loop: 0.1 # seconds to wait between vision checks in a loop
-    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
-    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+    desired_height: 0.3 # m to hover above a bin (downward camera) before dropping
+    # MISSING: waiting on the route plan to know which bin height (12/14/19/22 in
+    # options, see conversation) applies to which bin. This is one placeholder
+    # value used for every bin until the route plan assigns real per-bin depths.
+    target_depth: 1.0 # m, placeholder
+    x_lineup_tolerance: 0.05 # m, metric back-projection error allowed when centered
+    y_lineup_tolerance: 0.05 # m
 
   grabber: # approximate grabber octagon position
     # buffers
@@ -263,6 +268,7 @@ test: # ------------------------------------------------------------------------
     # helper variables
     timeout: 8 # seconds to wait before giving up on a state
     t_loop: 0.1 # seconds to wait between vision checks in a loop
+    desired_height: 0.3 # m to hover above an item/basket (downward camera) before grabbing/releasing
     x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
     y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
 

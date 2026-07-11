@@ -4,8 +4,7 @@ import yaml
 
 from fsm.fsm                                import FSM_Template
 from modules.logger.logger                  import Logger
-from modules.vision.grabber_helpers         import GrabberHelpers
-from modules.vision.target_box_helpers      import convert_target_to_movement
+from modules.grabber.grabber_helpers        import GrabberHelpers
 from enum                                   import Enum
 
 
@@ -17,22 +16,22 @@ class States(Enum):
     """
     Enumeration for FSM states
     """
-    INIT                   = "INIT"
-    MOVE_TO_OCTAGON        = "MOVE_TO_OCTAGON"
-    SEARCH_FOR_ITEM        = "SEARCH_FOR_ITEM"
-    VERIFY_ITEM_TARGET     = "VERIFY_ITEM_TARGET"
-    ALIGN_TO_ITEM          = "ALIGN_TO_ITEM"
-    VERIFY_GRAB_POSITION   = "VERIFY_GRAB_POSITION"
-    GRAB_ITEM              = "GRAB_ITEM"
-    SEARCH_FOR_BASKET      = "SEARCH_FOR_BASKET"
-    VERIFY_BASKET_TARGET   = "VERIFY_BASKET_TARGET"
-    ALIGN_TO_BASKET        = "ALIGN_TO_BASKET"
-    VERIFY_RELEASE_POSITION= "VERIFY_RELEASE_POSITION"
-    RELEASE_ITEM           = "RELEASE_ITEM"
-    SURFACE_IN_OCTAGON     = "SURFACE_IN_OCTAGON"
-    FACE_TARGET_ICON       = "FACE_TARGET_ICON"
-    COMPLETE               = "COMPLETE"
-    FAIL                   = "FAIL"
+    INIT                    = "INIT"
+    MOVE_TO_OCTAGON         = "MOVE_TO_OCTAGON"
+    SEARCH_FOR_ITEM         = "SEARCH_FOR_ITEM"
+    VERIFY_ITEM_TARGET      = "VERIFY_ITEM_TARGET"
+    ALIGN_TO_ITEM           = "ALIGN_TO_ITEM"
+    VERIFY_GRAB_POSITION    = "VERIFY_GRAB_POSITION"
+    GRAB_ITEM               = "GRAB_ITEM"
+    SEARCH_FOR_BASKET       = "SEARCH_FOR_BASKET"
+    VERIFY_BASKET_TARGET    = "VERIFY_BASKET_TARGET"
+    ALIGN_TO_BASKET         = "ALIGN_TO_BASKET"
+    VERIFY_RELEASE_POSITION = "VERIFY_RELEASE_POSITION"
+    RELEASE_ITEM            = "RELEASE_ITEM"
+    SURFACE_IN_OCTAGON      = "SURFACE_IN_OCTAGON"
+    FACE_TARGET_ICON        = "FACE_TARGET_ICON"
+    COMPLETE                = "COMPLETE"
+    FAIL                    = "FAIL"
 
     def __str__(self) -> str: # make elegant string
         return self.value
@@ -40,8 +39,9 @@ class States(Enum):
 
 class Grabber_FSM(FSM_Template):
     """
-    FSM for grabber mode - finding role items, grabbing them, placing them in
-    the role basket, then surfacing and facing the correct icon
+    FSM for grabber mode - finding role items using the downward camera,
+    grabbing them, placing them in the role basket, then surfacing and
+    facing the correct icon
 
     NOTE: the suggested state list for this task also included separate
     SEARCH_FOR_SECOND_ITEM / GRAB_SECOND_ITEM / RELEASE_SECOND_ITEM states.
@@ -80,6 +80,8 @@ class Grabber_FSM(FSM_Template):
         self.current_target = None # item or basket detection picked out of the vision target boxes
 
         # VISION / LINEUP VALUES--------------------------------------------------------------------------------------------------------------
+        # camera looks straight down, so this is how high above the item/basket to hover
+        self.desired_height = 0.3 # meters
         self.x_lineup_tolerance = 0.05
         self.y_lineup_tolerance = 0.05
 
@@ -99,6 +101,7 @@ class Grabber_FSM(FSM_Template):
 
                 self.timeout = data[course]['grabber'].get('timeout', self.timeout)
                 self.t_loop = data[course]['grabber'].get('t_loop', self.t_loop)
+                self.desired_height = data[course]['grabber'].get('desired_height', self.desired_height)
                 self.x_lineup_tolerance = data[course]['grabber'].get('x_lineup_tolerance', self.x_lineup_tolerance)
                 self.y_lineup_tolerance = data[course]['grabber'].get('y_lineup_tolerance', self.y_lineup_tolerance)
 
@@ -134,22 +137,13 @@ class Grabber_FSM(FSM_Template):
                 self.wait_time = time.time()
 
             case States.SEARCH_FOR_ITEM: # look for a remaining role item
-                self.helper.reset_detection_history()
+                self.helper.reset_tracking()
                 self.wait_time = time.time()
 
             case States.VERIFY_ITEM_TARGET: # keep checking the item is a stable target
                 self.wait_time = time.time()
 
-            case States.ALIGN_TO_ITEM: # drive toward the item
-                move_x, move_y, move_z = convert_target_to_movement(
-                    self.current_target,
-                    self.shared_memory_object.dvl_x.value,
-                    self.shared_memory_object.dvl_y.value,
-                    self.shared_memory_object.dvl_z.value
-                )
-                self.shared_memory_object.target_x.value = move_x
-                self.shared_memory_object.target_y.value = move_y
-                self.shared_memory_object.target_z.value = move_z
+            case States.ALIGN_TO_ITEM: # start driving toward the item using the downward camera
                 self.wait_time = time.time()
 
             case States.VERIFY_GRAB_POSITION: # re-check the item position before grabbing
@@ -163,22 +157,13 @@ class Grabber_FSM(FSM_Template):
                 time.sleep(1) # give some time for the claw to close
 
             case States.SEARCH_FOR_BASKET: # look for the role's basket
-                self.helper.reset_detection_history()
+                self.helper.reset_tracking()
                 self.wait_time = time.time()
 
             case States.VERIFY_BASKET_TARGET: # keep checking the basket is a stable target
                 self.wait_time = time.time()
 
-            case States.ALIGN_TO_BASKET: # drive toward the basket
-                move_x, move_y, move_z = convert_target_to_movement(
-                    self.current_target,
-                    self.shared_memory_object.dvl_x.value,
-                    self.shared_memory_object.dvl_y.value,
-                    self.shared_memory_object.dvl_z.value
-                )
-                self.shared_memory_object.target_x.value = move_x
-                self.shared_memory_object.target_y.value = move_y
-                self.shared_memory_object.target_z.value = move_z
+            case States.ALIGN_TO_BASKET: # start driving toward the basket using the downward camera
                 self.wait_time = time.time()
 
             case States.VERIFY_RELEASE_POSITION: # re-check the basket position before releasing
@@ -257,17 +242,31 @@ class Grabber_FSM(FSM_Template):
                 time.sleep(self.t_loop)
 
             case States.ALIGN_TO_ITEM: # transition: ALIGN_TO_ITEM -> VERIFY_GRAB_POSITION
-                if self.reached_xyz(
-                    self.shared_memory_object.target_x.value,
-                    self.shared_memory_object.target_y.value,
-                    self.shared_memory_object.target_z.value
-                ):
+                result = self.helper.align_step(
+                    lambda detections: self.helper.choose_item_target(detections, self.remaining_items),
+                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                )
+                self.current_target = result["target"]
+
+                if result["lost"]:
+                    self.next_state(States.SEARCH_FOR_ITEM)
+                elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.VERIFY_GRAB_POSITION)
                 elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.VERIFY_GRAB_POSITION)
+                    self.next_state(States.FAIL)
+
+                time.sleep(self.t_loop)
 
             case States.VERIFY_GRAB_POSITION: # transition: VERIFY_GRAB_POSITION -> GRAB_ITEM
-                if self.helper.is_target_centered(self.current_target, self.x_lineup_tolerance, self.y_lineup_tolerance):
+                result = self.helper.align_step(
+                    lambda detections: self.helper.choose_item_target(detections, self.remaining_items),
+                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                )
+                self.current_target = result["target"]
+
+                if result["lost"]:
+                    self.next_state(States.SEARCH_FOR_ITEM)
+                elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.GRAB_ITEM)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.FAIL)
@@ -303,17 +302,31 @@ class Grabber_FSM(FSM_Template):
                 time.sleep(self.t_loop)
 
             case States.ALIGN_TO_BASKET: # transition: ALIGN_TO_BASKET -> VERIFY_RELEASE_POSITION
-                if self.reached_xyz(
-                    self.shared_memory_object.target_x.value,
-                    self.shared_memory_object.target_y.value,
-                    self.shared_memory_object.target_z.value
-                ):
+                result = self.helper.align_step(
+                    lambda detections: self.helper.choose_basket_target(detections, self.basket_label),
+                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                )
+                self.current_target = result["target"]
+
+                if result["lost"]:
+                    self.next_state(States.SEARCH_FOR_BASKET)
+                elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.VERIFY_RELEASE_POSITION)
                 elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.VERIFY_RELEASE_POSITION)
+                    self.next_state(States.FAIL)
+
+                time.sleep(self.t_loop)
 
             case States.VERIFY_RELEASE_POSITION: # transition: VERIFY_RELEASE_POSITION -> RELEASE_ITEM
-                if self.helper.is_target_centered(self.current_target, self.x_lineup_tolerance, self.y_lineup_tolerance):
+                result = self.helper.align_step(
+                    lambda detections: self.helper.choose_basket_target(detections, self.basket_label),
+                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                )
+                self.current_target = result["target"]
+
+                if result["lost"]:
+                    self.next_state(States.SEARCH_FOR_BASKET)
+                elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.RELEASE_ITEM)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.FAIL)

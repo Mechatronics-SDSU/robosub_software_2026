@@ -14,7 +14,7 @@ from fsm.dropper_fsm                        import Dropper_FSM
 from fsm.grabber_fsm                        import Grabber_FSM
 
 from fsm_test_helpers                       import (
-    FakeModem, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA,
+    FakeModem, FakeDropper, FakeTorpedo, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA,
     FAKE_DROPPER_DETECTIONS, FAKE_GRABBER_DETECTIONS
 )
 
@@ -46,7 +46,7 @@ FAKE_MODEM_CODE = 7 # code the fake modem "receives" when testing the modem list
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "grabber" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo, dropper, grabber
+FSM_TO_TEST = "dropper" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo, dropper, grabber
 TEST_ROLE = "survey_and_repair" # survey_and_repair or search_and_rescue, used by dropper and grabber
 
 def build_fsm(name: str):
@@ -70,9 +70,15 @@ def build_fsm(name: str):
             # role/port/message are hardware settings, edit as needed for a real run
             return Modem_FSM(shared_memory_object, [], role="listener", port="COM_TEST", message=5)
         case "torpedo":
-            return Torpedo_FSM(shared_memory_object, [])
+            # FakeTorpedo prints instead of firing real hardware, safe by default for testing.
+            # For a real run, build a real modules.torpedo.TorpedoWrapper from a shared
+            # USB_Transmitter and pass it in as torpedo_wrapper instead.
+            return Torpedo_FSM(shared_memory_object, [], torpedo_wrapper=FakeTorpedo())
         case "dropper":
-            return Dropper_FSM(shared_memory_object, [], role=TEST_ROLE)
+            # FakeDropper prints instead of actuating real hardware, safe by default for testing.
+            # For a real run, build a real modules.dropper.DropperWrapper from a shared
+            # USB_Transmitter and pass it in as dropper_wrapper instead.
+            return Dropper_FSM(shared_memory_object, [], role=TEST_ROLE, dropper_wrapper=FakeDropper())
         case "grabber":
             return Grabber_FSM(shared_memory_object, [], role=TEST_ROLE)
         case _:
@@ -137,10 +143,23 @@ def display(mode):
     if hasattr(mode, "role"): # selected role, for dropper/grabber
         print(f"ROLE: {mode.role}")
     if getattr(mode, "current_target", None) is not None: # last target detection/hole tracked
-        print(f"TARGET: {mode.current_target}")
-    print("x: %.1f -> %.1f" % (shared_memory_object.dvl_x.value, shared_memory_object.target_x.value))
-    print("y: %.1f -> %.1f" % (shared_memory_object.dvl_y.value, shared_memory_object.target_y.value))
-    print("z: %.1f -> %.1f" % (shared_memory_object.dvl_z.value, shared_memory_object.target_z.value))
+        target = mode.current_target
+        if isinstance(target, dict): # torpedo's circle_data hole format
+            print(f"TARGET: x_norm={target['x_norm']:.2f}  y_norm={target['y_norm']:.2f}")
+        else: # dropper/grabber's vision target box format
+            print(f"TARGET: label={target[0]}  x_norm={target[3]:.2f}  y_norm={target[4]:.2f}")
+
+    helper = getattr(mode, "helper", None) # dropper/grabber downward-camera alignment debug info
+    if helper is not None and hasattr(helper, "last_motion_cmd"):
+        print("IMAGE ERROR: x=%.2f y=%.2f depth=%.2f" % (helper.last_x_error, helper.last_y_error, helper.last_depth_error))
+        print("MOVE CMD: strafe=%.2f forward=%.2f vertical=%.2f" % helper.last_motion_cmd)
+        print(f"STABLE: {helper.last_stable}  CENTERED: {helper.last_centered}  DWELL_OK: {helper.last_dwell_ok}  LOST: {helper.last_lost}")
+
+    # %.3f instead of %.1f: torpedo/dropper/grabber alignment offsets are often
+    # small (a few cm) and would otherwise round away to look unchanged
+    print("x: %.3f -> %.3f" % (shared_memory_object.dvl_x.value, shared_memory_object.target_x.value))
+    print("y: %.3f -> %.3f" % (shared_memory_object.dvl_y.value, shared_memory_object.target_y.value))
+    print("z: %.3f -> %.3f" % (shared_memory_object.dvl_z.value, shared_memory_object.target_z.value))
     print("\n")
 
 def stop():
