@@ -44,114 +44,6 @@ def transmit_32bit_numbers(numbers):
     ser.flush()
     print(f"Transmitted: {numbers}")
 
-
-#original version - manually submit values everyrun
-
-# try:
-#     while True:
-#         user_inputs = []
-#
-#         # Collect 8 motor values
-#         for i in range(8):
-#             while True:
-#                 user_input = input(f"Enter motor value {i} between -8500 and +8500 (or 'exit' to quit): ")
-#                 if user_input.lower() == 'exit':
-#                     print("Exiting...")
-#                     raise SystemExit
-#                 try:
-#                     number_to_send = int(user_input)
-#                     if -8500 <= number_to_send <= 8500:
-#                         user_inputs.append(number_to_send)
-#                         break
-#                     else:
-#                         print("Number out of range! Please enter between -8500 and +8500.")
-#                 except ValueError:
-#                     print("Invalid input! Please enter an integer.")
-#
-#         # Kill state
-#         while True:
-#             user_input = input("Enter kill state (1 = kill, 0 = run): ")
-#             if user_input.lower() == 'exit':
-#                 print("Exiting...")
-#                 raise SystemExit
-#             if user_input in ('0', '1'):
-#                 user_inputs.append(int(user_input))
-#                 break
-#             else:
-#                 print("Invalid input! Please enter 0 or 1.")
-#
-#         # Power off state
-#         while True:
-#             user_input = input("Enter power off state (1 = off, 0 = on): ")
-#             if user_input.lower() == 'exit':
-#                 print("Exiting...")
-#                 raise SystemExit
-#             if user_input in ('0', '1'):
-#                 user_inputs.append(int(user_input))
-#                 break
-#             else:
-#                 print("Invalid input! Please enter 0 or 1.")
-#
-#         # Servo 1
-#         while True:
-#             user_input = input("Enter servo 1 value (or 'exit' to quit): ")
-#             if user_input.lower() == 'exit':
-#                 print("Exiting...")
-#                 raise SystemExit
-#             try:
-#                 user_inputs.append(int(u,ser_input))
-#                 break
-#             except ValueError:
-#                 print("Invalid input! Please enter an integer.")
-#
-#         # Servo 2
-#         while True:
-#             user_input = input("Enter servo 2 value (or 'exit' to quit): ")
-#             if user_input.lower() == 'exit':
-#                 print("Exiting...")
-#                 raise SystemExit
-#             try:
-#                 user_inputs.append(int(user_input))
-#                 break
-#             except ValueError:
-#                 print("Invalid input! Please enter an integer.")
-#
-#         # Dropper
-#         while True:
-#             user_input = input("Enter dropper state (1 = closed, 0 = open): ")
-#             if user_input.lower() == 'exit':
-#                 print("Exiting...")
-#                 raise SystemExit
-#             if user_input in ('0', '1'):
-#                 user_inputs.append(int(user_input))
-#                 break
-#             else:
-#                 print("Invalid input! Please enter 0 or 1.")
-#
-#         # Torpedo
-#         while True:
-#             user_input = input("Enter torpedo state (1 = fire, 0 = armed): ")
-#             if user_input.lower() == 'exit':
-#                 print("Exiting...")
-#                 raise SystemExit
-#             if user_input in ('0', '1'):
-#                 user_inputs.append(int(user_input))
-#                 break
-#             else:
-#                 print("Invalid input! Please enter 0 or 1.")
-#
-#         # Transmit all 14 values
-#         transmit_32bit_numbers(user_inputs)
-#
-# finally:
-#     ser.close()
-#     print("Serial connection closed.")
- 
-
-
-
-#automatic version - im tired of putting values in every damn time 
-
 try:
     while True:
 
@@ -170,6 +62,7 @@ try:
             0,     # servo 2 - pin 29
             1000,     # dropper     (1000 = closed/est, 1400 = open)
             1500,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
+            int(b'00000011111111', 2) # int(b'00000011111111', 2) bitmask (8 bits for motors, 6 bits for other controls)
         ]
 
         transmit_32bit_numbers(user_inputs)

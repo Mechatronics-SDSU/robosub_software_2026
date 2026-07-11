@@ -54,6 +54,7 @@ class USB_Transmitter:
             0,     # servo 2 - pin 29
             1000,     # dropper     (1000 = closed/est, 1400 = open/spinning)
             1500,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
+            int(b'00000111111111', 2) # bitmask (8 bits for motors, 6 bits for other controls)
         ]
         try:
             self.send_data(user_inputs)
@@ -76,6 +77,7 @@ class USB_Transmitter:
             0,     # servo 2 - pin 29
             1000,     # dropper     (1000 = closed/est, 1400 = open/spinning)
             1500,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
+            int(b'00000011111111', 2) # bitmask (8 bits for motors, 6 bits for other controls)
         ]
         try:
             self.send_data(user_inputs)
