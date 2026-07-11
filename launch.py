@@ -16,7 +16,7 @@ from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
 
 #kill module
-from modules.motors.kill_motors             import kill_motors
+from modules.motors.USB_Transmit            import USB_Transmitter
 
 
 """
@@ -94,8 +94,9 @@ def stop():
     Soft kill the robot
     """
     shared_memory_object.running.value = 0 # kill gracefully
-    time.sleep(0.5)
-    kill_motors()
+    time.sleep(0.25)
+    transmitter = USB_Transmitter()
+    transmitter.kill_motors()
 
 def make_list(modes: list[FSM_Template]) -> None:
     """
@@ -113,7 +114,13 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print("keyboard interrupt detected, stopping program")
-        shared_memory_object.running.value = 0
+        shared_memory_object.running.value = 0 # kill gracefully
+        time.sleep(0.25)
+        transmitter = USB_Transmitter()
+        transmitter.kill_motors()
+        time.sleep(0.25)
+        transmitter.reset_motors()
+        
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
         

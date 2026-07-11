@@ -60,6 +60,9 @@ class MotorWrapper:
         self.usb_transmitter = USB_Transmitter()
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 400 # NOTE: Previously 4k
+        self.MOTOR_STOP   = 1500
+        self.MOTOR_MIN_US = 1100
+        self.MOTOR_MAX_US = 1900
         self.MOTOR_FACTOR = 0
         try: # set motor factor from yaml
             with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
@@ -83,17 +86,28 @@ class MotorWrapper:
             [ 0,      0,       1,        0,       1,      1], # motor 6 FR6 (vertical)
             [-1,      1,       0,       -1,       0,      0]  # motor 7 FR7
         ])
-        self.controls   = [0, 0, 0, 0, 0] # control values (kill, power off, servo1, servo2, dropper, torpedo) FIXME assign to shared mem vals
+        self.controls   = [0, 0, 0, 0, 0, 0] # control values (kill, power off, servo1, servo2, dropper, torpedo) FIXME assign to shared mem vals
         self.motor_vals = [0, 0, 0, 0, 0, 0, 0, 0] # motor values
 
     # returns a validated version of the motor value
-    def valid(self, motor_val: Union[float, int]) -> int:
-        motor_val = int(motor_val)
-        if type(motor_val) != int and type(motor_val) != float: return 0 # return 0 if not a number
-        # multiply clamped motor value by motor factor, cast to int
-        val: int = int(self.MOTOR_FACTOR * np.clip(motor_val, -self.MOTOR_MAX, self.MOTOR_MAX))
-        print(f"motor_val = {motor_val}\t val = {val}\t return = {val + 1500}")
-        return val + 1500
+    # def valid(self, motor_val: Union[float, int]) -> int:
+    #     motor_val = int(motor_val)
+    #     if type(motor_val) != int and type(motor_val) != float: return 0 # return 0 if not a number
+    #     # multiply clamped motor value by motor factor, cast to int
+    #     val: int = int(self.MOTOR_FACTOR * np.clip(motor_val, -self.MOTOR_MAX, self.MOTOR_MAX))
+    #     print(f"motor_val = {motor_val}\t val = {val}\t return = {val + 1500}")
+    #     return val + 1500
+    def valid(self, motor_val):
+        """
+        Convert centered motor command -400..400 to T200 PWM us 1100..1900.
+        """
+        if not isinstance(motor_val, (int, float, np.integer, np.floating)):
+            return self.MOTOR_STOP
+
+        centered = float(np.clip(motor_val, -self.MOTOR_MAX, self.MOTOR_MAX))
+        offset = self.MOTOR_FACTOR * centered
+        pwm = int(round(self.MOTOR_STOP + offset))
+        return int(np.clip(pwm, self.MOTOR_MIN_US, self.MOTOR_MAX_US))
 
     def move_forward(self, value: Union[float, int]) -> None:
         self.move_from_matrix(np.array([self.valid(value), 0, 0, 0, 0, 0]))
@@ -143,17 +157,33 @@ class MotorWrapper:
         temp_list = np.round(np.dot(matrix, self.motors.transpose()))
         self.motor_vals += temp_list
 
-    #sends commands to motors
+    # #sends commands to motors
+    # def send_command(self) -> list:
+    #     try:
+    #         send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
+    #         for i, data in enumerate(send_data):
+    #             send_data[i] = self.valid(data)
+    #         self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
+    #     except Exception as e:
+    #         print(f"Error sending command: {e}")
+
+    #     motor_values = self.motor_vals # save motor values
+    #     self.stop() # reset motor values to 0s
+
+    #     return motor_values # return motor values
     def send_command(self) -> list:
+        motor_values = self.motor_vals.copy()
+
         try:
-            send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
-            for i, data in enumerate(send_data):
-                send_data[i] = self.valid(data)
-            self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
+            motor_pwm = np.array([self.valid(v) for v in self.motor_vals], dtype=int)
+            control_data = np.array(self.controls, dtype=int)
+
+            send_data = np.concatenate((motor_pwm, control_data), axis=None).astype(int)
+
+            self.usb_transmitter.send_data(list(send_data))
+
         except Exception as e:
             print(f"Error sending command: {e}")
 
-        motor_values = self.motor_vals # save motor values
-        self.stop() # reset motor values to 0s
-
-        return motor_values # return motor values
+        self.stop()
+        return motor_values

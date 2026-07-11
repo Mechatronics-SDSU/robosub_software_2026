@@ -10,7 +10,7 @@ except:
 """
     discord: @.kech
     github: @rsunderr
-    This script is used to kill the motors using USB Transmitter.
+    This script is used to reset the motors using USB Transmitter.
 """
 
 
@@ -19,4 +19,4 @@ usb_port = None
 srl = None
 
 transmitter = USB_Transmitter()
-transmitter.kill_motors()
+transmitter.reset_motors()

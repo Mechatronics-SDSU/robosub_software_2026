@@ -156,27 +156,25 @@ try:
     while True:
 
         user_inputs = [
-            1500, # motor 0
+            1600, # motor 0
             1500,  # motor 1
-            00,  # motor 2
-            00,  # motor 3
-            00,  # motor 4
-            00,  # motor 5
-            00,  # motor 6
-            00,  # motor 7
+            1500,  # motor 2
+            1500,  # motor 3
+            1500,  # motor 4
+            1500,  # motor 5
+            1500,  # motor 6
+            1500,  # motor 7
             0,     # motor kill state (0 = alive, 1 = kill)
             0,     # power off state  (0 = on, 1 = off)
-            1500,     # servo 1 - pin30
-            1500,     # servo 2 - pin 29
-            0,     # dropper     (0 = closed, 1 = open)
-            0,     # torpedo     (0 = armed, 1 = fire)
+            0,     # servo 1 - pin30
+            0,     # servo 2 - pin 29
+            1000,     # dropper     (1000 = closed/est, 1400 = open)
+            1500,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
         ]
 
         transmit_32bit_numbers(user_inputs)
 
         time.sleep(5)
-
-
 
 finally:
     ser.close()
