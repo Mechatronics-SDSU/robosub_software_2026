@@ -103,8 +103,8 @@ class TestSignals_FSM(FSM_Template):
             case States.DROPPER: # transition: DROPPER -> TORPEDOES
                 self.next_state(States.TORPEDOES)
             case States.TORPEDOES: # transition: TORPEDOES -> CLAW
-                self.suspend()
-                # self.next_state(States.CLAW)
+                self.stop()
+                #self.next_state(States.CLAW)
             case States.CLAW: # transition: CLAW -> DONE
                 self.suspend()
             case _: # do nothing if invalid state

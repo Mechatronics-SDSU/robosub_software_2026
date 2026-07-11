@@ -69,7 +69,7 @@ mode_list = [test_signals_mode]
 def main():
     """
     Main function - intializes mode and starts loop
-    """
+    """    
     # make linked list of modes
     make_list(mode_list) #type: ignore
     
@@ -100,7 +100,7 @@ def stop():
     """
     shared_memory_object.running.value = 0 # kill gracefully
     time.sleep(0.25)
-    usb_object.kill_motors()
+    usb_object.soft_kill()
 
 def make_list(modes: list[FSM_Template]) -> None:
     """
@@ -121,8 +121,6 @@ if __name__ == '__main__':
         shared_memory_object.running.value = 0 # kill gracefully
         time.sleep(0.25)
         usb_object.kill_motors()
-        time.sleep(1)
-        usb_object.reset_motors()
         
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")

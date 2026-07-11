@@ -46,10 +46,10 @@ class SignalWrapper:
         """
         message: list   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # default values for signals
         message[14]     = int(b'01000000000000', 2)  # unmask dropper only
-        message[12]     = pulsewidth  # Set dropper pulse width
+        message[12]     = pulsewidth
         try:
-            # send data to spin dropper
             self.usb_object.send_data(message)
+            
             # pause while it spins
             time.sleep(duration)
             
@@ -67,7 +67,7 @@ class SignalWrapper:
         message: list   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # default values for signals
         message[14]     = int(b'10000000000000', 2) # unmask for torpedo only
         message[13]     = 1000  # Set torpedo pulse width to fire right
-        duration: float = 0.25  # default duration to wait for torpedo to fire
+        duration: float = 0.5  # default duration to wait for torpedo to fire
         left_pw: int    = 1900  # pulse width to fire left
         right_pw: int   = 1000  # pulse width to fire right
         center_pw: int  = 1500  # pulse width to reset to center/armed

@@ -83,6 +83,9 @@ class USB_Transmitter:
             self.send_data(user_inputs)
         except Exception as e:
             print(f"Error sending reset command: {e}")
+    
+    def soft_kill(self) -> None:
+        self.reset_motors()
 
 if __name__ == "__main__":
     """
