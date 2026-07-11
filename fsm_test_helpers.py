@@ -118,11 +118,13 @@ FAKE_GRABBER_DETECTIONS = {
 }
 
 
-def drift_toward_targets(shared_memory_object, step: float = 0.5) -> None:
+def drift_toward_targets(shared_memory_object, step: float = 0.5, yaw_step: float = 3.0) -> None:
     """
-    Fake DVL movement: nudges dvl_x/y/z a little closer to target_x/y/z
-    every call. Lets position based FSMs (gate, prequal, return, etc.)
-    reach their targets during testing without a real DVL attached.
+    Fake DVL movement: nudges dvl_x/y/z a little closer to target_x/y/z, and
+    dvl_yaw a little closer to target_yaw (shortest direction, wraparound
+    aware), every call. Lets position/heading based FSMs (gate, prequal,
+    return, modem's wiggle, etc.) reach their targets during testing
+    without a real DVL attached.
     """
     for axis in ("x", "y", "z"):
         dvl    = getattr(shared_memory_object, f"dvl_{axis}")
@@ -131,3 +133,9 @@ def drift_toward_targets(shared_memory_object, step: float = 0.5) -> None:
             dvl.value = min(dvl.value + step, target.value)
         elif dvl.value > target.value:
             dvl.value = max(dvl.value - step, target.value)
+
+    yaw_error = ((shared_memory_object.target_yaw.value - shared_memory_object.dvl_yaw.value + 180) % 360) - 180
+    if abs(yaw_error) <= yaw_step:
+        shared_memory_object.dvl_yaw.value = shared_memory_object.target_yaw.value
+    else:
+        shared_memory_object.dvl_yaw.value += yaw_step if yaw_error > 0 else -yaw_step

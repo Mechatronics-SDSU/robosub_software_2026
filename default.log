@@ -3939,3 +3939,303 @@ TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
 2026-07-11 03:47:25 - MainProcess - INFO - modem_fsm.py:114 - State changed: AWAIT_ACK -> DONE
 2026-07-11 03:47:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
 TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:07:16 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:07:16 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:07:16 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:07:16 - MainProcess - INFO - modem_fsm.py:141 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:07:16 - MainProcess - INFO - modem_fsm.py:176 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:07:16 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:07:16 - MainProcess - INFO - modem_fsm.py:141 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:07:17 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:07:18 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:07:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:07:19 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:07:19 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:07:19 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:07:19 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:07:19 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_RIGHT -> SEND_ACK
+2026-07-11 04:07:19 - MainProcess - INFO - modem_fsm.py:141 - State changed: SEND_ACK -> DONE
+2026-07-11 04:07:35 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:07:35 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:35 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:35 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:35 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:35 - MainProcess - INFO - modem_fsm.py:141 - State changed: INIT -> SEND_DATA
+2026-07-11 04:07:35 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:07:35 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 1, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:07:35 - MainProcess - INFO - modem_fsm.py:141 - State changed: SEND_DATA -> AWAIT_ACK
+2026-07-11 04:07:35 - MainProcess - INFO - modem_fsm.py:160 - MODEM received ack: {'frame_number': 0, 'frame_type': 1, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:07:35 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:07:35 - MainProcess - INFO - modem_fsm.py:141 - State changed: AWAIT_ACK -> WIGGLE_LEFT
+2026-07-11 04:07:37 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:07:37 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:07:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:07:39 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_RIGHT -> DONE
+2026-07-11 04:07:53 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:07:53 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:53 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:53 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:53 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:07:53 - MainProcess - INFO - modem_fsm.py:141 - State changed: INIT -> SEND_DATA
+2026-07-11 04:07:53 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:07:53 - MainProcess - INFO - modem_fsm.py:141 - State changed: SEND_DATA -> AWAIT_ACK
+2026-07-11 04:07:55 - MainProcess - WARNING - modem_fsm.py:166 - MODEM no ack received, giving up
+2026-07-11 04:07:55 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:07:55 - MainProcess - INFO - modem_fsm.py:141 - State changed: AWAIT_ACK -> DONE
+2026-07-11 04:07:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:09:17 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:09:18 - MainProcess - INFO - modem_driver.py:63 - Connecting to modem with: channel: 1, level: 4, diagnostic: False
+2026-07-11 04:09:20 - MainProcess - INFO - modem_driver.py:66 - Setting channel: 1
+2026-07-11 04:09:21 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:09:21 - MainProcess - INFO - modem_driver.py:63 - Connecting to modem with: channel: 1, level: 4, diagnostic: False
+2026-07-11 04:09:22 - MainProcess - INFO - modem_driver.py:69 - Setting level: 4
+2026-07-11 04:09:23 - MainProcess - INFO - modem_driver.py:66 - Setting channel: 1
+2026-07-11 04:09:24 - MainProcess - INFO - modem_driver.py:75 - Setting diagnostic mode: False
+2026-07-11 04:09:24 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:09:24 - MainProcess - INFO - modem_fsm.py:141 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:09:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:09:25 - MainProcess - INFO - modem_driver.py:69 - Setting level: 4
+2026-07-11 04:09:26 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:27 - MainProcess - INFO - modem_driver.py:75 - Setting diagnostic mode: False
+2026-07-11 04:09:28 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:28 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:09:29 - MainProcess - DEBUG - modem_driver.py:274 - Buffer length: 2, buffer: b'1\x8c'
+2026-07-11 04:09:29 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:09:30 - MainProcess - DEBUG - modem_driver.py:292 - Returning buffer: b'1\x8c'
+2026-07-11 04:09:30 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:09:30 - MainProcess - INFO - modem_fsm.py:176 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:09:30 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:09:31 - MainProcess - DEBUG - modem_driver.py:274 - Buffer length: 2, buffer: b'1\x8c'
+2026-07-11 04:09:31 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:09:31 - MainProcess - INFO - modem_fsm.py:141 - State changed: INIT -> SEND_DATA
+2026-07-11 04:09:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:09:32 - MainProcess - DEBUG - modem_driver.py:292 - Returning buffer: b'1\x8c'
+2026-07-11 04:09:32 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:09:32 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:09:32 - MainProcess - INFO - modem_fsm.py:141 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:09:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:09:32 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:09:32 - MainProcess - INFO - modem_fsm.py:141 - State changed: SEND_DATA -> AWAIT_ACK
+2026-07-11 04:09:34 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:36 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:38 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:40 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:42 - MainProcess - WARNING - modem_fsm.py:211 - MODEM wiggle leg timed out before reaching 45.0 deg
+2026-07-11 04:09:42 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:09:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:09:42 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:42 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:09:44 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:46 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:47 - MainProcess - WARNING - modem_fsm.py:166 - MODEM no ack received, giving up
+2026-07-11 04:09:48 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:09:48 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:09:48 - MainProcess - INFO - modem_fsm.py:141 - State changed: AWAIT_ACK -> DONE
+2026-07-11 04:09:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:09:52 - MainProcess - WARNING - modem_fsm.py:211 - MODEM wiggle leg timed out before reaching -45.0 deg
+2026-07-11 04:09:53 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:09:54 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:09:55 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:09:56 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:09:56 - MainProcess - INFO - modem_fsm.py:141 - State changed: WIGGLE_RIGHT -> SEND_ACK
+2026-07-11 04:09:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:09:56 - MainProcess - INFO - modem_fsm.py:141 - State changed: SEND_ACK -> DONE
+2026-07-11 04:13:49 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:13:49 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:13:49 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:13:49 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:13:49 - MainProcess - INFO - modem_fsm.py:183 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:13:49 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:13:49 - MainProcess - INFO - modem_fsm.py:148 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:13:51 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:13:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:13:53 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:13:55 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:13:55 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:13:55 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:13:55 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:13:55 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_RIGHT -> SEND_ACK
+2026-07-11 04:13:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:13:55 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_ACK -> DONE
+2026-07-11 04:14:06 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:14:06 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:14:06 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:14:06 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:14:06 - MainProcess - INFO - modem_fsm.py:183 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:14:06 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:14:06 - MainProcess - INFO - modem_fsm.py:148 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:14:08 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching 45.0 deg
+2026-07-11 04:14:08 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:14:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:14:08 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:14:10 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching -45.0 deg
+2026-07-11 04:14:10 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:14:10 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:14:10 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:14:10 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:14:10 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_RIGHT -> SEND_ACK
+2026-07-11 04:14:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:14:10 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_ACK -> DONE
+2026-07-11 04:14:23 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:14:23 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:14:23 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:14:23 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:14:23 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:14:23 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> SEND_DATA
+2026-07-11 04:14:23 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 1, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:14:23 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:14:23 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_DATA -> AWAIT_ACK
+2026-07-11 04:14:23 - MainProcess - INFO - modem_fsm.py:167 - MODEM received ack: {'frame_number': 0, 'frame_type': 1, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:14:24 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:14:24 - MainProcess - INFO - modem_fsm.py:148 - State changed: AWAIT_ACK -> WIGGLE_LEFT
+2026-07-11 04:14:26 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:14:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:14:27 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:14:29 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_RIGHT -> DONE
+2026-07-11 04:14:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:24 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:15:25 - MainProcess - INFO - modem_driver.py:63 - Connecting to modem with: channel: 1, level: 4, diagnostic: False
+2026-07-11 04:15:27 - MainProcess - INFO - modem_driver.py:66 - Setting channel: 1
+2026-07-11 04:15:28 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:15:28 - MainProcess - INFO - modem_driver.py:63 - Connecting to modem with: channel: 1, level: 4, diagnostic: False
+2026-07-11 04:15:29 - MainProcess - INFO - modem_driver.py:69 - Setting level: 4
+2026-07-11 04:15:30 - MainProcess - INFO - modem_driver.py:66 - Setting channel: 1
+2026-07-11 04:15:31 - MainProcess - INFO - modem_driver.py:75 - Setting diagnostic mode: False
+2026-07-11 04:15:31 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:15:31 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:15:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:32 - MainProcess - INFO - modem_driver.py:69 - Setting level: 4
+2026-07-11 04:15:33 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:15:34 - MainProcess - INFO - modem_driver.py:75 - Setting diagnostic mode: False
+2026-07-11 04:15:35 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:15:35 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:15:35 - MainProcess - DEBUG - modem_driver.py:274 - Buffer length: 2, buffer: b'1\x8c'
+2026-07-11 04:15:36 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:15:37 - MainProcess - DEBUG - modem_driver.py:292 - Returning buffer: b'1\x8c'
+2026-07-11 04:15:37 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:15:37 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:15:37 - MainProcess - INFO - modem_fsm.py:183 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:15:37 - MainProcess - DEBUG - modem_driver.py:274 - Buffer length: 2, buffer: b'1\x8c'
+2026-07-11 04:15:38 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=0 color_flag=1 task_code=2
+2026-07-11 04:15:38 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> SEND_DATA
+2026-07-11 04:15:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:38 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:15:38 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_DATA -> AWAIT_ACK
+2026-07-11 04:15:39 - MainProcess - DEBUG - modem_driver.py:292 - Returning buffer: b'1\x8c'
+2026-07-11 04:15:39 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:15:39 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:15:39 - MainProcess - INFO - modem_fsm.py:148 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:15:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:40 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:15:41 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching 45.0 deg
+2026-07-11 04:15:41 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:15:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:41 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:15:42 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:15:43 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching -45.0 deg
+2026-07-11 04:15:44 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:15:44 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:15:45 - MainProcess - DEBUG - modem_driver.py:274 - Buffer length: 2, buffer: b'ts'
+2026-07-11 04:15:45 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:15:46 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:15:46 - MainProcess - DEBUG - modem_driver.py:292 - Returning buffer: b'ts'
+2026-07-11 04:15:46 - MainProcess - WARNING - modem_comms.py:202 - Majority vote failed: chunk1=01110 chunk2=10001 chunk3=11001 payload=b'ts'
+2026-07-11 04:15:47 - MainProcess - DEBUG - modem_driver.py:274 - Buffer length: 2, buffer: b's\x9c'
+2026-07-11 04:15:47 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:15:47 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_RIGHT -> SEND_ACK
+2026-07-11 04:15:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:47 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_ACK -> DONE
+2026-07-11 04:15:48 - MainProcess - DEBUG - modem_driver.py:292 - Returning buffer: b's\x9c'
+2026-07-11 04:15:48 - MainProcess - WARNING - modem_comms.py:202 - Majority vote failed: chunk1=01110 chunk2=01101 chunk3=11001 payload=b'ss'
+2026-07-11 04:15:48 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 1, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:15:48 - MainProcess - INFO - modem_fsm.py:167 - MODEM received ack: {'frame_number': 0, 'frame_type': 1, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:15:50 - MainProcess - DEBUG - modem_driver.py:289 - Returning None
+2026-07-11 04:15:50 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:15:50 - MainProcess - INFO - modem_fsm.py:148 - State changed: AWAIT_ACK -> WIGGLE_LEFT
+2026-07-11 04:15:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:52 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching 45.0 deg
+2026-07-11 04:15:52 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:15:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:15:52 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:15:54 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching -45.0 deg
+2026-07-11 04:15:54 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_RIGHT -> DONE
+2026-07-11 04:15:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:19:49 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:19:49 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:19:49 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:19:49 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:19:49 - MainProcess - INFO - modem_fsm.py:183 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:19:50 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:19:50 - MainProcess - INFO - modem_fsm.py:148 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:19:54 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching 45.0 deg
+2026-07-11 04:19:54 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:19:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:19:54 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:19:58 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching -45.0 deg
+2026-07-11 04:19:58 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:19:58 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:19:58 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:19:58 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:19:58 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_RIGHT -> SEND_ACK
+2026-07-11 04:19:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:19:58 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_ACK -> DONE
+2026-07-11 04:28:56 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:28:56 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:28:56 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:28:56 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:28:56 - MainProcess - INFO - modem_fsm.py:183 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:28:56 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:28:56 - MainProcess - INFO - modem_fsm.py:148 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:29:00 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching 45.0 deg
+2026-07-11 04:29:00 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:29:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:29:00 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:29:18 - MainProcess - INFO - fsm.py:59 - STARTING MODEM MODE
+2026-07-11 04:29:18 - MainProcess - INFO - modem_comms.py:323 - Frame listener started
+2026-07-11 04:29:18 - MainProcess - INFO - modem_comms.py:307 - Received frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:29:18 - MainProcess - INFO - modem_fsm.py:148 - State changed: INIT -> LISTEN_DATA
+2026-07-11 04:29:18 - MainProcess - INFO - modem_fsm.py:183 - MODEM received data frame: {'frame_number': 0, 'frame_type': 0, 'color_flag': 1, 'task_code': 2}
+2026-07-11 04:29:18 - MainProcess - INFO - modem_comms.py:341 - Frame listener stopped
+2026-07-11 04:29:18 - MainProcess - INFO - modem_fsm.py:148 - State changed: LISTEN_DATA -> WIGGLE_LEFT
+2026-07-11 04:29:22 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching 45.0 deg
+2026-07-11 04:29:22 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_LEFT -> WIGGLE_CENTER
+2026-07-11 04:29:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:29:22 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_CENTER -> WIGGLE_RIGHT
+2026-07-11 04:29:26 - MainProcess - WARNING - modem_fsm.py:223 - MODEM wiggle leg time budget elapsed before reaching -45.0 deg
+2026-07-11 04:29:26 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:29:26 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:29:26 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:29:26 - MainProcess - INFO - modem_comms.py:249 - Sent frame: frame_number=0 frame_type=1 color_flag=1 task_code=2
+2026-07-11 04:29:26 - MainProcess - INFO - modem_fsm.py:148 - State changed: WIGGLE_RIGHT -> SEND_ACK
+2026-07-11 04:29:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-11 04:29:27 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_ACK -> DONE
+2026-07-11 04:29:27 - MainProcess - INFO - caracara_modem_listener.py:70 - Confirming receipt: turning for 0.4s
+2026-07-11 04:29:27 - MainProcess - INFO - caracara_modem_listener.py:80 - Confirmation turn complete

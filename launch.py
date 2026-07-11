@@ -14,10 +14,9 @@ from fsm.fsm                                import FSM_Template
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
 from modules.vision.vision_main             import VisionDetection
-from modules.logger.logger                  import Logger
 
 #kill module
-from modules.motors.kill_motors             import kill_motors
+from modules.motors.USB_Transmit            import USB_Transmitter
 
 
 """
@@ -27,21 +26,19 @@ from modules.motors.kill_motors             import kill_motors
     Runs mission control code and starts the sub
     
 """
-logger = Logger()
-
 # permissions fix
 try:
     device_path = '/dev/ttyACM0'
     subprocess.run(["sudo", "chmod", "777", device_path], check=True)
-    logger.info(f"Permissions changed for {device_path}")
+    print(f"Permissions changed for {device_path}")
 except subprocess.CalledProcessError as e:
-    logger.error(f"ERROR: Permissions fix failed (subprocess error): {e}")
+    print(f"ERROR: Permissions fix failed (subprocess error): {e}")
 except FileNotFoundError as e:
-    logger.error(f"ERROR: Permissions fix failed (command or device not found): {e}")
+    print(f"ERROR: Permissions fix failed (command or device not found): {e}")
 except PermissionError as e:
-    logger.error(f"ERROR: Permissions fix failed (permission denied): {e}")
+    print(f"ERROR: Permissions fix failed (permission denied): {e}")
 except OSError as e:
-    logger.error(f"ERROR: Permissions fix failed (OS error): {e}")
+    print(f"ERROR: Permissions fix failed (OS error): {e}")
 
 
 # create shared memory object
@@ -59,10 +56,10 @@ gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
-prequal_mode = Prequal_FSM(shared_memory_object, [pid_object, dvl_object])
+#prequal_mode = Prequal_FSM(shared_memory_object, [pid_object, dvl_object])
 
 #mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
-mode_list = [prequal_mode]
+mode_list = [gate_mode]
 
 def main():
     """
@@ -97,8 +94,9 @@ def stop():
     Soft kill the robot
     """
     shared_memory_object.running.value = 0 # kill gracefully
-    time.sleep(0.5)
-    kill_motors()
+    time.sleep(0.25)
+    transmitter = USB_Transmitter()
+    transmitter.kill_motors()
 
 def make_list(modes: list[FSM_Template]) -> None:
     """
@@ -111,13 +109,19 @@ def make_list(modes: list[FSM_Template]) -> None:
 
 
 if __name__ == '__main__':
-    logger.info("RUN FROM LAUNCH")
+    print("RUN FROM LAUNCH")
     try:
         main()
     except KeyboardInterrupt:
-        logger.info("keyboard interrupt detected, stopping program")
-        shared_memory_object.running.value = 0
+        print("keyboard interrupt detected, stopping program")
+        shared_memory_object.running.value = 0 # kill gracefully
+        time.sleep(0.25)
+        transmitter = USB_Transmitter()
+        transmitter.kill_motors()
+        time.sleep(0.25)
+        transmitter.reset_motors()
+        
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error: {e}")
+        print(f"Error: {e}")
         
         
