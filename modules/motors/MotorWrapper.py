@@ -55,9 +55,9 @@ except:
 
 class MotorWrapper:
 
-    def __init__(self, shared_memory_object):    
+    def __init__(self, shared_memory_object, usb_object):    
         self.shared_memory_object = shared_memory_object
-        self.usb_transmitter = USB_Transmitter()
+        self.usb_transmitter = usb_object
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 400 # NOTE: Previously 4k
         self.MOTOR_STOP   = 1500

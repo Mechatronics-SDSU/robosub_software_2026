@@ -7,7 +7,6 @@ from fsm.gate_fsm                           import Gate_FSM
 from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
-from fsm.prequal_fsm                        import Prequal_FSM
 from fsm.fsm                                import FSM_Template
 
 #import modules
@@ -46,7 +45,8 @@ shared_memory_object = SharedMemoryWrapper()
 DELAY = 0 #s
 
 # initialize objects
-pid_object = PIDInterface(shared_memory_object)
+usb_object = USB_Transmitter()  # Create a single USB_Transmitter instance to be shared
+pid_object = PIDInterface(shared_memory_object, usb_object)  # Pass the USB_Transmitter instance to PIDInterface
 dvl_object = DVL_Interface(shared_memory_object)
 vis_object = VisionDetection(shared_memory_object)
 
@@ -56,7 +56,6 @@ gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
-#prequal_mode = Prequal_FSM(shared_memory_object, [pid_object, dvl_object])
 
 #mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
 mode_list = [gate_mode]
@@ -95,8 +94,7 @@ def stop():
     """
     shared_memory_object.running.value = 0 # kill gracefully
     time.sleep(0.25)
-    transmitter = USB_Transmitter()
-    transmitter.kill_motors()
+    usb_object.kill_motors()
 
 def make_list(modes: list[FSM_Template]) -> None:
     """
@@ -116,10 +114,9 @@ if __name__ == '__main__':
         print("keyboard interrupt detected, stopping program")
         shared_memory_object.running.value = 0 # kill gracefully
         time.sleep(0.25)
-        transmitter = USB_Transmitter()
-        transmitter.kill_motors()
-        time.sleep(0.25)
-        transmitter.reset_motors()
+        usb_object.kill_motors()
+        time.sleep(1)
+        usb_object.reset_motors()
         
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
