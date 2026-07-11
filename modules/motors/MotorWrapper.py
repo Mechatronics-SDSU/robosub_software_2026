@@ -28,9 +28,26 @@ except:
         usbData[7] = motor7; 
         usbData[8] = killState; 
         usbData[9] = powerOffState; 
-        usbData[10] = red; 
-        usbData[11] = green; 
-        usbData[12] = blue;
+        usbData[10] = servo1State;
+        usbData[11] = servo2State;
+        usbData[12] = dropperState;
+        usbData[13] = torpedoState;
+        
+        user_inputs = [
+            1500, # motor 0
+            1500,  # motor 1
+            1500,  # motor 2
+            1500,  # motor 3
+            1500,  # motor 4
+            1500,  # motor 5
+            1500,  # motor 6
+            1500,  # motor 7
+            0,     # motor kill state (0 = alive, 1 = kill)
+            0,     # power off state  (0 = on, 1 = off)
+            0,     # servo 1 - pin30
+            0,     # servo 2 - pin 29
+            2000,     # dropper     (0 = closed, 1 = open)
+            0,     # torpedo     (1000 fires right, 2000 fires left, 1500 is armed)
 
     NOTE: THIS WRAPPER IS MEANT FOR CARACARA ONLY, SCION USES A DIFFERENT MOTOR WRAPPER
 '''
@@ -42,7 +59,7 @@ class MotorWrapper:
         self.shared_memory_object = shared_memory_object
         self.usb_transmitter = USB_Transmitter()
         #-------------------------------------------------------------------------------------------------
-        self.MOTOR_MAX    = 4000
+        self.MOTOR_MAX    = 400 # NOTE: Previously 4k
         self.MOTOR_FACTOR = 0
         try: # set motor factor from yaml
             with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
@@ -66,7 +83,7 @@ class MotorWrapper:
             [ 0,      0,       1,        0,       1,      1], # motor 6 FR6 (vertical)
             [-1,      1,       0,       -1,       0,      0]  # motor 7 FR7
         ])
-        self.controls   = [0, 0, 0, 255, 0] # control values (kill, power off, lights R,G,B) FIXME assign to shared mem vals
+        self.controls   = [0, 0, 0, 0, 0] # control values (kill, power off, servo1, servo2, dropper, torpedo) FIXME assign to shared mem vals
         self.motor_vals = [0, 0, 0, 0, 0, 0, 0, 0] # motor values
 
     # returns a validated version of the motor value
@@ -74,7 +91,9 @@ class MotorWrapper:
         motor_val = int(motor_val)
         if type(motor_val) != int and type(motor_val) != float: return 0 # return 0 if not a number
         # multiply clamped motor value by motor factor, cast to int
-        return int(self.MOTOR_FACTOR * np.clip(motor_val, -self.MOTOR_MAX, self.MOTOR_MAX))
+        val: int = int(self.MOTOR_FACTOR * np.clip(motor_val, -self.MOTOR_MAX, self.MOTOR_MAX))
+        print(f"motor_val = {motor_val}\t val = {val}\t return = {val + 1500}")
+        return val + 1500
 
     def move_forward(self, value: Union[float, int]) -> None:
         self.move_from_matrix(np.array([self.valid(value), 0, 0, 0, 0, 0]))
@@ -126,10 +145,13 @@ class MotorWrapper:
 
     #sends commands to motors
     def send_command(self) -> list:
-        send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
-        for i, data in enumerate(send_data):
-            send_data[i] = self.valid(data)
-        self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
+        try:
+            send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
+            for i, data in enumerate(send_data):
+                send_data[i] = self.valid(data)
+            self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
+        except Exception as e:
+            print(f"Error sending command: {e}")
 
         motor_values = self.motor_vals # save motor values
         self.stop() # reset motor values to 0s

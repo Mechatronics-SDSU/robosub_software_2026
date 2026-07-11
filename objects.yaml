@@ -1,4 +1,4 @@
-course: prequal # course that the sub is running in
+course: jesse_pool # course that the sub is running in
 motor_factor: 0.1 # changes motor speed, ~0.1 for air, ~0.7 for water
 
 jesse_pool: # ------------------------------------------------------------------------------------------------------
