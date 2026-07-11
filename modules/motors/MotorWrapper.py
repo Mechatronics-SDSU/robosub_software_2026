@@ -88,7 +88,6 @@ class MotorWrapper:
         return int(np.clip(motor_val, -self.MOTOR_MAX, self.MOTOR_MAX))
     
     def to_pwm(self, motor_val: Union[float, int]) -> int:
-        motor_val = self.valid(motor_val)
         normalized = motor_val / self.MOTOR_MAX  # -1.0 to +1.0
         return int(1500 + normalized * 400 * self.MOTOR_FACTOR)
 
@@ -160,9 +159,3 @@ class MotorWrapper:
         #self.stop() # reset motor values to 0s
 
         return motor_values # return motor values
-    
-
-if __name__ == "__main__":
-    shared_mem = SharedMemoryWrapper()
-    motor = MotorWrapper(shared_mem)
-    print(motor.send_command())
