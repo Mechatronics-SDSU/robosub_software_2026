@@ -33,7 +33,7 @@ from modules.logger.logger                  import Logger
         controller's fixed /dev/ttyACM0.
 """
 
-MODEM_PORT        = None  # TODO: fill in, e.g. "/dev/ttyUSB0"
+MODEM_PORT        = "/dev/ttyUSB0"
 MODEM_CHANNEL     = 1
 MODEM_POWER_LEVEL = 4
 
