@@ -1,5 +1,11 @@
+#!/usr/bin/env python3
+from email.policy import default
+
 import numpy                                as np
 from numpy.typing                           import NDArray
+
+import sys 
+
 from shared_memory                          import SharedMemoryWrapper
 from typing                                 import Union
 import os, yaml
@@ -47,7 +53,7 @@ class MotorWrapper:
         self.usb_transmitter = USB_Transmitter()
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 4000
-        self.MOTOR_FACTOR = 0
+        self.MOTOR_FACTOR = os.environ.get("MOTOR_FACTOR", 0.85)  # Default value if not set in .env
 
         try: # set motor factor from yaml
             with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
@@ -148,9 +154,15 @@ class MotorWrapper:
         send_data = np.concatenate((self.motor_vals, self.controls), axis=None).astype(int)
         for i in range(8):
             send_data[i] = self.to_pwm(send_data[i]) # convert motor values to PWM
-        self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
+        #self.usb_transmitter.send_data(list(send_data)) # concatenate motor and control values
 
         motor_values = self.motor_vals # save motor values
-        self.stop() # reset motor values to 0s
+        #self.stop() # reset motor values to 0s
 
         return motor_values # return motor values
+    
+
+if __name__ == "__main__":
+    shared_mem = SharedMemoryWrapper()
+    motor = MotorWrapper(shared_mem)
+    print(motor.send_command())
