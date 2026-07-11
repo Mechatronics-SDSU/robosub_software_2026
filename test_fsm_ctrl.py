@@ -1,4 +1,8 @@
-import subprocess, time
+import argparse, logging, subprocess, time
+
+# the shared Logger class defaults to DEBUG, which floods modem testing with
+# a "Returning None"/"Buffer length" line on every idle poll
+logging.getLogger("default").setLevel(logging.INFO)
 
 # import FSMs to test
 from shared_memory                          import SharedMemoryWrapper
@@ -8,7 +12,7 @@ from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
 from fsm.prequal_fsm                        import Prequal_FSM
 from fsm.coinflip_fsm                       import CoinFlip_FSM
-from fsm.modem_fsm                          import Modem_FSM
+from fsm.modem_fsm                          import Modem_FSM, FRAME_TYPE_DATA
 from fsm.torpedo_fsm                        import Torpedo_FSM
 from fsm.dropper_fsm                        import Dropper_FSM
 from fsm.grabber_fsm                        import Grabber_FSM
@@ -34,20 +38,42 @@ from fsm_test_helpers                       import (
     HOW TO ADD A NEW FSM:
         1. import the FSM class at the top of this file
         2. add a matching case for it inside build_fsm()
+
+    MODEM ON ONE COMPUTER, TWO TERMINALS:
+        Set FSM_TO_TEST = "modem" and FAKE_INPUT = False below (this part
+        is the same for both terminals), then pass --role/--port/--task-code/
+        --color-flag on the command line so each terminal can use different
+        settings without editing the file in between:
+
+            python test_fsm_ctrl.py --role listener --port COM7
+            python test_fsm_ctrl.py --role sender --port COM8 --task-code 2 --color-flag
+
+        Start the listener terminal first. CLI flags override
+        MODEM_ROLE/MODEM_PORT/MODEM_TASK_CODE below; omit them to fall
+        back to those constants.
 """
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
 DELAY = 0.2 # loop delay, raise this to slow down/step through states
 
-FAKE_INPUT = True # fake dvl movement + fake modem messages, turn off once testing on real hardware
-FAKE_MODEM_CODE = 7 # code the fake modem "receives" when testing the modem listener, set to None for no message
+FAKE_INPUT = False # fake dvl movement + fake modem messages, turn off once testing on real hardware
+FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing the modem listener, set to None for no message
+    "frame_number": 0, "frame_type": FRAME_TYPE_DATA, "color_flag": 0, "task_code": 2,
+}
 
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "dropper" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo, dropper, grabber
+FSM_TO_TEST = "modem" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo, dropper, grabber
 TEST_ROLE = "survey_and_repair" # survey_and_repair or search_and_rescue, used by dropper and grabber
+
+# modem hardware settings, used when FSM_TO_TEST == "modem" and FAKE_INPUT = False.
+# Run this file once per sub with the opposite MODEM_ROLE and each sub's real COM port.
+MODEM_ROLE       = "listener" # "sender" or "listener" -- give each of the two subs the opposite role
+MODEM_PORT       = "COM_TEST" # e.g. "COM7" on Windows or "/dev/ttyUSB0" on Linux
+MODEM_TASK_CODE  = 2          # 0-3, the task code to send (sender role) or expect (listener role, informational only)
+MODEM_COLOR_FLAG = False
 
 def build_fsm(name: str):
     """
@@ -67,8 +93,8 @@ def build_fsm(name: str):
         case "coinflip":
             return CoinFlip_FSM(shared_memory_object, [])
         case "modem":
-            # role/port/message are hardware settings, edit as needed for a real run
-            return Modem_FSM(shared_memory_object, [], role="listener", port="COM_TEST", message=5)
+            return Modem_FSM(shared_memory_object, [], role=MODEM_ROLE, port=MODEM_PORT,
+                              task_code=MODEM_TASK_CODE, color_flag=MODEM_COLOR_FLAG)
         case "torpedo":
             # FakeTorpedo prints instead of firing real hardware, safe by default for testing.
             # For a real run, build a real modules.torpedo.TorpedoWrapper from a shared
@@ -97,7 +123,7 @@ def main():
 
     if FAKE_INPUT and FSM_TO_TEST == "modem":
         # no modem hardware attached, fake it so start()/loop() never touch a real serial port
-        mode.comms.open_modem = lambda *a, **kw: FakeModem(mode.comms, fake_code=FAKE_MODEM_CODE)
+        mode.comms.open_modem = lambda *a, **kw: FakeModem(mode.comms, fake_data_frame=FAKE_MODEM_DATA_FRAME)
 
     if FAKE_INPUT and FSM_TO_TEST == "torpedo":
         # no camera/vision pipeline attached, fake the circle data so a hole can be found
@@ -118,6 +144,11 @@ def main_loop(mode):
     """
     Looping function, runs the selected fsm until it completes
     """
+    # modem state changes happen faster than a human can read at the normal
+    # per-tick display cadence, and the per-tick DVL/TGT numbers are
+    # meaningless for it anyway -- only print when the state actually changes.
+    last_displayed_state = None
+
     while shared_memory_object.running.value:
         time.sleep(DELAY) # loop delay
 
@@ -127,7 +158,13 @@ def main_loop(mode):
         # ------------------------------------------------------------------------------
 
         mode.loop() # run fsm loop
-        display(mode)
+
+        if FSM_TO_TEST == "modem":
+            if mode.state != last_displayed_state:
+                display(mode)
+                last_displayed_state = mode.state
+        else:
+            display(mode)
 
         if mode.complete: # exit condition: fsm finished on its own
             print(f"{mode.name} finished (complete=True) in state {mode.state}, stopping test")
@@ -140,8 +177,10 @@ def display(mode):
     Display function for testing
     """
     print(f"MODE: {mode.name}:{mode.state}")
-    if hasattr(mode, "role"): # selected role, for dropper/grabber
+    if hasattr(mode, "role"): # selected role, for dropper/grabber/modem
         print(f"ROLE: {mode.role}")
+    if hasattr(mode, "received_frame"): # modem data/ack exchange result
+        print(f"MODEM SUCCESS: {mode.success}  RECEIVED FRAME: {mode.received_frame}")
     if getattr(mode, "current_target", None) is not None: # last target detection/hole tracked
         target = mode.current_target
         if isinstance(target, dict): # torpedo's circle_data hole format
@@ -168,7 +207,30 @@ def stop():
     """
     shared_memory_object.running.value = 0 # kill gracefully
 
+def parse_args():
+    """
+    Optional CLI overrides for the modem settings, so the same file can be
+    launched from two terminals (e.g. one per role) without editing it in
+    between. Anything not passed falls back to the constants above.
+    """
+    parser = argparse.ArgumentParser(description="Single-FSM test controller")
+    parser.add_argument("--role", choices=["sender", "listener"], default=None, help="override MODEM_ROLE")
+    parser.add_argument("--port", default=None, help="override MODEM_PORT")
+    parser.add_argument("--task-code", type=int, default=None, help="override MODEM_TASK_CODE")
+    parser.add_argument("--color-flag", action="store_true", default=None, help="override MODEM_COLOR_FLAG to True")
+    return parser.parse_args()
+
 if __name__ == '__main__':
+    args = parse_args()
+    if args.role is not None:
+        MODEM_ROLE = args.role
+    if args.port is not None:
+        MODEM_PORT = args.port
+    if args.task_code is not None:
+        MODEM_TASK_CODE = args.task_code
+    if args.color_flag is not None:
+        MODEM_COLOR_FLAG = args.color_flag
+
     print(f"RUNNING SINGLE FSM TEST: {FSM_TO_TEST}")
     try:
         main()

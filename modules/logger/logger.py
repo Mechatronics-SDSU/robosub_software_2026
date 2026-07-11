@@ -22,7 +22,7 @@ class Logger:
             formatter = logging.Formatter(
                 "%(asctime)s - %(processName)s - %(levelname)s - "
                 "%(filename)s:%(lineno)d - %(message)s",
-                datefmt="%Y-%m-%d"
+                datefmt="%Y-%m-%d %H:%M:%S"
             )
 
             stream_handler = logging.StreamHandler()

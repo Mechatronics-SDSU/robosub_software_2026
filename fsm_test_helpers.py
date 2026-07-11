@@ -13,33 +13,35 @@ class FakeModem:
     Passed to Modem_FSM in place of a real serial connection so the FSM
     can be run without modem hardware attached.
     """
-    def __init__(self, comms, fake_code: int = None):
-        self.comms = comms         # real ModemComms instance, used to encode the fake message
-        self.fake_code = fake_code # code to pretend to receive once, or None to never receive anything
+    def __init__(self, comms, fake_data_frame: dict = None):
+        self.comms = comms                     # real ModemComms instance, used to pack the fake frame
+        self.fake_data_frame = fake_data_frame  # dict with frame_number/frame_type/color_flag/task_code to pretend
+                                                 # to receive once, or None to never receive anything
         self._sent = False
 
-    def send_two_bytes(self, data: bytes) -> int:
+    def send_raw_bytes(self, data: bytes) -> int:
         """
-        Pretend to send bytes over the modem
+        Pretend to send raw bytes over the modem
         """
         print(f"[FAKE MODEM] pretending to send bytes: {data!r}")
-        return 2
-
-    def read_two_bytes(self, timeout: float = 30.0):
-        """
-        Pretend to receive fake_code once (encoded the same way a real message would be), then go quiet.
-        Sleeps briefly like the real M16 driver does, so the background listener thread
-        doesn't spin in a tight loop once there is nothing left to receive.
-        """
-        if self.fake_code is not None and not self._sent:
-            self._sent = True
-            print(f"[FAKE MODEM] pretending to receive code {self.fake_code}")
-            return self.comms.encode_message(self.fake_code)
-        time.sleep(min(timeout, 0.5))
-        return None
+        return len(data)
 
     def clear_buffers(self) -> None:
         pass
+
+    def read_packet(self):
+        """
+        Pretend to receive fake_data_frame once (packed the same way a real frame would be), then go quiet.
+        Sleeps briefly like the real M16 driver's read_packet timeout, so the
+        background listener thread doesn't spin in a tight loop once there is
+        nothing left to receive.
+        """
+        if self.fake_data_frame is not None and not self._sent:
+            self._sent = True
+            print(f"[FAKE MODEM] pretending to receive frame: {self.fake_data_frame}")
+            return self.comms.pack_frame(**self.fake_data_frame)
+        time.sleep(0.5)
+        return None
 
     def close(self) -> None:
         print("[FAKE MODEM] closing (nothing to actually close)")

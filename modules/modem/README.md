@@ -29,13 +29,14 @@ Program to control the M16 modem, which is used for communication between the su
 - Set BAUDRATE to 9600
 
 - Protocol:
-    - A message is one 5-bit code.
-    - The 5-bit code is repeated three times for majority voting.
-    - The final least-significant bit is set to 1 as the valid-message bit.
-    - Total size: 5 + 5 + 5 + 1 = 16 bits = 2 bytes.
+    - Ported from the Waterlinked reference M16 driver.
+    - Messages are plain text, sent in 2-character chunks via transparent mode.
+    - Receiving reads whatever raw bytes arrive in a given window (diagnostic
+      report packets are the exception: framed with a leading '$' and
+      trailing '\n', fixed 18 bytes).
 
 
 ### Status
 
 - Current status: Complete
-- Last updated: 06/2/2026
+- Last updated: 07/10/2026
