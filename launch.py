@@ -1,5 +1,13 @@
 import subprocess, time
 from multiprocessing                        import Process, Value
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+ROOT = Path(__file__).resolve().parent
+ENV_PATH = os.path.join(ROOT, ".env")
+
+load_dotenv(ENV_PATH)
 
 # import FSMs
 from shared_memory                          import SharedMemoryWrapper
