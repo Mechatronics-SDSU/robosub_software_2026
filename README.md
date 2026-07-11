@@ -12,6 +12,7 @@ This is the codebase for the SDSU Mechatronics Club competing in Robosub 2026, w
     - Joe Lofrese (GitHub: @Joelofrese, Discord: @croppie_luvr)
     - Juan Cota (GitHub: @Juanlo01, Discord: @chewchew0366)
     - Malaika Joiner (GitHub: @malaikajoiner, Discord: @314piekitty)
+    - Alice Vo (GitHub: @alicvo, Discord: @alicvo)
 - Dependencies:
     - Python 3.11+
     - Yolov5 7.0.13
