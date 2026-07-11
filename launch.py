@@ -59,7 +59,7 @@ return_mode = Return_FSM(shared_memory_object, [])
 prequal_mode = Prequal_FSM(shared_memory_object, [pid_object, dvl_object])
 
 #mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
-mode_list = [prequal_mode]
+mode_list = [gate_mode]
 
 def main():
     """
