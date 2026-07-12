@@ -17,7 +17,6 @@ srl = None
 
 class USB_Transmitter:
     def __init__(self):
-        self.srl = None  # stays None if every port below fails to connect
         for port in ["/dev/ttyACM0"]:
             try:
                 self.srl = serial.Serial(port, baud_rate)
@@ -55,6 +54,7 @@ class USB_Transmitter:
             0,     # servo 2 - pin 29
             1000,     # dropper     (1000 = closed/est, 1400 = open/spinning)
             1500,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
+            int(b'11111111111111', 2) # bitmask (8 bits for motors, 6 bits for other controls)
         ]
         try:
             self.send_data(user_inputs)
@@ -77,11 +77,15 @@ class USB_Transmitter:
             0,     # servo 2 - pin 29
             1000,     # dropper     (1000 = closed/est, 1400 = open/spinning)
             1500,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
+            int(b'11111111111111', 2) # bitmask (8 bits for motors, 6 bits for other controls)
         ]
         try:
             self.send_data(user_inputs)
         except Exception as e:
             print(f"Error sending reset command: {e}")
+    
+    def soft_kill(self) -> None:
+        self.reset_motors()
 
 if __name__ == "__main__":
     """

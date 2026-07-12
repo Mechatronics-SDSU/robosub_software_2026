@@ -32,6 +32,7 @@ except:
         usbData[11] = servo2State;
         usbData[12] = dropperState;
         usbData[13] = torpedoState;
+        usbData[14] = bitmask;
         
         user_inputs = [
             1500, # motor 0
@@ -55,9 +56,9 @@ except:
 
 class MotorWrapper:
 
-    def __init__(self, shared_memory_object):    
+    def __init__(self, shared_memory_object, usb_object):    
         self.shared_memory_object = shared_memory_object
-        self.usb_transmitter = USB_Transmitter()
+        self.usb_transmitter = usb_object
         #-------------------------------------------------------------------------------------------------
         self.MOTOR_MAX    = 400 # NOTE: Previously 4k
         self.MOTOR_STOP   = 1500
@@ -86,7 +87,7 @@ class MotorWrapper:
             [ 0,      0,       1,        0,       1,      1], # motor 6 FR6 (vertical)
             [-1,      1,       0,       -1,       0,      0]  # motor 7 FR7
         ])
-        self.controls   = [0, 0, 0, 0, 0, 0] # control values (kill, power off, servo1, servo2, dropper, torpedo) FIXME assign to shared mem vals
+        self.controls   = [0, 0, 0, 0, 0, 0, int(b'00000011111111', 2)] # control values (kill, power off, servo1, servo2, dropper, torpedo, bitmask motors only) FIXME assign to shared mem vals
         self.motor_vals = [0, 0, 0, 0, 0, 0, 0, 0] # motor values
 
     # returns a validated version of the motor value
