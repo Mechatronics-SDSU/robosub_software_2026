@@ -211,7 +211,7 @@ class Recorder:
         <output_dir>/<YYYYMMDD_HHMMSS>/
             video.mp4                           ← mp4: true — raw frames, no annotations
             video_annotated.mp4                 ← annotated_mp4: true — YOLO boxes burned in
-            recording.svo                       ← svo: true (ZED only, via _start_svo)
+            recording.svo2                      ← svo: true (ZED only, via _start_svo)
     """
 
     def __init__(self, cfg: dict, fps: float, run_dir: Path | None = None):
@@ -287,7 +287,7 @@ def _start_svo(zed, sl, cfg: dict, run_dir: Path) -> None:
     comp_key = str(rec_cfg.get('svo_compression', 'H264')).upper()
 
     rec_params                  = sl.RecordingParameters()
-    rec_params.video_filename   = str(run_dir / 'recording.svo')
+    rec_params.video_filename   = str(run_dir / 'recording.svo2')
     rec_params.compression_mode = _COMPRESSION_MAP.get(comp_key, sl.SVO_COMPRESSION_MODE.H264)
 
     err = zed.enable_recording(rec_params)

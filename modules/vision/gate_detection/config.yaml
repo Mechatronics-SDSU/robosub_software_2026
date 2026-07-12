@@ -1,0 +1,65 @@
+# Gate detection configuration (ZED Mini).
+# Everything camera- or pool-specific lives here. Only the `camera` section
+# is camera-model-specific.
+
+camera:
+  # ZED Mini: HD720 @ 30 keeps NEURAL depth within the Jetson budget.
+  # (The Mini can do HD720 @ 60 with a lighter depth mode.)
+  resolution: HD720          # one of: HD2K, HD1080, HD720, VGA
+  fps: 30
+  depth_mode: NEURAL         # NEURAL_LIGHT if CPU/GPU budget is tight
+  # 63 mm baseline: can measure much closer than the 2i (0.1 m vs 0.3 m)
+  # but depth noise grows faster with range.
+  depth_min_m: 0.1
+  depth_max_m: 8.0
+  # One-time in-water correction: refraction through the housing port makes
+  # the (air-calibrated) stereo depth read off by a roughly constant factor.
+  # Measure a known distance underwater and set: scale = true / reported.
+  # Must be re-measured for the ZED Mini in its own housing.
+  depth_scale: 1.0
+
+detection:
+  # Depth band in which pillars are searched (meters, after depth_scale).
+  range_min_m: 0.4
+  # Mini's short baseline makes depth noisy past ~6 m; keep the search band
+  # inside the trustworthy range.
+  range_max_m: 6.0
+  # Morphology: vertical opening removes the thin horizontal top bar and
+  # speckle noise. Height in pixels; must stay well below the pillar's
+  # pixel height at max range. If pillars vanish beyond ~5 m while the sub
+  # is rolled, lower this to ~15.
+  vertical_open_px: 21
+  close_px: 5
+  # Blob shape filters
+  min_area_px: 250
+  min_aspect: 2.5            # blob height / median row width
+  # Physical size gates (computed from blob depth + focal length).
+  # Gate pillars are 2 in = 0.051 m diameter; band is generous because the
+  # depth mask bleeds a little wider than the pipe.
+  pillar_width_min_m: 0.02
+  pillar_width_max_m: 0.25
+  pillar_min_height_m: 0.35  # lenient: pillar may exit the frame
+  # Anything uniformly-colored, FULLY in frame, and shorter than this is the
+  # center divider (24 in = 0.61 m; gate pillars are 48 in). Blobs touching
+  # the frame top/bottom are never classified as divider.
+  divider_max_height_m: 0.90
+  border_margin_px: 3        # "touches frame edge" tolerance
+
+color:
+  # Red vs black is decided by RELATIVE red dominance R/(G+B) between the
+  # two sides of a searched split row, not absolute hue -- red washes out
+  # to dark brown underwater. The split row is chosen automatically, so the
+  # color boundary may sit anywhere in a partially visible pillar.
+  # Minimum redness ratio between the two sides to call them different colors.
+  half_ratio_min: 1.30
+  # Ratio at (or above) which classification confidence saturates at 1.0.
+  half_ratio_saturate: 2.5
+  # Each side of the split must own at least this fraction of the blob's rows.
+  split_min_frac: 0.20
+
+gate:
+  expected_width_m: 3.05     # ~10 ft between gate pillars (sanity check only)
+
+tracking:
+  smooth_window: 10          # frames of history for voting/averaging
+  min_votes: 3               # frames an identity must appear in to be reported
