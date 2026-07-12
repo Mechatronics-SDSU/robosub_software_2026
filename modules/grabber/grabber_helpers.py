@@ -55,8 +55,9 @@ class GrabberHelpers:
     Helper functions for grabber item/basket selection, downward-camera
     lineup, and placeholder actuation.
     """
-    def __init__(self, shared_memory_object):
+    def __init__(self, shared_memory_object, signal_wrapper=None):
         self.shared_memory = shared_memory_object
+        self.signal_wrapper = signal_wrapper # real SignalWrapper (modules/signals/SignalWrapper.py), or None for safe print placeholders
         self.detection_history = []
         self.last_valid_detection = None
         self.last_detection_time = 0.0
@@ -231,31 +232,49 @@ class GrabberHelpers:
 
     def open_claw(self) -> None:
         """
-        Placeholder for opening the claw.
-        MISSING: real hardware/motor function, none exists in the project yet.
+        Opens the claw fingers (releases a held item) via the SignalWrapper.
+        NOTE: grabber hardware behavior is not fully verified yet, these
+        calls are wired but the servo values/sequence may need tuning.
         """
-        print("GRABBER OPEN CLAW PLACEHOLDER")
+        if self.signal_wrapper is not None:
+            self.signal_wrapper.release_claw()
+        else:
+            print("GRABBER OPEN CLAW PLACEHOLDER (no SignalWrapper attached)")
 
     def close_claw(self) -> None:
         """
-        Placeholder for closing the claw.
-        MISSING: real hardware/motor function, none exists in the project yet.
+        Closes the claw fingers on the currently aligned item via the SignalWrapper.
+        NOTE: grabber hardware behavior is not fully verified yet, these
+        calls are wired but the servo values/sequence may need tuning.
         """
-        print("GRABBER CLOSE CLAW PLACEHOLDER")
+        if self.signal_wrapper is not None:
+            self.signal_wrapper.grab_claw()
+        else:
+            print("GRABBER CLOSE CLAW PLACEHOLDER (no SignalWrapper attached)")
 
     def grab_object(self) -> None:
         """
-        Placeholder for grabbing the currently aligned item.
-        MISSING: real hardware/motor function, none exists in the project yet.
+        Lifts the grabbed item by raising the claw arm via the SignalWrapper.
+        Called right after close_claw(), so the fingers are already closed.
+        NOTE: grabber hardware behavior is not fully verified yet, these
+        calls are wired but the servo values/sequence may need tuning.
         """
-        print("GRABBER GRAB OBJECT PLACEHOLDER")
+        if self.signal_wrapper is not None:
+            self.signal_wrapper.raise_claw()
+        else:
+            print("GRABBER GRAB OBJECT PLACEHOLDER (no SignalWrapper attached)")
 
     def release_object(self) -> None:
         """
-        Placeholder for releasing the currently held item into the basket.
-        MISSING: real hardware/motor function, none exists in the project yet.
+        Lowers the claw arm toward the basket via the SignalWrapper. Called
+        right before open_claw(), which actually releases the item.
+        NOTE: grabber hardware behavior is not fully verified yet, these
+        calls are wired but the servo values/sequence may need tuning.
         """
-        print("GRABBER RELEASE OBJECT PLACEHOLDER")
+        if self.signal_wrapper is not None:
+            self.signal_wrapper.lower_claw()
+        else:
+            print("GRABBER RELEASE OBJECT PLACEHOLDER (no SignalWrapper attached)")
 
     def surface_in_octagon(self) -> None:
         """

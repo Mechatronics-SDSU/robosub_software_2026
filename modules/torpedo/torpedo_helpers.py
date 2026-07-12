@@ -1,5 +1,4 @@
 import math
-import time
 
 """
     Helper functions for the torpedo FSM (fsm/torpedo_fsm.py).
@@ -7,19 +6,14 @@ import time
     alignment math, and firing. The FSM should only handle state order.
 """
 
-# TORPEDO ACTUATION TIMING, hardware pulse timing is not finalized yet, tune these---------------------------------------------
-TORPEDO_FIRE_TIME_SEC = 0.5     # how long to hold the fire command before re-arming
-TORPEDO_REARM_AFTER_FIRE = True # whether to re-arm (torpedo=0) after firing
-TORPEDO_USE_TIMED_PULSE = True  # if False, fire_torpedo() sends fire and returns immediately, no wait/re-arm
-
 
 class TorpedoLineup:
     """
     Helper functions for torpedo target selection, lineup math, and firing.
     """
-    def __init__(self, shared_memory_object, torpedo_wrapper=None):
+    def __init__(self, shared_memory_object, signal_wrapper=None):
         self.shared_memory = shared_memory_object
-        self.torpedo_wrapper = torpedo_wrapper # real TorpedoWrapper (modules/torpedo/TorpedoWrapper.py), or None for safe print placeholders
+        self.signal_wrapper = signal_wrapper # real SignalWrapper (modules/signals/SignalWrapper.py), or None for safe print placeholders
 
     def get_torpedo_circle_data(self) -> dict:
         """
@@ -150,31 +144,14 @@ class TorpedoLineup:
         shared_memory_object.target_y.value = target_y
         shared_memory_object.target_z.value = target_z
 
-    def fire_torpedo(self) -> None:
+    def fire_torpedo(self, index: int = 1) -> None:
         """
-        Fires one torpedo: makes sure it is armed first (firmware torpedo=0
-        means armed), fires (torpedo=1), then holds and re-arms afterward if
-        TORPEDO_USE_TIMED_PULSE/TORPEDO_REARM_AFTER_FIRE say to. Uses the real
-        TorpedoWrapper if one was passed in, otherwise prints a safe
-        placeholder (no hardware attached, e.g. test mode).
-
-        MISSING: exact torpedo pulse timing is not finalized yet,
-        TORPEDO_FIRE_TIME_SEC/TORPEDO_REARM_AFTER_FIRE are starting placeholders.
+        Fires one torpedo (index 1 fires right, index 2 fires left) via the
+        SignalWrapper, which handles its own pulse timing and re-centers the
+        torpedo servo when the call returns. Prints a safe placeholder if no
+        SignalWrapper was passed in (no hardware attached, e.g. test mode).
         """
-        if self.torpedo_wrapper is not None:
-            self.torpedo_wrapper.arm()
-            self.torpedo_wrapper.fire()
+        if self.signal_wrapper is not None:
+            self.signal_wrapper.fire_torpedo(index)
         else:
-            print("TORPEDO ARM PLACEHOLDER (no TorpedoWrapper attached)")
-            print("TORPEDO FIRE PLACEHOLDER (no TorpedoWrapper attached)")
-
-        if not TORPEDO_USE_TIMED_PULSE:
-            return
-
-        time.sleep(TORPEDO_FIRE_TIME_SEC)
-
-        if TORPEDO_REARM_AFTER_FIRE:
-            if self.torpedo_wrapper is not None:
-                self.torpedo_wrapper.arm()
-            else:
-                print("TORPEDO RE-ARM PLACEHOLDER (no TorpedoWrapper attached)")
+            print(f"TORPEDO FIRE {index} PLACEHOLDER (no SignalWrapper attached)")

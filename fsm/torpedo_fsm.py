@@ -32,12 +32,12 @@ class Torpedo_FSM(FSM_Template):
     """
     FSM for torpedo mode - finding a hole in the board, lining up, and shooting torpedoes
     """
-    def __init__(self, shared_memory_object, run_list: list, torpedo_wrapper=None):
+    def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None):
         """
         Torpedo FSM constructor
 
-        torpedo_wrapper: a real TorpedoWrapper (modules/torpedo/TorpedoWrapper.py)
-        built from a shared USB_Transmitter, or None to use safe print
+        signal_wrapper: a real SignalWrapper (modules/signals/SignalWrapper.py)
+        built from the shared USB_Transmitter, or None to use safe print
         placeholders instead of actuating real hardware (e.g. test mode).
         """
         # call parent constructor
@@ -46,7 +46,7 @@ class Torpedo_FSM(FSM_Template):
         self.state: States  = States.INIT  # initial state
         self.logger = Logger()
 
-        self.lineup = TorpedoLineup(shared_memory_object, torpedo_wrapper)
+        self.lineup = TorpedoLineup(shared_memory_object, signal_wrapper)
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.x1 = self.y1 = self.depth = 0.0
@@ -154,7 +154,7 @@ class Torpedo_FSM(FSM_Template):
                 self.wait_time = time.time()
 
             case States.SHOOTING: # shoot one torpedo, fire_torpedo() handles its own timing/re-arm
-                self.lineup.fire_torpedo()
+                self.lineup.fire_torpedo(self.torpedo_num)
 
             case States.DONE:
                 self.suspend() # finish torpedo mode, ready for next mode

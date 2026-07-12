@@ -44,6 +44,7 @@ MOTOR_CONFIRM_SPEED    = 75    # low value out of MotorWrapper's +-400 range -- 
 MOTOR_COMMAND_INTERVAL = 0.2   # seconds between repeated motor commands (matches pid_interface.py's cadence)
 
 logger = Logger()
+usb_object = USB_Transmitter()  # one shared USB connection for motors + kill, matches launch.py
 
 
 def fix_modem_permissions() -> None:
@@ -66,7 +67,7 @@ def confirm_receipt_with_motors(shared_memory_object) -> None:
     stop. Drives the motors directly (bypassing PID/target_yaw) since no
     PID process is running in this script.
     """
-    motor_wrapper = MotorWrapper(shared_memory_object)
+    motor_wrapper = MotorWrapper(shared_memory_object, usb_object)
     logger.info(f"Confirming receipt: turning for {MOTOR_CONFIRM_DURATION}s")
 
     start = time.monotonic()
@@ -126,5 +127,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("keyboard interrupt detected, stopping program")
     finally:
-        transmitter = USB_Transmitter()
-        transmitter.kill_motors()
+        usb_object.kill_motors()

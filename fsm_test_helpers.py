@@ -47,30 +47,34 @@ class FakeModem:
         print("[FAKE MODEM] closing (nothing to actually close)")
 
 
-class FakeDropper:
+class FakeSignalWrapper:
     """
-    Stand-in for DropperWrapper (modules/dropper/DropperWrapper.py). Prints
+    Stand-in for SignalWrapper (modules/signals/SignalWrapper.py). Prints
     instead of sending real USB commands, so the tester can safely exercise
     the FSM -> helper -> wrapper call path without hardware attached.
     """
-    def open(self) -> None:
-        print("FAKE DROPPER OPEN")
+    def spin_dropper(self, duration: float = 0.5, pulsewidth: int = 1400) -> None:
+        print(f"FAKE SIGNAL: SPIN DROPPER for {duration}s at {pulsewidth}")
 
-    def close(self) -> None:
-        print("FAKE DROPPER CLOSE")
+    def fire_torpedo(self, index: int = 1) -> None:
+        print(f"FAKE SIGNAL: FIRE TORPEDO {index}")
 
+    def lower_claw(self) -> None:
+        print("FAKE SIGNAL: LOWER CLAW")
 
-class FakeTorpedo:
-    """
-    Stand-in for TorpedoWrapper (modules/torpedo/TorpedoWrapper.py). Prints
-    instead of sending real USB commands, so the tester can safely exercise
-    the FSM -> helper -> wrapper call path without hardware attached.
-    """
-    def arm(self) -> None:
-        print("FAKE TORPEDO ARM")
+    def grab_claw(self) -> None:
+        print("FAKE SIGNAL: GRAB CLAW")
 
-    def fire(self) -> None:
-        print("FAKE TORPEDO FIRE")
+    def release_claw(self) -> None:
+        print("FAKE SIGNAL: RELEASE CLAW")
+
+    def raise_claw(self) -> None:
+        print("FAKE SIGNAL: RAISE CLAW")
+
+    def run_loop(self) -> None:
+        # no-op, matches the real SignalWrapper so this fake can also be
+        # passed inside an FSM's run_list (like test_signals_fsm expects)
+        pass
 
 
 FAKE_TORPEDO_CIRCLE_DATA = {

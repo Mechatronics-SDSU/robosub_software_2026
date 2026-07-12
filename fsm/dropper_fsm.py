@@ -42,12 +42,12 @@ class Dropper_FSM(FSM_Template):
     counter instead, the same pattern already used by fsm/torpedo_fsm.py's
     SHOOTING -> SEARCHING loop for its second torpedo.
     """
-    def __init__(self, shared_memory_object, run_list: list, role: str = "survey_and_repair", dropper_wrapper=None):
+    def __init__(self, shared_memory_object, run_list: list, role: str = "survey_and_repair", signal_wrapper=None):
         """
         Dropper FSM constructor
 
-        dropper_wrapper: a real DropperWrapper (modules/dropper/DropperWrapper.py)
-        built from a shared USB_Transmitter, or None to use safe print
+        signal_wrapper: a real SignalWrapper (modules/signals/SignalWrapper.py)
+        built from the shared USB_Transmitter, or None to use safe print
         placeholders instead of actuating real hardware (e.g. test mode).
         """
         # call parent constructor
@@ -56,7 +56,7 @@ class Dropper_FSM(FSM_Template):
         self.state: States  = States.INIT  # initial state
         self.logger = Logger()
 
-        self.helper = DropperHelpers(shared_memory_object, dropper_wrapper)
+        self.helper = DropperHelpers(shared_memory_object, signal_wrapper)
 
         # ROLE SETTINGS-----------------------------------------------------------------------------------------------------------------------
         self.role = role # "survey_and_repair" or "search_and_rescue"

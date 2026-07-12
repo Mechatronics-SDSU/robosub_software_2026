@@ -18,7 +18,7 @@ from fsm.dropper_fsm                        import Dropper_FSM
 from fsm.grabber_fsm                        import Grabber_FSM
 
 from fsm_test_helpers                       import (
-    FakeModem, FakeDropper, FakeTorpedo, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA,
+    FakeModem, FakeSignalWrapper, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA,
     FAKE_DROPPER_DETECTIONS, FAKE_GRABBER_DETECTIONS
 )
 
@@ -96,17 +96,15 @@ def build_fsm(name: str):
             return Modem_FSM(shared_memory_object, [], role=MODEM_ROLE, port=MODEM_PORT,
                               task_code=MODEM_TASK_CODE, color_flag=MODEM_COLOR_FLAG)
         case "torpedo":
-            # FakeTorpedo prints instead of firing real hardware, safe by default for testing.
-            # For a real run, build a real modules.torpedo.TorpedoWrapper from a shared
-            # USB_Transmitter and pass it in as torpedo_wrapper instead.
-            return Torpedo_FSM(shared_memory_object, [], torpedo_wrapper=FakeTorpedo())
+            # FakeSignalWrapper prints instead of firing real hardware, safe by default for testing.
+            # For a real run, build a real modules.signals.SignalWrapper from the shared
+            # USB_Transmitter and pass it in as signal_wrapper instead (see launch.py).
+            return Torpedo_FSM(shared_memory_object, [], signal_wrapper=FakeSignalWrapper())
         case "dropper":
-            # FakeDropper prints instead of actuating real hardware, safe by default for testing.
-            # For a real run, build a real modules.dropper.DropperWrapper from a shared
-            # USB_Transmitter and pass it in as dropper_wrapper instead.
-            return Dropper_FSM(shared_memory_object, [], role=TEST_ROLE, dropper_wrapper=FakeDropper())
+            # FakeSignalWrapper prints instead of actuating real hardware, safe by default for testing.
+            return Dropper_FSM(shared_memory_object, [], role=TEST_ROLE, signal_wrapper=FakeSignalWrapper())
         case "grabber":
-            return Grabber_FSM(shared_memory_object, [], role=TEST_ROLE)
+            return Grabber_FSM(shared_memory_object, [], role=TEST_ROLE, signal_wrapper=FakeSignalWrapper())
         case _:
             print(f"Unknown FSM '{name}', check FSM_TO_TEST / build_fsm()")
             return None

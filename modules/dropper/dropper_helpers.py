@@ -26,10 +26,8 @@ from modules.vision.target_box_helpers import (
 SURVEY_AND_REPAIR_LABEL = "fire"
 SEARCH_AND_RESCUE_LABEL = "blood"
 
-# DROPPER ACTUATION TIMING, hardware timing is not finalized yet, tune these---------------------------------------------------
-DROPPER_OPEN_TIME_SEC = 1.0    # how long to hold the dropper open before closing it again
-DROPPER_CLOSE_TIME_SEC = 0.5   # how long to wait after closing before continuing (let servo settle)
-DROPPER_USE_TIMED_PULSE = True # if False, release_marker() opens and leaves it open, no auto re-close
+# DROPPER ACTUATION TIMING--------------------------------------------------------------------------------------------------
+DROPPER_SPIN_TIME_SEC = 0.5 # how long to spin the dropper to release one marker
 
 
 class DropperHelpers:
@@ -37,9 +35,9 @@ class DropperHelpers:
     Helper functions for dropper bin selection, downward-camera lineup, and
     dropper actuation.
     """
-    def __init__(self, shared_memory_object, dropper_wrapper=None):
+    def __init__(self, shared_memory_object, signal_wrapper=None):
         self.shared_memory = shared_memory_object
-        self.dropper_wrapper = dropper_wrapper # real DropperWrapper (modules/dropper/DropperWrapper.py), or None for safe print placeholders
+        self.signal_wrapper = signal_wrapper # real SignalWrapper (modules/signals/SignalWrapper.py), or None for safe print placeholders
         self.detection_history = []
         self.last_valid_detection = None
         self.last_detection_time = 0.0
@@ -187,28 +185,12 @@ class DropperHelpers:
 
     def release_marker(self) -> None:
         """
-        Releases one marker: opens the dropper, holds it open for
-        DROPPER_OPEN_TIME_SEC, then closes it again if DROPPER_USE_TIMED_PULSE
-        is True. Uses the real DropperWrapper if one was passed in, otherwise
-        prints a safe placeholder (no hardware attached, e.g. test mode).
-
-        MISSING: exact hardware timing is not finalized yet (may end up being
-        a motor pulse instead of a servo state change), DROPPER_OPEN_TIME_SEC/
-        DROPPER_CLOSE_TIME_SEC/DROPPER_USE_TIMED_PULSE are starting placeholders.
+        Releases one marker by spinning the dropper for DROPPER_SPIN_TIME_SEC
+        via the SignalWrapper, which handles its own timing and re-closes the
+        dropper when the call returns. Prints a safe placeholder if no
+        SignalWrapper was passed in (no hardware attached, e.g. test mode).
         """
-        if self.dropper_wrapper is not None:
-            self.dropper_wrapper.open()
+        if self.signal_wrapper is not None:
+            self.signal_wrapper.spin_dropper(DROPPER_SPIN_TIME_SEC)
         else:
-            print("DROPPER OPEN PLACEHOLDER (no DropperWrapper attached)")
-
-        if not DROPPER_USE_TIMED_PULSE:
-            return
-
-        time.sleep(DROPPER_OPEN_TIME_SEC)
-
-        if self.dropper_wrapper is not None:
-            self.dropper_wrapper.close()
-        else:
-            print("DROPPER CLOSE PLACEHOLDER (no DropperWrapper attached)")
-
-        time.sleep(DROPPER_CLOSE_TIME_SEC)
+            print("DROPPER SPIN PLACEHOLDER (no SignalWrapper attached)")

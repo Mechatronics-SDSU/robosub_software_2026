@@ -4239,3 +4239,66 @@ TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
 2026-07-11 04:29:27 - MainProcess - INFO - modem_fsm.py:148 - State changed: SEND_ACK -> DONE
 2026-07-11 04:29:27 - MainProcess - INFO - caracara_modem_listener.py:70 - Confirming receipt: turning for 0.4s
 2026-07-11 04:29:27 - MainProcess - INFO - caracara_modem_listener.py:80 - Confirmation turn complete
+2026-07-11 21:37:30 - MainProcess - INFO - fsm.py:59 - STARTING TORPEDO MODE
+2026-07-11 21:37:30 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: INIT -> TO_TORPEDO
+2026-07-11 21:37:30 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: TO_TORPEDO -> SEARCHING
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: SHOOTING -> SEARCHING
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: SEARCHING -> MOVING_TO_TARGET
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: MOVING_TO_TARGET -> VERIFY_LINEUP
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: VERIFY_LINEUP -> SHOOTING
+2026-07-11 21:37:31 - MainProcess - INFO - torpedo_fsm.py:168 - State changed: SHOOTING -> DONE
+2026-07-11 21:37:46 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER MODE
+2026-07-11 21:37:46 - MainProcess - INFO - dropper_fsm.py:167 - State changed: INIT -> MOVE_TO_PIPELINE
+2026-07-11 21:37:46 - MainProcess - INFO - dropper_fsm.py:167 - State changed: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+2026-07-11 21:37:46 - MainProcess - INFO - dropper_fsm.py:167 - State changed: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
+2026-07-11 21:37:46 - MainProcess - INFO - dropper_fsm.py:167 - State changed: VERIFY_BIN_TARGET -> ALIGN_TO_BIN
+2026-07-11 21:37:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.05	 y = -0.05	 z = 0.7
+TGT: 	 x = 3.05	 y = -0.05	 z = 0.7
+2026-07-11 21:37:48 - MainProcess - INFO - dropper_fsm.py:167 - State changed: ALIGN_TO_BIN -> VERIFY_DROP_POSITION
+2026-07-11 21:37:48 - MainProcess - INFO - dropper_fsm.py:167 - State changed: VERIFY_DROP_POSITION -> DROP_MARKER
+2026-07-11 21:37:48 - MainProcess - INFO - dropper_fsm.py:167 - State changed: DROP_MARKER -> SEARCH_FOR_BIN
+2026-07-11 21:37:48 - MainProcess - INFO - dropper_fsm.py:167 - State changed: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
+2026-07-11 21:37:48 - MainProcess - INFO - dropper_fsm.py:167 - State changed: VERIFY_BIN_TARGET -> ALIGN_TO_BIN
+2026-07-11 21:37:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.13	 y = -0.12	 z = 0.7
+TGT: 	 x = 3.13	 y = -0.12	 z = 0.7
+2026-07-11 21:37:50 - MainProcess - INFO - dropper_fsm.py:167 - State changed: ALIGN_TO_BIN -> VERIFY_DROP_POSITION
+2026-07-11 21:37:50 - MainProcess - INFO - dropper_fsm.py:167 - State changed: VERIFY_DROP_POSITION -> DROP_MARKER
+2026-07-11 21:37:50 - MainProcess - INFO - dropper_fsm.py:167 - State changed: DROP_MARKER -> COMPLETE
+2026-07-11 21:37:51 - MainProcess - INFO - fsm.py:59 - STARTING GRABBER MODE
+2026-07-11 21:37:51 - MainProcess - INFO - grabber_fsm.py:203 - State changed: INIT -> MOVE_TO_OCTAGON
+2026-07-11 21:37:51 - MainProcess - INFO - grabber_fsm.py:203 - State changed: MOVE_TO_OCTAGON -> SEARCH_FOR_ITEM
+2026-07-11 21:37:51 - MainProcess - INFO - grabber_fsm.py:203 - State changed: SEARCH_FOR_ITEM -> VERIFY_ITEM_TARGET
+2026-07-11 21:37:51 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_ITEM_TARGET -> ALIGN_TO_ITEM
+2026-07-11 21:37:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.06	 y = -0.08	 z = 0.0
+TGT: 	 x = 4.06	 y = -0.08	 z = 0.0
+2026-07-11 21:37:53 - MainProcess - INFO - grabber_fsm.py:203 - State changed: ALIGN_TO_ITEM -> VERIFY_GRAB_POSITION
+2026-07-11 21:37:54 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_GRAB_POSITION -> GRAB_ITEM
+2026-07-11 21:37:54 - MainProcess - INFO - grabber_fsm.py:203 - State changed: GRAB_ITEM -> SEARCH_FOR_BASKET
+2026-07-11 21:37:54 - MainProcess - INFO - grabber_fsm.py:203 - State changed: SEARCH_FOR_BASKET -> VERIFY_BASKET_TARGET
+2026-07-11 21:37:54 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_BASKET_TARGET -> ALIGN_TO_BASKET
+2026-07-11 21:37:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.08	 y = -0.12	 z = 0.0
+TGT: 	 x = 4.08	 y = -0.12	 z = 0.0
+2026-07-11 21:37:56 - MainProcess - INFO - grabber_fsm.py:203 - State changed: ALIGN_TO_BASKET -> VERIFY_RELEASE_POSITION
+2026-07-11 21:37:57 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_RELEASE_POSITION -> RELEASE_ITEM
+2026-07-11 21:37:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.14	 y = -0.22	 z = 0.0
+TGT: 	 x = 4.14	 y = -0.22	 z = 0.0
+2026-07-11 21:37:57 - MainProcess - INFO - grabber_fsm.py:203 - State changed: RELEASE_ITEM -> SEARCH_FOR_ITEM
+2026-07-11 21:37:57 - MainProcess - INFO - grabber_fsm.py:203 - State changed: SEARCH_FOR_ITEM -> VERIFY_ITEM_TARGET
+2026-07-11 21:37:57 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_ITEM_TARGET -> ALIGN_TO_ITEM
+2026-07-11 21:37:59 - MainProcess - INFO - grabber_fsm.py:203 - State changed: ALIGN_TO_ITEM -> VERIFY_GRAB_POSITION
+2026-07-11 21:38:00 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_GRAB_POSITION -> GRAB_ITEM
+2026-07-11 21:38:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.22	 y = -0.32	 z = 0.0
+TGT: 	 x = 4.22	 y = -0.32	 z = 0.0
+2026-07-11 21:38:00 - MainProcess - INFO - grabber_fsm.py:203 - State changed: GRAB_ITEM -> SEARCH_FOR_BASKET
+2026-07-11 21:38:00 - MainProcess - INFO - grabber_fsm.py:203 - State changed: SEARCH_FOR_BASKET -> VERIFY_BASKET_TARGET
+2026-07-11 21:38:01 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_BASKET_TARGET -> ALIGN_TO_BASKET
+2026-07-11 21:38:02 - MainProcess - INFO - grabber_fsm.py:203 - State changed: ALIGN_TO_BASKET -> VERIFY_RELEASE_POSITION
+2026-07-11 21:38:03 - MainProcess - INFO - grabber_fsm.py:203 - State changed: VERIFY_RELEASE_POSITION -> RELEASE_ITEM
+2026-07-11 21:38:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.29	 y = -0.43	 z = 0.0
+TGT: 	 x = 4.29	 y = -0.43	 z = 0.0
+2026-07-11 21:38:03 - MainProcess - INFO - grabber_fsm.py:203 - State changed: RELEASE_ITEM -> SURFACE_IN_OCTAGON
+2026-07-11 21:38:03 - MainProcess - INFO - grabber_fsm.py:203 - State changed: SURFACE_IN_OCTAGON -> FACE_TARGET_ICON
+2026-07-11 21:38:03 - MainProcess - INFO - grabber_fsm.py:203 - State changed: FACE_TARGET_ICON -> COMPLETE
