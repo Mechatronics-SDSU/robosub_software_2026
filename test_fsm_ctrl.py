@@ -97,7 +97,7 @@ LINEUP_CAMERA_ID     = None       # only used when LINEUP_CAMERA_SOURCE == "zed"
 # vision test settings, used when FSM_TO_TEST == "vision_test". Feature-test/showcase:
 # logs every qualifying detection's coords/box to vision.log, no alignment math, never drives the sub.
 # Runs unattended (no live window) - records MP4 (+ SVO for zed) instead, review afterward.
-VISION_TEST_CAMERA_SOURCE = "webcam"     # "downfacing" (sub's cam), "webcam" (laptop/dev), or "zed" (e.g. ZED 2i)
+VISION_TEST_CAMERA_SOURCE = "zed"     # "downfacing" (sub's cam), "webcam" (laptop/dev), or "zed" (e.g. ZED 2i)
 VISION_TEST_TARGET_LABEL  = None         # None = log every detected class; or a specific label to filter to
 VISION_TEST_CONF_MIN      = 0.70         # minimum detection confidence to log/display
 VISION_TEST_IMGSZ         = 640          # YOLO inference resolution -- lower (e.g. 320) on weak/RAM-limited compute
