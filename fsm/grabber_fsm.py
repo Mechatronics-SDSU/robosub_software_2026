@@ -5,11 +5,12 @@ import yaml
 from fsm.fsm                                import FSM_Template
 from modules.logger.logger                  import Logger
 from modules.grabber.grabber_helpers        import GrabberHelpers
+from modules.vision.target_box_helpers      import FINAL_SETTLE_TIME_S
 from enum                                   import Enum
 
 
 """
-    FSM for navigating through grabber
+    FSM for navigating through Octagon/Resupply (grabber task)
 """
 
 class States(Enum):
@@ -23,12 +24,14 @@ class States(Enum):
     ALIGN_TO_ITEM           = "ALIGN_TO_ITEM"
     VERIFY_GRAB_POSITION    = "VERIFY_GRAB_POSITION"
     GRAB_ITEM               = "GRAB_ITEM"
+    MOVE_TO_BASKET          = "MOVE_TO_BASKET"
     SEARCH_FOR_BASKET       = "SEARCH_FOR_BASKET"
     VERIFY_BASKET_TARGET    = "VERIFY_BASKET_TARGET"
     ALIGN_TO_BASKET         = "ALIGN_TO_BASKET"
     VERIFY_RELEASE_POSITION = "VERIFY_RELEASE_POSITION"
     RELEASE_ITEM            = "RELEASE_ITEM"
     SURFACE_IN_OCTAGON      = "SURFACE_IN_OCTAGON"
+    ROTATE_FOR_BONUS        = "ROTATE_FOR_BONUS"
     FACE_TARGET_ICON        = "FACE_TARGET_ICON"
     COMPLETE                = "COMPLETE"
     FAIL                    = "FAIL"
@@ -39,17 +42,18 @@ class States(Enum):
 
 class Grabber_FSM(FSM_Template):
     """
-    FSM for grabber mode - finding role items using the downward camera,
-    grabbing them, placing them in the role basket, then surfacing and
-    facing the correct icon
+    FSM for grabber mode (Octagon/Resupply) - finding role items on the
+    center table using the downward camera, grabbing them, carrying each to
+    the role basket on the octagon edge, releasing them, then surfacing,
+    rotating once per item placed (scoring bonus), and facing the correct icon.
 
-    NOTE: the suggested state list for this task also included separate
+    The suggested state list for this task also included separate
     SEARCH_FOR_SECOND_ITEM / GRAB_SECOND_ITEM / RELEASE_SECOND_ITEM states.
-    Those were combined into the same set of states reused for both items
-    with an item_num counter instead, the same pattern already used by
-    fsm/torpedo_fsm.py's SHOOTING -> SEARCHING loop for its second torpedo.
+    Those are combined into a single set of states reused for both items with
+    an item_num/remaining_items counter instead, the same pattern already
+    used by fsm/torpedo_fsm.py's SHOOTING -> SEARCHING loop and fsm/dropper_fsm.py.
     """
-    def __init__(self, shared_memory_object, run_list: list, role: str = "survey_and_repair", signal_wrapper=None):
+    def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None):
         """
         Grabber FSM constructor
 
@@ -63,19 +67,14 @@ class Grabber_FSM(FSM_Template):
         self.state: States  = States.INIT  # initial state
         self.logger = Logger()
 
-        self.helper = GrabberHelpers(shared_memory_object, signal_wrapper)
-
-        # ROLE SETTINGS-----------------------------------------------------------------------------------------------------------------------
-        self.role = role # "survey_and_repair" or "search_and_rescue"
-        self.role_items = self.helper.get_role_items(self.role) # both item labels for this role
-        self.remaining_items = list(self.role_items) # items not grabbed yet
-        self.basket_label = self.helper.get_basket_label(self.role)
-
-        # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
+        # TABLE APPROACH VALUES----------------------------------------------------------------------------------------------------------
         self.x1 = self.y1 = self.depth = 0.0
         self.x_buffer = self.y_buffer = self.z_buffer = 0.10
         self.timeout = 8.0
         self.t_loop = 0.10
+
+        # BASKET APPROACH VALUES (different location than the table, on the octagon edge)-------------------------------------------------
+        self.basket_x = self.basket_y = 0.0
 
         # ITEM COUNT----------------------------------------------------------------------------------------------------------------------------
         self.item_num = 1 # which item we are currently working on (1 or 2)
@@ -86,15 +85,27 @@ class Grabber_FSM(FSM_Template):
         # VISION / LINEUP VALUES--------------------------------------------------------------------------------------------------------------
         # camera looks straight down, so this is how high above the item/basket to hover
         self.desired_height = 0.3 # meters
-        self.x_lineup_tolerance = 0.05
-        self.y_lineup_tolerance = 0.05
+        # FIXME: waiting on real measured depths for the table/baskets, placeholders for now
+        self.item_target_depth = 1.0 # meters, placeholder
+        self.basket_target_depth = 1.0 # meters, placeholder
+        self.x_lineup_tolerance = 0.05 # meters (metric back-projection, not normalized image fraction)
+        self.y_lineup_tolerance = 0.05 # meters
 
+        self.max_object_yaml_error = 1.0
+        self.final_settle_time = FINAL_SETTLE_TIME_S
+        self.verify_entered_time = 0.0
         self.wait_time = 0.0
+
+        role = "survey_and_repair"
+        claw_offset_x = claw_offset_y = 0.0
+        model_weights = "models/best.pt"
 
         try:
             with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
                 course = data['course']
+                # role is a single top-level switch for the whole run, shared with dropper
+                role = data.get('role', role)
 
                 self.x_buffer = data[course]['grabber'].get('x_buf', self.x_buffer)
                 self.y_buffer = data[course]['grabber'].get('y_buf', self.y_buffer)
@@ -103,16 +114,35 @@ class Grabber_FSM(FSM_Template):
                 self.y1 = data[course]['grabber'].get('y1', self.y1)
                 self.depth = data[course]['grabber'].get('z', self.depth)
 
+                self.basket_x = data[course]['grabber'].get('basket_x', self.basket_x)
+                self.basket_y = data[course]['grabber'].get('basket_y', self.basket_y)
+
                 self.timeout = data[course]['grabber'].get('timeout', self.timeout)
                 self.t_loop = data[course]['grabber'].get('t_loop', self.t_loop)
                 self.desired_height = data[course]['grabber'].get('desired_height', self.desired_height)
+                self.item_target_depth = data[course]['grabber'].get('item_target_depth', self.item_target_depth)
+                self.basket_target_depth = data[course]['grabber'].get('basket_target_depth', self.basket_target_depth)
                 self.x_lineup_tolerance = data[course]['grabber'].get('x_lineup_tolerance', self.x_lineup_tolerance)
                 self.y_lineup_tolerance = data[course]['grabber'].get('y_lineup_tolerance', self.y_lineup_tolerance)
+
+                self.max_object_yaml_error = data[course]['grabber'].get('max_object_yaml_error', self.max_object_yaml_error)
+                self.final_settle_time = data[course]['grabber'].get('final_settle_time', self.final_settle_time)
+                # FIXME: claw_offset_x/y are unmeasured placeholders (0.0), see objects.yaml
+                claw_offset_x = data[course]['grabber'].get('claw_offset_x', claw_offset_x)
+                claw_offset_y = data[course]['grabber'].get('claw_offset_y', claw_offset_y)
+                model_weights = data[course]['grabber'].get('model_weights', model_weights)
 
         except FileNotFoundError:
             self.logger.error(f"{self.name} ERROR: objects.yaml not found, using default grabber values")
         except KeyError:
             self.logger.error(f"{self.name} ERROR: Invalid data format in objects.yaml, using default grabber values")
+
+        self.role = role # "survey_and_repair" or "search_and_rescue", set once for the whole run in objects.yaml
+        self.helper = GrabberHelpers(shared_memory_object, signal_wrapper, weights_path=model_weights,
+                                      claw_offset_body=(claw_offset_x, claw_offset_y))
+        self.role_items = self.helper.get_role_items(self.role) # both item labels for this role
+        self.remaining_items = list(self.role_items) # items not grabbed yet
+        self.basket_label = self.helper.get_basket_label(self.role)
 
     def start(self) -> None:
         """
@@ -134,7 +164,7 @@ class Grabber_FSM(FSM_Template):
             case States.INIT:
                 return # initial state
 
-            case States.MOVE_TO_OCTAGON: # approach guestimate coordinates
+            case States.MOVE_TO_OCTAGON: # approach guestimate coordinates for the center table
                 self.shared_memory_object.target_x.value = self.x1
                 self.shared_memory_object.target_y.value = self.y1
                 self.shared_memory_object.target_z.value = self.depth
@@ -147,11 +177,12 @@ class Grabber_FSM(FSM_Template):
             case States.VERIFY_ITEM_TARGET: # keep checking the item is a stable target
                 self.wait_time = time.time()
 
-            case States.ALIGN_TO_ITEM: # start driving toward the item using the downward camera
+            case States.ALIGN_TO_ITEM: # start driving the claw toward the item using the downward camera
                 self.wait_time = time.time()
 
-            case States.VERIFY_GRAB_POSITION: # re-check the item position before grabbing
+            case States.VERIFY_GRAB_POSITION: # hold position, re-check the item with a stricter pass before grabbing
                 self.wait_time = time.time()
+                self.verify_entered_time = time.time()
 
             case States.GRAB_ITEM: # grab the item
                 self.helper.close_claw()
@@ -160,6 +191,12 @@ class Grabber_FSM(FSM_Template):
                     self.remaining_items.remove(self.current_target[0])
                 time.sleep(1) # give some time for the claw to close
 
+            case States.MOVE_TO_BASKET: # approach guestimate coordinates for the role basket (different location than the table)
+                self.shared_memory_object.target_x.value = self.basket_x
+                self.shared_memory_object.target_y.value = self.basket_y
+                self.shared_memory_object.target_z.value = self.depth
+                self.wait_time = time.time()
+
             case States.SEARCH_FOR_BASKET: # look for the role's basket
                 self.helper.reset_tracking()
                 self.wait_time = time.time()
@@ -167,11 +204,12 @@ class Grabber_FSM(FSM_Template):
             case States.VERIFY_BASKET_TARGET: # keep checking the basket is a stable target
                 self.wait_time = time.time()
 
-            case States.ALIGN_TO_BASKET: # start driving toward the basket using the downward camera
+            case States.ALIGN_TO_BASKET: # start driving the claw toward the basket using the downward camera
                 self.wait_time = time.time()
 
-            case States.VERIFY_RELEASE_POSITION: # re-check the basket position before releasing
+            case States.VERIFY_RELEASE_POSITION: # hold position, re-check the basket with a stricter pass before releasing
                 self.wait_time = time.time()
+                self.verify_entered_time = time.time()
 
             case States.RELEASE_ITEM: # release the item into the basket
                 self.helper.release_object()
@@ -182,6 +220,9 @@ class Grabber_FSM(FSM_Template):
             case States.SURFACE_IN_OCTAGON: # surface while staying inside the octagon
                 self.helper.surface_in_octagon()
                 self.wait_time = time.time()
+
+            case States.ROTATE_FOR_BONUS: # rotate once per item successfully placed (section 3.2.6 bonus)
+                self.helper.start_rotation(self.items_released)
 
             case States.FACE_TARGET_ICON: # face the correct icon for the role/item count
                 icon_label = self.helper.get_target_icon(self.role, self.items_released)
@@ -208,6 +249,9 @@ class Grabber_FSM(FSM_Template):
         """
         if not self.active: return # do nothing if not enabled
         self.display(0, 150, 150) # update display
+
+        assumed_table_world = (self.x1, self.y1)
+        assumed_basket_world = (self.basket_x, self.basket_y)
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
@@ -248,11 +292,12 @@ class Grabber_FSM(FSM_Template):
             case States.ALIGN_TO_ITEM: # transition: ALIGN_TO_ITEM -> VERIFY_GRAB_POSITION
                 result = self.helper.align_step(
                     lambda detections: self.helper.choose_item_target(detections, self.remaining_items),
-                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                    self.item_target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance,
+                    assumed_table_world, self.max_object_yaml_error
                 )
                 self.current_target = result["target"]
 
-                if result["lost"]:
+                if result["lost"] or result["rejected"]:
                     self.next_state(States.SEARCH_FOR_ITEM)
                 elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.VERIFY_GRAB_POSITION)
@@ -264,21 +309,31 @@ class Grabber_FSM(FSM_Template):
             case States.VERIFY_GRAB_POSITION: # transition: VERIFY_GRAB_POSITION -> GRAB_ITEM
                 result = self.helper.align_step(
                     lambda detections: self.helper.choose_item_target(detections, self.remaining_items),
-                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                    self.item_target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance,
+                    assumed_table_world, self.max_object_yaml_error
                 )
                 self.current_target = result["target"]
 
-                if result["lost"]:
+                if result["lost"] or result["rejected"]:
                     self.next_state(States.SEARCH_FOR_ITEM)
                 elif result["centered"] and result["dwell_ok"]:
-                    self.next_state(States.GRAB_ITEM)
+                    settled = time.time() - self.verify_entered_time >= self.final_settle_time
+                    verified = result["target"] is not None and self.helper.check_target_verified(result["target"])
+                    if settled and verified:
+                        self.next_state(States.GRAB_ITEM)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.FAIL)
 
                 time.sleep(self.t_loop)
 
-            case States.GRAB_ITEM: # transition: GRAB_ITEM -> SEARCH_FOR_BASKET
-                self.next_state(States.SEARCH_FOR_BASKET)
+            case States.GRAB_ITEM: # transition: GRAB_ITEM -> MOVE_TO_BASKET
+                self.next_state(States.MOVE_TO_BASKET)
+
+            case States.MOVE_TO_BASKET: # transition: MOVE_TO_BASKET -> SEARCH_FOR_BASKET
+                if self.reached_xyz(self.basket_x, self.basket_y, self.depth):
+                    self.next_state(States.SEARCH_FOR_BASKET)
+                elif time.time() - self.wait_time > self.timeout:
+                    self.next_state(States.SEARCH_FOR_BASKET)
 
             case States.SEARCH_FOR_BASKET: # transition: SEARCH_FOR_BASKET -> VERIFY_BASKET_TARGET
                 detections = self.helper.get_target_detections()
@@ -308,11 +363,12 @@ class Grabber_FSM(FSM_Template):
             case States.ALIGN_TO_BASKET: # transition: ALIGN_TO_BASKET -> VERIFY_RELEASE_POSITION
                 result = self.helper.align_step(
                     lambda detections: self.helper.choose_basket_target(detections, self.basket_label),
-                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                    self.basket_target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance,
+                    assumed_basket_world, self.max_object_yaml_error
                 )
                 self.current_target = result["target"]
 
-                if result["lost"]:
+                if result["lost"] or result["rejected"]:
                     self.next_state(States.SEARCH_FOR_BASKET)
                 elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.VERIFY_RELEASE_POSITION)
@@ -324,28 +380,38 @@ class Grabber_FSM(FSM_Template):
             case States.VERIFY_RELEASE_POSITION: # transition: VERIFY_RELEASE_POSITION -> RELEASE_ITEM
                 result = self.helper.align_step(
                     lambda detections: self.helper.choose_basket_target(detections, self.basket_label),
-                    self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance
+                    self.basket_target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance,
+                    assumed_basket_world, self.max_object_yaml_error
                 )
                 self.current_target = result["target"]
 
-                if result["lost"]:
+                if result["lost"] or result["rejected"]:
                     self.next_state(States.SEARCH_FOR_BASKET)
                 elif result["centered"] and result["dwell_ok"]:
-                    self.next_state(States.RELEASE_ITEM)
+                    settled = time.time() - self.verify_entered_time >= self.final_settle_time
+                    verified = result["target"] is not None and self.helper.check_target_verified(result["target"])
+                    if settled and verified:
+                        self.next_state(States.RELEASE_ITEM)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.FAIL)
 
                 time.sleep(self.t_loop)
 
-            case States.RELEASE_ITEM: # transition: RELEASE_ITEM -> SEARCH_FOR_ITEM (2nd item) or SURFACE_IN_OCTAGON
+            case States.RELEASE_ITEM: # transition: RELEASE_ITEM -> MOVE_TO_OCTAGON (2nd item) or SURFACE_IN_OCTAGON
                 if self.item_num < self.max_items and self.remaining_items:
                     self.item_num += 1
-                    self.next_state(States.SEARCH_FOR_ITEM)
+                    self.next_state(States.MOVE_TO_OCTAGON)
                 else:
                     self.next_state(States.SURFACE_IN_OCTAGON)
 
-            case States.SURFACE_IN_OCTAGON: # transition: SURFACE_IN_OCTAGON -> FACE_TARGET_ICON
-                self.next_state(States.FACE_TARGET_ICON)
+            case States.SURFACE_IN_OCTAGON: # transition: SURFACE_IN_OCTAGON -> ROTATE_FOR_BONUS
+                self.next_state(States.ROTATE_FOR_BONUS)
+
+            case States.ROTATE_FOR_BONUS: # transition: ROTATE_FOR_BONUS -> FACE_TARGET_ICON
+                if self.helper.advance_rotation_step():
+                    self.next_state(States.FACE_TARGET_ICON)
+
+                time.sleep(self.t_loop)
 
             case States.FACE_TARGET_ICON: # transition: FACE_TARGET_ICON -> COMPLETE
                 self.next_state(States.COMPLETE)

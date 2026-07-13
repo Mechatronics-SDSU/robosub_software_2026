@@ -1,5 +1,7 @@
 course: test # course that the sub is running in
 motor_factor: 0.1 # changes motor speed, ~0.1 for air, ~0.7 for water
+# FIXME: static value, must be hand-edited to match the competition-assigned role before each run
+role: survey_and_repair # survey_and_repair (fire) or search_and_rescue (blood) - single switch for the whole run's dropper task
 
 jesse_pool: # ------------------------------------------------------------------------------------------------------
   # smaller coordinates for jesse's pool (~9.02m long, ~1.2m min depth, ~3m wide)
@@ -241,36 +243,67 @@ test: # ------------------------------------------------------------------------
     x_buf: 0.2 # m forward buffer for all objects
     y_buf: 0.2 # m left/right buffer for all objects
     z_buf: 0.2 # m up/down buffer for all objects
-    # approach position (guestimate coordinates in front of the pipeline)
+    # FIXME: x1/y1/z below are guestimate coordinates for the "test" course only.
+    # jesse_pool/lane_D/prequal don't have a dropper section at all yet - add one
+    # with real measured/estimated pipeline coordinates before running there.
     x1: 3
     y1: 0
     z: 0
     # helper variables
     timeout: 8 # seconds to wait before giving up on a state
     t_loop: 0.1 # seconds to wait between vision checks in a loop
+    # FIXME: 0.3m is a guess, confirm this is the right hover height for the real marker/dropper mechanism
     desired_height: 0.3 # m to hover above a bin (downward camera) before dropping
-    # MISSING: waiting on the route plan to know which bin height (12/14/19/22 in
+    # FIXME: waiting on the route plan to know which bin height (12/14/19/22 in
     # options, see conversation) applies to which bin. This is one placeholder
     # value used for every bin until the route plan assigns real per-bin depths.
     target_depth: 1.0 # m, placeholder
     x_lineup_tolerance: 0.05 # m, metric back-projection error allowed when centered
     y_lineup_tolerance: 0.05 # m
+    same_bin_radius: 0.5 # m, reject a candidate bin this close to an already-completed bin
+    max_object_yaml_error: 1.0 # m, reject a vision bin-world estimate this far from x1/y1 above
+    final_settle_time: 0.75 # s, station-keep hold before the final pre-drop verify pass
+    # FIXME: confirm this file exists on the sub and is trained on the "fire"/"blood" classes
+    model_weights: models/best.pt # YOLO weights path, resolved relative to modules/vision/
+    # FIXME: dropper_offset_x/y (body frame, meters) is unmeasured. Tape-measure, sub level:
+    # forward/aft (x) and left/right (y) distance between the camera's optical center and the
+    # dropper's release point. Height doesn't matter, only horizontal offset. 0.0 = no correction.
+    dropper_offset_x: 0.0889
+    dropper_offset_y: 0.0254
 
   grabber: # approximate grabber octagon position
     # buffers
     x_buf: 0.2 # m forward buffer for all objects
     y_buf: 0.2 # m left/right buffer for all objects
     z_buf: 0.2 # m up/down buffer for all objects
-    # approach position (guestimate coordinates in front of the octagon)
+    # approach position (guestimate coordinates in front of the center table)
     x1: 4
     y1: 0
     z: 0
+    # FIXME: basket_x/y are a guestimate. Baskets sit on two opposite octagon
+    # edges (not at the center table x1/y1 above) - measure/estimate real
+    # coordinates for the role basket before running this for real.
+    basket_x: 4
+    basket_y: 1.5
     # helper variables
     timeout: 8 # seconds to wait before giving up on a state
     t_loop: 0.1 # seconds to wait between vision checks in a loop
     desired_height: 0.3 # m to hover above an item/basket (downward camera) before grabbing/releasing
-    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
-    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+    # FIXME: waiting on real measured depths for the table/baskets, placeholders for now
+    item_target_depth: 1.0 # m, placeholder
+    basket_target_depth: 1.0 # m, placeholder
+    x_lineup_tolerance: 0.05 # m, metric back-projection error allowed when centered
+    y_lineup_tolerance: 0.05 # m
+    max_object_yaml_error: 1.0 # m, reject a vision item/basket-world estimate this far from x1/y1 or basket_x/y
+    final_settle_time: 0.75 # s, station-keep hold before the final pre-grab/pre-release verify pass
+    # FIXME: confirm this file exists on the sub and is trained on the item/basket/icon classes
+    model_weights: models/best.pt # YOLO weights path, resolved relative to modules/vision/
+    # FIXME: claw_offset_x/y (body frame, meters) is unmeasured. Tape-measure, sub level:
+    # forward/aft (x) and left/right (y) distance between the camera's optical center and the
+    # claw's grab point. Height doesn't matter, only horizontal offset. 0.0 = no correction.
+    # Separate measurement from the dropper's offset above - different physical location.
+    claw_offset_x: 0.0
+    claw_offset_y: 0.0
 
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run

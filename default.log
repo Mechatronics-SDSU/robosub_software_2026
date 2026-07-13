@@ -4302,3 +4302,1259 @@ TGT: 	 x = 4.29	 y = -0.43	 z = 0.0
 2026-07-11 21:38:03 - MainProcess - INFO - grabber_fsm.py:203 - State changed: RELEASE_ITEM -> SURFACE_IN_OCTAGON
 2026-07-11 21:38:03 - MainProcess - INFO - grabber_fsm.py:203 - State changed: SURFACE_IN_OCTAGON -> FACE_TARGET_ICON
 2026-07-11 21:38:03 - MainProcess - INFO - grabber_fsm.py:203 - State changed: FACE_TARGET_ICON -> COMPLETE
+2026-07-12 03:37:12 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER MODE
+2026-07-12 03:37:12 - MainProcess - INFO - dropper_fsm.py:189 - State changed: INIT -> MOVE_TO_PIPELINE
+2026-07-12 03:37:12 - MainProcess - INFO - dropper_fsm.py:189 - State changed: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+2026-07-12 03:37:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 03:37:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 03:37:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 03:37:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 03:37:21 - MainProcess - WARNING - dropper_fsm.py:180 - DROPPER FAILED to complete marker 1
+2026-07-12 03:37:21 - MainProcess - INFO - dropper_fsm.py:189 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-12 04:27:17 - MainProcess - INFO - fsm.py:59 - STARTING GRABBER MODE
+2026-07-12 04:27:17 - MainProcess - INFO - grabber_fsm.py:244 - State changed: INIT -> MOVE_TO_OCTAGON
+2026-07-12 04:27:17 - MainProcess - INFO - grabber_fsm.py:244 - State changed: MOVE_TO_OCTAGON -> SEARCH_FOR_ITEM
+2026-07-12 04:27:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 04:27:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 04:27:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 04:27:25 - MainProcess - WARNING - grabber_fsm.py:235 - GRABBER FAILED to complete item 1
+2026-07-12 04:27:25 - MainProcess - INFO - grabber_fsm.py:244 - State changed: SEARCH_FOR_ITEM -> FAIL
+2026-07-12 04:27:56 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER MODE
+2026-07-12 04:27:56 - MainProcess - INFO - dropper_fsm.py:194 - State changed: INIT -> MOVE_TO_PIPELINE
+2026-07-12 04:27:56 - MainProcess - INFO - dropper_fsm.py:194 - State changed: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+2026-07-12 04:27:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 04:28:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 04:28:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 04:28:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 04:28:04 - MainProcess - WARNING - dropper_fsm.py:185 - DROPPER FAILED to complete marker 1
+2026-07-12 04:28:04 - MainProcess - INFO - dropper_fsm.py:194 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-12 04:55:29 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 04:55:29 - MainProcess - INFO - lineup_test_fsm.py:138 - State changed: INIT -> ALIGN
+2026-07-12 04:55:30 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:30 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:31 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:31 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:31 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:31 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 04:55:31 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:32 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:32 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:32 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:32 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:32 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:32 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:33 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:33 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:33 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:33 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 04:55:33 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:34 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 04:55:34 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:00:58 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER MODE
+2026-07-12 11:00:58 - MainProcess - INFO - dropper_fsm.py:194 - State changed: INIT -> MOVE_TO_PIPELINE
+2026-07-12 11:00:59 - MainProcess - INFO - dropper_fsm.py:194 - State changed: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+2026-07-12 11:01:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:04 - MainProcess - INFO - dropper_fsm.py:194 - State changed: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
+2026-07-12 11:01:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:13 - MainProcess - WARNING - dropper_fsm.py:185 - DROPPER FAILED to complete marker 1
+2026-07-12 11:01:13 - MainProcess - INFO - dropper_fsm.py:194 - State changed: VERIFY_BIN_TARGET -> FAIL
+2026-07-12 11:01:22 - MainProcess - INFO - fsm.py:59 - STARTING GRABBER MODE
+2026-07-12 11:01:22 - MainProcess - INFO - grabber_fsm.py:244 - State changed: INIT -> MOVE_TO_OCTAGON
+2026-07-12 11:01:22 - MainProcess - INFO - grabber_fsm.py:244 - State changed: MOVE_TO_OCTAGON -> SEARCH_FOR_ITEM
+2026-07-12 11:01:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:31 - MainProcess - WARNING - grabber_fsm.py:235 - GRABBER FAILED to complete item 1
+2026-07-12 11:01:31 - MainProcess - INFO - grabber_fsm.py:244 - State changed: SEARCH_FOR_ITEM -> FAIL
+2026-07-12 11:01:47 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 11:01:47 - MainProcess - INFO - lineup_test_fsm.py:138 - State changed: INIT -> ALIGN
+2026-07-12 11:01:50 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:01:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:51 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:01:52 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:01:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:53 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:01:55 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:01:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 11:01:56 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:01:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 11:02:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 11:02:01 - MainProcess - INFO - lineup_test_fsm.py:157 - LINEUP_TEST: no 'fire' target seen
+2026-07-12 11:12:37 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER MODE
+2026-07-12 11:12:37 - MainProcess - INFO - dropper_fsm.py:194 - State changed: INIT -> MOVE_TO_PIPELINE
+2026-07-12 11:12:37 - MainProcess - INFO - dropper_fsm.py:194 - State changed: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+2026-07-12 11:12:39 - MainProcess - INFO - dropper_fsm.py:194 - State changed: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
+2026-07-12 11:12:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:12:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:12:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:12:47 - MainProcess - WARNING - dropper_fsm.py:185 - DROPPER FAILED to complete marker 1
+2026-07-12 11:12:47 - MainProcess - INFO - dropper_fsm.py:194 - State changed: VERIFY_BIN_TARGET -> FAIL
+2026-07-12 11:12:57 - MainProcess - INFO - fsm.py:59 - STARTING GRABBER MODE
+2026-07-12 11:12:57 - MainProcess - INFO - grabber_fsm.py:244 - State changed: INIT -> MOVE_TO_OCTAGON
+2026-07-12 11:12:57 - MainProcess - INFO - grabber_fsm.py:244 - State changed: MOVE_TO_OCTAGON -> SEARCH_FOR_ITEM
+2026-07-12 11:12:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:13:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:13:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:13:05 - MainProcess - WARNING - grabber_fsm.py:235 - GRABBER FAILED to complete item 1
+2026-07-12 11:13:05 - MainProcess - INFO - grabber_fsm.py:244 - State changed: SEARCH_FOR_ITEM -> FAIL
+2026-07-12 11:19:04 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER MODE
+2026-07-12 11:19:04 - MainProcess - INFO - dropper_fsm.py:194 - State changed: INIT -> MOVE_TO_PIPELINE
+2026-07-12 11:19:04 - MainProcess - INFO - dropper_fsm.py:194 - State changed: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+2026-07-12 11:19:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:19:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:19:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-12 11:19:13 - MainProcess - WARNING - dropper_fsm.py:185 - DROPPER FAILED to complete marker 1
+2026-07-12 11:19:13 - MainProcess - INFO - dropper_fsm.py:194 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-12 11:19:21 - MainProcess - INFO - fsm.py:59 - STARTING GRABBER MODE
+2026-07-12 11:19:21 - MainProcess - INFO - grabber_fsm.py:244 - State changed: INIT -> MOVE_TO_OCTAGON
+2026-07-12 11:19:21 - MainProcess - INFO - grabber_fsm.py:244 - State changed: MOVE_TO_OCTAGON -> SEARCH_FOR_ITEM
+2026-07-12 11:19:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:19:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:19:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-12 11:19:31 - MainProcess - WARNING - grabber_fsm.py:235 - GRABBER FAILED to complete item 1
+2026-07-12 11:19:31 - MainProcess - INFO - grabber_fsm.py:244 - State changed: SEARCH_FOR_ITEM -> FAIL
+2026-07-12 13:56:18 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 13:56:18 - MainProcess - INFO - lineup_test_fsm.py:164 - State changed: INIT -> ALIGN
+2026-07-12 13:56:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:35 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 13:57:35 - MainProcess - INFO - lineup_test_fsm.py:164 - State changed: INIT -> ALIGN
+2026-07-12 13:57:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 13:57:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:04 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:01:04 - MainProcess - INFO - lineup_test_fsm.py:168 - State changed: INIT -> ALIGN
+2026-07-12 14:01:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:01:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:06:08 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:06:08 - MainProcess - INFO - lineup_test_fsm.py:207 - State changed: INIT -> ALIGN
+2026-07-12 14:06:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:06:46 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:06:46 - MainProcess - INFO - lineup_test_fsm.py:207 - State changed: INIT -> ALIGN
+2026-07-12 14:06:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:06:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:06:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:06:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:34 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:07:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:09:54 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:09:54 - MainProcess - INFO - lineup_test_fsm.py:207 - State changed: INIT -> ALIGN
+2026-07-12 14:10:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:35 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:10:35 - MainProcess - INFO - lineup_test_fsm.py:207 - State changed: INIT -> ALIGN
+2026-07-12 14:10:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:10:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:12:55 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:12:55 - MainProcess - INFO - lineup_test_fsm.py:217 - State changed: INIT -> ALIGN
+2026-07-12 14:13:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:24 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:13:24 - MainProcess - INFO - lineup_test_fsm.py:217 - State changed: INIT -> ALIGN
+2026-07-12 14:13:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:13:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:14:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:28 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:15:28 - MainProcess - INFO - lineup_test_fsm.py:217 - State changed: INIT -> ALIGN
+2026-07-12 14:15:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:36 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:15:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:16:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:17:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:22 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 14:25:22 - MainProcess - INFO - lineup_test_fsm.py:217 - State changed: INIT -> ALIGN
+2026-07-12 14:25:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:34 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:25:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 14:26:34 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:30:58 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 20:30:58 - MainProcess - INFO - lineup_test_fsm.py:217 - State changed: INIT -> ALIGN
+2026-07-12 20:31:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 20:31:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:32:42 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 21:32:42 - MainProcess - INFO - lineup_test_fsm.py:217 - State changed: INIT -> ALIGN
+2026-07-12 21:32:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:32:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:32:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:32:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:32:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:34 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:36 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:33:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:42:56 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 21:42:56 - MainProcess - INFO - lineup_test_fsm.py:217 - State changed: INIT -> ALIGN
+2026-07-12 21:43:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:43:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:48:17 - MainProcess - INFO - lineup_test_fsm.py:187 - LINEUP_TEST: new goal point picked: (0.2977186406695954, 0.6898603521093114)
+2026-07-12 21:48:17 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 21:48:17 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: INIT -> SEARCH
+2026-07-12 21:48:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:48:24 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:48:24 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:48:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:48:55 - MainProcess - INFO - lineup_test_fsm.py:187 - LINEUP_TEST: new goal point picked: (0.6138500820194381, 0.6957231005375504)
+2026-07-12 21:48:55 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 21:48:55 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: INIT -> SEARCH
+2026-07-12 21:49:00 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:49:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:10 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:49:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:14 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:49:14 - MainProcess - INFO - lineup_test_fsm.py:289 - LINEUP_TEST: cycle 1 complete (goal (0.6138500820194381, 0.6957231005375504)) - picking a new goal
+2026-07-12 21:49:14 - MainProcess - INFO - lineup_test_fsm.py:187 - LINEUP_TEST: new goal point picked: (0.7499179102957252, 0.6667756724803815)
+2026-07-12 21:49:14 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:49:15 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:49:15 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:49:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:16 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:49:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:22 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:49:23 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_FINAL -> ALIGN
+2026-07-12 21:49:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:25 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:49:26 - MainProcess - INFO - lineup_test_fsm.py:289 - LINEUP_TEST: cycle 2 complete (goal (0.7499179102957252, 0.6667756724803815)) - picking a new goal
+2026-07-12 21:49:26 - MainProcess - INFO - lineup_test_fsm.py:187 - LINEUP_TEST: new goal point picked: (0.7104005416698991, 0.5189852987496338)
+2026-07-12 21:49:26 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:49:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:26 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:49:26 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:49:27 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:49:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:36 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:49:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:37 - MainProcess - INFO - lineup_test_fsm.py:289 - LINEUP_TEST: cycle 3 complete (goal (0.7104005416698991, 0.5189852987496338)) - picking a new goal
+2026-07-12 21:49:37 - MainProcess - INFO - lineup_test_fsm.py:187 - LINEUP_TEST: new goal point picked: (0.49586012866724877, 0.6789273558252731)
+2026-07-12 21:49:37 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:49:37 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:49:38 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:49:38 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:49:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:50 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:49:51 - MainProcess - INFO - lineup_test_fsm.py:289 - LINEUP_TEST: cycle 4 complete (goal (0.49586012866724877, 0.6789273558252731)) - picking a new goal
+2026-07-12 21:49:51 - MainProcess - INFO - lineup_test_fsm.py:187 - LINEUP_TEST: new goal point picked: (0.5876254336102353, 0.7123702546690613)
+2026-07-12 21:49:51 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:49:51 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:49:51 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:49:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:52 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:49:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:49:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:02 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> SEARCH
+2026-07-12 21:50:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:07 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:50:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:11 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:50:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:16 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> SEARCH
+2026-07-12 21:50:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:26 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:50:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:27 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:50:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:50:32 - MainProcess - INFO - lineup_test_fsm.py:298 - State changed: ALIGN -> SEARCH
+2026-07-12 21:52:44 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.40203503250304984, 0.7352067229086667)
+2026-07-12 21:52:44 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 21:52:44 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: INIT -> SEARCH
+2026-07-12 21:52:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:52:50 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:52:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:52:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:52:54 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:52:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:52:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:52:58 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:52:59 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 1 complete (goal (0.40203503250304984, 0.7352067229086667)) - picking a new goal
+2026-07-12 21:52:59 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.3627709163799111, 0.7009244637459757)
+2026-07-12 21:52:59 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:52:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:52:59 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:53:00 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:53:01 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:53:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:03 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:53:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:04 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 2 complete (goal (0.3627709163799111, 0.7009244637459757)) - picking a new goal
+2026-07-12 21:53:04 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.41083897436369377, 0.5352598854129624)
+2026-07-12 21:53:04 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:53:05 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:53:05 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:53:06 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:53:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:23 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:53:24 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 3 complete (goal (0.41083897436369377, 0.5352598854129624)) - picking a new goal
+2026-07-12 21:53:24 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.6982157375613574, 0.4012769632498378)
+2026-07-12 21:53:24 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:53:24 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:53:25 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:53:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:29 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:53:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:38 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 21:53:38 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:53:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:40 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> SEARCH
+2026-07-12 21:53:40 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:53:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:46 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:53:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:53:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:15 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 21:54:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:23 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:54:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:26 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> SEARCH
+2026-07-12 21:54:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:50 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:54:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:55 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:54:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:54:59 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:55:00 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> ALIGN
+2026-07-12 21:55:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:03 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 21:55:04 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 4 complete (goal (0.6982157375613574, 0.4012769632498378)) - picking a new goal
+2026-07-12 21:55:04 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.3561573637563564, 0.5292832967659491)
+2026-07-12 21:55:04 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 21:55:04 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 21:55:04 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 21:55:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:05 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 21:55:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:12 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 21:55:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 21:55:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:17 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.3277702217238973, 0.3966835990877547)
+2026-07-12 22:11:17 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 22:11:17 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: INIT -> SEARCH
+2026-07-12 22:11:22 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:11:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:23 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:11:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:26 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:11:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:27 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:11:28 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:11:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:30 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:11:31 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:11:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:33 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> SEARCH
+2026-07-12 22:11:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:36 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:11:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:41 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:11:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:45 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:11:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:48 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:11:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:49 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:11:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:11:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:00 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:12:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:01 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:12:02 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:12:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:05 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:12:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:10 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:12:11 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:12:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:15 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:12:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:26 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:12:27 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:12:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:32 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:12:34 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:36 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:12:36 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:38 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> SEARCH
+2026-07-12 22:12:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:38 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:12:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:40 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:12:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:12:54 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:12:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:11 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.5925900280525147, 0.346616989873403)
+2026-07-12 22:46:11 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-12 22:46:11 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: INIT -> SEARCH
+2026-07-12 22:46:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:21 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:46:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:27 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:46:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:33 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 22:46:34 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 1 complete (goal (0.5925900280525147, 0.346616989873403)) - picking a new goal
+2026-07-12 22:46:34 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.5371685507117641, 0.6727872695665246)
+2026-07-12 22:46:34 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 22:46:34 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 22:46:35 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:46:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:36 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:46:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:41 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 22:46:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:42 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 2 complete (goal (0.5371685507117641, 0.6727872695665246)) - picking a new goal
+2026-07-12 22:46:42 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.5438661358789711, 0.40514019531047174)
+2026-07-12 22:46:42 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 22:46:42 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 22:46:42 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:46:43 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:46:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:48 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 22:46:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:49 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 3 complete (goal (0.5438661358789711, 0.40514019531047174)) - picking a new goal
+2026-07-12 22:46:49 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.7271559246416894, 0.6518011420203361)
+2026-07-12 22:46:49 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 22:46:49 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 22:46:49 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:46:50 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:46:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:56 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 22:46:57 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 4 complete (goal (0.7271559246416894, 0.6518011420203361)) - picking a new goal
+2026-07-12 22:46:57 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.7138144372544706, 0.5201365641162821)
+2026-07-12 22:46:57 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 22:46:57 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 22:46:57 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:46:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:46:58 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:47:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:01 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 22:47:01 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 5 complete (goal (0.7138144372544706, 0.5201365641162821)) - picking a new goal
+2026-07-12 22:47:01 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.3863162386211401, 0.6920933629140749)
+2026-07-12 22:47:01 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 22:47:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:02 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 22:47:02 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:47:03 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:47:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:06 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:47:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:07 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:47:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:08 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:47:10 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 22:47:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:11 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 6 complete (goal (0.3863162386211401, 0.6920933629140749)) - picking a new goal
+2026-07-12 22:47:11 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.5314467848694512, 0.543061694349939)
+2026-07-12 22:47:11 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 22:47:11 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 22:47:11 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:47:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:14 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:47:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:16 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> VERIFY_FINAL
+2026-07-12 22:47:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:17 - MainProcess - INFO - lineup_test_fsm.py:312 - LINEUP_TEST: cycle 7 complete (goal (0.5314467848694512, 0.543061694349939)) - picking a new goal
+2026-07-12 22:47:17 - MainProcess - INFO - lineup_test_fsm.py:210 - LINEUP_TEST: new goal point picked: (0.33460716938101404, 0.427007209378686)
+2026-07-12 22:47:17 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_FINAL -> SUCCESS
+2026-07-12 22:47:17 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SUCCESS -> SEARCH
+2026-07-12 22:47:18 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 22:47:18 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: VERIFY_TARGET -> ALIGN
+2026-07-12 22:47:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:34 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: ALIGN -> SEARCH
+2026-07-12 22:47:34 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-12 22:47:39 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-12 23:10:54 - MainProcess - INFO - lineup_test_fsm.py:220 - LINEUP_TEST: new goal point picked: (0.6303537738755414, 0.301523614036036)

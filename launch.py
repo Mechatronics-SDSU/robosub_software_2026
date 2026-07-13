@@ -9,12 +9,19 @@ from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
 from fsm.fsm                                import FSM_Template
 from fsm.test_signals_fsm                   import TestSignals_FSM
+from fsm.torpedo_fsm                        import Torpedo_FSM
+from fsm.dropper_fsm                        import Dropper_FSM
+from fsm.grabber_fsm                        import Grabber_FSM
 
 #import modules
 from modules.pid.pid_interface              import PIDInterface
 from modules.sensors.a50_dvl.dvl_interface  import DVL_Interface
-from modules.vision.vision_main             import VisionDetection
 from modules.signals.SignalWrapper          import SignalWrapper
+from modules.torpedo.torpedo_helpers         import TorpedoHelper
+# NOTE: DropperHelpers/GrabberHelpers are constructed internally by
+# Dropper_FSM/Grabber_FSM (they take shared_memory_object + signal_wrapper,
+# not usb_object, and aren't run_list process objects), so they aren't
+# imported/instantiated here.
 
 #kill module
 from modules.motors.USB_Transmit            import USB_Transmitter
@@ -50,8 +57,9 @@ DELAY = 0 #s
 usb_object = USB_Transmitter()  # Create a single USB_Transmitter instance to be shared
 pid_object = PIDInterface(shared_memory_object, usb_object)  # Pass the USB_Transmitter instance to PIDInterface
 dvl_object = DVL_Interface(shared_memory_object)
-vis_object = VisionDetection(shared_memory_object)
 sig_object = SignalWrapper(usb_object)
+tor_object = TorpedoHelper(usb_object)
+
 # initialize modes
 gate_modules = [pid_object, dvl_object]
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
@@ -62,6 +70,10 @@ test_signals_mode = TestSignals_FSM(shared_memory_object, test_signals_modules)
 slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
+
+torpedo_mode = Torpedo_FSM(shared_memory_object, [tor_object, pid_object, dvl_object])
+dropper_mode = Dropper_FSM(shared_memory_object, [pid_object, dvl_object], signal_wrapper=sig_object)
+grabber_mode = Grabber_FSM(shared_memory_object, [pid_object, dvl_object], signal_wrapper=sig_object)
 
 #mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
 mode_list = [test_signals_mode]

@@ -13,14 +13,11 @@ from fsm.return_fsm                         import Return_FSM
 from fsm.prequal_fsm                        import Prequal_FSM
 from fsm.coinflip_fsm                       import CoinFlip_FSM
 from fsm.modem_fsm                          import Modem_FSM, FRAME_TYPE_DATA
-from fsm.torpedo_fsm                        import Torpedo_FSM
 from fsm.dropper_fsm                        import Dropper_FSM
 from fsm.grabber_fsm                        import Grabber_FSM
+from fsm.lineup_test_fsm                    import Lineup_Test_FSM
 
-from fsm_test_helpers                       import (
-    FakeModem, FakeSignalWrapper, drift_toward_targets, FAKE_TORPEDO_CIRCLE_DATA,
-    FAKE_DROPPER_DETECTIONS, FAKE_GRABBER_DETECTIONS
-)
+from fsm_test_helpers                       import FakeModem, drift_toward_targets
 
 """
     discord: @.kech
@@ -51,6 +48,14 @@ from fsm_test_helpers                       import (
         Start the listener terminal first. CLI flags override
         MODEM_ROLE/MODEM_PORT/MODEM_TASK_CODE below; omit them to fall
         back to those constants.
+
+    LINEUP TARGET LABEL / CONFIDENCE WITHOUT EDITING THE FILE:
+        Set FSM_TO_TEST = "lineup" below, then override which class to look
+        for and/or the confidence floor from the command line:
+
+            python test_fsm_ctrl.py --target-label blood --conf-min 0.9
+
+        Omit either flag to fall back to LINEUP_TARGET_LABEL/LINEUP_CONF_MIN below.
 """
 
 # create shared memory object
@@ -58,6 +63,10 @@ shared_memory_object = SharedMemoryWrapper()
 DELAY = 0.2 # loop delay, raise this to slow down/step through states
 
 FAKE_INPUT = False # fake dvl movement + fake modem messages, turn off once testing on real hardware
+# NOTE: FAKE_INPUT only fakes DVL drift (drift_toward_targets), not vision. Testing
+# "dropper" past SEARCH_FOR_BIN needs either the real downward camera + a bin image,
+# or a manual monkeypatch of DropperHelpers.get_target_detections() at the call site.
+
 FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing the modem listener, set to None for no message
     "frame_number": 0, "frame_type": FRAME_TYPE_DATA, "color_flag": 0, "task_code": 2,
 }
@@ -65,8 +74,7 @@ FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing th
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "modem" # gate, octagon, slalom, return, prequal, coinflip, modem, torpedo, dropper, grabber
-TEST_ROLE = "survey_and_repair" # survey_and_repair or search_and_rescue, used by dropper and grabber
+FSM_TO_TEST = "lineup" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, lineup
 
 # modem hardware settings, used when FSM_TO_TEST == "modem" and FAKE_INPUT = False.
 # Run this file once per sub with the opposite MODEM_ROLE and each sub's real COM port.
@@ -74,6 +82,16 @@ MODEM_ROLE       = "listener" # "sender" or "listener" -- give each of the two s
 MODEM_PORT       = "COM_TEST" # e.g. "COM7" on Windows or "/dev/ttyUSB0" on Linux
 MODEM_TASK_CODE  = 2          # 0-3, the task code to send (sender role) or expect (listener role, informational only)
 MODEM_COLOR_FLAG = False
+
+# lineup test settings, used when FSM_TO_TEST == "lineup". Bench-diagnostic: reads
+# and prints the vision/alignment math for the chosen system, never drives the sub.
+LINEUP_SYSTEM        = "dropper"  # "dropper" or "grabber" -- which tool offset to test with
+LINEUP_TARGET_LABEL  = "fire"     # vision class label to search for, must match a trained class
+LINEUP_CAMERA_SOURCE = "webcam"   # "downfacing" (sub's cam), "webcam" (laptop/dev), or "zed" (ZED/ZED X-series)
+LINEUP_CONF_MIN      = 0.70       # minimum detection confidence to produce any output at all
+LINEUP_SHOW_VIDEO    = True       # live preview window with YOLO boxes + fps (press q to close, doesn't stop the FSM)
+LINEUP_IMGSZ         = 640        # YOLO inference resolution -- lower (e.g. 320) on weak/RAM-limited compute
+LINEUP_CAMERA_ID     = None       # only used when LINEUP_CAMERA_SOURCE == "zed" -- selects among multiple/GMSL cameras
 
 def build_fsm(name: str):
     """
@@ -95,16 +113,14 @@ def build_fsm(name: str):
         case "modem":
             return Modem_FSM(shared_memory_object, [], role=MODEM_ROLE, port=MODEM_PORT,
                               task_code=MODEM_TASK_CODE, color_flag=MODEM_COLOR_FLAG)
-        case "torpedo":
-            # FakeSignalWrapper prints instead of firing real hardware, safe by default for testing.
-            # For a real run, build a real modules.signals.SignalWrapper from the shared
-            # USB_Transmitter and pass it in as signal_wrapper instead (see launch.py).
-            return Torpedo_FSM(shared_memory_object, [], signal_wrapper=FakeSignalWrapper())
         case "dropper":
-            # FakeSignalWrapper prints instead of actuating real hardware, safe by default for testing.
-            return Dropper_FSM(shared_memory_object, [], role=TEST_ROLE, signal_wrapper=FakeSignalWrapper())
+            return Dropper_FSM(shared_memory_object, [])
         case "grabber":
-            return Grabber_FSM(shared_memory_object, [], role=TEST_ROLE, signal_wrapper=FakeSignalWrapper())
+            return Grabber_FSM(shared_memory_object, [])
+        case "lineup":
+            return Lineup_Test_FSM(shared_memory_object, [], system=LINEUP_SYSTEM, target_label=LINEUP_TARGET_LABEL,
+                                    camera_source=LINEUP_CAMERA_SOURCE, conf_min=LINEUP_CONF_MIN, show_video=LINEUP_SHOW_VIDEO,
+                                    imgsz=LINEUP_IMGSZ, camera_id=LINEUP_CAMERA_ID)
         case _:
             print(f"Unknown FSM '{name}', check FSM_TO_TEST / build_fsm()")
             return None
@@ -122,18 +138,6 @@ def main():
     if FAKE_INPUT and FSM_TO_TEST == "modem":
         # no modem hardware attached, fake it so start()/loop() never touch a real serial port
         mode.comms.open_modem = lambda *a, **kw: FakeModem(mode.comms, fake_data_frame=FAKE_MODEM_DATA_FRAME)
-
-    if FAKE_INPUT and FSM_TO_TEST == "torpedo":
-        # no camera/vision pipeline attached, fake the circle data so a hole can be found
-        mode.lineup.get_torpedo_circle_data = lambda: FAKE_TORPEDO_CIRCLE_DATA
-
-    if FAKE_INPUT and FSM_TO_TEST == "dropper":
-        # no camera/vision pipeline attached, fake the detections so a bin can be found
-        mode.helper.get_target_detections = lambda: FAKE_DROPPER_DETECTIONS[TEST_ROLE]
-
-    if FAKE_INPUT and FSM_TO_TEST == "grabber":
-        # no camera/vision pipeline attached, fake the detections so items/basket can be found
-        mode.helper.get_target_detections = lambda: FAKE_GRABBER_DETECTIONS[TEST_ROLE]
 
     mode.start()
     main_loop(mode)
@@ -175,25 +179,14 @@ def display(mode):
     Display function for testing
     """
     print(f"MODE: {mode.name}:{mode.state}")
-    if hasattr(mode, "role"): # selected role, for dropper/grabber/modem
+    if hasattr(mode, "role"): # selected role, for modem
         print(f"ROLE: {mode.role}")
     if hasattr(mode, "received_frame"): # modem data/ack exchange result
         print(f"MODEM SUCCESS: {mode.success}  RECEIVED FRAME: {mode.received_frame}")
-    if getattr(mode, "current_target", None) is not None: # last target detection/hole tracked
-        target = mode.current_target
-        if isinstance(target, dict): # torpedo's circle_data hole format
-            print(f"TARGET: x_norm={target['x_norm']:.2f}  y_norm={target['y_norm']:.2f}")
-        else: # dropper/grabber's vision target box format
-            print(f"TARGET: label={target[0]}  x_norm={target[3]:.2f}  y_norm={target[4]:.2f}")
+    if hasattr(mode, "helper") and hasattr(mode.helper, "debug"): # dropper/grabber alignment debug info
+        print(f"{mode.name} DEBUG: {mode.helper.debug}")
 
-    helper = getattr(mode, "helper", None) # dropper/grabber downward-camera alignment debug info
-    if helper is not None and hasattr(helper, "last_motion_cmd"):
-        print("IMAGE ERROR: x=%.2f y=%.2f depth=%.2f" % (helper.last_x_error, helper.last_y_error, helper.last_depth_error))
-        print("MOVE CMD: strafe=%.2f forward=%.2f vertical=%.2f" % helper.last_motion_cmd)
-        print(f"STABLE: {helper.last_stable}  CENTERED: {helper.last_centered}  DWELL_OK: {helper.last_dwell_ok}  LOST: {helper.last_lost}")
-
-    # %.3f instead of %.1f: torpedo/dropper/grabber alignment offsets are often
-    # small (a few cm) and would otherwise round away to look unchanged
+    # %.3f instead of %.1f: small position offsets would otherwise round away to look unchanged
     print("x: %.3f -> %.3f" % (shared_memory_object.dvl_x.value, shared_memory_object.target_x.value))
     print("y: %.3f -> %.3f" % (shared_memory_object.dvl_y.value, shared_memory_object.target_y.value))
     print("z: %.3f -> %.3f" % (shared_memory_object.dvl_z.value, shared_memory_object.target_z.value))
@@ -216,6 +209,8 @@ def parse_args():
     parser.add_argument("--port", default=None, help="override MODEM_PORT")
     parser.add_argument("--task-code", type=int, default=None, help="override MODEM_TASK_CODE")
     parser.add_argument("--color-flag", action="store_true", default=None, help="override MODEM_COLOR_FLAG to True")
+    parser.add_argument("--target-label", default=None, help="override LINEUP_TARGET_LABEL")
+    parser.add_argument("--conf-min", type=float, default=None, help="override LINEUP_CONF_MIN")
     return parser.parse_args()
 
 if __name__ == '__main__':
@@ -228,6 +223,10 @@ if __name__ == '__main__':
         MODEM_TASK_CODE = args.task_code
     if args.color_flag is not None:
         MODEM_COLOR_FLAG = args.color_flag
+    if args.target_label is not None:
+        LINEUP_TARGET_LABEL = args.target_label
+    if args.conf_min is not None:
+        LINEUP_CONF_MIN = args.conf_min
 
     print(f"RUNNING SINGLE FSM TEST: {FSM_TO_TEST}")
     try:

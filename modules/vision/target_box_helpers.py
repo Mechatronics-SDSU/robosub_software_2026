@@ -1,14 +1,16 @@
 import time
 
+from scipy.spatial.transform import Rotation
+
 """
-    Shared vision target box helpers used by the dropper and grabber FSMs.
-    Handles box math, the 3-frame target stability check, and downward-camera
-    motion control (dropper/grabber both use a downward-facing camera, unlike
-    torpedo's forward-facing camera in torpedo_helpers.py, so they need this
-    separate, simpler proportional control instead of torpedo's FOV/distance
-    trig math).
-    Keep this file free of task-specific logic (bins, items, baskets, etc.),
-    that belongs in dropper_helpers.py / grabber_helpers.py.
+    Shared vision target box helpers used by the dropper FSM.
+    Handles box math, the multi-frame target stability check (via IoU), and
+    downward-camera motion control (dropper uses a downward-facing camera,
+    unlike torpedo's forward-facing camera in torpedo_helpers.py, so it needs
+    this separate, simpler proportional control instead of torpedo's FOV/
+    distance trig math).
+    Keep this file free of task-specific logic (bin labels, roles, etc.),
+    that belongs in dropper_helpers.py.
 
     Detection format (one detection):
         [class_label, class_id, conf, x_norm, y_norm, depth_m, width, height]
@@ -25,58 +27,55 @@ WIDTH       = 6
 HEIGHT      = 7
 
 # BOX/STABILITY THRESHOLDS, adjust these as needed------------------------------------------------------------------------------
-MIN_CONFIDENCE        = 0.70
-CENTER_TOLERANCE      = 0.08
-SIZE_TOLERANCE        = 0.30
-AREA_MATCH_THRESHOLD  = 0.70
+MIN_CONFIDENCE         = 0.70
+IOU_MIN                = 0.60   # required IoU between consecutive frames to count as the same stable target
+VERIFY_IOU_MIN         = 0.65   # stricter IoU threshold used during the final pre-drop verify pass
 REQUIRED_STABLE_FRAMES = 3
+VERIFY_FRAME_COUNT     = 5      # consecutive good frames required during the final verify pass
 
 # DOWNWARD CAMERA MOTION CONTROL, adjust these as needed------------------------------------------------------------------------
-# camera looks straight down at the pool floor: x_norm/y_norm map to
-# strafe/forward error, not to a forward-facing FOV angle
-CENTER_X = 0.5
-CENTER_Y = 0.5
-
-X_TOLERANCE = 0.05
-Y_TOLERANCE = 0.05
-DEPTH_TOLERANCE_M = 0.10
-
 X_GAIN = 0.4
 Y_GAIN = 0.4
-Z_GAIN = 0.3
 
 MAX_STRAFE_CMD   = 0.3
 MAX_FORWARD_CMD  = 0.3
-MAX_VERTICAL_CMD = 0.2
 
 REQUIRED_CENTER_TIME = 1.0 # seconds the target must stay centered before actuating
 TARGET_LOST_TIMEOUT  = 2.0 # seconds a target can be briefly lost before giving up on it
+FINAL_SETTLE_TIME_S  = 0.75 # seconds to hold/station-keep before the final verify pass
 
-# SIGN CONVENTIONS: flip any of these to -1 after pool testing if the sub
-# strafes/moves/rises the wrong direction. Simplest way to test: hold a bin/
-# item under the camera off to one side and watch which way target_x/y/z move.
-X_SIGN = 1
-Y_SIGN = 1
-Z_SIGN = 1
+# BIN SANITY-CHECK / MEMORY THRESHOLDS-------------------------------------------------------------------------------------------
+SAME_BIN_RADIUS_M       = 0.5  # reject a candidate bin within this radius (world frame) of an already-completed bin
+MAX_OBJECT_YAML_ERROR_M = 1.0  # reject a vision bin-world estimate this far from the objects.yaml assumed location
 
 # METRIC BACK-PROJECTION (downward camera + pressure sensor depth)---------------------------------------------------------------
 # This camera has no depth sensing of its own (no ZED/stereo). Instead of
 # reading depth_m off a detection, the vertical distance to a target is
 # computed as target_depth - sub_depth (pressure sensor), then used with the
 # camera intrinsics to back-project x_norm/y_norm into a metric (x, y) offset.
-# Used by dropper for now, see fsm/dropper_fsm.py / dropper_helpers.py.
 #
-# MISSING: calibration_output.yaml was solved with the camera in air. A flat
+# This math assumes an already-undistorted, correctly-oriented image (the
+# downward camera is a fisheye lens mounted backwards on the hull - both the
+# fisheye undistortion and the y-axis mount-flip correction happen upstream
+# in modules/vision/vision_model_main.py's DownfacingCamera.grab(), not here,
+# so by the time a detection's x_norm/y_norm reaches this file it should
+# already behave like an ideal pinhole image matching CAMERA_FX/FY/CX/CY below.
+#
+# FIXME: calibration_output.yaml was solved with the camera in air. A flat
 # port refracts light differently underwater (water's refractive index is
 # ~1.33 vs air's 1.0), which changes the effective focal length, worst
 # toward the edges of the frame. Recalibrate fully submerged before trusting
 # these numbers for real alignment.
+CALIBRATION_MODEL = "fisheye_equidistant"
 CAMERA_FX = 1365.2319737707428
 CAMERA_FY = 1367.6414088719202
 CAMERA_CX = 1490.5695516851383
 CAMERA_CY = 742.6264306112528
 CAMERA_CALIB_WIDTH  = 2894
 CAMERA_CALIB_HEIGHT = 1630
+# fisheye distortion coefficients, only used by DownfacingCamera's undistortion
+# step in vision_model_main.py - not used by any math in this file
+DISTORTION_COEFFS = [-0.20075077070941028, 1.0392093221841716, -3.3863424378528664, 3.7850850441479715]
 
 # normalized intrinsics, so back-projection works directly on x_norm/y_norm
 # regardless of the vision pipeline's actual runtime resolution (as long as
@@ -86,11 +85,15 @@ CAMERA_FY_NORM = CAMERA_FY / CAMERA_CALIB_HEIGHT
 CAMERA_CX_NORM = CAMERA_CX / CAMERA_CALIB_WIDTH
 CAMERA_CY_NORM = CAMERA_CY / CAMERA_CALIB_HEIGHT
 
-# MISSING: camera-to-tool offset (body frame, meters) has not been measured
-# yet, 0 means no correction is applied. Mount rotation is not needed here
-# since the camera is mounted aligned with the sub facing forward.
-CAMERA_TO_TOOL_X = 0.0
-CAMERA_TO_TOOL_Y = 0.0
+# FIXME: physically verify the downward camera isn't twisted relative to the
+# hull before trusting back_project_to_body_frame()'s no-extra-rotation
+# assumption. Tool offset (dropper vs. claw, each a different physical
+# location) is NOT applied here — each FSM owns its own *_offset_body config
+# and applies it with yaw rotation at the alignment-target step (see
+# DropperHelpers.compute_dropper_alignment_target / GrabberHelpers.compute_claw_alignment_target).
+# It used to also be subtracted here (unrotated), which double-applied the
+# same physical offset once correctly (rotated) and once incorrectly
+# (unrotated) - removed to avoid that.
 
 X_TOLERANCE_M = 0.05 # meters, how close the back-projected error must be to 0 to count as centered
 Y_TOLERANCE_M = 0.05 # meters
@@ -121,13 +124,6 @@ def get_box_edges(detection) -> tuple:
     return x_min, x_max, y_min, y_max
 
 
-def get_box_area(detection) -> float:
-    """
-    Returns the normalized box area (width * height).
-    """
-    return detection[WIDTH] * detection[HEIGHT]
-
-
 def get_box_center(detection) -> tuple:
     """
     Returns (x_norm, y_norm) for the box center.
@@ -142,129 +138,59 @@ def is_same_class(detection_1, detection_2) -> bool:
     return detection_1[CLASS_LABEL] == detection_2[CLASS_LABEL]
 
 
-def is_similar_box_size(detection_1, detection_2) -> bool:
+def compute_iou(detection_1, detection_2) -> float:
     """
-    Checks if width and height stayed similar between two detections.
-    SIZE_TOLERANCE is a decimal value: 0.30 means 30 percent difference is allowed.
-    """
-    width_1, height_1 = detection_1[WIDTH], detection_1[HEIGHT]
-    width_2, height_2 = detection_2[WIDTH], detection_2[HEIGHT]
-
-    if width_1 <= 0 or height_1 <= 0 or width_2 <= 0 or height_2 <= 0:
-        return False
-
-    width_error = abs(width_1 - width_2) / max(width_1, width_2)
-    height_error = abs(height_1 - height_2) / max(height_1, height_2)
-
-    return width_error <= SIZE_TOLERANCE and height_error <= SIZE_TOLERANCE
-
-
-def is_similar_box_area(detection_1, detection_2) -> bool:
-    """
-    Checks if the box area stayed similar between two detections.
-    AREA_MATCH_THRESHOLD is a decimal value: 0.70 means the smaller area must be
-    at least 70 percent of the larger area.
-    """
-    area_1 = get_box_area(detection_1)
-    area_2 = get_box_area(detection_2)
-
-    if area_1 <= 0 or area_2 <= 0:
-        return False
-
-    return min(area_1, area_2) / max(area_1, area_2) >= AREA_MATCH_THRESHOLD
-
-
-def is_similar_box_center(detection_1, detection_2) -> bool:
-    """
-    Checks if the box center stayed close enough between two detections.
-    """
-    x_1, y_1 = get_box_center(detection_1)
-    x_2, y_2 = get_box_center(detection_2)
-
-    return abs(x_1 - x_2) <= CENTER_TOLERANCE and abs(y_1 - y_2) <= CENTER_TOLERANCE
-
-
-def boxes_overlap_or_close(detection_1, detection_2) -> bool:
-    """
-    Checks if two boxes overlap, or falls back to the center-distance check
-    if they don't, to catch small/fast-moving boxes that don't quite overlap.
+    Returns the intersection-over-union of two detections' boxes, 0.0 if
+    they don't overlap at all or either box is degenerate.
     """
     x1_min, x1_max, y1_min, y1_max = get_box_edges(detection_1)
     x2_min, x2_max, y2_min, y2_max = get_box_edges(detection_2)
 
-    overlap_x = x1_min <= x2_max and x2_min <= x1_max
-    overlap_y = y1_min <= y2_max and y2_min <= y1_max
+    inter_x_min = max(x1_min, x2_min)
+    inter_x_max = min(x1_max, x2_max)
+    inter_y_min = max(y1_min, y2_min)
+    inter_y_max = min(y1_max, y2_max)
 
-    if overlap_x and overlap_y:
-        return True
+    inter_width  = max(0.0, inter_x_max - inter_x_min)
+    inter_height = max(0.0, inter_y_max - inter_y_min)
+    intersection = inter_width * inter_height
 
-    return is_similar_box_center(detection_1, detection_2)
+    area_1 = max(0.0, x1_max - x1_min) * max(0.0, y1_max - y1_min)
+    area_2 = max(0.0, x2_max - x2_min) * max(0.0, y2_max - y2_min)
+    union = area_1 + area_2 - intersection
+
+    if union <= 0:
+        return 0.0
+    return intersection / union
 
 
-def is_stable_target(last_three_detections: list) -> bool:
+def is_stable_target(recent_detections: list, required_frames: int = REQUIRED_STABLE_FRAMES, iou_min: float = IOU_MIN) -> bool:
     """
-    Checks if the last REQUIRED_STABLE_FRAMES detections all look like the same,
+    Checks if the last required_frames detections all look like the same,
     confident, steady target:
-        1. same class label
+        1. same class label as the first frame
         2. confidence at least MIN_CONFIDENCE
-        3. box center stays close enough
-        4. box width/height stay similar
-        5. box area stays similar
-        6. boxes overlap enough or are close enough to likely be the same target
+        3. IoU against the previous frame at least iou_min
     """
-    if len(last_three_detections) < REQUIRED_STABLE_FRAMES:
+    if len(recent_detections) < required_frames:
         return False
 
-    for detection in last_three_detections:
+    window = recent_detections[-required_frames:]
+
+    for detection in window:
         if not is_confident_detection(detection):
             return False
 
-    first = last_three_detections[0]
-    for detection in last_three_detections[1:]:
+    first = window[0]
+    previous = first
+    for detection in window[1:]:
         if not is_same_class(first, detection):
             return False
-        if not is_similar_box_center(first, detection):
+        if compute_iou(previous, detection) < iou_min:
             return False
-        if not is_similar_box_size(first, detection):
-            return False
-        if not is_similar_box_area(first, detection):
-            return False
-        if not boxes_overlap_or_close(first, detection):
-            return False
+        previous = detection
 
     return True
-
-
-def estimate_distance_to_target(detection) -> float:
-    """
-    Returns the distance to a target in meters (camera looks straight down,
-    so this is roughly the sub's height above the target).
-
-    depth_m comes from modules/vision/main.py's live detections. It is only
-    real when running on a ZED camera (point cloud lookup at the box center);
-    the vision pipeline uses -1.0 to mean "unavailable" (webcam source, or an
-    invalid ZED point cloud read at that pixel).
-
-    MISSING for the webcam/unavailable case: one of
-        - a known real-world object size compared to the apparent box size
-        - camera calibration (focal length, sensor size)
-        - another range estimate (e.g. an acoustic pinger)
-    """
-    depth_m = detection[DEPTH_M]
-    if depth_m is not None and depth_m > 0:
-        return depth_m
-    return 0.0 # unavailable, caller should not trust this
-
-
-def get_detection_center_error(detection) -> tuple:
-    """
-    Returns (x_error, y_error): how far the target's box center is from the
-    image center (CENTER_X, CENTER_Y).
-    Positive x_error = target is right of center.
-    Positive y_error = target is toward the top of the image.
-    """
-    x_norm, y_norm = get_box_center(detection)
-    return x_norm - CENTER_X, y_norm - CENTER_Y
 
 
 def average_target_center(recent_detections: list):
@@ -281,76 +207,11 @@ def average_target_center(recent_detections: list):
     return sum(x_values) / len(x_values), sum(y_values) / len(y_values)
 
 
-def is_target_centered(detection, x_tolerance: float = X_TOLERANCE, y_tolerance: float = Y_TOLERANCE) -> bool:
-    """
-    Checks if the target's box center is close enough to the image center.
-    """
-    x_error, y_error = get_detection_center_error(detection)
-    return abs(x_error) <= x_tolerance and abs(y_error) <= y_tolerance
-
-
-def calculate_depth_error(current_distance: float, desired_distance: float) -> float:
-    """
-    Returns how far off the current height above the target is from the
-    desired height. Positive means still too far away.
-    """
-    return current_distance - desired_distance
-
-
-def is_at_correct_height(current_distance: float, desired_distance: float, tolerance: float = DEPTH_TOLERANCE_M) -> bool:
-    """
-    Checks if the sub is at the right height above the target.
-
-    If no trustworthy distance is available yet (see estimate_distance_to_target),
-    this returns True so height doesn't permanently block alignment/actuation,
-    it just means real vertical correction is skipped until distance data exists.
-    """
-    if current_distance <= 0:
-        return True
-    return abs(current_distance - desired_distance) <= tolerance
-
-
 def clamp_motion_command(value: float, max_value: float) -> float:
     """
     Clamps a movement command to +/- max_value so the sub never moves too aggressively.
     """
     return max(-max_value, min(max_value, value))
-
-
-def convert_target_error_to_motion(x_error: float, y_error: float, depth_error: float = 0.0) -> tuple:
-    """
-    Converts image/depth error into clamped, proportional movement commands.
-    Returns (strafe_cmd, forward_cmd, vertical_cmd).
-
-    Flip X_SIGN/Y_SIGN/Z_SIGN above after pool testing if any axis moves the
-    wrong direction, that's the easiest thing to get backwards on a downward camera.
-    """
-    strafe_cmd   = clamp_motion_command(X_SIGN * X_GAIN * x_error, MAX_STRAFE_CMD)
-    forward_cmd  = clamp_motion_command(Y_SIGN * Y_GAIN * y_error, MAX_FORWARD_CMD)
-    vertical_cmd = clamp_motion_command(Z_SIGN * Z_GAIN * depth_error, MAX_VERTICAL_CMD)
-    return strafe_cmd, forward_cmd, vertical_cmd
-
-
-def move_using_target_error(shared_memory_object, x_error: float, y_error: float, depth_error: float = 0.0) -> tuple:
-    """
-    Nudges target_x/y/z by a small proportional step based on vision error,
-    added onto the sub's current dvl position. Call this every loop tick while
-    aligning, so movement is smooth and continuous instead of one big jump.
-
-    Axis mapping (matches objects.yaml's convention: "x: forward", "y: left"):
-        x_norm error (left/right)   -> strafe_cmd   -> added to target_y
-        y_norm error (forward/back) -> forward_cmd  -> added to target_x
-        depth error (height)        -> vertical_cmd -> added to target_z
-
-    Returns (strafe_cmd, forward_cmd, vertical_cmd) for debug/logging.
-    """
-    strafe_cmd, forward_cmd, vertical_cmd = convert_target_error_to_motion(x_error, y_error, depth_error)
-
-    shared_memory_object.target_x.value = shared_memory_object.dvl_x.value + forward_cmd
-    shared_memory_object.target_y.value = shared_memory_object.dvl_y.value + strafe_cmd
-    shared_memory_object.target_z.value = shared_memory_object.dvl_z.value + vertical_cmd
-
-    return strafe_cmd, forward_cmd, vertical_cmd
 
 
 def stop_vehicle_motion(shared_memory_object) -> None:
@@ -400,7 +261,7 @@ def get_target_detection(detections: list, label: str):
 
 def convert_vision_runtime_detections(detections_dict: dict) -> list:
     """
-    Converts modules/vision/main.py's live detection dict format:
+    Converts the live vision detection dict format:
         {'obj1': [class_label, class_id, conf, x_norm, y_norm, width, height, depth_m], ...}
     into the flat list format used in this file:
         [class_label, class_id, conf, x_norm, y_norm, depth_m, width, height]
@@ -431,22 +292,39 @@ def back_project_to_body_frame(x_norm: float, y_norm: float, vertical_distance: 
     return x_c, y_c
 
 
+def body_offset_to_image_norm(x_offset_body: float, y_offset_body: float, vertical_distance: float) -> tuple:
+    """
+    Inverse of back_project_to_body_frame(): given a metric body-frame offset
+    (e.g. a tool's fixed camera-to-dropper/claw offset) and a known vertical
+    distance, returns the normalized image position (x_norm, y_norm) that
+    would back-project to that offset - i.e. where in the image the tool
+    "points" at that depth. Used to draw an alignment reticle, see
+    fsm/lineup_test_fsm.py. Falls back to the image center if vertical_distance
+    isn't usable (mirrors get_target_error_meters' own "don't trust this" case).
+    """
+    if vertical_distance <= 0:
+        return 0.5, 0.5
+
+    u_norm = CAMERA_CX_NORM + (x_offset_body / vertical_distance) * CAMERA_FX_NORM
+    v_norm = CAMERA_CY_NORM + (y_offset_body / vertical_distance) * CAMERA_FY_NORM
+    y_norm = 1.0 - v_norm # convert back to this file's 0=bottom,1=top convention
+    return u_norm, y_norm
+
+
 def get_target_error_meters(x_norm: float, y_norm: float, sub_depth: float, target_depth: float) -> tuple:
     """
-    Returns (x_error_m, y_error_m): how far the tool needs to move (meters,
+    Returns (x_error_m, y_error_m): how far the camera needs to move (meters,
     body frame) to be over the target, using the downward camera + pressure
     sensor depth instead of stereo depth (this camera has no depth sensing
-    of its own).
-
-    MISSING: CAMERA_TO_TOOL_X/Y are placeholders (0), waiting on the real
-    camera-to-tool offset measurement.
+    of its own). This is a pure camera-frame back-projection with no tool
+    (dropper/claw) offset baked in - each FSM applies its own tool offset
+    separately, with yaw rotation, at the alignment-target step.
     """
     vertical_distance = target_depth - sub_depth
     if vertical_distance <= 0:
         return 0.0, 0.0 # target isn't below the sub, don't trust this
 
-    x_c, y_c = back_project_to_body_frame(x_norm, y_norm, vertical_distance)
-    return x_c - CAMERA_TO_TOOL_X, y_c - CAMERA_TO_TOOL_Y
+    return back_project_to_body_frame(x_norm, y_norm, vertical_distance)
 
 
 def is_target_centered_metric(x_error_m: float, y_error_m: float, x_tolerance: float = X_TOLERANCE_M, y_tolerance: float = Y_TOLERANCE_M) -> bool:
@@ -460,12 +338,18 @@ def is_target_centered_metric(x_error_m: float, y_error_m: float, x_tolerance: f
 def nudge_xy_toward_target(shared_memory_object, x_error_m: float, y_error_m: float) -> tuple:
     """
     Nudges target_x/target_y by a small clamped step toward the target,
-    same gain/clamp math as move_using_target_error, but leaves target_z
-    alone (heave is set directly from the pressure sensor instead, see
-    set_hover_depth()) since heave doesn't come from the image at all here.
+    but leaves target_z alone (heave is set directly from the pressure
+    sensor instead, see set_hover_depth()) since heave doesn't come from
+    the image at all here.
+
+    x_error_m/y_error_m are already a world-frame delta (alignment target
+    minus current sub position, see DropperHelpers/GrabberHelpers align_step)
+    by the time they reach this function, so no camera-orientation sign
+    correction belongs here - that's handled upstream at the camera/image
+    stage (see DownfacingCamera in vision_model_main.py).
     """
-    strafe_cmd = clamp_motion_command(X_SIGN * X_GAIN * x_error_m, MAX_STRAFE_CMD)
-    forward_cmd = clamp_motion_command(Y_SIGN * Y_GAIN * y_error_m, MAX_FORWARD_CMD)
+    strafe_cmd = clamp_motion_command(X_GAIN * x_error_m, MAX_STRAFE_CMD)
+    forward_cmd = clamp_motion_command(Y_GAIN * y_error_m, MAX_FORWARD_CMD)
 
     shared_memory_object.target_x.value = shared_memory_object.dvl_x.value + forward_cmd
     shared_memory_object.target_y.value = shared_memory_object.dvl_y.value + strafe_cmd
@@ -481,3 +365,21 @@ def set_hover_depth(shared_memory_object, target_depth: float, desired_height: f
     the target the sub should hover.
     """
     shared_memory_object.target_z.value = target_depth - desired_height
+
+
+def body_offset_to_world_offset(x_error_body: float, y_error_body: float, yaw_deg: float) -> tuple:
+    """
+    Rotates a body-frame (x=forward, y=left) offset into world-frame by the
+    sub's current yaw, matching the rotation convention already used in
+    modules/pid/pid_interface.py (scipy Rotation, degrees, applied about z).
+    """
+    rotation = Rotation.from_euler('z', yaw_deg, degrees=True)
+    x_world, y_world, _ = rotation.apply([x_error_body, y_error_body, 0.0])
+    return x_world, y_world
+
+
+def distance_2d(point_a: tuple, point_b: tuple) -> float:
+    """
+    Returns the 2D Euclidean distance between two (x, y) world points.
+    """
+    return ((point_a[0] - point_b[0]) ** 2 + (point_a[1] - point_b[1]) ** 2) ** 0.5

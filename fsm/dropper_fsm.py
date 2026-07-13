@@ -5,11 +5,12 @@ import yaml
 from fsm.fsm                                import FSM_Template
 from modules.logger.logger                  import Logger
 from modules.dropper.dropper_helpers        import DropperHelpers
+from modules.vision.target_box_helpers      import FINAL_SETTLE_TIME_S
 from enum                                   import Enum
 
 
 """
-    FSM for navigating through dropper
+    FSM for navigating through Recon Bins (dropper task)
 """
 
 class States(Enum):
@@ -32,17 +33,20 @@ class States(Enum):
 
 class Dropper_FSM(FSM_Template):
     """
-    FSM for dropper mode - finding the role's bins, lining up using the
-    downward camera, and dropping markers
+    FSM for dropper mode (Recon Bins) - finding the role's bins, lining up
+    the dropper (not just the camera) using the downward camera + DVL world
+    position, and dropping markers.
 
-    NOTE: the suggested state list for this task also included separate
+    The suggested state list for this task also included separate
     SEARCH_FOR_SECOND_BIN / VERIFY_SECOND_BIN_TARGET / ALIGN_TO_SECOND_BIN /
-    VERIFY_SECOND_DROP_POSITION / DROP_SECOND_MARKER states. Those were combined
-    into a single set of states reused for both markers with a marker_num
-    counter instead, the same pattern already used by fsm/torpedo_fsm.py's
-    SHOOTING -> SEARCHING loop for its second torpedo.
+    VERIFY_SECOND_DROP_POSITION / DROP_SECOND_MARKER states. Those are
+    combined into a single set of states reused for both markers with a
+    marker_num counter instead, the same pattern already used by
+    fsm/torpedo_fsm.py's SHOOTING -> SEARCHING loop for its second torpedo.
+    Rejecting candidate bins near completed_bins (see DropperHelpers) is what
+    makes SEARCH_FOR_BIN naturally find the *other* bin on the second pass.
     """
-    def __init__(self, shared_memory_object, run_list: list, role: str = "survey_and_repair", signal_wrapper=None):
+    def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None):
         """
         Dropper FSM constructor
 
@@ -55,12 +59,6 @@ class Dropper_FSM(FSM_Template):
         self.name: str      = "DROPPER"
         self.state: States  = States.INIT  # initial state
         self.logger = Logger()
-
-        self.helper = DropperHelpers(shared_memory_object, signal_wrapper)
-
-        # ROLE SETTINGS-----------------------------------------------------------------------------------------------------------------------
-        self.role = role # "survey_and_repair" or "search_and_rescue"
-        self.bin_label = self.helper.get_bin_label(self.role)
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.x1 = self.y1 = self.depth = 0.0
@@ -75,20 +73,35 @@ class Dropper_FSM(FSM_Template):
 
         # VISION / LINEUP VALUES--------------------------------------------------------------------------------------------------------------
         # camera looks straight down, so this is how high above the bin to hover before dropping
+        # FIXME: 0.3m is a guess, confirm this is the right hover height for the real marker/dropper mechanism
         self.desired_height = 0.3 # meters
-        # MISSING: waiting on the route plan to know which bin height (12/14/19/22 in
-        # options, see conversation) applies to which bin. Using one placeholder
-        # target_depth for now, update per-bin once the route plan is decided.
+        # FIXME: waiting on the route plan to know which bin height applies to
+        # which bin. Using one placeholder target_depth for now, update per-bin
+        # once the route plan is decided.
         self.target_depth = 1.0 # meters, placeholder
-        self.x_lineup_tolerance = 0.05 # meters now (metric back-projection, not normalized image fraction)
+        self.x_lineup_tolerance = 0.05 # meters (metric back-projection, not normalized image fraction)
         self.y_lineup_tolerance = 0.05 # meters
 
+        self.same_bin_radius = 0.5
+        self.max_object_yaml_error = 1.0
+        self.final_settle_time = FINAL_SETTLE_TIME_S
+        self.verify_entered_time = 0.0
         self.wait_time = 0.0
+
+        # FIXME: role is a static value read from objects.yaml's top-level `role:` key,
+        # meaning someone has to edit that file by hand before each run to match the
+        # competition-assigned role. Say if you'd rather this come from somewhere else
+        # (CLI flag, a file, another FSM's output) instead.
+        role = "survey_and_repair"
+        dropper_offset_x = dropper_offset_y = 0.0
+        model_weights = "models/best.pt"
 
         try:
             with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
                 course = data['course']
+                # role is a single top-level switch for the whole run, not duplicated per-course/per-task
+                role = data.get('role', role)
 
                 self.x_buffer = data[course]['dropper'].get('x_buf', self.x_buffer)
                 self.y_buffer = data[course]['dropper'].get('y_buf', self.y_buffer)
@@ -104,10 +117,23 @@ class Dropper_FSM(FSM_Template):
                 self.x_lineup_tolerance = data[course]['dropper'].get('x_lineup_tolerance', self.x_lineup_tolerance)
                 self.y_lineup_tolerance = data[course]['dropper'].get('y_lineup_tolerance', self.y_lineup_tolerance)
 
+                self.same_bin_radius = data[course]['dropper'].get('same_bin_radius', self.same_bin_radius)
+                self.max_object_yaml_error = data[course]['dropper'].get('max_object_yaml_error', self.max_object_yaml_error)
+                self.final_settle_time = data[course]['dropper'].get('final_settle_time', self.final_settle_time)
+                # FIXME: dropper_offset_x/y are unmeasured placeholders (0.0), see objects.yaml
+                dropper_offset_x = data[course]['dropper'].get('dropper_offset_x', dropper_offset_x)
+                dropper_offset_y = data[course]['dropper'].get('dropper_offset_y', dropper_offset_y)
+                model_weights = data[course]['dropper'].get('model_weights', model_weights)
+
         except FileNotFoundError:
             self.logger.error(f"{self.name} ERROR: objects.yaml not found, using default dropper values")
         except KeyError:
             self.logger.error(f"{self.name} ERROR: Invalid data format in objects.yaml, using default dropper values")
+
+        self.role = role # "survey_and_repair" or "search_and_rescue", set once for the whole run in objects.yaml
+        self.helper = DropperHelpers(shared_memory_object, signal_wrapper, weights_path=model_weights,
+                                      dropper_offset_body=(dropper_offset_x, dropper_offset_y), same_bin_radius=self.same_bin_radius)
+        self.bin_label = self.helper.get_bin_label(self.role)
 
     def start(self) -> None:
         """
@@ -142,13 +168,14 @@ class Dropper_FSM(FSM_Template):
             case States.VERIFY_BIN_TARGET: # keep checking the bin is a stable target
                 self.wait_time = time.time()
 
-            case States.ALIGN_TO_BIN: # start driving toward the bin using the downward camera
+            case States.ALIGN_TO_BIN: # start driving the dropper toward the bin using the downward camera
                 self.wait_time = time.time()
 
-            case States.VERIFY_DROP_POSITION: # re-check the bin position before dropping
+            case States.VERIFY_DROP_POSITION: # hold position, re-check the bin with a stricter pass before dropping
                 self.wait_time = time.time()
+                self.verify_entered_time = time.time()
 
-            case States.DROP_MARKER: # release one marker, release_marker() handles its own timing
+            case States.DROP_MARKER: # release one marker, release_marker() handles its own timing and saves completed_bins
                 self.helper.release_marker()
 
             case States.COMPLETE:
@@ -172,6 +199,8 @@ class Dropper_FSM(FSM_Template):
         """
         if not self.active: return # do nothing if not enabled
         self.display(255, 150, 0) # update display
+
+        assumed_bin_world = (self.x1, self.y1)
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
@@ -210,10 +239,12 @@ class Dropper_FSM(FSM_Template):
                 time.sleep(self.t_loop)
 
             case States.ALIGN_TO_BIN: # transition: ALIGN_TO_BIN -> VERIFY_DROP_POSITION
-                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance)
+                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height,
+                                                 self.x_lineup_tolerance, self.y_lineup_tolerance,
+                                                 assumed_bin_world, self.max_object_yaml_error)
                 self.current_target = result["target"]
 
-                if result["lost"]:
+                if result["lost"] or result["rejected"]:
                     self.next_state(States.SEARCH_FOR_BIN)
                 elif result["centered"] and result["dwell_ok"]:
                     self.next_state(States.VERIFY_DROP_POSITION)
@@ -223,13 +254,18 @@ class Dropper_FSM(FSM_Template):
                 time.sleep(self.t_loop)
 
             case States.VERIFY_DROP_POSITION: # transition: VERIFY_DROP_POSITION -> DROP_MARKER
-                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height, self.x_lineup_tolerance, self.y_lineup_tolerance)
+                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height,
+                                                 self.x_lineup_tolerance, self.y_lineup_tolerance,
+                                                 assumed_bin_world, self.max_object_yaml_error)
                 self.current_target = result["target"]
 
-                if result["lost"]:
+                if result["lost"] or result["rejected"]:
                     self.next_state(States.SEARCH_FOR_BIN)
                 elif result["centered"] and result["dwell_ok"]:
-                    self.next_state(States.DROP_MARKER)
+                    settled = time.time() - self.verify_entered_time >= self.final_settle_time
+                    verified = result["target"] is not None and self.helper.check_target_verified(result["target"])
+                    if settled and verified:
+                        self.next_state(States.DROP_MARKER)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.FAIL)
 

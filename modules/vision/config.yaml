@@ -73,7 +73,7 @@ zed:
   resolution: HD1080
 
   # Target frame rate : actual rate depends on resolution and depth mode
-  fps: 10
+  fps: 30
 
   # Depth algorithm:
   #   PERFORMANCE  : fastest; best for the ZedBox / Orin
