@@ -9,10 +9,10 @@ headless: true
 ## Source
 # zed    : ZED stereo camera — full depth enabled
 # webcam : laptop / USB camera — no depth, depth_m will always be -1
-source: zed
+source: webcam
 webcam:
   # cv2.VideoCapture index (0 = built-in camera, 1 = first USB camera, etc.)
-  index: 0
+  index: 1
   
 ## Recording
 # Root folder — each run creates a timestamped sub-folder inside
@@ -38,7 +38,7 @@ recording:
 
 ## Model
 model:
-  weights: /home/mechatronics/robosub_software_2026/modules/vision/models/best.pt
+  weights: models/best.pt
   # null = auto-detect (cuda:0 → mps → cpu)
   # cuda: best option if available
   # cpu:  default option when nothing else works
