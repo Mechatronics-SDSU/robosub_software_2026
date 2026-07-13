@@ -172,12 +172,20 @@ class ZEDCamera(_Camera):
         err = zed.open(init)
         if err != sl.ERROR_CODE.SUCCESS:
             print(f'ZED open failed: {err}', file=sys.stderr)
-            # Deliberately NOT calling zed.close() here: measured on real hardware,
-            # calling close() on an sl.Camera that never successfully opened is what
-            # PRINTS the "sl::Camera::Open has not been called" error (and doing so
-            # duplicates the SDK's own single error line into two) - the opposite of
-            # what was intended. Just drop the reference and let it get collected.
             diagnose_zed(emit=lambda msg: print(msg, file=sys.stderr))
+            # Neither calling zed.close() nor leaving it to get collected naturally
+            # avoids the SDK's own "sl::Camera::Open has not been called" message on
+            # a never-opened Camera (measured on real hardware: both print it, twice).
+            # `del zed` here, before raising, drops our own reference immediately -
+            # raising an exception keeps this frame (and its locals, incl. `zed`)
+            # alive via the traceback object until it's garbage collected, which on
+            # an uncaught exception means "until interpreter shutdown", not "now".
+            # Explicitly deleting the name here means the traceback captures this
+            # frame *after* `zed` is already gone from its locals, so it can't pin
+            # the object's lifetime out that far - the SDK's own message may still
+            # print (that part seems to be triggered by destruction of a never-
+            # opened Camera regardless), but promptly, not deferred to process exit.
+            del zed
             # raise instead of sys.exit(1): sys.exit ends the whole process,
             # which makes a caller-side fallback (e.g. camera_source="zed"
             # falling back to "downfacing") impossible. A RuntimeError can be
