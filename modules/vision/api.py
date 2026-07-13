@@ -23,6 +23,14 @@ import cv2
 import numpy as np
 from ultralytics import YOLO as _YOLO
 
+from modules.vision.target_box_helpers import (
+    CAMERA_FX_NORM,
+    CAMERA_FY_NORM,
+    CAMERA_CX_NORM,
+    CAMERA_CY_NORM,
+    DISTORTION_COEFFS,
+)
+
 _VISION_DIR = Path(__file__).resolve().parent
 
 
@@ -196,6 +204,11 @@ class ZEDCamera(_Camera):
 class DownfacingCamera(_Camera):
     """Downward-facing USB camera via OpenCV. No depth available.
 
+    Every grabbed frame is fisheye-undistorted using the calibration intrinsics
+    from target_box_helpers.py, then vertically flipped to correct the backwards
+    mount. K is rescaled to whatever resolution the camera actually delivers, so
+    undistortion stays correct regardless of capture resolution.
+
     Parameters
     ----------
     index : OpenCV VideoCapture device index (default 0)
@@ -207,15 +220,39 @@ class DownfacingCamera(_Camera):
             print(f'Downfacing camera (index={index}) could not be opened.', file=sys.stderr)
             sys.exit(1)
         print(f'Downfacing camera opened — index={index}')
+        self._map1 = None
+        self._map2 = None
+
+    def _build_undistort_maps(self, frame_size: tuple) -> None:
+        """Build fisheye undistortion maps for the actual captured frame size."""
+        w, h = frame_size
+        K = np.array([
+            [CAMERA_FX_NORM * w, 0.0,               CAMERA_CX_NORM * w],
+            [0.0,                CAMERA_FY_NORM * h, CAMERA_CY_NORM * h],
+            [0.0,                0.0,                1.0               ],
+        ])
+        # cv2.fisheye requires D as (4, 1), not flat (4,)
+        D = np.array(DISTORTION_COEFFS, dtype=np.float64).reshape(4, 1)
+        self._map1, self._map2 = cv2.fisheye.initUndistortRectifyMap(
+            K, D, np.eye(3), K, frame_size, cv2.CV_16SC2
+        )
 
     def _grab_with_pc(self):
         ok, frame = self._cap.read()
         if not ok:
             return None, None
-        return frame, None
+
+        frame_size = (frame.shape[1], frame.shape[0])  # (width, height)
+        if self._map1 is None:
+            self._build_undistort_maps(frame_size)
+
+        # undistort first, then flip to correct the backwards mount
+        corrected = cv2.remap(frame, self._map1, self._map2, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+        corrected = cv2.flip(corrected, 0)  # vertical flip (y-axis reversed mount)
+        return corrected, None
 
     def grab(self) -> np.ndarray | None:
-        """Return the next BGR frame, or None on read failure."""
+        """Return the next undistorted, mount-corrected BGR frame, or None on read failure."""
         frame, _ = self._grab_with_pc()
         return frame
 
