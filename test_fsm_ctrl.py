@@ -107,6 +107,7 @@ VISION_TEST_TARGET_DEPTH  = 1.0          # meters, assumed target plane depth fo
 VISION_TEST_RECORD_MP4    = True         # record annotated video.mp4 (no live window - review afterward)
 VISION_TEST_RECORD_SVO    = False        # also record native ZED recording.svo -- only used when camera_source="zed"
 VISION_TEST_OUTPUT_DIR    = "vision_recordings" # base dir, one timestamped subfolder per run
+VISION_TEST_HEADLESS      = True         # True = no live window (unattended); False = also show a live preview
 
 def build_fsm(name: str):
     """
@@ -142,7 +143,7 @@ def build_fsm(name: str):
                                     imgsz=VISION_TEST_IMGSZ, camera_id=VISION_TEST_CAMERA_ID,
                                     log_period_s=VISION_TEST_LOG_PERIOD, target_depth=VISION_TEST_TARGET_DEPTH,
                                     record_mp4=VISION_TEST_RECORD_MP4, record_svo=VISION_TEST_RECORD_SVO,
-                                    output_dir=VISION_TEST_OUTPUT_DIR)
+                                    output_dir=VISION_TEST_OUTPUT_DIR, headless=VISION_TEST_HEADLESS)
         case _:
             print(f"Unknown FSM '{name}', check FSM_TO_TEST / build_fsm()")
             return None

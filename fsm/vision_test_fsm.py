@@ -48,7 +48,8 @@ class Vision_Test_FSM(FSM_Template):
                  target_label: str = None, conf_min: float = 0.70,
                  imgsz: int = 640, camera_id: int = None, log_period_s: float = 10.0,
                  model_weights: str = "models/best.pt", target_depth: float = 1.0,
-                 record_mp4: bool = True, record_svo: bool = False, output_dir: str = "vision_recordings"):
+                 record_mp4: bool = True, record_svo: bool = False, output_dir: str = "vision_recordings",
+                 headless: bool = True):
         """
         Vision test FSM constructor
 
@@ -79,6 +80,10 @@ class Vision_Test_FSM(FSM_Template):
         camera_source="zed" (ignored, with a warning, otherwise).
         output_dir: base directory recordings are written under (default
         "vision_recordings"), one timestamped subfolder per run.
+        headless: True (default) - no live preview window, runs unattended
+        (recording/logging happen either way, independent of this). Set False
+        to also pop up a live window while it runs - useful when you want to
+        watch it work, not just review the recording afterward.
         """
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "VISION_TEST"
@@ -103,6 +108,7 @@ class Vision_Test_FSM(FSM_Template):
             self.logger.warning(f"{self.name}: record_svo=True has no effect unless camera_source='zed', ignoring")
             self.record_svo = False
         self.output_dir = output_dir
+        self.headless = headless
         self._run_dir = None
         self._mp4_writer = None
         self._svo_enabled = False
@@ -135,7 +141,7 @@ class Vision_Test_FSM(FSM_Template):
         self.logger.info(
             f"=== NEW SESSION: camera_source={self.camera_source} "
             f"target_label={self.target_label or 'ALL'} conf_min={self.conf_min} "
-            f"imgsz={self.imgsz} camera_id={self.camera_id} "
+            f"imgsz={self.imgsz} camera_id={self.camera_id} headless={self.headless} "
             f"record_mp4={self.record_mp4} record_svo={self.record_svo} run_dir={self._run_dir} ==="
         )
         self.next_state(States.RUNNING)
@@ -253,7 +259,7 @@ class Vision_Test_FSM(FSM_Template):
                 if self._model is None:
                     self._model = yolo(self.model_weights, imgsz=self.imgsz)
 
-                raw_detections = self._model.infer(self._camera, headless=True, verbose=False,
+                raw_detections = self._model.infer(self._camera, headless=self.headless, verbose=False,
                                                     overlay_fn=self._draw_overlay, overlay_only=True,
                                                     record_fn=self._record_frame if self.record_mp4 else None)
                 self.frame_count += 1
