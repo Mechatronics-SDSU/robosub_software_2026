@@ -172,14 +172,11 @@ class ZEDCamera(_Camera):
         err = zed.open(init)
         if err != sl.ERROR_CODE.SUCCESS:
             print(f'ZED open failed: {err}', file=sys.stderr)
-            # zed.close() before dropping the reference - an sl.Camera that was
-            # constructed but never successfully opened still prints its own
-            # internal "sl::Camera::Open has not been called" error when the
-            # SDK later touches/destructs it otherwise (this is what produces
-            # the second, seemingly-repeated error line after "open failed").
-            # close() here makes that stop, and makes the failure genuinely
-            # clean instead of leaving a half-open SDK object lying around.
-            zed.close()
+            # Deliberately NOT calling zed.close() here: measured on real hardware,
+            # calling close() on an sl.Camera that never successfully opened is what
+            # PRINTS the "sl::Camera::Open has not been called" error (and doing so
+            # duplicates the SDK's own single error line into two) - the opposite of
+            # what was intended. Just drop the reference and let it get collected.
             diagnose_zed(emit=lambda msg: print(msg, file=sys.stderr))
             # raise instead of sys.exit(1): sys.exit ends the whole process,
             # which makes a caller-side fallback (e.g. camera_source="zed"
