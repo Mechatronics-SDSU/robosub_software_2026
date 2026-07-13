@@ -5558,3 +5558,49 @@ TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
 TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
 2026-07-12 22:47:39 - MainProcess - INFO - lineup_test_fsm.py:321 - State changed: SEARCH -> VERIFY_TARGET
 2026-07-12 23:10:54 - MainProcess - INFO - lineup_test_fsm.py:220 - LINEUP_TEST: new goal point picked: (0.6303537738755414, 0.301523614036036)
+2026-07-13 13:58:59 - MainProcess - INFO - lineup_test_fsm.py:197 - LINEUP_TEST: new goal point picked: (0.3357225610206843, 0.5325787091244225)
+2026-07-13 13:58:59 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-13 13:58:59 - MainProcess - INFO - lineup_test_fsm.py:308 - State changed: INIT -> SEARCH
+2026-07-13 13:59:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-13 13:59:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-13 13:59:07 - MainProcess - INFO - lineup_test_fsm.py:308 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-13 13:59:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-13 14:12:14 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER MODE
+2026-07-13 14:12:14 - MainProcess - INFO - dropper_fsm.py:194 - State changed: INIT -> MOVE_TO_PIPELINE
+2026-07-13 14:12:14 - MainProcess - INFO - dropper_fsm.py:194 - State changed: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+2026-07-13 14:12:17 - MainProcess - INFO - dropper_fsm.py:194 - State changed: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
+2026-07-13 14:12:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 3.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 3.0	 y = 0.0	 z = 0.0
+2026-07-13 14:12:18 - MainProcess - INFO - dropper_fsm.py:194 - State changed: VERIFY_BIN_TARGET -> ALIGN_TO_BIN
+2026-07-13 14:12:18 - MainProcess - INFO - dropper_fsm.py:194 - State changed: ALIGN_TO_BIN -> SEARCH_FOR_BIN
+2026-07-13 14:12:18 - MainProcess - INFO - dropper_fsm.py:194 - State changed: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
+2026-07-13 14:12:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 2.92	 y = -0.3	 z = 0.7
+TGT: 	 x = 2.92	 y = -0.3	 z = 0.7
+2026-07-13 14:12:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 2.92	 y = -0.3	 z = 0.7
+TGT: 	 x = 2.92	 y = -0.3	 z = 0.7
+2026-07-13 14:12:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 2.92	 y = -0.3	 z = 0.7
+TGT: 	 x = 2.92	 y = -0.3	 z = 0.7
+2026-07-13 14:12:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 2.92	 y = -0.3	 z = 0.7
+TGT: 	 x = 2.92	 y = -0.3	 z = 0.7
+2026-07-13 14:12:26 - MainProcess - WARNING - dropper_fsm.py:185 - DROPPER FAILED to complete marker 1
+2026-07-13 14:12:26 - MainProcess - INFO - dropper_fsm.py:194 - State changed: VERIFY_BIN_TARGET -> FAIL
+2026-07-13 14:12:34 - MainProcess - INFO - fsm.py:59 - STARTING GRABBER MODE
+2026-07-13 14:12:34 - MainProcess - INFO - grabber_fsm.py:244 - State changed: INIT -> MOVE_TO_OCTAGON
+2026-07-13 14:12:34 - MainProcess - INFO - grabber_fsm.py:244 - State changed: MOVE_TO_OCTAGON -> SEARCH_FOR_ITEM
+2026-07-13 14:12:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-13 14:12:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-13 14:12:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 4.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
+2026-07-13 14:12:43 - MainProcess - WARNING - grabber_fsm.py:235 - GRABBER FAILED to complete item 1
+2026-07-13 14:12:43 - MainProcess - INFO - grabber_fsm.py:244 - State changed: SEARCH_FOR_ITEM -> FAIL
+2026-07-13 14:12:51 - MainProcess - INFO - lineup_test_fsm.py:197 - LINEUP_TEST: new goal point picked: (0.49779063754130687, 0.7243092525914181)
+2026-07-13 14:12:51 - MainProcess - INFO - fsm.py:59 - STARTING LINEUP_TEST MODE
+2026-07-13 14:12:51 - MainProcess - INFO - lineup_test_fsm.py:308 - State changed: INIT -> SEARCH
+2026-07-13 14:12:53 - MainProcess - INFO - lineup_test_fsm.py:308 - State changed: SEARCH -> VERIFY_TARGET
+2026-07-13 14:12:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0

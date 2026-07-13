@@ -8,7 +8,7 @@ from fsm.fsm                                import FSM_Template
 from modules.logger.logger                  import Logger
 from modules.dropper.dropper_helpers        import DropperHelpers
 from modules.grabber.grabber_helpers        import GrabberHelpers
-from modules.vision.vision_model_main       import camera, yolo
+from modules.vision.vision_model_main       import camera, yolo, MirroredCamera
 from modules.vision.target_box_helpers      import (
     CONF,
     X_NORM,
@@ -68,29 +68,6 @@ class States(Enum):
 # how close to the frame edges a random goal point is allowed to land -
 # keeps goals reachable/visible instead of picking something right at the border
 GOAL_MARGIN = 0.25
-
-
-class _MirroredCamera:
-    """
-    Thin wrapper that horizontally mirrors every grabbed frame - a pure
-    ease-of-use convenience for manual webcam bench testing (moving the
-    camera left then visibly moves things left on screen, like a selfie
-    camera), applied before detection so boxes/markers stay self-consistent
-    with what's drawn. Only ever wraps a "webcam" camera (see loop()) - never
-    applied to camera_source="downfacing", since flipping would corrupt the
-    real calibrated geometry the sub's alignment math depends on.
-    """
-    def __init__(self, inner_camera):
-        self._inner = inner_camera
-
-    def _grab_with_pc(self):
-        frame, point_cloud = self._inner._grab_with_pc()
-        if frame is None:
-            return None, None
-        return cv2.flip(frame, 1), point_cloud
-
-    def close(self) -> None:
-        self._inner.close()
 
 
 class Lineup_Test_FSM(FSM_Template):
@@ -342,8 +319,8 @@ class Lineup_Test_FSM(FSM_Template):
             else:
                 opened = camera(self.camera_source)
             # mirror for ease of manual alignment on the bench - webcam only,
-            # never the real downfacing camera or a ZED (see _MirroredCamera docstring)
-            self._camera = _MirroredCamera(opened) if self.camera_source == "webcam" else opened
+            # never the real downfacing camera or a ZED (see MirroredCamera docstring)
+            self._camera = MirroredCamera(opened) if self.camera_source == "webcam" else opened
         if self._model is None:
             self._model = yolo(self.model_weights, imgsz=self.imgsz)
 

@@ -1,0 +1,17 @@
+2026-07-13 14:11:43 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-13 14:11:43 - MainProcess - INFO - vision_test_fsm.py:135 - === NEW SESSION: camera_source=webcam target_label=ALL conf_min=0.3 imgsz=640 camera_id=None record_mp4=True record_svo=False run_dir=vision_recordings\20260713_141143 ===
+2026-07-13 14:11:43 - MainProcess - INFO - vision_test_fsm.py:192 - State changed: INIT -> RUNNING
+2026-07-13 14:11:46 - MainProcess - INFO - vision_test_fsm.py:157 - VISION_TEST: MP4 recording -> vision_recordings\20260713_141143\video.mp4 (640x480)
+2026-07-13 14:11:46 - MainProcess - INFO - vision_test_fsm.py:295 - [webcam] fire conf=0.74 center=(0.212, 0.708) box=(0.427x0.575) depth_m=-1.00
+2026-07-13 14:11:46 - MainProcess - INFO - vision_test_fsm.py:299 - [webcam] fire meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.642, -0.195)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.642, -0.195)
+2026-07-13 14:11:46 - MainProcess - INFO - vision_test_fsm.py:306 - [webcam] SUMMARY: 1 frames, 1 qualifying detections, fps=0.0
+2026-07-13 14:11:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:295 - [webcam] blood conf=0.52 center=(0.189, 0.115) box=(0.214x0.223) depth_m=-1.00
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:299 - [webcam] blood meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.691, 0.512)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.691, 0.512)
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:295 - [webcam] blood conf=0.52 center=(0.189, 0.115) box=(0.214x0.225) depth_m=-1.00
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:299 - [webcam] blood meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.691, 0.512)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.691, 0.512)
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:295 - [webcam] fire conf=0.52 center=(0.575, 0.327) box=(0.434x0.535) depth_m=-1.00
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:299 - [webcam] fire meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.127, 0.259)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.127, 0.259)
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:295 - [webcam] fire conf=0.77 center=(0.537, 0.379) box=(0.400x0.631) depth_m=-1.00
+2026-07-13 14:11:47 - MainProcess - INFO - vision_test_fsm.py:299 - [webcam] fire meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.047, 0.197)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.047, 0.197)

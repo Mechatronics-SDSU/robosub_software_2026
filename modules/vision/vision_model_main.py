@@ -214,6 +214,33 @@ class ZEDCamera(_Camera):
             return round(z, 2)
         return -1.0
 
+    def enable_svo_recording(self, path: str, compression: str = 'H264') -> bool:
+        """Starts native ZED SVO recording to path - every subsequent grab()/
+        infer() call writes a frame automatically, no per-frame work needed
+        on the caller's side. Returns True on success. compression:
+        'H264' (default) | 'H265' | 'LOSSLESS'.
+        """
+        sl = self._sl
+        _COMPRESSION = {
+            'H264': sl.SVO_COMPRESSION_MODE.H264,
+            'H265': sl.SVO_COMPRESSION_MODE.H265,
+            'LOSSLESS': sl.SVO_COMPRESSION_MODE.LOSSLESS,
+        }
+        rec_params = sl.RecordingParameters()
+        rec_params.video_filename = str(path)
+        rec_params.compression_mode = _COMPRESSION.get(compression.upper(), sl.SVO_COMPRESSION_MODE.H264)
+
+        err = self._zed.enable_recording(rec_params)
+        if err != sl.ERROR_CODE.SUCCESS:
+            print(f'SVO recording enable failed: {err}', file=sys.stderr)
+            return False
+        print(f'SVO recording -> {path}  compression={compression.upper()}')
+        return True
+
+    def disable_svo_recording(self) -> None:
+        if self._zed is not None:
+            self._zed.disable_recording()
+
     def close(self) -> None:
         if self._zed is not None:
             self._zed.close()
@@ -362,6 +389,29 @@ class DownfacingCamera(WebcamCamera):
     # depth() stays at base-class default → always -1.0
 
 
+class MirroredCamera:
+    """
+    Thin wrapper that horizontally mirrors every grabbed frame from another
+    camera - a pure ease-of-use convenience for manual bench testing (moving
+    the camera left visibly moves things left on screen, like a selfie
+    camera). Only ever wrap a "webcam" camera with this - never a
+    "downfacing" or "zed" camera, since flipping would corrupt the real
+    calibrated geometry any alignment math depends on. Used by
+    fsm/lineup_test_fsm.py and fsm/vision_test_fsm.py.
+    """
+    def __init__(self, inner_camera):
+        self._inner = inner_camera
+
+    def _grab_with_pc(self):
+        frame, point_cloud = self._inner._grab_with_pc()
+        if frame is None:
+            return None, None
+        return cv2.flip(frame, 1), point_cloud
+
+    def close(self) -> None:
+        self._inner.close()
+
+
 def camera(type: str, **kwargs) -> _Camera:  # noqa: A002
     """Open and return a camera.
 
@@ -431,23 +481,31 @@ class YOLOModel:
         self.fps = 0.0
         self._last_infer_time = None
 
-    def infer(self, cam: _Camera, headless: bool = True, verbose: bool = False, overlay_fn=None, overlay_only: bool = False) -> dict:
+    def infer(self, cam: _Camera, headless: bool = True, verbose: bool = False, overlay_fn=None, overlay_only: bool = False,
+              record_fn=None) -> dict:
         """Grab one frame from cam, run YOLO, and return a detection dict.
 
         Returns {} if the grab failed or nothing was detected.
 
-        headless     : True  — no window (default)
-                       False — shows a preview window with YOLO overlays + fps (press q to close)
+        headless     : True  — no preview window (default). Independent of record_fn - the
+                       annotated frame still gets built and handed to record_fn even when
+                       headless=True, it's only the on-screen cv2.imshow window that's skipped.
+                       False — also shows a preview window with YOLO overlays + fps (press q to close)
         verbose      : True  — prints grab/predict stage timing, raw box count, and final detections
-        overlay_fn   : optional callable (frame, detections) -> frame, called right before the
-                       preview frame is shown (only when headless=False) - lets a caller draw extra
-                       markers/lines without needing its own display loop. Return the frame you
-                       want shown (usually the same frame, drawn on in place).
+        overlay_fn   : optional callable (frame, detections) -> frame, called on the annotated
+                       frame whenever one is built (headless=False and/or record_fn is set) - lets
+                       a caller draw extra markers/lines without needing its own display/record loop.
+                       Return the frame you want shown/recorded (usually the same frame, drawn on
+                       in place).
         overlay_only : False (default) — overlay_fn draws on top of YOLO's own all-class box plot.
                        True — skip YOLO's box plot entirely and hand overlay_fn the plain undrawn
                        frame instead, so only whatever overlay_fn itself draws shows up (e.g. a
                        caller that only cares about one specific class/confidence and wants every
                        other detection disregarded, not just uncommented-on).
+        record_fn    : optional callable (frame, detections) -> None, called with the final
+                       annotated frame (after overlay_fn) every tick - e.g. write it to a
+                       cv2.VideoWriter. Building the annotated frame has some cost even with no
+                       preview window, but only happens when record_fn or headless=False needs it.
 
         self.fps holds a rolling estimate of the full grab+predict loop rate,
         updated every call — read it directly, or pass verbose=True to have
@@ -497,13 +555,16 @@ class YOLOModel:
 
         detections = _build_detections(results[0], h, w, point_cloud, self._model.names)
 
-        if not headless:
+        if not headless or record_fn is not None:
             annotated = frame.copy() if overlay_only else results[0].plot()
             cv2.putText(annotated, f'FPS: {self.fps:.1f}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             if overlay_fn is not None:
                 annotated = overlay_fn(annotated, detections)
-            cv2.imshow('Vision preview (q to close)', annotated)
-            cv2.waitKey(1)
+            if not headless:
+                cv2.imshow('Vision preview (q to close)', annotated)
+                cv2.waitKey(1)
+            if record_fn is not None:
+                record_fn(annotated, detections)
 
         if verbose:
             total_time = time.perf_counter() - loop_start

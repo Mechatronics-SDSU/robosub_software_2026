@@ -16,6 +16,7 @@ from fsm.modem_fsm                          import Modem_FSM, FRAME_TYPE_DATA
 from fsm.dropper_fsm                        import Dropper_FSM
 from fsm.grabber_fsm                        import Grabber_FSM
 from fsm.lineup_test_fsm                    import Lineup_Test_FSM
+from fsm.vision_test_fsm                    import Vision_Test_FSM
 
 from fsm_test_helpers                       import FakeModem, drift_toward_targets
 
@@ -74,7 +75,7 @@ FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing th
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "lineup" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, lineup
+FSM_TO_TEST = "vision_test" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, lineup, vision_test
 
 # modem hardware settings, used when FSM_TO_TEST == "modem" and FAKE_INPUT = False.
 # Run this file once per sub with the opposite MODEM_ROLE and each sub's real COM port.
@@ -92,6 +93,20 @@ LINEUP_CONF_MIN      = 0.70       # minimum detection confidence to produce any 
 LINEUP_SHOW_VIDEO    = True       # live preview window with YOLO boxes + fps (press q to close, doesn't stop the FSM)
 LINEUP_IMGSZ         = 640        # YOLO inference resolution -- lower (e.g. 320) on weak/RAM-limited compute
 LINEUP_CAMERA_ID     = None       # only used when LINEUP_CAMERA_SOURCE == "zed" -- selects among multiple/GMSL cameras
+
+# vision test settings, used when FSM_TO_TEST == "vision_test". Feature-test/showcase:
+# logs every qualifying detection's coords/box to vision.log, no alignment math, never drives the sub.
+# Runs unattended (no live window) - records MP4 (+ SVO for zed) instead, review afterward.
+VISION_TEST_CAMERA_SOURCE = "webcam"     # "downfacing" (sub's cam), "webcam" (laptop/dev), or "zed" (e.g. ZED 2i)
+VISION_TEST_TARGET_LABEL  = None         # None = log every detected class; or a specific label to filter to
+VISION_TEST_CONF_MIN      = 0.70         # minimum detection confidence to log/display
+VISION_TEST_IMGSZ         = 640          # YOLO inference resolution -- lower (e.g. 320) on weak/RAM-limited compute
+VISION_TEST_CAMERA_ID     = None         # only used when VISION_TEST_CAMERA_SOURCE == "zed"
+VISION_TEST_LOG_PERIOD    = 10.0         # seconds between running-summary log lines
+VISION_TEST_TARGET_DEPTH  = 1.0          # meters, assumed target plane depth for the metric back-projection log line
+VISION_TEST_RECORD_MP4    = True         # record annotated video.mp4 (no live window - review afterward)
+VISION_TEST_RECORD_SVO    = False        # also record native ZED recording.svo -- only used when camera_source="zed"
+VISION_TEST_OUTPUT_DIR    = "vision_recordings" # base dir, one timestamped subfolder per run
 
 def build_fsm(name: str):
     """
@@ -121,6 +136,13 @@ def build_fsm(name: str):
             return Lineup_Test_FSM(shared_memory_object, [], system=LINEUP_SYSTEM, target_label=LINEUP_TARGET_LABEL,
                                     camera_source=LINEUP_CAMERA_SOURCE, conf_min=LINEUP_CONF_MIN, show_video=LINEUP_SHOW_VIDEO,
                                     imgsz=LINEUP_IMGSZ, camera_id=LINEUP_CAMERA_ID)
+        case "vision_test":
+            return Vision_Test_FSM(shared_memory_object, [], camera_source=VISION_TEST_CAMERA_SOURCE,
+                                    target_label=VISION_TEST_TARGET_LABEL, conf_min=VISION_TEST_CONF_MIN,
+                                    imgsz=VISION_TEST_IMGSZ, camera_id=VISION_TEST_CAMERA_ID,
+                                    log_period_s=VISION_TEST_LOG_PERIOD, target_depth=VISION_TEST_TARGET_DEPTH,
+                                    record_mp4=VISION_TEST_RECORD_MP4, record_svo=VISION_TEST_RECORD_SVO,
+                                    output_dir=VISION_TEST_OUTPUT_DIR)
         case _:
             print(f"Unknown FSM '{name}', check FSM_TO_TEST / build_fsm()")
             return None
@@ -183,8 +205,10 @@ def display(mode):
         print(f"ROLE: {mode.role}")
     if hasattr(mode, "received_frame"): # modem data/ack exchange result
         print(f"MODEM SUCCESS: {mode.success}  RECEIVED FRAME: {mode.received_frame}")
-    if hasattr(mode, "helper") and hasattr(mode.helper, "debug"): # dropper/grabber alignment debug info
+    if hasattr(mode, "helper") and hasattr(mode.helper, "debug"): # dropper/grabber/lineup alignment debug info
         print(f"{mode.name} DEBUG: {mode.helper.debug}")
+    elif hasattr(mode, "debug"): # vision_test - no helper, debug lives directly on the FSM
+        print(f"{mode.name} DEBUG: {mode.debug}")
 
     # %.3f instead of %.1f: small position offsets would otherwise round away to look unchanged
     print("x: %.3f -> %.3f" % (shared_memory_object.dvl_x.value, shared_memory_object.target_x.value))
