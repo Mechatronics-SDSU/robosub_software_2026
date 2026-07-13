@@ -7,3 +7,7 @@
 TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
 2026-07-13 15:12:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
 TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-13 15:59:56 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-13 15:59:56 - MainProcess - INFO - vision_test_fsm.py:149 - === NEW SESSION: camera_source=zed target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=True record_mp4=False record_svo=False run_dir=None ===
+2026-07-13 15:59:56 - MainProcess - INFO - vision_test_fsm.py:235 - State changed: INIT -> RUNNING
+2026-07-13 15:59:56 - MainProcess - ERROR - vision_test_fsm.py:189 - VISION_TEST: ZED open failed (pyzed.sl import failed: No module named 'pyzed'), falling back to camera_source='webcam'

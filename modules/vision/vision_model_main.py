@@ -33,6 +33,7 @@ from modules.vision.target_box_helpers import (
     CAMERA_CALIB_HEIGHT,
     DISTORTION_COEFFS,
 )
+from modules.vision.zed_diagnostics import diagnose_zed, check_zed_install_dir, ZED_INSTALL_DIR
 
 _VISION_DIR = Path(__file__).resolve().parent
 
@@ -132,7 +133,12 @@ class ZEDCamera(_Camera):
         depth_minimum_distance: float = 0.3,
         camera_id: int | None = None,
     ):
-        import pyzed.sl as sl
+        try:
+            import pyzed.sl as sl
+        except Exception as e:
+            print(f'ZED SDK (pyzed.sl) failed to import: {e}', file=sys.stderr)
+            print(f'Checked {ZED_INSTALL_DIR} exists: {check_zed_install_dir()}', file=sys.stderr)
+            raise RuntimeError(f'pyzed.sl import failed: {e}') from e
 
         self._sl = sl
 
@@ -166,7 +172,21 @@ class ZEDCamera(_Camera):
         err = zed.open(init)
         if err != sl.ERROR_CODE.SUCCESS:
             print(f'ZED open failed: {err}', file=sys.stderr)
-            sys.exit(1)
+            # zed.close() before dropping the reference - an sl.Camera that was
+            # constructed but never successfully opened still prints its own
+            # internal "sl::Camera::Open has not been called" error when the
+            # SDK later touches/destructs it otherwise (this is what produces
+            # the second, seemingly-repeated error line after "open failed").
+            # close() here makes that stop, and makes the failure genuinely
+            # clean instead of leaving a half-open SDK object lying around.
+            zed.close()
+            diagnose_zed(emit=lambda msg: print(msg, file=sys.stderr))
+            # raise instead of sys.exit(1): sys.exit ends the whole process,
+            # which makes a caller-side fallback (e.g. camera_source="zed"
+            # falling back to "downfacing") impossible. A RuntimeError can be
+            # caught by whoever called camera("zed") and handled - see
+            # fsm/vision_test_fsm.py's zed_fallback support.
+            raise RuntimeError(f'ZED open failed: {err}')
 
         info = zed.get_camera_information()
         res = info.camera_configuration.resolution

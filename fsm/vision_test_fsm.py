@@ -49,7 +49,7 @@ class Vision_Test_FSM(FSM_Template):
                  imgsz: int = 640, camera_id: int = None, log_period_s: float = 10.0,
                  model_weights: str = "models/best.pt", target_depth: float = 1.0,
                  record_mp4: bool = True, record_svo: bool = False, output_dir: str = "vision_recordings",
-                 headless: bool = True):
+                 headless: bool = True, zed_fallback: str = None):
         """
         Vision test FSM constructor
 
@@ -84,6 +84,13 @@ class Vision_Test_FSM(FSM_Template):
         (recording/logging happen either way, independent of this). Set False
         to also pop up a live window while it runs - useful when you want to
         watch it work, not just review the recording afterward.
+        zed_fallback: only relevant when camera_source="zed". If opening the
+        ZED fails (raises RuntimeError - see ZEDCamera in vision_model_main.py,
+        which now fails cleanly with diagnostics instead of killing the
+        process), None (default) re-raises and stops the FSM; pass another
+        camera_source string (e.g. "downfacing") to automatically fall back
+        to that camera instead. The fallback happens once - if the fallback
+        camera also fails, that failure is not caught.
         """
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "VISION_TEST"
@@ -109,6 +116,7 @@ class Vision_Test_FSM(FSM_Template):
             self.record_svo = False
         self.output_dir = output_dir
         self.headless = headless
+        self.zed_fallback = zed_fallback
         self._run_dir = None
         self._mp4_writer = None
         self._svo_enabled = False
@@ -163,6 +171,35 @@ class Vision_Test_FSM(FSM_Template):
             self.logger.info(f"{self.name}: MP4 recording -> {path} ({w}x{h})")
 
         self._mp4_writer.write(frame)
+
+    def _open_camera(self):
+        """
+        Opens self.camera_source, with an optional one-shot fallback (see
+        zed_fallback in the constructor). ZEDCamera now raises a RuntimeError
+        on open failure (instead of killing the process with sys.exit -
+        see vision_model_main.py) specifically so this can catch it here.
+        """
+        try:
+            if self.camera_source == "zed":
+                opened = camera("zed", camera_id=self.camera_id)
+            else:
+                opened = camera(self.camera_source)
+        except RuntimeError as e:
+            if self.camera_source == "zed" and self.zed_fallback:
+                self.logger.error(f"{self.name}: ZED open failed ({e}), falling back to camera_source='{self.zed_fallback}'")
+                self.camera_source = self.zed_fallback
+                if self.record_svo:
+                    self.logger.warning(f"{self.name}: record_svo=True has no effect on the fallback camera, disabling")
+                    self.record_svo = False
+                opened = camera(self.camera_source, camera_id=self.camera_id) if self.camera_source == "zed" else camera(self.camera_source)
+            else:
+                self.logger.error(f"{self.name}: camera open failed and no fallback configured, stopping: {e}")
+                self.stop()
+                raise
+
+        # mirror for ease of manual bench alignment - webcam only, never the
+        # real downfacing camera or a ZED
+        return MirroredCamera(opened) if self.camera_source == "webcam" else opened
 
     def _cleanup_recording(self) -> None:
         """
@@ -244,13 +281,7 @@ class Vision_Test_FSM(FSM_Template):
 
             case States.RUNNING:
                 if self._camera is None:
-                    if self.camera_source == "zed":
-                        opened = camera("zed", camera_id=self.camera_id)
-                    else:
-                        opened = camera(self.camera_source)
-                    # mirror for ease of manual bench alignment - webcam only,
-                    # never the real downfacing camera or a ZED
-                    self._camera = MirroredCamera(opened) if self.camera_source == "webcam" else opened
+                    self._camera = self._open_camera()
 
                     if self.record_svo:
                         svo_path = os.path.join(self._run_dir, 'recording.svo')
