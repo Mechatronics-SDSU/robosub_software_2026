@@ -1,5 +1,5 @@
 course: jesse_pool # course that the sub is running in
-motor_factor: 0.1 # changes motor speed, ~0.1 for air, ~0.7 for water
+motor_factor: 0.7 # changes motor speed, ~0.1 for air, ~0.7 for water
 
 jesse_pool: # ------------------------------------------------------------------------------------------------------
   # smaller coordinates for jesse's pool (~9.02m long, ~1.2m min depth, ~3m wide)
@@ -9,9 +9,9 @@ jesse_pool: # ------------------------------------------------------------------
     y_buf: 0.3 # m left/right buffer for all objects
     z_buf: 0.3 # m up/down buffer for all objects
     # values
-    x:  1 # forward is positive x
+    x:  4 # forward is positive x
     y:  0 # left is positive y
-    z:  0.5
+    z:  1.5
     drop: 0.4 # initial drop depth
     t_drop: 0.25 # initial drop duration
 

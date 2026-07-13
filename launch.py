@@ -64,7 +64,7 @@ oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
 #mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
-mode_list = [test_signals_mode]
+mode_list = [gate_mode]
 
 def main():
     """
@@ -100,7 +100,8 @@ def stop():
     """
     shared_memory_object.running.value = 0 # kill gracefully
     time.sleep(0.25)
-    usb_object.soft_kill()
+    #usb_object.soft_kill()
+    usb_object.kill_motors()
 
 def make_list(modes: list[FSM_Template]) -> None:
     """

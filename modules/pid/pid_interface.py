@@ -25,20 +25,22 @@ class PIDInterface:
         self.motor_wrapper = MotorWrapper(self.shared_memory_object, usb_object)
 
         # # array of PID k Values
-        # self.K_array = np.array([
-        # #     x,     y,     z,     yaw,   pitch, roll
-        #     [700,   700,    25,    10,    2,     2], #kp
-        #     [.5,   .5,      2,      2,    .5,   .5], #ki
-        #     [.1,   .1 ,    .1,     .2,    .5,   .5]  #kd
-        # ])
+        self.K_array = np.array([
+        #     x,     y,     z,     yaw,   pitch, roll
+            [700,   700,    25,    10,    2,     2], #kp
+            [.5,   .5,      2,      2,    .5,   .5], #ki
+            [.1,   .1 ,    .1,     .2,    .5,   .5]  #kd
+        ])
         
         # array of PID k Values (Zaid)
-        self.K_array = np.array([
-        #     x,     y,     z,     yaw,   pitch,   roll
-            [375,  2,     10,     2,      2,      2], #kp
-            [0.125,     0,      0,      0,      0,      0], #ki
-            [0.03,     0,      0,      0,      0,      0]  #kd
-        ])
+        # self.K_array = np.array([
+        # #     x,     y,     z,     yaw,   pitch,   roll
+        #     [375,  2,     10,     2,      2,      2], #kp
+        #     [0.125,     0,      0,      0,      0,      0], #ki
+        #     [0.03,     0,      0,      0,      0,      0]  #kd
+        # ])
+        
+        
         self.pid_object = PID(self.K_array[0], self.K_array[1], self.K_array[2], 0.5)
         
     
