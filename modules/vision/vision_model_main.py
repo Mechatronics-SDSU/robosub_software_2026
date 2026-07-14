@@ -350,10 +350,18 @@ class DownfacingCamera(WebcamCamera):
               if you specifically need full calibration resolution.
     """
 
-    def __init__(self, index: int = 0, fps: int = 30, quality: tuple = (1280, 720)):
+    def __init__(self, index: int = 0, fps: int = 30, quality: tuple = (1280, 720), rotate_180: bool = False):
         super().__init__(index=index, fps=fps, quality=quality)
-        print(f'  (calibrated downfacing camera - fisheye undistortion + mount-flip enabled)')
+        print(f'  (calibrated downfacing camera - fisheye undistortion + mount-flip enabled'
+              f'{", extra 180-degree mount rotation" if rotate_180 else ""})')
 
+        # rotate_180 is the "camera got remounted upside down" escape hatch (objects.yaml
+        # camera_rotate_180): the RAW frame is rotated 180 degrees before undistortion and the
+        # undistortion maps are built against the mirrored principal point, so the corrected
+        # output keeps the ORIGINAL calibration intrinsics - downstream back-projection math in
+        # target_box_helpers.py needs no changes either way. Composes with (does not replace)
+        # the standard vertical mount-flip below.
+        self._rotate_180 = rotate_180
         self._requested_quality = quality
         self._map1 = None
         self._map2 = None
@@ -385,8 +393,19 @@ class DownfacingCamera(WebcamCamera):
         ])
         D = np.array(DISTORTION_COEFFS)
 
+        # with rotate_180 the raw frame gets rotated before remapping, which moves the lens's
+        # principal point to its mirrored position ((u,v) -> (w-1-u, h-1-v)); the INPUT camera
+        # matrix must describe that rotated-raw geometry (fisheye distortion is radially
+        # symmetric about the principal point, so D is unchanged by the rotation). The OUTPUT
+        # projection stays the original K so downstream math sees identical intrinsics.
+        K_in = K
+        if self._rotate_180:
+            K_in = K.copy()
+            K_in[0, 2] = (w - 1) - K[0, 2]
+            K_in[1, 2] = (h - 1) - K[1, 2]
+
         self._map1, self._map2 = cv2.fisheye.initUndistortRectifyMap(
-            K, D, np.eye(3), K, frame_size, cv2.CV_16SC2
+            K_in, D, np.eye(3), K, frame_size, cv2.CV_16SC2
         )
 
     def _grab_with_pc(self):
@@ -397,6 +416,12 @@ class DownfacingCamera(WebcamCamera):
         frame_size = (frame.shape[1], frame.shape[0]) # (width, height)
         if self._map1 is None:
             self._build_undistort_maps(frame_size)
+
+        # optional extra 180-degree mount rotation happens on the RAW frame - the undistortion
+        # maps above were built against the matching mirrored principal point (see
+        # _build_undistort_maps), so raw-rotate-then-remap stays geometrically exact
+        if self._rotate_180:
+            frame = cv2.rotate(frame, cv2.ROTATE_180)
 
         # undistort first (maps were built for the raw, as-mounted geometry),
         # then flip to correct the backwards mount - flipping first would
@@ -455,7 +480,9 @@ def camera(type: str, **kwargs) -> _Camera:  # noqa: A002
                        on a multi-port box - see ZEDCamera's docstring)
     Downfacing kwargs: index, fps, quality (capture resolution, defaults to
                        1280x720 - lower than the calibration's native
-                       2894x1630 for fps on the weak downcam compute box)
+                       2894x1630 for fps on the weak downcam compute box),
+                       rotate_180 (True if the camera got remounted upside
+                       down - see DownfacingCamera's docstring)
     Webcam kwargs    : index, fps, quality (both default to None - leaves the
                        camera's own defaults alone)
 
@@ -507,11 +534,16 @@ class YOLOModel:
         self._last_infer_time = None
 
     def infer(self, cam: _Camera, headless: bool = True, verbose: bool = False, overlay_fn=None, overlay_only: bool = False,
-              record_fn=None) -> dict:
+              record_fn=None, classes: list | None = None) -> dict:
         """Grab one frame from cam, run YOLO, and return a detection dict.
 
         Returns {} if the grab failed or nothing was detected.
 
+        classes      : optional list of class ids — passed straight to ultralytics predict(),
+                       so anything not in the list never becomes a detection at all. None
+                       (default) keeps every class. Lets a task FSM shrink what the model
+                       "looks for" at runtime (e.g. the grabber dropping an item's class
+                       after it's been banked).
         headless     : True  — no preview window (default). Independent of record_fn - the
                        annotated frame still gets built and handed to record_fn even when
                        headless=True, it's only the on-screen cv2.imshow window that's skipped.
@@ -560,6 +592,7 @@ class YOLOModel:
             max_det=self._max_det,
             augment=self._augment,
             device=self._device,
+            classes=classes,
             verbose=False,
         )
         predict_time = time.perf_counter() - predict_start

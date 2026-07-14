@@ -33,3 +33,6 @@ grabber:
   # FIXME: claw_offset_x/y (body frame, meters) — separate tape-measure from dropper above.
   claw_offset_x: 0.0
   claw_offset_y: 0.0
+  # true if the downfacing camera got remounted upside down (180° about its optical axis) -
+  # rotates the raw frame + mirrors the principal point so calibration stays exact
+  camera_rotate_180: false

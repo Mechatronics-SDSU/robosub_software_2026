@@ -27,10 +27,15 @@ WIDTH       = 6
 HEIGHT      = 7
 
 # BOX/STABILITY THRESHOLDS, adjust these as needed------------------------------------------------------------------------------
+# A target only counts as real after REQUIRED_STABLE_FRAMES consecutive frames of the same
+# class, each at IOU_MIN (60%) positional overlap with the previous frame - one-frame YOLO
+# flickers can never trigger an action. The grabber overrides both per-course via objects.yaml
+# (stable_frames / stable_iou); these module values are the defaults everything else (dropper,
+# lineup test) uses.
 MIN_CONFIDENCE         = 0.70
 IOU_MIN                = 0.60   # required IoU between consecutive frames to count as the same stable target
 VERIFY_IOU_MIN         = 0.65   # stricter IoU threshold used during the final pre-drop verify pass
-REQUIRED_STABLE_FRAMES = 3
+REQUIRED_STABLE_FRAMES = 4
 VERIFY_FRAME_COUNT     = 5      # consecutive good frames required during the final verify pass
 
 # DOWNWARD CAMERA MOTION CONTROL, adjust these as needed------------------------------------------------------------------------
