@@ -36,7 +36,8 @@ class DropperTest_FSM(FSM_Template):
     signal_wrapper: real SignalWrapper to actuate hardware, or None to print
     placeholders (same as the real Dropper_FSM).
     """
-    def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None):
+    def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None,
+                 camera_source: str = "downfacing", conf_min: float = 0.50, imgsz: int = 640):
         super().__init__(shared_memory_object, run_list)
         self.name: str     = "DROPPER_TEST"
         self.state: States = States.INIT
@@ -76,7 +77,8 @@ class DropperTest_FSM(FSM_Template):
         except KeyError:
             self.logger.error(f"{self.name} ERROR: Invalid data format in objects.yaml, using defaults")
 
-        self.helper    = DropperHelpers(shared_memory_object, signal_wrapper, weights_path=model_weights)
+        self.helper    = DropperHelpers(shared_memory_object, signal_wrapper, weights_path=model_weights,
+                                        camera_source=camera_source, conf_min=conf_min, imgsz=imgsz)
         self.bin_label = self.helper.get_bin_label(role)
 
     def start(self) -> None:

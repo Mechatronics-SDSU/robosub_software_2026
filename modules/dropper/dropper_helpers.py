@@ -45,7 +45,8 @@ class DropperHelpers:
     world-position estimation, and dropper actuation.
     """
     def __init__(self, shared_memory_object, signal_wrapper=None, weights_path: str = "models/best.pt",
-                 dropper_offset_body: tuple = (0.0, 0.0), same_bin_radius: float = SAME_BIN_RADIUS_M):
+                 dropper_offset_body: tuple = (0.0, 0.0), same_bin_radius: float = SAME_BIN_RADIUS_M,
+                 camera_source: str = "downfacing", conf_min: float = 0.50, imgsz: int = 640):
         self.shared_memory = shared_memory_object
         self.signal_wrapper = signal_wrapper # real SignalWrapper (modules/signals/SignalWrapper.py), or None for safe print placeholders
 
@@ -55,6 +56,9 @@ class DropperHelpers:
         # model_weights and dropper_offset are passed in from Dropper_FSM's constructor,
         # which reads them from config/hardware.yaml (not objects.yaml).
         self.weights_path = weights_path
+        self.camera_source = camera_source
+        self.conf_min = conf_min
+        self.imgsz = imgsz
         self._camera = None
         self._model = None
 
@@ -99,9 +103,9 @@ class DropperHelpers:
         dependencies to be present (e.g. FAKE_INPUT testing).
         """
         if self._camera is None:
-            self._camera = camera("downfacing")
+            self._camera = camera(self.camera_source)
         if self._model is None:
-            self._model = yolo(self.weights_path)
+            self._model = yolo(self.weights_path, conf=self.conf_min, imgsz=self.imgsz)
 
         detections = self._model.infer(self._camera, headless=True, verbose=False)
         return convert_vision_runtime_detections(detections)

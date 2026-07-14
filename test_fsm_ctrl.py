@@ -67,6 +67,13 @@ shared_memory_object = SharedMemoryWrapper()
 DELAY = 0.2 # loop delay, raise this to slow down/step through states
 
 FAKE_INPUT = False # fake dvl movement + fake modem messages, turn off once testing on real hardware
+
+# dropper test settings, used when FSM_TO_TEST == "dropper_test". Camera-only bench test:
+# points the chosen camera at a bin, fires the dropper when a stable detection is seen.
+# No motors are commanded. Ctrl+C to stop (it loops forever on no-detect).
+DROPPER_TEST_CAMERA_SOURCE = "downfacing" # "downfacing" (sub cam), "webcam" (laptop/dev), or "zed"
+DROPPER_TEST_CONF_MIN      = 0.50         # minimum detection confidence (0.0–1.0)
+DROPPER_TEST_IMGSZ         = 640          # YOLO inference resolution — lower (e.g. 320) on weak compute
 # NOTE: FAKE_INPUT only fakes DVL drift (drift_toward_targets), not vision. Testing
 # "dropper" past SEARCH_FOR_BIN needs either the real downward camera + a bin image,
 # or a manual monkeypatch of DropperHelpers.get_target_detections() at the call site.
@@ -137,7 +144,10 @@ def build_fsm(name: str):
         case "dropper":
             return Dropper_FSM(shared_memory_object, [])
         case "dropper_test":
-            return DropperTest_FSM(shared_memory_object, [])
+            return DropperTest_FSM(shared_memory_object, [],
+                                    camera_source=DROPPER_TEST_CAMERA_SOURCE,
+                                    conf_min=DROPPER_TEST_CONF_MIN,
+                                    imgsz=DROPPER_TEST_IMGSZ)
         case "grabber":
             return Grabber_FSM(shared_memory_object, [])
         case "grabber_test":
