@@ -3,6 +3,7 @@ import time
 import yaml
 
 from modules.vision.vision_model_main import camera, yolo
+from modules.vision.dropper_flip_vision import FlipAwareYOLO
 from modules.vision.target_box_helpers import (
     VERIFY_FRAME_COUNT,
     VERIFY_IOU_MIN,
@@ -105,7 +106,7 @@ class DropperHelpers:
         if self._camera is None:
             self._camera = camera(self.camera_source)
         if self._model is None:
-            self._model = yolo(self.weights_path, conf=self.conf_min, imgsz=self.imgsz)
+            self._model = FlipAwareYOLO(yolo(self.weights_path, conf=self.conf_min, imgsz=self.imgsz))
 
         detections = self._model.infer(self._camera, headless=True, verbose=False)
         return convert_vision_runtime_detections(detections)
