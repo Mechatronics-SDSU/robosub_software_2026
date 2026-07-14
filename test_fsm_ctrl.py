@@ -1,4 +1,9 @@
+import os
 import argparse, logging, subprocess, time
+
+# suppress Qt platform plugin crash on headless Linux (no X display)
+if not os.environ.get('DISPLAY'):
+    os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 
 # the shared Logger class defaults to DEBUG, which floods modem testing with
 # a "Returning None"/"Buffer length" line on every idle poll
