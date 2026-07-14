@@ -14,7 +14,9 @@ from fsm.prequal_fsm                        import Prequal_FSM
 from fsm.coinflip_fsm                       import CoinFlip_FSM
 from fsm.modem_fsm                          import Modem_FSM, FRAME_TYPE_DATA
 from fsm.dropper_fsm                        import Dropper_FSM
+from fsm.dropper_test_fsm                   import DropperTest_FSM
 from fsm.grabber_fsm                        import Grabber_FSM
+from fsm.grabber_test_fsm                   import GrabberTest_FSM
 from fsm.torpedo_fsm                        import Torpedo_FSM
 from fsm.lineup_test_fsm                    import Lineup_Test_FSM
 from fsm.vision_test_fsm                    import Vision_Test_FSM
@@ -76,7 +78,7 @@ FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing th
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "dropper" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, torpedo, lineup, vision_test
+FSM_TO_TEST = "dropper_test" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, dropper_test, grabber, grabber_test, torpedo, lineup, vision_test
 
 # modem hardware settings, used when FSM_TO_TEST == "modem" and FAKE_INPUT = False.
 # Run this file once per sub with the opposite MODEM_ROLE and each sub's real COM port.
@@ -134,8 +136,12 @@ def build_fsm(name: str):
                               task_code=MODEM_TASK_CODE, color_flag=MODEM_COLOR_FLAG)
         case "dropper":
             return Dropper_FSM(shared_memory_object, [])
+        case "dropper_test":
+            return DropperTest_FSM(shared_memory_object, [])
         case "grabber":
             return Grabber_FSM(shared_memory_object, [])
+        case "grabber_test":
+            return GrabberTest_FSM(shared_memory_object, [])
         case "torpedo":
             return Torpedo_FSM(shared_memory_object, [])
         case "lineup":

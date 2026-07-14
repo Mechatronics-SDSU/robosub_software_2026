@@ -104,8 +104,8 @@ class DropperTest_FSM(FSM_Template):
                 self.suspend()
 
             case States.FAIL:
-                self.logger.warning(f"{self.name} FAILED to complete marker {self.marker_num}")
-                self.suspend()
+                self.logger.warning(f"{self.name} FAILED on marker {self.marker_num}, restarting search")
+                self.marker_num = 1
 
             case _:
                 self.logger.error(f"{self.name} INVALID NEXT STATE {next}")
@@ -159,7 +159,7 @@ class DropperTest_FSM(FSM_Template):
                 return
 
             case States.FAIL:
-                return
+                self.next_state(States.SEARCH_FOR_BIN)
 
             case _:
                 self.logger.error(f"{self.name} INVALID STATE {self.state}")

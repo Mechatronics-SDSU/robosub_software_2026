@@ -123,8 +123,9 @@ class GrabberTest_FSM(FSM_Template):
                 self.suspend()
 
             case States.FAIL:
-                self.logger.warning(f"{self.name} FAILED on item {self.item_num}")
-                self.suspend()
+                self.logger.warning(f"{self.name} FAILED on item {self.item_num}, restarting search")
+                self.item_num = 1
+                self.remaining_items = list(self.role_items)
 
             case _:
                 self.logger.error(f"{self.name} INVALID NEXT STATE {next}")
@@ -210,7 +211,7 @@ class GrabberTest_FSM(FSM_Template):
                 return
 
             case States.FAIL:
-                return
+                self.next_state(States.SEARCH_FOR_ITEM)
 
             case _:
                 self.logger.error(f"{self.name} INVALID STATE {self.state}")
