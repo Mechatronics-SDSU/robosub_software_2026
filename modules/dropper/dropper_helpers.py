@@ -228,7 +228,8 @@ class DropperHelpers:
             return {"target": None, "bin_world": None, "centered": False, "dwell_ok": False, "lost": True, "rejected": False}
         else:
             # briefly lost, hold position, keep using the last known target
-            stop_vehicle_motion(self.shared_memory)
+            # TEST MODE: motor command commented out
+            # stop_vehicle_motion(self.shared_memory)
             self.debug["lost"] = False
             return {"target": self.last_valid_detection, "bin_world": self.bin_world, "centered": False, "dwell_ok": False, "lost": False, "rejected": False}
 
@@ -261,8 +262,9 @@ class DropperHelpers:
         dropper_x_error = dropper_target_world[0] - sub_world[0]
         dropper_y_error = dropper_target_world[1] - sub_world[1]
 
-        nudge_xy_toward_target(self.shared_memory, dropper_x_error, dropper_y_error)
-        set_hover_depth(self.shared_memory, target_depth, desired_height)
+        # TEST MODE: motor commands commented out
+        # nudge_xy_toward_target(self.shared_memory, dropper_x_error, dropper_y_error)
+        # set_hover_depth(self.shared_memory, target_depth, desired_height)
 
         centered_now = is_target_centered_metric(dropper_x_error, dropper_y_error, x_tolerance, y_tolerance)
         if centered_now:
