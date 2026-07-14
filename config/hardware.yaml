@@ -2,6 +2,17 @@
 # Mission waypoints, tolerances, and course selection live in objects.yaml instead.
 # Changing which camera the sub uses means editing `camera.source` here, nothing else.
 
+#      (front)
+#  ⌜     +x     ⌝
+#
+#
+#  +y        -y z=0 (up) z- (down)
+#
+#
+#  ⌞     -x     ⌟
+
+# FIXME: The coordinates below do not fulfil the sub's standard, additionally, downcamera is flipped so it would invert signs for x and y
+
 camera:
   source: zed       # zed | downfacing | webcam
   camera_id: 0      # GMSL/multi-camera index for ZED X-series GMSL boxes (0–3); ignored for USB ZED
