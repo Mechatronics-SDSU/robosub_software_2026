@@ -76,7 +76,7 @@ FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing th
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "vision_test" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, torpedo, lineup, vision_test
+FSM_TO_TEST = "dropper" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, torpedo, lineup, vision_test
 
 # modem hardware settings, used when FSM_TO_TEST == "modem" and FAKE_INPUT = False.
 # Run this file once per sub with the opposite MODEM_ROLE and each sub's real COM port.

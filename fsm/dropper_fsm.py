@@ -152,9 +152,7 @@ class Dropper_FSM(FSM_Template):
         super().start()  # call parent start method
 
         # set initial state
-        # TEST MODE: skip motor navigation, go straight to camera search
-        # self.next_state(States.MOVE_TO_PIPELINE)
-        self.next_state(States.SEARCH_FOR_BIN)
+        self.next_state(States.MOVE_TO_PIPELINE)
 
     def next_state(self, next: States) -> None:
         """
@@ -168,10 +166,9 @@ class Dropper_FSM(FSM_Template):
                 return # initial state
 
             case States.MOVE_TO_PIPELINE: # approach guestimate coordinates
-                # TEST MODE: motor navigation commented out
-                # self.shared_memory_object.target_x.value = self.x1
-                # self.shared_memory_object.target_y.value = self.y1
-                # self.shared_memory_object.target_z.value = self.depth
+                self.shared_memory_object.target_x.value = self.x1
+                self.shared_memory_object.target_y.value = self.y1
+                self.shared_memory_object.target_z.value = self.depth
                 self.wait_time = time.time()
 
             case States.SEARCH_FOR_BIN: # look for the role's bin
@@ -221,12 +218,10 @@ class Dropper_FSM(FSM_Template):
                 return
 
             case States.MOVE_TO_PIPELINE: # transition: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
-                # TEST MODE: motor navigation commented out
-                # if self.reached_xyz(self.x1, self.y1, self.depth):
-                #     self.next_state(States.SEARCH_FOR_BIN)
-                # elif time.time() - self.wait_time > self.timeout:
-                #     self.next_state(States.SEARCH_FOR_BIN)
-                pass
+                if self.reached_xyz(self.x1, self.y1, self.depth):
+                    self.next_state(States.SEARCH_FOR_BIN)
+                elif time.time() - self.wait_time > self.timeout:
+                    self.next_state(States.SEARCH_FOR_BIN)
 
             case States.SEARCH_FOR_BIN: # transition: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
                 detections = self.helper.get_target_detections()
@@ -247,9 +242,7 @@ class Dropper_FSM(FSM_Template):
                 if target is not None:
                     self.current_target = target
                     if self.helper.check_target_stable(target):
-                        # TEST MODE: skip motor alignment, drop immediately on stable target
-                        # self.next_state(States.ALIGN_TO_BIN)
-                        self.next_state(States.DROP_MARKER)
+                        self.next_state(States.ALIGN_TO_BIN)
                 elif time.time() - self.wait_time > self.timeout:
                     self.next_state(States.FAIL)
 
