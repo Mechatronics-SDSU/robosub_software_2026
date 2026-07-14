@@ -147,6 +147,18 @@ class GrabberHelpers:
         self.rotation_target_yaw = None
         self.rotation_step_started = 0.0
 
+    # DEPTH SOURCE-------------------------------------------------------------------------------------------------------------------
+    def _sub_depth(self) -> float:
+        """
+        Current sub depth (meters, positive down, surface ~= 0). Reads the
+        DVL's z (shared_memory.dvl_z) instead of the pressure sensor
+        (shared_memory.depth) because only the DVL is working right now -
+        same units and convention, so everything downstream is unchanged.
+        When the planned depth-source switch file lands, this method is the
+        ONLY place in the grabber that needs to point at it.
+        """
+        return self.shared_memory.dvl_z.value
+
     # VISION PIPELINE----------------------------------------------------------------------------------------------------------------
     def _ensure_vision(self) -> None:
         if self._camera is None:
@@ -313,7 +325,7 @@ class GrabberHelpers:
         past the bin marker's edge). Returns 0.0 when the geometry can't be
         trusted (target not below the sub).
         """
-        vertical_distance = target_depth - self.shared_memory.depth.value
+        vertical_distance = target_depth - self._sub_depth()
         if vertical_distance <= 0:
             return 0.0
         return vertical_distance * detection[WIDTH] / CAMERA_FX_NORM
@@ -325,7 +337,7 @@ class GrabberHelpers:
         """
         Runs one tick of downward-camera alignment toward whatever
         choose_target_fn(detections) picks out (an item or a basket), using
-        the camera + pressure sensor depth (no ZED/stereo depth here):
+        the camera + the sub's depth via _sub_depth() (no ZED/stereo depth here):
             1. fetch fresh detections (optionally class-filtered at the model
                via classes=[...]) and pick a target with choose_target_fn
             2. if briefly lost, hold position and wait for it to reappear
@@ -366,7 +378,7 @@ class GrabberHelpers:
 
         # smooth the center position over recent frames to reduce single-frame noise
         smoothed_center = average_target_center(self.detection_history)
-        sub_depth = self.shared_memory.depth.value # real pressure sensor reading
+        sub_depth = self._sub_depth() # DVL z for now, see _sub_depth()
 
         x_error_m, y_error_m = get_target_error_meters(smoothed_center[0], smoothed_center[1], sub_depth, target_depth)
         self.debug["x_error"], self.debug["y_error"] = x_error_m, y_error_m
@@ -478,7 +490,7 @@ class GrabberHelpers:
         # fell to the pool floor the xy direction is still roughly right, and the verdict
         # only gates on a coarse near-the-table distance anyway).
         center = average_target_center(self._carry_history)
-        x_error_m, y_error_m = get_target_error_meters(center[0], center[1], self.shared_memory.depth.value, item_target_depth)
+        x_error_m, y_error_m = get_target_error_meters(center[0], center[1], self._sub_depth(), item_target_depth)
         world = self.estimate_target_world_position(x_error_m, y_error_m)
         if table_world is not None and distance_2d(world, table_world) <= max_table_dist:
             return "dropped_near_table"
