@@ -73,7 +73,8 @@ FAKE_INPUT = False # fake dvl movement + fake modem messages, turn off once test
 # No motors are commanded. Ctrl+C to stop (it loops forever on no-detect).
 DROPPER_TEST_CAMERA_SOURCE = "downfacing" # "downfacing" (sub cam), "webcam" (laptop/dev), or "zed"
 DROPPER_TEST_TARGET_LABEL  = None         # None = use role from objects.yaml; or e.g. "fire" / "blood"
-DROPPER_TEST_SHOW_VIDEO    = True         # True = live preview window with detection boxes + state overlay
+DROPPER_TEST_SHOW_VIDEO    = False        # True = live preview window (requires X display / monitor)
+DROPPER_TEST_RECORD_VIDEO  = True         # True = save annotated MP4 to dropper_test_recordings/
 DROPPER_TEST_CONF_MIN      = 0.50         # minimum detection confidence (0.0–1.0)
 DROPPER_TEST_IMGSZ         = 640          # YOLO inference resolution — lower (e.g. 320) on weak compute
 # NOTE: FAKE_INPUT only fakes DVL drift (drift_toward_targets), not vision. Testing
@@ -150,6 +151,7 @@ def build_fsm(name: str):
                                     camera_source=DROPPER_TEST_CAMERA_SOURCE,
                                     target_label=DROPPER_TEST_TARGET_LABEL,
                                     show_video=DROPPER_TEST_SHOW_VIDEO,
+                                    record_video=DROPPER_TEST_RECORD_VIDEO,
                                     conf_min=DROPPER_TEST_CONF_MIN,
                                     imgsz=DROPPER_TEST_IMGSZ)
         case "grabber":
