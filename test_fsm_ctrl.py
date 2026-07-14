@@ -15,6 +15,7 @@ from fsm.coinflip_fsm                       import CoinFlip_FSM
 from fsm.modem_fsm                          import Modem_FSM, FRAME_TYPE_DATA
 from fsm.dropper_fsm                        import Dropper_FSM
 from fsm.grabber_fsm                        import Grabber_FSM
+from fsm.torpedo_fsm                        import Torpedo_FSM
 from fsm.lineup_test_fsm                    import Lineup_Test_FSM
 from fsm.vision_test_fsm                    import Vision_Test_FSM
 
@@ -75,7 +76,7 @@ FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing th
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "vision_test" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, lineup, vision_test
+FSM_TO_TEST = "vision_test" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, grabber, torpedo, lineup, vision_test
 
 # modem hardware settings, used when FSM_TO_TEST == "modem" and FAKE_INPUT = False.
 # Run this file once per sub with the opposite MODEM_ROLE and each sub's real COM port.
@@ -135,6 +136,8 @@ def build_fsm(name: str):
             return Dropper_FSM(shared_memory_object, [])
         case "grabber":
             return Grabber_FSM(shared_memory_object, [])
+        case "torpedo":
+            return Torpedo_FSM(shared_memory_object, [])
         case "lineup":
             return Lineup_Test_FSM(shared_memory_object, [], system=LINEUP_SYSTEM, target_label=LINEUP_TARGET_LABEL,
                                     camera_source=LINEUP_CAMERA_SOURCE, conf_min=LINEUP_CONF_MIN, show_video=LINEUP_SHOW_VIDEO,

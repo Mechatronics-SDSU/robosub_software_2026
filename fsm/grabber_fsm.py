@@ -100,6 +100,20 @@ class Grabber_FSM(FSM_Template):
         claw_offset_x = claw_offset_y = 0.0
         model_weights = "models/best.pt"
 
+        # hardware settings live in hardware.yaml (camera-independent, deployment-specific)
+        hw_path = os.path.expanduser("~/robosub_software_2026/config/hardware.yaml")
+        try:
+            with open(hw_path) as f:
+                hw = yaml.safe_load(f)
+                g = hw.get('grabber', {})
+                model_weights  = g.get('model_weights', model_weights)
+                claw_offset_x  = g.get('claw_offset_x', claw_offset_x)
+                claw_offset_y  = g.get('claw_offset_y', claw_offset_y)
+        except FileNotFoundError:
+            self.logger.error(f"{self.name} ERROR: config/hardware.yaml not found, using default grabber hardware values")
+        except KeyError:
+            self.logger.error(f"{self.name} ERROR: Invalid format in config/hardware.yaml, using default grabber hardware values")
+
         try:
             with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
@@ -127,10 +141,6 @@ class Grabber_FSM(FSM_Template):
 
                 self.max_object_yaml_error = data[course]['grabber'].get('max_object_yaml_error', self.max_object_yaml_error)
                 self.final_settle_time = data[course]['grabber'].get('final_settle_time', self.final_settle_time)
-                # FIXME: claw_offset_x/y are unmeasured placeholders (0.0), see objects.yaml
-                claw_offset_x = data[course]['grabber'].get('claw_offset_x', claw_offset_x)
-                claw_offset_y = data[course]['grabber'].get('claw_offset_y', claw_offset_y)
-                model_weights = data[course]['grabber'].get('model_weights', model_weights)
 
         except FileNotFoundError:
             self.logger.error(f"{self.name} ERROR: objects.yaml not found, using default grabber values")

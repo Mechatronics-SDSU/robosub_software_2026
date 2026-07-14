@@ -63,13 +63,11 @@ jesse_pool: # ------------------------------------------------------------------
     timeout: 8 # seconds to wait before giving up on a state
     t_loop: 0.1 # seconds to wait between vision checks in a loop
     distance_mode: medium # close=0.25m, medium=0.30m (~1ft), far=0.46m (~1.5ft, extra points)
-    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
-    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+    x_lineup_tolerance: 0.05 # meters, metric alignment error allowed when centered
+    y_lineup_tolerance: 0.05 # meters
     min_radius: 0 # optional minimum hole radius before firing, 0 = off
-    zed_x_fov: 90 # camera horizontal field of view in degrees
-    zed_y_fov: 60 # camera vertical field of view in degrees
-
-
+    final_settle_time: 0.75 # s, station-keep hold before the final pre-fire verify pass
+    # camera FOV and model weights live in config/hardware.yaml
 
   octagon: # octagon coordinates
     # buffers
@@ -232,11 +230,11 @@ test: # ------------------------------------------------------------------------
     timeout: 8 # seconds to wait before giving up on a state
     t_loop: 0.1 # seconds to wait between vision checks in a loop
     distance_mode: medium # close=0.25m, medium=0.30m (~1ft), far=0.46m (~1.5ft, extra points)
-    x_lineup_tolerance: 0.05 # normalized x_norm error allowed when centered
-    y_lineup_tolerance: 0.05 # normalized y_norm error allowed when centered
+    x_lineup_tolerance: 0.05 # meters, metric alignment error allowed when centered
+    y_lineup_tolerance: 0.05 # meters
     min_radius: 0 # optional minimum hole radius before firing, 0 = off
-    zed_x_fov: 90 # camera horizontal field of view in degrees
-    zed_y_fov: 60 # camera vertical field of view in degrees
+    final_settle_time: 0.75 # s, station-keep hold before the final pre-fire verify pass
+    # camera FOV and model weights live in config/hardware.yaml
 
   dropper: # approximate dropper pipeline position
     # buffers
@@ -263,13 +261,7 @@ test: # ------------------------------------------------------------------------
     same_bin_radius: 0.5 # m, reject a candidate bin this close to an already-completed bin
     max_object_yaml_error: 1.0 # m, reject a vision bin-world estimate this far from x1/y1 above
     final_settle_time: 0.75 # s, station-keep hold before the final pre-drop verify pass
-    # FIXME: confirm this file exists on the sub and is trained on the "fire"/"blood" classes
-    model_weights: models/best.pt # YOLO weights path, resolved relative to modules/vision/
-    # FIXME: dropper_offset_x/y (body frame, meters) is unmeasured. Tape-measure, sub level:
-    # forward/aft (x) and left/right (y) distance between the camera's optical center and the
-    # dropper's release point. Height doesn't matter, only horizontal offset. 0.0 = no correction.
-    dropper_offset_x: 0.0889
-    dropper_offset_y: 0.0254
+    # model_weights and dropper_offset_x/y live in config/hardware.yaml
 
   grabber: # approximate grabber octagon position
     # buffers
@@ -296,14 +288,7 @@ test: # ------------------------------------------------------------------------
     y_lineup_tolerance: 0.05 # m
     max_object_yaml_error: 1.0 # m, reject a vision item/basket-world estimate this far from x1/y1 or basket_x/y
     final_settle_time: 0.75 # s, station-keep hold before the final pre-grab/pre-release verify pass
-    # FIXME: confirm this file exists on the sub and is trained on the item/basket/icon classes
-    model_weights: models/best.pt # YOLO weights path, resolved relative to modules/vision/
-    # FIXME: claw_offset_x/y (body frame, meters) is unmeasured. Tape-measure, sub level:
-    # forward/aft (x) and left/right (y) distance between the camera's optical center and the
-    # claw's grab point. Height doesn't matter, only horizontal offset. 0.0 = no correction.
-    # Separate measurement from the dropper's offset above - different physical location.
-    claw_offset_x: 0.0
-    claw_offset_y: 0.0
+    # model_weights and claw_offset_x/y live in config/hardware.yaml
 
 prequal: # ------------------------------------------------------------------------------------------------------
   # for prequalification run

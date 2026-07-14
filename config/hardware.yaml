@@ -1,0 +1,35 @@
+# Hardware/deployment config — edit this file to match the current physical setup.
+# Mission waypoints, tolerances, and course selection live in objects.yaml instead.
+# Changing which camera the sub uses means editing `camera.source` here, nothing else.
+
+camera:
+  source: zed       # zed | downfacing | webcam
+  camera_id: 0      # GMSL/multi-camera index for ZED X-series GMSL boxes (0–3); ignored for USB ZED
+  resolution: VGA   # ZED capture resolution: VGA | HD720 | HD1080 | HD2K (HD1200/SVGA/WVGA for ZED X-series only)
+  fps: 60           # ZED capture frame rate
+  fov_x_deg: 90     # camera horizontal field of view in degrees, used by torpedo alignment math
+  fov_y_deg: 60     # camera vertical field of view in degrees
+
+# Per-task hardware offsets and model weights.
+# Offsets are in the sub's body frame (x = forward, y = left), measured level.
+
+torpedo:
+  model_weights: models/best.pt
+  # FIXME: tube_offset_x/y are unmeasured. Tape-measure, sub level:
+  # forward/aft (x) and left/right (y) distance between the forward ZED camera's
+  # optical center and the torpedo tube exit point. 0.0 = no correction.
+  tube_offset_x: 0.0
+  tube_offset_y: 0.0
+
+dropper:
+  model_weights: models/best.pt
+  # FIXME: offset_x/y (body frame, meters) — see objects.yaml FIXME comment for full details.
+  # These were 0.0889/0.0254 when measured; update here if the camera or dropper mount moves.
+  offset_x: 0.0889
+  offset_y: 0.0254
+
+grabber:
+  model_weights: models/best.pt
+  # FIXME: claw_offset_x/y (body frame, meters) — separate tape-measure from dropper above.
+  claw_offset_x: 0.0
+  claw_offset_y: 0.0

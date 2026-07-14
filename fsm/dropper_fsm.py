@@ -96,6 +96,20 @@ class Dropper_FSM(FSM_Template):
         dropper_offset_x = dropper_offset_y = 0.0
         model_weights = "models/best.pt"
 
+        # hardware settings live in hardware.yaml (camera-independent, deployment-specific)
+        hw_path = os.path.expanduser("~/robosub_software_2026/config/hardware.yaml")
+        try:
+            with open(hw_path) as f:
+                hw = yaml.safe_load(f)
+                d = hw.get('dropper', {})
+                model_weights    = d.get('model_weights', model_weights)
+                dropper_offset_x = d.get('offset_x', dropper_offset_x)
+                dropper_offset_y = d.get('offset_y', dropper_offset_y)
+        except FileNotFoundError:
+            self.logger.error(f"{self.name} ERROR: config/hardware.yaml not found, using default dropper hardware values")
+        except KeyError:
+            self.logger.error(f"{self.name} ERROR: Invalid format in config/hardware.yaml, using default dropper hardware values")
+
         try:
             with open(os.path.expanduser("~/robosub_software_2026/objects.yaml"), 'r') as file: # read from yaml
                 data = yaml.safe_load(file)
@@ -120,10 +134,6 @@ class Dropper_FSM(FSM_Template):
                 self.same_bin_radius = data[course]['dropper'].get('same_bin_radius', self.same_bin_radius)
                 self.max_object_yaml_error = data[course]['dropper'].get('max_object_yaml_error', self.max_object_yaml_error)
                 self.final_settle_time = data[course]['dropper'].get('final_settle_time', self.final_settle_time)
-                # FIXME: dropper_offset_x/y are unmeasured placeholders (0.0), see objects.yaml
-                dropper_offset_x = data[course]['dropper'].get('dropper_offset_x', dropper_offset_x)
-                dropper_offset_y = data[course]['dropper'].get('dropper_offset_y', dropper_offset_y)
-                model_weights = data[course]['dropper'].get('model_weights', model_weights)
 
         except FileNotFoundError:
             self.logger.error(f"{self.name} ERROR: objects.yaml not found, using default dropper values")

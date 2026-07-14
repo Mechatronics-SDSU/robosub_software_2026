@@ -24,7 +24,7 @@ class DVL:
         self.serv_addr = (UDP_IP, UDP_PORT)
         self.sock = self.connectToSocket()
         self.buffer = bytearray(BUFFER_SIZE) 
-        self.loggerogger = Logger()
+        self.logger = Logger()
         self.resetDeadReckoning()
 
     def resetDeadReckoning(self) -> None:

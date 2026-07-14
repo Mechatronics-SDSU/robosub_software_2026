@@ -1,4 +1,6 @@
+import os
 import time
+import yaml
 
 from modules.vision.vision_model_main import camera, yolo
 from modules.vision.target_box_helpers import (
@@ -50,6 +52,8 @@ class DropperHelpers:
         # vision, opened lazily so importing this file doesn't require camera/YOLO hardware to be present
         # FIXME: confirm this weights file actually exists on the sub and is trained on the
         # "fire"/"blood" classes (see SURVEY_AND_REPAIR_LABEL/SEARCH_AND_RESCUE_LABEL below).
+        # model_weights and dropper_offset are passed in from Dropper_FSM's constructor,
+        # which reads them from config/hardware.yaml (not objects.yaml).
         self.weights_path = weights_path
         self._camera = None
         self._model = None
@@ -57,8 +61,7 @@ class DropperHelpers:
         # FIXME: dropper_offset_body (body frame, meters) is unmeasured, 0.0 means no correction applied.
         # Measure with a tape measure, sub level: forward/aft distance (x) and left/right
         # distance (y) between the camera's optical center and the dropper's release point.
-        # Height (z) doesn't matter here, only the horizontal offset. Set in objects.yaml
-        # (dropper_offset_x/dropper_offset_y), not here.
+        # Height (z) doesn't matter here, only the horizontal offset. Set in config/hardware.yaml.
         self.dropper_offset_body = dropper_offset_body
         self.same_bin_radius = same_bin_radius
 
