@@ -58,11 +58,17 @@ try:
             1500,  # motor 7
             0,     # motor kill state (0 = alive, 1 = kill)
             0,     # power off state  (0 = on, 1 = off)
-            0,     # servo 1 - pin30
+            1500,     # servo 1 - pin30
             0,     # servo 2 - pin 29
+<<<<<<< Updated upstream
             1400,     # dropper     (1000 = closed/est, 1400 = open)
             1000,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
             int(b'10000000000000', 2) #int(b'00000011111111', 2) # bitmask (8 bits for motors, 6 bits for other controls)
+=======
+            1000,     # dropper     (1000 = closed/est, 1400 = open)
+            1000,     # torpedo     (1000 fires right, 1900 fires left, ~1500 is armed/flat)
+            int(b'00010000000000', 2) #int(b'00000011111111', 2) # bitmask (8 bits for motors, 6 bits for other controls)
+>>>>>>> Stashed changes
         ]
 
         transmit_32bit_numbers(user_inputs)
