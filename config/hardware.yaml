@@ -34,10 +34,11 @@ torpedo:
 
 dropper:
   model_weights: models/best.pt
-  # FIXME: offset_x/y (body frame, meters) — see objects.yaml FIXME comment for full details.
-  # These were 0.0889/0.0254 when measured; update here if the camera or dropper mount moves.
-  offset_x: 0.0889
-  offset_y: 0.0254
+  # offset_x/y (body frame, meters): camera optical center -> dropper release point.
+  # Team measurement 7/14: center-aligned forward, 0.047725 m lateral.
+  # (Previous tape-measure had 0.0889/0.0254 - re-measure if the mount moves.)
+  offset_x: 0.0
+  offset_y: 0.047725
 
 grabber:
   model_weights: models/best.pt

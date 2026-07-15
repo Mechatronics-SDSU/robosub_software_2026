@@ -5,11 +5,19 @@ import yaml
 from modules.vision.vision_model_main import camera, yolo
 from modules.vision.dropper_flip_vision import FlipAwareYOLO
 from modules.vision.target_box_helpers import (
+    CLASS_ID,
+    CONF,
     VERIFY_FRAME_COUNT,
     VERIFY_IOU_MIN,
     SAME_BIN_RADIUS_M,
     MAX_OBJECT_YAML_ERROR_M,
+    REQUIRED_STABLE_FRAMES,
+    IOU_MIN,
+    MIN_CONFIDENCE,
+    FrameGate,
     is_stable_target,
+    get_box_edges,
+    get_box_center,
     get_target_detection,
     average_target_center,
     get_target_error_meters,
@@ -36,8 +44,52 @@ from modules.vision.target_box_helpers import (
 SURVEY_AND_REPAIR_LABEL = "fire"
 SEARCH_AND_RESCUE_LABEL = "blood"
 
+# ROLE BIN CLASS IDS (ids are what the mission FSM configures - labels drift between weights files)
+FIRE_ID  = 1 # survey_and_repair bin image
+BLOOD_ID = 3 # search_and_rescue bin image
+
 # DROPPER ACTUATION TIMING--------------------------------------------------------------------------------------------------
 DROPPER_SPIN_TIME_SEC = 0.5 # how long to spin the dropper to release one marker
+
+
+class ZoomCamera:
+    """
+    Digital-zoom camera wrapper for the dropper search: center-crops every
+    grabbed frame by the current `zoom` factor so small bins occupy more
+    pixels at YOLO's fixed input size - NO physical movement involved (the
+    sub can't do small movements reliably; this is the "zoom in to see"
+    mechanism). No upscale: YOLO letterboxes to imgsz anyway, and upscaling
+    adds no information.
+
+    Detections made on a zoomed frame are in CROP coordinates - the caller
+    (DropperHelpers.get_target_detections) maps them back to true full-frame
+    normalized coordinates, because the fisheye back-projection math in
+    target_box_helpers.py only speaks full-frame coords. Safe to hand to
+    FlipAwareYOLO: its flip shim mirrors the crop, un-mirrors in crop space,
+    then the zoom unmap composes on top - both transforms stay exact.
+    """
+
+    def __init__(self, inner):
+        self._inner = inner
+        self.zoom = 1.0
+
+    def _grab_with_pc(self):
+        frame, point_cloud = self._inner._grab_with_pc()
+        if frame is None or self.zoom <= 1.0:
+            return frame, point_cloud
+        h, w = frame.shape[:2]
+        cw, ch = max(2, int(w / self.zoom)), max(2, int(h / self.zoom))
+        x0, y0 = (w - cw) // 2, (h - ch) // 2
+        return frame[y0:y0 + ch, x0:x0 + cw], None # point cloud coords wouldn't match the crop
+
+    def grab(self):
+        return self._grab_with_pc()[0]
+
+    def depth(self, x_norm, y_norm):
+        return -1.0 # downfacing camera has no depth anyway
+
+    def close(self):
+        self._inner.close()
 
 
 class DropperHelpers:
@@ -47,9 +99,26 @@ class DropperHelpers:
     """
     def __init__(self, shared_memory_object, signal_wrapper=None, weights_path: str = "models/best.pt",
                  dropper_offset_body: tuple = (0.0, 0.0), same_bin_radius: float = SAME_BIN_RADIUS_M,
-                 camera_source: str = "downfacing", conf_min: float = 0.50, imgsz: int = 640):
+                 camera_source: str = "downfacing", conf_min: float = 0.50, imgsz: int = 640,
+                 stable_frames: int = REQUIRED_STABLE_FRAMES, stable_iou: float = IOU_MIN,
+                 conf_strict: float = MIN_CONFIDENCE, class_swap_wait: float = 0.2, center_outlier_iqr: float = 1.5):
         self.shared_memory = shared_memory_object
         self.signal_wrapper = signal_wrapper # real SignalWrapper (modules/signals/SignalWrapper.py), or None for safe print placeholders
+
+        # FRAME-GATE / STANDARDIZED KNOBS (the mission FSM feeds these from objects.yaml) --------
+        # a target only counts after stable_frames consecutive same-class frames, each at
+        # conf >= conf_strict, consecutive IoU >= stable_iou, AND a non-empty common
+        # intersection of all boxes; aim = median center after the IQR outlier drop
+        self.stable_frames = max(1, int(stable_frames))
+        self.stable_iou = stable_iou
+        self.conf_strict = conf_strict
+        self.class_swap_wait = class_swap_wait # settle once when the YOLO classes filter changes (first inference lags)
+        self.center_outlier_iqr = center_outlier_iqr # drop centers farther than this x IQR from the median
+        self._last_classes = None
+
+        # the standardized multi-frame gate (target_box_helpers.FrameGate) - mission FSM path;
+        # the legacy align API below keeps its own tracking state
+        self._gate = FrameGate(self.stable_frames, self.stable_iou, self.conf_strict, self.center_outlier_iqr)
 
         # vision, opened lazily so importing this file doesn't require camera/YOLO hardware to be present
         # FIXME: confirm this weights file actually exists on the sub and is trained on the
@@ -92,24 +161,163 @@ class DropperHelpers:
             return SEARCH_AND_RESCUE_LABEL
         return SURVEY_AND_REPAIR_LABEL # default to survey_and_repair
 
-    def get_target_detections(self) -> list:
+    def get_bin_ids(self, role: str) -> list:
+        """
+        Returns BOTH bin class ids ordered by preference for the given role -
+        the correct bin first (scores more), the other after (any bin still
+        scores). The mission FSM filters YOLO to both and narrows acceptance
+        by role_patience.
+        """
+        if role == "search_and_rescue":
+            return [BLOOD_ID, FIRE_ID]
+        return [FIRE_ID, BLOOD_ID] # default to survey_and_repair
+
+    def _ensure_vision(self) -> None:
+        if self._camera is None:
+            self._camera = ZoomCamera(camera(self.camera_source))
+        if self._model is None:
+            self._model = FlipAwareYOLO(yolo(self.weights_path, conf=self.conf_min, imgsz=self.imgsz))
+
+    def set_zoom(self, zoom: float) -> None:
+        """
+        Sets the digital zoom factor (1.0 = full frame). Purely a crop before
+        inference - the sub does not move. Resets the frame gate, since boxes
+        from different zoom levels must never share a stability window.
+        """
+        self._ensure_vision()
+        self._camera.zoom = max(1.0, float(zoom))
+        self.gate_reset()
+
+    def _settle_on_class_swap(self, classes: list) -> None:
+        """
+        Sleeps class_swap_wait once whenever the YOLO classes filter changes -
+        the first inference after a swap lags; steady-state stays snappy.
+        """
+        key = tuple(sorted(classes)) if classes else None
+        if self._last_classes != key:
+            self._last_classes = key
+            if self.class_swap_wait > 0:
+                time.sleep(self.class_swap_wait)
+
+    def verify_model_classes(self, required_ids: list) -> list:
+        """
+        Loads the model (not the camera) and returns whichever required class
+        ids the weights file can NOT produce - the FSM logs the result loudly
+        at start.
+        """
+        if self._model is None:
+            self._model = FlipAwareYOLO(yolo(self.weights_path, conf=self.conf_min, imgsz=self.imgsz))
+        names = self._model._model._model.names or {} # FlipAwareYOLO -> YOLOModel -> ultralytics
+        return sorted(set(required_ids) - set(int(k) for k in names))
+
+    def get_target_detections(self, classes: list = None) -> list:
         """
         Runs the live downward-camera vision pipeline
-        (modules/vision/vision_model_main.py) and returns one frame of
-        detections in this format:
+        (modules/vision/vision_model_main.py, through FlipAwareYOLO and the
+        digital-zoom crop) and returns one frame of detections in this format:
             [class_label, class_id, conf, x_norm, y_norm, depth_m, width, height]
+
+        classes: optional class-id list handed to YOLO itself (runtime filter).
+        Coordinates are ALWAYS true full-frame normalized values - detections
+        made on a zoomed crop are mapped back here, so the fisheye
+        back-projection math downstream stays valid at any zoom.
 
         Camera + model are opened lazily on first call (not in __init__), so
         importing/constructing this class doesn't require the camera/YOLO
         dependencies to be present (e.g. FAKE_INPUT testing).
         """
-        if self._camera is None:
-            self._camera = camera(self.camera_source)
-        if self._model is None:
-            self._model = FlipAwareYOLO(yolo(self.weights_path, conf=self.conf_min, imgsz=self.imgsz))
+        self._ensure_vision()
+        self._settle_on_class_swap(classes)
+        detections = self._model.infer(self._camera, headless=True, verbose=False, classes=classes)
+        converted = convert_vision_runtime_detections(detections)
+        zoom = getattr(self._camera, "zoom", 1.0)
+        if zoom > 1.0:
+            for det in converted: # crop -> full frame: x_full = 0.5 + (x_crop - 0.5)/z, sizes /= z
+                det[3] = round(min(1.0, max(0.0, 0.5 + (det[3] - 0.5) / zoom)), 3) # x_norm
+                det[4] = round(min(1.0, max(0.0, 0.5 + (det[4] - 0.5) / zoom)), 3) # y_norm
+                det[6] = round(det[6] / zoom, 3) # width
+                det[7] = round(det[7] / zoom, 3) # height
+        return converted
 
-        detections = self._model.infer(self._camera, headless=True, verbose=False)
-        return convert_vision_runtime_detections(detections)
+    # FRAME GATE (mission FSM path) ------------------------------------------------------------------------------------------
+    # The gate itself is the shared target_box_helpers.FrameGate (one implementation for every
+    # FSM); these thin wrappers keep DropperHelpers' public API stable.
+
+    @property
+    def empty_streak(self) -> int:
+        return self._gate.empty_streak
+
+    def gate_reset(self) -> None:
+        """
+        Clears the frame-gate window and the empty-frame streak. Call when a
+        search (re)starts, the zoom level changes, or a move completes.
+        """
+        self._gate.reset()
+
+    def _common_intersection_ok(self, window: list) -> bool:
+        return self._gate.common_intersection_ok(window)
+
+    def _robust_center(self, centers: list) -> tuple:
+        return self._gate.robust_center(centers)
+
+    def gate_feed(self, detections: list, accept_ids: list) -> dict:
+        """
+        One frame into the shared gate - see target_box_helpers.FrameGate.feed
+        for the verdict contract.
+        """
+        return self._gate.feed(detections, accept_ids)
+
+    # STEP-MOVE MATH (mission FSM path) --------------------------------------------------------------------------------------
+    def _sub_depth(self) -> float:
+        """
+        Current sub depth (meters, positive down). Reads the DVL's z instead
+        of the pressure sensor (shared_memory.depth) because only the DVL is
+        working right now - when the switchable depth-source config lands,
+        this is the ONLY line to change for the dropper.
+        """
+        return self.shared_memory.dvl_z.value
+
+    def compute_move_target(self, aim_center: tuple, target_depth: float) -> tuple:
+        """
+        One absolute world (x, y) that parks the DROPPER (not the camera) over
+        the aim point: back-project the normalized aim through the fisheye
+        intrinsics at the DVL-measured vertical distance, rotate to world by
+        yaw, subtract the rotated dropper offset. The FSM commands this in a
+        single move (no nudging - the sub can't do small movements), settles,
+        then re-confirms.
+        """
+        x_error_m, y_error_m = get_target_error_meters(aim_center[0], aim_center[1], self._sub_depth(), target_depth)
+        bin_world = self.estimate_bin_world_position(x_error_m, y_error_m)
+        self.bin_world = bin_world
+        return self.compute_dropper_alignment_target(bin_world)
+
+    def aim_error_m(self, aim_center: tuple, target_depth: float) -> tuple:
+        """
+        (x, y) meters between the dropper's release point and the aim point
+        right now - the CONFIRM state's drop-tolerance check.
+        """
+        dropper_target = self.compute_move_target(aim_center, target_depth)
+        return dropper_target[0] - self.shared_memory.dvl_x.value, dropper_target[1] - self.shared_memory.dvl_y.value
+
+    def release_markers(self, count: int = 2, gap_s: float = 1.0) -> None:
+        """
+        Releases `count` markers back-to-back (single-bin strategy: both balls
+        in the one confirmed bin), one spin_dropper(DROPPER_SPIN_TIME_SEC) per
+        ball with gap_s between spins. Safe print placeholder without hardware.
+        """
+        for ball in range(count):
+            if self.signal_wrapper is not None:
+                self.signal_wrapper.spin_dropper(DROPPER_SPIN_TIME_SEC)
+            else:
+                print(f"DROPPER SPIN PLACEHOLDER {ball + 1}/{count} (no SignalWrapper attached)")
+            if ball < count - 1:
+                time.sleep(gap_s)
+        if self.bin_world is not None:
+            self.completed_bins.append(self.bin_world)
+
+    # LEGACY CONTINUOUS-SERVO API below - still used by fsm/dropper_test_fsm.py and
+    # fsm/lineup_test_fsm.py bench tools. The mission FSM (fsm/dropper_fsm.py) uses the
+    # frame-gate + step-move API above instead.
 
     def choose_bin_target(self, detections: list, bin_label: str):
         """
@@ -241,7 +449,7 @@ class DropperHelpers:
 
         # smooth the center position over recent frames to reduce single-frame noise
         smoothed_center = average_target_center(self.detection_history)
-        sub_depth = self.shared_memory.depth.value # real pressure sensor reading
+        sub_depth = self._sub_depth() # DVL z (pressure sensor is down, see _sub_depth)
 
         x_error_m, y_error_m = get_target_error_meters(smoothed_center[0], smoothed_center[1], sub_depth, target_depth)
         self.debug["x_error"], self.debug["y_error"] = x_error_m, y_error_m

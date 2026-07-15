@@ -5,46 +5,59 @@ import yaml
 from fsm.fsm                                import FSM_Template
 from modules.logger.logger                  import Logger
 from modules.dropper.dropper_helpers        import DropperHelpers
-from modules.vision.target_box_helpers      import FINAL_SETTLE_TIME_S
+from modules.vision.target_box_helpers      import stop_vehicle_motion
 from enum                                   import Enum
 
 
 """
-    FSM for navigating through Recon Bins (dropper task)
+    FSM for the Recon Bins (dropper) task - step-move search with digital
+    zoom, one confirmed bin, both markers:
+
+    1. park over the bins area from objects.yaml coordinates, holding a fixed
+       yaw (forward = shallower bins; a steady heading also lets the flip
+       arbiter latch an orientation)
+    2. search with YOLO filtered to fire/blood; the frame gate demands
+       stable_frames consecutive frames at conf_strict + stable_iou overlap +
+       a non-empty all-boxes intersection before anything counts
+    3. 8 empty frames -> advance the DIGITAL zoom ladder (center-crop before
+       inference - the sub never descends; balls land fine from height)
+    4. on a confirmed target: ONE absolute move over the bin (dropper offset
+       applied), settle ~1s for bubbles/blur, re-confirm, drop both markers
+    5. hard 25s budget -> blind drop and move on (points beat pride)
 """
 
 class States(Enum):
     """
     Enumeration for FSM states
     """
-    INIT                 = "INIT"
-    MOVE_TO_PIPELINE     = "MOVE_TO_PIPELINE"
-    SEARCH_FOR_BIN       = "SEARCH_FOR_BIN"
-    VERIFY_BIN_TARGET    = "VERIFY_BIN_TARGET"
-    ALIGN_TO_BIN         = "ALIGN_TO_BIN"
-    VERIFY_DROP_POSITION = "VERIFY_DROP_POSITION"
-    DROP_MARKER          = "DROP_MARKER"
-    COMPLETE             = "COMPLETE"
-    FAIL                 = "FAIL"
+    INIT          = "INIT"
+    MOVE_TO_BINS  = "MOVE_TO_BINS"
+    SEARCH        = "SEARCH"
+    MOVE_OVER_BIN = "MOVE_OVER_BIN"
+    CONFIRM       = "CONFIRM"
+    RECOVERY      = "RECOVERY"
+    DROP          = "DROP"
+    BLIND_DROP    = "BLIND_DROP"
+    COMPLETE      = "COMPLETE"
+    FAIL          = "FAIL"
 
     def __str__(self) -> str: # make elegant string
         return self.value
 
 
+# states past the point of no return - the budget watchdog must not preempt an actual drop
+ENDGAME_STATES = {States.DROP, States.BLIND_DROP, States.COMPLETE, States.FAIL}
+
+
 class Dropper_FSM(FSM_Template):
     """
-    FSM for dropper mode (Recon Bins) - finding the role's bins, lining up
-    the dropper (not just the camera) using the downward camera + DVL world
-    position, and dropping markers.
+    FSM for dropper mode (Recon Bins) - single-bin / both-markers strategy.
 
-    The suggested state list for this task also included separate
-    SEARCH_FOR_SECOND_BIN / VERIFY_SECOND_BIN_TARGET / ALIGN_TO_SECOND_BIN /
-    VERIFY_SECOND_DROP_POSITION / DROP_SECOND_MARKER states. Those are
-    combined into a single set of states reused for both markers with a
-    marker_num counter instead, the same pattern already used by
-    fsm/torpedo_fsm.py's SHOOTING -> SEARCHING loop for its second torpedo.
-    Rejecting candidate bins near completed_bins (see DropperHelpers) is what
-    makes SEARCH_FOR_BIN naturally find the *other* bin on the second pass.
+    Search is measurement-first: no continuous nudging (the sub can't do
+    small movements reliably). The loop is measure 4 clean frames -> command
+    one absolute move -> settle -> re-confirm -> drop, with a digital-zoom
+    ladder when nothing is seen and a blind drop on the hard time budget so
+    the run always continues to the next FSM.
     """
     def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None):
         """
@@ -60,38 +73,44 @@ class Dropper_FSM(FSM_Template):
         self.state: States  = States.INIT  # initial state
         self.logger = Logger()
 
-        # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
+        # APPROACH VALUES-----------------------------------------------------------------------------------------------------------
         self.x1 = self.y1 = self.depth = 0.0
+        self.yaw = 0.0                    # heading held over the bins (forward = shallower bins)
         self.x_buffer = self.y_buffer = self.z_buffer = 0.10
-        self.timeout = 8.0
+        self.timeout = 8.0                # per-state timeout (approach / confirm windows)
         self.t_loop = 0.10
 
-        # MARKER COUNT--------------------------------------------------------------------------------------------------------------------------
-        self.marker_num = 1 # which marker we are currently lining up (1 or 2)
-        self.max_markers = 2
-        self.current_target = None # bin detection picked out of the vision target boxes
+        # VISION / GATE VALUES------------------------------------------------------------------------------------------------------
+        self.target_depth = 1.0           # m, bin plane depth (FIXME placeholder, measure on-site)
+        self.conf_strict = 0.70           # per-frame confidence the gate demands
+        self.stable_frames = 4            # consecutive frames before a target counts
+        self.stable_iou = 0.60            # positional overlap between those frames
+        self.class_swap_wait = 0.2        # settle when the YOLO classes filter changes
+        self.center_outlier_iqr = 1.5     # IQR multiplier for the aim-point outlier drop
+        self.role_patience = 6.0          # s accepting ONLY the role's bin before either counts
+        self.max_object_yaml_error = 1.0  # m, reject an aim whose world estimate is this far from x1/y1
 
-        # VISION / LINEUP VALUES--------------------------------------------------------------------------------------------------------------
-        # camera looks straight down, so this is how high above the bin to hover before dropping
-        # FIXME: 0.3m is a guess, confirm this is the right hover height for the real marker/dropper mechanism
-        self.desired_height = 0.3 # meters
-        # FIXME: waiting on the route plan to know which bin height applies to
-        # which bin. Using one placeholder target_depth for now, update per-bin
-        # once the route plan is decided.
-        self.target_depth = 1.0 # meters, placeholder
-        self.x_lineup_tolerance = 0.05 # meters (metric back-projection, not normalized image fraction)
-        self.y_lineup_tolerance = 0.05 # meters
+        # ZOOM LADDER (digital - center-crop before inference, the sub never moves for this)---------------------------------------
+        self.zoom_factors = [1.0, 1.5, 2.0, 3.0]
+        self.empty_frames_trigger = 8     # consecutive empty frames before advancing the zoom
 
-        self.same_bin_radius = 0.5
-        self.max_object_yaml_error = 1.0
-        self.final_settle_time = FINAL_SETTLE_TIME_S
-        self.verify_entered_time = 0.0
-        self.wait_time = 0.0
+        # STEP-MOVE / DROP VALUES---------------------------------------------------------------------------------------------------
+        self.move_settle = 1.0            # s pause after a move (bubbles, motion blur)
+        self.move_timeout = 6.0           # s to reach the commanded position before confirming anyway
+        self.align_attempts = 3           # re-aim moves allowed before dropping from wherever we are
+        self.x_lineup_tolerance = 0.10    # m, dropper-to-aim error allowed at drop time
+        self.y_lineup_tolerance = 0.10    # m
+        self.drop_count = 2               # both balls into the one confirmed bin
+        self.drop_gap = 1.0               # s between the two spins
 
-        # FIXME: role is a static value read from objects.yaml's top-level `role:` key,
-        # meaning someone has to edit that file by hand before each run to match the
-        # competition-assigned role. Say if you'd rather this come from somewhere else
-        # (CLI flag, a file, another FSM's output) instead.
+        # BUDGET / WATCHDOGS--------------------------------------------------------------------------------------------------------
+        self.task_time_budget = 25.0      # s from starting the search to the blind-drop fallback
+        self.dvl_grace = 5.0
+        self.max_depth_limit = 3.0
+
+        # RECOVERY PLACEHOLDER------------------------------------------------------------------------------------------------------
+        self.recovery_enabled = False     # stub only - see States.RECOVERY below
+
         role = "survey_and_repair"
         dropper_offset_x = dropper_offset_y = 0.0
         model_weights = "models/best.pt"
@@ -116,24 +135,42 @@ class Dropper_FSM(FSM_Template):
                 course = data['course']
                 # role is a single top-level switch for the whole run, not duplicated per-course/per-task
                 role = data.get('role', role)
+                dropper = data[course]['dropper']
 
-                self.x_buffer = data[course]['dropper'].get('x_buf', self.x_buffer)
-                self.y_buffer = data[course]['dropper'].get('y_buf', self.y_buffer)
-                self.z_buffer = data[course]['dropper'].get('z_buf', self.z_buffer)
-                self.x1 = data[course]['dropper'].get('x1', self.x1)
-                self.y1 = data[course]['dropper'].get('y1', self.y1)
-                self.depth = data[course]['dropper'].get('z', self.depth)
+                self.x_buffer = dropper.get('x_buf', self.x_buffer)
+                self.y_buffer = dropper.get('y_buf', self.y_buffer)
+                self.z_buffer = dropper.get('z_buf', self.z_buffer)
+                self.x1 = dropper.get('x1', self.x1)
+                self.y1 = dropper.get('y1', self.y1)
+                self.depth = dropper.get('z', self.depth)
+                self.yaw = dropper.get('yaw', self.yaw)
 
-                self.timeout = data[course]['dropper'].get('timeout', self.timeout)
-                self.t_loop = data[course]['dropper'].get('t_loop', self.t_loop)
-                self.desired_height = data[course]['dropper'].get('desired_height', self.desired_height)
-                self.target_depth = data[course]['dropper'].get('target_depth', self.target_depth)
-                self.x_lineup_tolerance = data[course]['dropper'].get('x_lineup_tolerance', self.x_lineup_tolerance)
-                self.y_lineup_tolerance = data[course]['dropper'].get('y_lineup_tolerance', self.y_lineup_tolerance)
+                self.timeout = dropper.get('timeout', self.timeout)
+                self.t_loop = dropper.get('t_loop', self.t_loop)
+                self.target_depth = dropper.get('target_depth', self.target_depth)
+                self.conf_strict = dropper.get('conf_strict', self.conf_strict)
+                self.stable_frames = dropper.get('stable_frames', self.stable_frames)
+                self.stable_iou = dropper.get('stable_iou', self.stable_iou)
+                self.class_swap_wait = dropper.get('class_swap_wait', self.class_swap_wait)
+                self.center_outlier_iqr = dropper.get('center_outlier_iqr', self.center_outlier_iqr)
+                self.role_patience = dropper.get('role_patience', self.role_patience)
+                self.max_object_yaml_error = dropper.get('max_object_yaml_error', self.max_object_yaml_error)
 
-                self.same_bin_radius = data[course]['dropper'].get('same_bin_radius', self.same_bin_radius)
-                self.max_object_yaml_error = data[course]['dropper'].get('max_object_yaml_error', self.max_object_yaml_error)
-                self.final_settle_time = data[course]['dropper'].get('final_settle_time', self.final_settle_time)
+                self.zoom_factors = list(dropper.get('zoom_factors', self.zoom_factors))
+                self.empty_frames_trigger = dropper.get('empty_frames_trigger', self.empty_frames_trigger)
+
+                self.move_settle = dropper.get('move_settle', self.move_settle)
+                self.move_timeout = dropper.get('move_timeout', self.move_timeout)
+                self.align_attempts = dropper.get('align_attempts', self.align_attempts)
+                self.x_lineup_tolerance = dropper.get('x_lineup_tolerance', self.x_lineup_tolerance)
+                self.y_lineup_tolerance = dropper.get('y_lineup_tolerance', self.y_lineup_tolerance)
+                self.drop_count = dropper.get('drop_count', self.drop_count)
+                self.drop_gap = dropper.get('drop_gap', self.drop_gap)
+
+                self.task_time_budget = dropper.get('task_time_budget', self.task_time_budget)
+                self.dvl_grace = dropper.get('dvl_grace', self.dvl_grace)
+                self.max_depth_limit = dropper.get('max_depth_limit', self.max_depth_limit)
+                self.recovery_enabled = dropper.get('recovery_enabled', self.recovery_enabled)
 
         except FileNotFoundError:
             self.logger.error(f"{self.name} ERROR: objects.yaml not found, using default dropper values")
@@ -142,17 +179,68 @@ class Dropper_FSM(FSM_Template):
 
         self.role = role # "survey_and_repair" or "search_and_rescue", set once for the whole run in objects.yaml
         self.helper = DropperHelpers(shared_memory_object, signal_wrapper, weights_path=model_weights,
-                                      dropper_offset_body=(dropper_offset_x, dropper_offset_y), same_bin_radius=self.same_bin_radius)
-        self.bin_label = self.helper.get_bin_label(self.role)
+                                      dropper_offset_body=(dropper_offset_x, dropper_offset_y),
+                                      stable_frames=self.stable_frames, stable_iou=self.stable_iou,
+                                      conf_strict=self.conf_strict, class_swap_wait=self.class_swap_wait,
+                                      center_outlier_iqr=self.center_outlier_iqr)
+        self.bin_ids = self.helper.get_bin_ids(self.role) # [preferred, other]
 
+        # RUN PROGRESS--------------------------------------------------------------------------------------------------------------
+        self.committed_class = None  # bin class id the gate confirmed (CONFIRM re-checks the SAME class)
+        self.move_target = None      # world (x, y) commanded by MOVE_OVER_BIN
+        self.last_aim = None         # last confirmed aim center (normalized)
+        self.zoom_idx = 0
+        self.aim_attempts = 0
+        self.recovery_ran = False
+        self.dropped_blind = False
+        self.search_started = 0.0    # the 25s budget clock (starts on first SEARCH entry)
+        self.wait_time = 0.0
+        self.dvl_invalid_since = None
+
+    # HELPERS----------------------------------------------------------------------------------------------------------------------
+    def _accept_ids(self) -> list:
+        """
+        Acceptance order for the gate: role's bin only until role_patience has
+        elapsed on the budget clock, then either bin (any bin scores; the
+        correct one stays preferred because it's first in the list).
+        """
+        if time.time() - self.search_started < self.role_patience:
+            return self.bin_ids[:1]
+        return self.bin_ids
+
+    def _budget_spent(self) -> bool:
+        return self.search_started > 0 and time.time() - self.search_started > self.task_time_budget
+
+    def _advance_zoom(self) -> bool:
+        """
+        Steps the digital zoom ladder. Returns True if a new level was
+        engaged, False when max zoom was already reached.
+        """
+        if self.zoom_idx + 1 >= len(self.zoom_factors):
+            return False
+        self.zoom_idx += 1
+        self.helper.set_zoom(self.zoom_factors[self.zoom_idx]) # also resets the gate + empty streak
+        self.logger.info(f"{self.name} nothing seen for {self.empty_frames_trigger} frames - digital zoom -> x{self.zoom_factors[self.zoom_idx]}")
+        return True
+
+    # LIFECYCLE--------------------------------------------------------------------------------------------------------------------
     def start(self) -> None:
         """
         Start FSM by enabling and starting processes
         """
         super().start()  # call parent start method
 
+        # loud early warning if the weights can't produce the configured bin ids
+        try:
+            missing = self.helper.verify_model_classes(self.bin_ids)
+            if missing:
+                self.logger.error(f"{self.name} MODEL MISSING CLASS IDS {missing} - "
+                                  f"weights '{self.helper.weights_path}' can't see those bins, update the model!")
+        except Exception as error:
+            self.logger.error(f"{self.name} could not verify model classes: {error}")
+
         # set initial state
-        self.next_state(States.MOVE_TO_PIPELINE)
+        self.next_state(States.MOVE_TO_BINS)
 
     def next_state(self, next: States) -> None:
         """
@@ -165,34 +253,58 @@ class Dropper_FSM(FSM_Template):
             case States.INIT:
                 return # initial state
 
-            case States.MOVE_TO_PIPELINE: # approach guestimate coordinates
+            case States.MOVE_TO_BINS: # park over the bins area, hold the configured heading
                 self.shared_memory_object.target_x.value = self.x1
                 self.shared_memory_object.target_y.value = self.y1
                 self.shared_memory_object.target_z.value = self.depth
+                self.shared_memory_object.target_yaw.value = self.yaw
                 self.wait_time = time.time()
 
-            case States.SEARCH_FOR_BIN: # look for the role's bin
-                self.helper.reset_tracking()
+            case States.SEARCH: # frame-gated hunt; zoom ladder on empty streaks; budget clock runs
+                if self.search_started == 0.0:
+                    self.search_started = time.time() # the 25s budget starts at the FIRST search
+                self.helper.gate_reset()
                 self.wait_time = time.time()
 
-            case States.VERIFY_BIN_TARGET: # keep checking the bin is a stable target
+            case States.MOVE_OVER_BIN: # ONE absolute move (dropper offset applied) - no nudging
+                self.shared_memory_object.target_x.value = self.move_target[0]
+                self.shared_memory_object.target_y.value = self.move_target[1]
                 self.wait_time = time.time()
 
-            case States.ALIGN_TO_BIN: # start driving the dropper toward the bin using the downward camera
+            case States.CONFIRM: # settle for bubbles/blur, then demand the gate pass again, same class
+                time.sleep(self.move_settle)
+                self.helper.gate_reset()
                 self.wait_time = time.time()
 
-            case States.VERIFY_DROP_POSITION: # hold position, re-check the bin with a stricter pass before dropping
-                self.wait_time = time.time()
-                self.verify_entered_time = time.time()
+            case States.RECOVERY:
+                # ── PLACEHOLDER (do not implement yet - team decides next prompt) ──────────────
+                # Candidate probes when nothing is seen / the wrong emoji is suspected:
+                #   - extra frame orientations: X, Y, XY(180 deg) flips. NOTE: RAW/HFLIP/VFLIP are
+                #     ALREADY cycled by FlipAwareYOLO's arbiter (modules/vision/dropper_flip_vision.py);
+                #     only the combined XY/180 rotation would be new.
+                #   - yaw notches: rotate in 30-degree intervals to offer YOLO a different aspect.
+                # Gated by objects.yaml `recovery_enabled` (default false). Currently a no-op that
+                # logs and returns to SEARCH so the ladder (zoom -> recovery -> blind drop) has its
+                # slot reserved.
+                self.logger.info(f"{self.name} RECOVERY placeholder (recovery_enabled={self.recovery_enabled}) - no probes implemented yet")
+                self.recovery_ran = True
 
-            case States.DROP_MARKER: # release one marker, release_marker() handles its own timing and saves completed_bins
-                self.helper.release_marker()
+            case States.DROP: # both markers into the one confirmed bin
+                self.helper.release_markers(self.drop_count, self.drop_gap)
+
+            case States.BLIND_DROP: # timeout process: drop anyway and keep the run moving
+                self.logger.warning(f"{self.name} budget spent without a confirmed bin - BLIND dropping {self.drop_count} markers at "
+                                    f"({self.shared_memory_object.dvl_x.value:.2f}, {self.shared_memory_object.dvl_y.value:.2f})")
+                self.dropped_blind = True
+                self.helper.release_markers(self.drop_count, self.drop_gap)
 
             case States.COMPLETE:
+                self.logger.info(f"{self.name} DONE: class={self.committed_class} blind={self.dropped_blind} "
+                                 f"zoom=x{self.zoom_factors[self.zoom_idx]} aim_attempts={self.aim_attempts}")
                 self.suspend() # finish dropper mode, ready for next mode
 
-            case States.FAIL:
-                self.logger.warning(f"{self.name} FAILED to complete marker {self.marker_num}")
+            case States.FAIL: # invalid-state landing only - normal failures blind-drop instead
+                self.logger.warning(f"{self.name} FAILED")
                 self.suspend() # give up, ready for next mode
 
             case _: # do nothing if invalid state
@@ -210,83 +322,100 @@ class Dropper_FSM(FSM_Template):
         if not self.active: return # do nothing if not enabled
         self.display(255, 150, 0) # update display
 
-        assumed_bin_world = (self.x1, self.y1)
+        # GLOBAL WATCHDOGS-------------------------------------------------------------------------------------------------------
+        # never dive past the course's hard depth limit, whatever wrote target_z
+        if self.shared_memory_object.target_z.value > self.max_depth_limit:
+            self.shared_memory_object.target_z.value = self.max_depth_limit
+        # out of budget anywhere before the drop -> blind drop (the timeout process)
+        if self.state not in ENDGAME_STATES and self._budget_spent():
+            self.next_state(States.BLIND_DROP)
+            return
+        # navigating without DVL is drift - hold, then take the blind drop
+        if self.state not in ENDGAME_STATES and hasattr(self.shared_memory_object, "dvl_velocity_valid"):
+            if not self.shared_memory_object.dvl_velocity_valid.value:
+                if self.dvl_invalid_since is None:
+                    self.dvl_invalid_since = time.time()
+                    stop_vehicle_motion(self.shared_memory_object)
+                elif time.time() - self.dvl_invalid_since > self.dvl_grace:
+                    self.logger.warning(f"{self.name} DVL invalid too long - taking the blind drop")
+                    self.next_state(States.BLIND_DROP)
+                    return
+            else:
+                self.dvl_invalid_since = None
 
         # TRANSITIONS------------------------------------------------------------------------------------------------------
         match(self.state):
             case States.INIT:
                 return
 
-            case States.MOVE_TO_PIPELINE: # transition: MOVE_TO_PIPELINE -> SEARCH_FOR_BIN
+            case States.MOVE_TO_BINS: # transition: MOVE_TO_BINS -> SEARCH
                 if self.reached_xyz(self.x1, self.y1, self.depth):
-                    self.next_state(States.SEARCH_FOR_BIN)
+                    self.next_state(States.SEARCH)
                 elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.SEARCH_FOR_BIN)
+                    self.next_state(States.SEARCH)
 
-            case States.SEARCH_FOR_BIN: # transition: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
-                detections = self.helper.get_target_detections()
-                target = self.helper.choose_bin_target(detections, self.bin_label)
+            case States.SEARCH: # transition: SEARCH -> MOVE_OVER_BIN (confirmed) / zoom ladder / RECOVERY
+                detections = self.helper.get_target_detections(classes=self.bin_ids)
+                verdict = self.helper.gate_feed(detections, self._accept_ids())
 
-                if target is not None:
-                    self.current_target = target
-                    self.next_state(States.VERIFY_BIN_TARGET)
-                elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.FAIL)
+                if verdict["confirmed"]:
+                    move_target = self.helper.compute_move_target(verdict["aim_center"], self.target_depth)
+                    if self.helper.validate_against_assumed(self.helper.bin_world, (self.x1, self.y1), self.max_object_yaml_error):
+                        self.committed_class = verdict["class_id"]
+                        self.last_aim = verdict["aim_center"]
+                        self.move_target = move_target
+                        self.aim_attempts = 0
+                        self.logger.info(f"{self.name} bin class {self.committed_class} confirmed (outliers dropped: {verdict['n_outliers']}) - moving over it")
+                        self.next_state(States.MOVE_OVER_BIN)
+                    else:
+                        self.logger.warning(f"{self.name} confirmed target rejected - world estimate too far from assumed bins, re-searching")
+                        self.helper.gate_reset()
+                elif verdict["empty_streak"] >= self.empty_frames_trigger:
+                    if not self._advance_zoom():
+                        if self.recovery_enabled and not self.recovery_ran:
+                            self.next_state(States.RECOVERY)
+                        # max zoom + no recovery: keep looking until the budget takes the blind drop
+                        self.helper.gate_reset()
 
                 time.sleep(self.t_loop)
 
-            case States.VERIFY_BIN_TARGET: # transition: VERIFY_BIN_TARGET -> ALIGN_TO_BIN
-                detections = self.helper.get_target_detections()
-                target = self.helper.choose_bin_target(detections, self.bin_label)
-
-                if target is not None:
-                    self.current_target = target
-                    if self.helper.check_target_stable(target):
-                        self.next_state(States.ALIGN_TO_BIN)
-                elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.FAIL)
+            case States.MOVE_OVER_BIN: # transition: MOVE_OVER_BIN -> CONFIRM (arrived or move timeout)
+                if self.reached_xy(self.move_target[0], self.move_target[1]) or time.time() - self.wait_time > self.move_timeout:
+                    self.next_state(States.CONFIRM)
 
                 time.sleep(self.t_loop)
 
-            case States.ALIGN_TO_BIN: # transition: ALIGN_TO_BIN -> VERIFY_DROP_POSITION
-                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height,
-                                                 self.x_lineup_tolerance, self.y_lineup_tolerance,
-                                                 assumed_bin_world, self.max_object_yaml_error)
-                self.current_target = result["target"]
+            case States.CONFIRM: # transition: CONFIRM -> DROP / re-aim / SEARCH
+                detections = self.helper.get_target_detections(classes=self.bin_ids)
+                verdict = self.helper.gate_feed(detections, [self.committed_class]) # same class only
 
-                if result["lost"] or result["rejected"]:
-                    self.next_state(States.SEARCH_FOR_BIN)
-                elif result["centered"] and result["dwell_ok"]:
-                    self.next_state(States.VERIFY_DROP_POSITION)
+                if verdict["confirmed"]:
+                    self.last_aim = verdict["aim_center"]
+                    x_err, y_err = self.helper.aim_error_m(verdict["aim_center"], self.target_depth)
+                    if abs(x_err) <= self.x_lineup_tolerance and abs(y_err) <= self.y_lineup_tolerance:
+                        self.next_state(States.DROP)
+                    else:
+                        self.aim_attempts += 1
+                        if self.aim_attempts > self.align_attempts:
+                            self.logger.warning(f"{self.name} re-aim cap hit (err {x_err:.2f}, {y_err:.2f}m) - dropping from here, close beats never")
+                            self.next_state(States.DROP)
+                        else:
+                            self.move_target = self.helper.compute_move_target(verdict["aim_center"], self.target_depth)
+                            self.next_state(States.MOVE_OVER_BIN)
                 elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.FAIL)
+                    self.logger.warning(f"{self.name} bin not re-confirmed under the dropper - back to searching")
+                    self.next_state(States.SEARCH)
 
                 time.sleep(self.t_loop)
 
-            case States.VERIFY_DROP_POSITION: # transition: VERIFY_DROP_POSITION -> DROP_MARKER
-                result = self.helper.align_step(self.bin_label, self.target_depth, self.desired_height,
-                                                 self.x_lineup_tolerance, self.y_lineup_tolerance,
-                                                 assumed_bin_world, self.max_object_yaml_error)
-                self.current_target = result["target"]
+            case States.RECOVERY: # transition: RECOVERY -> SEARCH (placeholder is a no-op)
+                self.next_state(States.SEARCH)
 
-                if result["lost"] or result["rejected"]:
-                    self.next_state(States.SEARCH_FOR_BIN)
-                elif result["centered"] and result["dwell_ok"]:
-                    settled = time.time() - self.verify_entered_time >= self.final_settle_time
-                    verified = result["target"] is not None and self.helper.check_target_verified(result["target"])
-                    if settled and verified:
-                        self.next_state(States.DROP_MARKER)
-                elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.FAIL)
+            case States.DROP: # transition: DROP -> COMPLETE
+                self.next_state(States.COMPLETE)
 
-                time.sleep(self.t_loop)
-
-            case States.DROP_MARKER: # transition: DROP_MARKER -> SEARCH_FOR_BIN (2nd marker) or COMPLETE
-                if self.marker_num < self.max_markers:
-                    self.marker_num += 1
-                    self.next_state(States.SEARCH_FOR_BIN)
-                else:
-                    self.next_state(States.COMPLETE)
+            case States.BLIND_DROP: # transition: BLIND_DROP -> COMPLETE
+                self.next_state(States.COMPLETE)
 
             case States.COMPLETE:
                 return
