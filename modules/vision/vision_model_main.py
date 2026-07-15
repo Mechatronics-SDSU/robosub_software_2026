@@ -296,6 +296,7 @@ class WebcamCamera(_Camera):
             print(f'Webcam (index={index}) could not be opened.', file=sys.stderr)
             sys.exit(1)
 
+        self._cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
         if fps is not None:
             self._cap.set(cv2.CAP_PROP_FPS, fps)
         if quality is not None:
