@@ -1,9 +1,0 @@
-{
-    "terminal.integrated.env.windows": {
-        "PYTHONPATH": "${workspaceFolder}"
-    },
-    "python.analysis.extraPaths": [
-        "${workspaceFolder}"
-    ],
-    "python-envs.defaultEnvManager": "ms-python.python:system"
-}

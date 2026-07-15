@@ -2,7 +2,6 @@ import sys, os, numpy as np
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from shared_memory import SharedMemoryWrapper
 from modules.motors.MotorWrapper import *
-from modules.motors.USB_Transmit import USB_Transmitter
 
 
 """
@@ -13,8 +12,7 @@ from modules.motors.USB_Transmit import USB_Transmitter
 """
 
 shared_memory_object = SharedMemoryWrapper()
-usb_object = USB_Transmitter()
-M = MotorWrapper(shared_memory_object, usb_object)
+M = MotorWrapper(shared_memory_object)
 
 for i in range(8):
     d = input("Enter direction (e.g. f, b, tl, rr): ").lower()

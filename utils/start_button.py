@@ -1,8 +1,7 @@
-from modules.logger.logger import Logger
-
 import serial
 import struct
 import subprocess
+import logging
 
 """
     discord: @will.craychee,    @.kech
@@ -14,6 +13,23 @@ import subprocess
     green: ready to launch
     blue: debug mode (tbd)
 """
+
+# set up module level logger
+LEVEL = logging.INFO
+logger = logging.getLogger(__name__)
+logger.setLevel(LEVEL)
+
+# create console handler if it doesnt exist
+if not logger.handlers:
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(LEVEL)
+    
+    # create formatter
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    
+    # add handler to logger
+    logger.addHandler(console_handler)
     
 class StartButtonDriver:
     """
@@ -26,15 +42,14 @@ class StartButtonDriver:
         self.srl: serial.Serial = serial.Serial()
         self.port = port
         self.baud_rate = baud_rate
-        self.Logger = Logger()
         try:
             # Open ttyACM0 at 921600 baud
             self.srl = serial.Serial(self.port, self.baud_rate, timeout=1)
-            self.Logger.info(f"Connected on {self.port}")
-            self.Logger.debug(f"Listening on {self.port} at {self.baud_rate} baud...")
+            logger.info(f"Connected on {self.port}")
+            logger.debug(f"Listening on {self.port} at {self.baud_rate} baud...")
             
         except serial.SerialException as e:
-            self.Logger.error(f"Failed to connect on {self.port}: {e}")
+            logger.error(f"Failed to connect on {self.port}: {e}")
             pass
 
     def disconnect(self):
@@ -43,7 +58,7 @@ class StartButtonDriver:
         """
         if self.srl is not None:
             self.srl.close()
-            self.Logger.info("Serial connection closed.")
+            logger.info("Serial connection closed.")
             
     def loop(self):
         """
@@ -82,10 +97,10 @@ class StartButtonDriver:
                     subprocess.run(["python3", "launch.py"])
 
                 # Print neatly
-                self.Logger.debug(f"Green: {greenPressed}, Blue: {bluePressed}, ExtKill: {extKillState}, IntKill: {intKillState}, Depth: {depth:.6f} m")
+                logger.debug(f"Green: {greenPressed}, Blue: {bluePressed}, ExtKill: {extKillState}, IntKill: {intKillState}, Depth: {depth:.6f} m")
                 
             except serial.SerialException:
-                self.Logger.warning("Failed to read from serial port.")
+                logger.warning("Failed to read from serial port.")
                 continue
 
 if __name__ == "__main__":

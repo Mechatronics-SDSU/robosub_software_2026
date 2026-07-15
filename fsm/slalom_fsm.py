@@ -1,7 +1,6 @@
 from utils.socket_send                      import set_screen
 from fsm.fsm                                import FSM_Template
 from enum                                   import Enum
-from modules.logger.logger                  import Logger
 import yaml, os
 """
     discord: @.kech
@@ -34,7 +33,6 @@ class Slalom_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "SLALOM"
         self.state: States  = States.INIT  # initial state
-        self.logger = Logger()
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.x1 = self.y1 = self.x2 = self.y2 = self.x3 = self.y3 = self.depth = 0
@@ -53,7 +51,7 @@ class Slalom_FSM(FSM_Template):
                 self.y3 = data[course]['slalom']['y3']
                 self.depth = data[course]['slalom']['z']
         except KeyError:
-            self.logger.error("ERROR: Invalid data format in objects.yaml, using all 0's", state=self.state)
+            print("ERROR: Invalid data format in objects.yaml, using all 0's")
 
     def start(self) -> None:
         """
@@ -83,12 +81,10 @@ class Slalom_FSM(FSM_Template):
                 self.shared_memory_object.target_x.value = self.x3
                 self.shared_memory_object.target_y.value = self.y3
             case _: # do nothing if invalid state
-                self.logger.error(f"{self.name} INVALID NEXT STATE {next}", state=self.state)
+                print(f"{self.name} INVALID NEXT STATE {next}")
                 return
-            
-        old_state = self.state
         self.state = next
-        self.logger.info(f"State changed: {old_state} -> {self.state}", state=self.state)
+        print(f"{self.name}:{self.state}")
 
     def loop(self) -> None:
         """
@@ -110,5 +106,5 @@ class Slalom_FSM(FSM_Template):
                 if self.reached_xyz(self.x3, self.y3, self.depth):
                     self.suspend()
             case _: # do nothing if invalid state
-                self.logger.error(f"{self.name} INVALID STATE {self.state}", state=self.state)
+                print(f"{self.name} INVALID STATE {self.state}")
 

@@ -1,7 +1,6 @@
 from fsm.fsm                                        import FSM_Template
 from utils.socket_send                              import set_screen
 from enum                                           import Enum
-from modules.logger.logger                          import Logger
 import os, yaml, time
 """
     discord: @.kech
@@ -37,7 +36,6 @@ class Return_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "RETURN"
         self.state: States  = States.INIT  # initial state
-        self.logger = Logger()
 
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.gate_x = self.gate_y = self.x1 = self.y1 = self.x2 = self.y2 = self.drop = self.depth = 0
@@ -58,7 +56,7 @@ class Return_FSM(FSM_Template):
                 self.x2     =   data[course]['return']['x2']
                 self.y2     =   data[course]['return']['y2']
         except KeyError:
-            self.logger.error("ERROR: Invalid data format in objects.yaml, using all 0's", state=self.state)
+            print("ERROR: Invalid data format in objects.yaml, using all 0's")
 
     def start(self) -> None:
         """
@@ -94,12 +92,11 @@ class Return_FSM(FSM_Template):
             case States.RISE_END: # surface at end of run
                 self.shared_memory_object.target_z.value = 0
             case _: # do nothing if invalid state
-                self.logger.error(f"{self.name} INVALID NEXT STATE {next}", state=self.state)
+                print(f"{self.name} INVALID NEXT STATE {next}")
                 return
         
-        old_state = self.state
         self.state = next
-        self.logger.info(f"State changed: {old_state} -> {self.state}", state=self.state)
+        print(f"{self.name}:{self.state}")
     
     def loop(self) -> None:
         """
@@ -129,5 +126,5 @@ class Return_FSM(FSM_Template):
                 if self.shared_memory_object.dvl_z.value <= self.z_buffer:
                     self.suspend()
             case _: # do nothing if invalid state
-                self.logger.error(f"{self.name} INVALID STATE {self.state}", state=self.state)
+                print(f"{self.name} INVALID STATE {self.state}")
                 return

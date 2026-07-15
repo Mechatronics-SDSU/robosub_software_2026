@@ -10,7 +10,6 @@ import numpy as np
 import time
 from modules.pid.six_dof_pid import PID
 from scipy.spatial.transform import Rotation as R
-from modules.logger.logger import Logger
 
 try:
     from modules.motors.ScionMotorWrapper       import MotorWrapper # type: ignore
@@ -24,9 +23,6 @@ class PIDInterface:
     def __init__(self, shared_memory_object, usb_object):
         self.shared_memory_object = shared_memory_object
         self.motor_wrapper = MotorWrapper(self.shared_memory_object, usb_object)
-        self.logger = Logger()
-        #SIMULATION
-        # self.simulation = Simulation(np.array([0, 0, 0, 0, 0, 0], dtype=float))
 
         # # array of PID k Values
         self.K_array = np.array([
@@ -88,10 +84,10 @@ class PIDInterface:
         movement_global = (np.multiply(movement_global, [1,-1,-1,-1,1,1]))
 
         if P_DEBUG:
-            self.logger.info(f"Untransformed: {untransformed}")
-            self.logger.info(f"Yaw, Pitch, Roll: {(yaw, pitch, roll)}")
-            self.logger.info(f"Transformed: {movement_global}")
-        movement_global = (np.multiply(movement_global, [1,-1,-1,-1,1,1]))
+            print("Untransformed: ", untransformed)
+            print("Yaw, Pitch, Roll: ", (yaw, pitch, roll))
+            print("Transformed: ",movement_global)
+        
         return movement_global, untransformed
     
     def run_loop(self):
@@ -108,10 +104,29 @@ class PIDInterface:
 
             # print debug for errors
             if P_DEBUG:
-                self.logger.info(f"Direction: {direction}")
-                self.logger.info(f"Untransformed Direction: {untransformed_direction}")
-                self.logger.info(f"Linear Error: {np.sum(error[:3])}")
-                self.logger.info(f"Angular Error: {np.sum(error[3:])}")
+                # calculate error
+                error = np.subtract(
+                    np.array([
+                        self.shared_memory_object.target_x.value,
+                        self.shared_memory_object.target_y.value,
+                        self.shared_memory_object.target_z.value,
+                        self.shared_memory_object.target_yaw.value,
+                        self.shared_memory_object.target_pitch.value,
+                        self.shared_memory_object.target_roll.value
+                    ]),
+                    np.array([
+                        self.shared_memory_object.dvl_x.value,
+                        self.shared_memory_object.dvl_y.value,
+                        self.shared_memory_object.dvl_z.value,
+                        self.shared_memory_object.dvl_yaw.value,
+                        self.shared_memory_object.dvl_pitch.value,
+                        self.shared_memory_object.dvl_roll.value
+                    ]))
+                
+                print("Direction: ", direction)
+                print("Untransformed Direction: ", untransformed_direction)
+                print("Linear Error: ", np.sum(error[:3]))
+                print("Angular Error: ", np.sum(error[3:]))
 
             
             time.sleep(TIME_SLEEP)

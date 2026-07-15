@@ -1,9 +1,7 @@
 import os
 import subprocess
 import yaml
-from typing                 import List, Tuple
-
-from modules.logger.logger  import Logger
+from typing             import List, Tuple
 
 """
     discord: @kialli
@@ -65,7 +63,7 @@ def start_services(user_directory: str, python_executable: str) -> List[Tuple[st
     """
     # Check if the directory exists, if not, create it
     if user_directory is None:
-        logger.info("No service directory provided, using default: cwd/services")
+        print("No service directory provided, using default: cwd/services")
     user_directory = os.path.join(os.getcwd(), 'services')
 
     # List all Python files in the directory
@@ -75,7 +73,7 @@ def start_services(user_directory: str, python_executable: str) -> List[Tuple[st
     service_list = []
     for name in name_list:
         service_list.append(start_service(name, user_directory, python_executable))
-        logger.info(f'Started service {name}.')
+        print(f'Started service {name}.')
     return service_list
 
 def write_to_csv(services: List[Tuple[str, int]], filename: str) -> None:
@@ -98,6 +96,5 @@ if __name__ == '__main__':
     initialize_socket_directory(config['socket_directory'])
     service_list = start_services(config['service_directory'], config['python_executable'])
     write_to_csv(service_list, config['services_csv'])
-    logger = Logger()
-    logger.info('Services started.')
-    logger.info(f'Service list: {service_list}')
+    print('Services started.')
+    print('Service list:', service_list)

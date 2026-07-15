@@ -104,20 +104,6 @@ class SignalWrapper:
         Grabs with claw by setting the appropriate pulse width.
         """
         message: list   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # default values for signals
-        message[14]     = int(b'00100000000000', 2) # unmask for servo 2 only
-        max_pw: int     = 1900  # pulse width to close the claw on an item
-        message[11]     = max_pw  # Set claw pulse width to grab
-        self.usb_object.send_data(message)
-        time.sleep(0.5)
-
-    def release_claw(self):
-        """
-        Opens the claw (releases a held item) by setting the appropriate pulse width.
-        """
-        message: list   = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] # default values for signals
-        message[14]     = int(b'00100000000000', 2) # unmask for servo 2 only
-        min_pw: int     = 1000  # pulse width to open the claw
-        message[11]     = min_pw  # Set claw pulse width to release
         message[14]     = int(b'00100000000000', 2) # unmask for servo 1 only
         max_pw: int     = 1900  # pulse width to lower claw
         message[10]     = max_pw  # Set claw pulse width to lower it

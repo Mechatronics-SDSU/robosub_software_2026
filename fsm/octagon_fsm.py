@@ -1,6 +1,5 @@
 from fsm.fsm                                    import FSM_Template
 from utils.socket_send                          import set_screen
-from modules.logger.logger                      import Logger
 from enum                                       import Enum
 import os, yaml, time
 """
@@ -34,7 +33,6 @@ class Octagon_FSM(FSM_Template):
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "OCTAGON"
         self.state: States  = States.INIT  # initial state
-        self.logger = Logger()
         
         #TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.oct_x = self.oct_y = self.oct_z = self.depth = self.pause = self.angle = 0
@@ -52,7 +50,7 @@ class Octagon_FSM(FSM_Template):
                 self.pause =    data[course]['octagon']['pause'] # pause duration
                 self.angle =    data[course]['octagon']['angle'] # angle to turn at surface
         except KeyError:
-            self.logger.error("ERROR: Invalid data format in objects.yaml, using all 0's", state=self.state)
+            print("ERROR: Invalid data format in objects.yaml, using all 0's")
 
     def start(self) -> None:
         """
@@ -82,12 +80,11 @@ class Octagon_FSM(FSM_Template):
                 self.shared_memory_object.target_yaw.value = 0 # turn back to 0
                 self.suspend()
             case _: # do nothing if invalid state
-                self.logger.error(f"{self.name} INVALID NEXT STATE {next}", state=self.state)
+                print(f"{self.name} INVALID NEXT STATE {next}")
                 return
         
-        old_state = self.state
         self.state = next
-        self.logger.info(f"State changed: {old_state} -> {self.state}", state=self.state)
+        print(f"{self.name}:{self.state}")
     
     def loop(self) -> None:
         """
@@ -105,5 +102,5 @@ class Octagon_FSM(FSM_Template):
                 if self.shared_memory_object.dvl_z.value <= self.z_buffer:
                     self.next_state(States.PAUSE)
             case _: # do nothing if invalid state
-                self.logger.error(f"{self.name} INVALID STATE {self.state}", state=self.state)
+                print(f"{self.name} INVALID STATE {self.state}")
                 return
