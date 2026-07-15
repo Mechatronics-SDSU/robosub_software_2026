@@ -12,10 +12,7 @@ logging.getLogger("default").setLevel(logging.INFO)
 # import FSMs to test
 from shared_memory                          import SharedMemoryWrapper
 from fsm.gate_fsm                           import Gate_FSM
-try:
-    from fsm.octagon_fsm                    import Octagon_FSM
-except ModuleNotFoundError:
-    Octagon_FSM = None
+from fsm.octagon_fsm                        import Octagon_FSM
 from fsm.slalom_fsm                         import Slalom_FSM
 from fsm.return_fsm                         import Return_FSM
 from fsm.prequal_fsm                        import Prequal_FSM
@@ -72,7 +69,7 @@ from fsm_test_helpers                       import FakeModem, drift_toward_targe
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
-DELAY = 0.01 # loop delay, lowered for fps testing (was 0.2; raise to slow down/step through states)
+DELAY = 0.2 # loop delay, raise this to slow down/step through states
 
 FAKE_INPUT = False # fake dvl movement + fake modem messages, turn off once testing on real hardware
 
@@ -144,8 +141,6 @@ def build_fsm(name: str):
         case "gate":
             return Gate_FSM(shared_memory_object, [])
         case "octagon":
-            if Octagon_FSM is None:
-                raise RuntimeError("modules.octagon is not installed — octagon FSM unavailable")
             return Octagon_FSM(shared_memory_object, [])
         case "slalom":
             return Slalom_FSM(shared_memory_object, [])
