@@ -311,7 +311,7 @@ test: # ------------------------------------------------------------------------
     z: 0
     # helper variables
     timeout: 8 # seconds to wait before giving up on a state
-    t_loop: 0.1 # seconds to wait between vision checks in a loop
+    t_loop: 0.01 # seconds to wait between vision checks in a loop (was 0.1, lowered for fps testing)
     # FIXME: 0.3m is a guess, confirm this is the right hover height for the real marker/dropper mechanism
     desired_height: 0.3 # m to hover above a bin (downward camera) before dropping
     # FIXME: waiting on the route plan to know which bin height (12/14/19/22 in

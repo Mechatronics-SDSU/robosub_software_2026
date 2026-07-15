@@ -69,7 +69,7 @@ from fsm_test_helpers                       import FakeModem, drift_toward_targe
 
 # create shared memory object
 shared_memory_object = SharedMemoryWrapper()
-DELAY = 0.2 # loop delay, raise this to slow down/step through states
+DELAY = 0.01 # loop delay, lowered for fps testing (was 0.2; raise to slow down/step through states)
 
 FAKE_INPUT = False # fake dvl movement + fake modem messages, turn off once testing on real hardware
 
