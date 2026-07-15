@@ -1,6 +1,8 @@
 import socket
 import json
 
+from modules.logger.logger import Logger
+
 """
     original author unknown
 
@@ -22,6 +24,7 @@ class DVL:
         self.serv_addr = (UDP_IP, UDP_PORT)
         self.sock = self.connectToSocket()
         self.buffer = bytearray(BUFFER_SIZE) 
+        self.logger = Logger()
         self.resetDeadReckoning()
 
     def resetDeadReckoning(self) -> None:
@@ -32,7 +35,7 @@ class DVL:
             sock.send(json.dumps(json_command).encode())
             sock.close()
         except Exception as e:
-            print("Failed to reset dead reckoning:", e)
+            self.logger.error("Failed to reset dead reckoning:", e)
 
     def connectToSocket(self) -> socket.socket | None:
         try:
@@ -40,7 +43,7 @@ class DVL:
             sock.connect(self.serv_addr)
             return sock 
         except Exception as e:
-            print("Failed to connect to socket:", e)
+            self.logger.error("Failed to connect to socket:", e)
             return None 
 
     def parseJson(self, json_dict: dict) -> tuple[str, list] | list:
@@ -70,13 +73,13 @@ class DVL:
             roll = json_dict["roll"]
             return "dead_reckoning", [yaw, pitch, roll, x, y, z]
         except Exception as e:
-            print("Failed to parse JSON:", e)
+            self.logger.error("Failed to parse JSON:", e)
 
             return [] 
 
     def printData(self, a50_data: list) -> None:
-        print("yaw:", a50_data[0], "pitch:", a50_data[1], "roll:", a50_data[2])
-        print("x:", a50_data[3], "y:", a50_data[4], "z:", a50_data[5])
+        self.logger.info(f"yaw: {a50_data[0]}, pitch: {a50_data[1]}, roll: {a50_data[2]}")
+        self.logger.info(f"x: {a50_data[3]}, y: {a50_data[4]}, z: {a50_data[5]}")
 
     def recieveData(self) -> tuple[str, list] | list:
         dvl_data = ""
@@ -86,7 +89,7 @@ class DVL:
             dvl_data = bytesRead.decode()
             # print("dvl_data:", dvl_data)
         except Exception as e:
-            print("Error in getting A50 data:", e)
+            self.logger.error("Error in getting A50 data:", e)
             self.sock.close()
             self.sock = self.connectToSocket()
         message_type, ret = self.parseJson(json.loads(dvl_data))

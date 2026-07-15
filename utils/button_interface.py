@@ -1,5 +1,7 @@
 import serial, struct, os, time
 
+from modules.logger.logger import Logger
+
 usb_port = 'COM6'  # Update this to your port
 baud_rate = 115200 #921600
 
@@ -8,6 +10,7 @@ class ButtonInterface:
         self.shared_memory_object = shared_memory_object
         self.ser = serial.Serial(usb_port, baud_rate, timeout=1)
         self.delay = 0.001
+        self.logger = Logger()
     
     def read_packet(self) -> tuple[int, int, int, int, float]:
         """
@@ -34,7 +37,7 @@ class ButtonInterface:
 
                 # Optionally verify trailing \r\n
                 if data[8] != 13 or data[9] != 10:
-                    print("Warning: packet missing expected newline characters")
+                    self.logger.warning("Warning: packet missing expected newline characters")
 
                 return greenPressed, bluePressed, extKillState, intKillState, depth
         
@@ -53,7 +56,7 @@ class ButtonInterface:
         Prints data read from button USB
         """
         gp, bp, ek, ik, depth = self.read_packet()
-        print(f"Green: {gp}, Blue: {bp}, ExtKill: {ek}, IntKill: {ik}, Depth: {depth}")
+        self.logger.info(f"Green: {gp}, Blue: {bp}, ExtKill: {ek}, IntKill: {ik}, Depth: {depth}")
 
     def close(self) -> None:
         """

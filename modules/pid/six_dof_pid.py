@@ -1,3 +1,7 @@
+import numpy as np
+from numpy.typing import NDArray
+from modules.logger.logger import Logger
+
 """
     discord: @kialli
     github: @kchan5071
@@ -24,6 +28,7 @@ class PID:
         self.integral_error         = [0, 0, 0, 0, 0, 0]
         self.derivative_error       = [0, 0, 0, 0, 0, 0]
         self.output                 = [0, 0, 0, 0, 0, 0]
+        self.logger = Logger()
 
     def _get_error(self, initial_state: NDArray, desired_state: NDArray) -> None:
         # error is the difference between target and current state
@@ -64,7 +69,7 @@ class PID:
 
         # print debug
         if P_DEBUG:
-            print("initial stae: ", initial_state)
-            print("desired stae: ", desired_state)
-            print("Output: ", self.output)
+            self.logger.info(f"initial state: {initial_state}")
+            self.logger.info(f"desired state: {desired_state}")
+            self.logger.info(f"Output: {self.output}")
         return self.output

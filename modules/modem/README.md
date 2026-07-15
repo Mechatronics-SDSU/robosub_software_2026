@@ -1,4 +1,4 @@
-# Modem
+# Modems
 Program to control the M16 modem, which is used for communication between the subs.
 
 ### Outline
@@ -15,24 +15,28 @@ Program to control the M16 modem, which is used for communication between the su
 - modem_driver.py
     - The library for controlling the M16 modem, providing methods for configuring the modem, sending commands, reading diagnostic packets, and decoding them.
 
-- modem_receive.py
-    - This script continuously listens for packets from the modem.
+- modem_comms.py
+    - This script will either run a listener sub script or a transmitter sub script
 
-- modem_send.py
-    - This script sends a predefined binary pattern through the modem.
 
 ### Usage
 
-- Create a modem object "M16(PORT, BAUDRATE, CHANNEL, LEVEL, DIAGNOSTIC)"
-- Run "read_packet()" to listens from packets from other modems
-- Run "send_two_bytes()" to send from 2 bytes of information to other modems
+
 
 ### Notes
 
 - Set LEVEL to 1
 - Set BAUDRATE to 9600
 
+- Protocol:
+    - Ported from the Waterlinked reference M16 driver.
+    - Messages are plain text, sent in 2-character chunks via transparent mode.
+    - Receiving reads whatever raw bytes arrive in a given window (diagnostic
+      report packets are the exception: framed with a leading '$' and
+      trailing '\n', fixed 18 bytes).
+
 
 ### Status
 
-- Current status: In Progress
+- Current status: Complete
+- Last updated: 07/10/2026

@@ -1,4 +1,5 @@
 from fsm.fsm                                    import FSM_Template
+from modules.logger.logger                      import Logger
 from modules.sensors.trax2.trax_fxns            import TRAX
 from enum                                       import Enum
 import yaml, os, subprocess
@@ -31,6 +32,7 @@ class CoinFlip_FSM(FSM_Template): # FIXME not finished
         super().__init__(shared_memory_object, run_list)
         self.name: str      = "COIN_FLIP"
         self.state: States  = States.INIT  # initial state
+        self.logger = Logger()
 
         # TARGET VALUES-----------------------------------------------------------------------------------------------------------------------
         self.pool_yaw = self.yaw_buffer = self.depth = 0
@@ -63,10 +65,10 @@ class CoinFlip_FSM(FSM_Template): # FIXME not finished
                 self.shared_memory_object.target_yaw.value = self.pool_yaw
                 #self.shared_memory_object.target_z.value = self.depth
             case _: # do nothing if invalid state
-                print(f"{self.name} INVALID NEXT STATE {next}")
+                self.logger.error(f"{self.name} INVALID NEXT STATE {next}")
                 return
         self.state = next
-        print(f"{self.name}:{self.state}")
+        self.logger.info(f"{self.name}:{self.state}")
 
     def loop(self) -> None:
         """

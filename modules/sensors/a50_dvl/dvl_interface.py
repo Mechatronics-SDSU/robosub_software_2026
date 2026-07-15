@@ -1,4 +1,5 @@
-from modules.sensors.a50_dvl.dvl import DVL
+from modules.logger.logger          import Logger
+from modules.sensors.a50_dvl.dvl    import DVL
 
 class DVL_Interface:
 
@@ -19,6 +20,7 @@ class DVL_Interface:
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object
         self.dvl = DVL()
+        self.logger = Logger()
 
     def update(self) -> None:
         try:
@@ -39,20 +41,20 @@ class DVL_Interface:
                 self.shared_memory_object.dvl_status.value = dvl_data[5]
 
             if self.P_DEBUG:
-                print("dvl_yaw:", self.shared_memory_object.dvl_yaw.value)
-                print("dvl_pitch:", self.shared_memory_object.dvl_pitch.value)
-                print("dvl_roll:", self.shared_memory_object.dvl_roll.value)
-                print("dvl_x:", self.shared_memory_object.dvl_x.value)
-                print("dvl_y:", self.shared_memory_object.dvl_y.value)
-                print("dvl_z:", self.shared_memory_object.dvl_z.value)
-                print("dvl_x_velocity:", self.shared_memory_object.dvl_x_velocity.value)
-                print("dvl_y_velocity:", self.shared_memory_object.dvl_y_velocity.value)
-                print("dvl_z_velocity:", self.shared_memory_object.dvl_z_velocity.value)
-                print("dvl_altitude:", self.shared_memory_object.dvl_altitude.value)
-                print("dvl_velocity_valid:", self.shared_memory_object.dvl_velocity_valid.value)
-                print("dvl_status:", self.shared_memory_object.dvl_status.value)
+                self.logger.info(f"dvl_yaw: {self.shared_memory_object.dvl_yaw.value}")
+                self.logger.info(f"dvl_pitch: {self.shared_memory_object.dvl_pitch.value}")
+                self.logger.info(f"dvl_roll: {self.shared_memory_object.dvl_roll.value}")
+                self.logger.info(f"dvl_x: {self.shared_memory_object.dvl_x.value}")
+                self.logger.info(f"dvl_y: {self.shared_memory_object.dvl_y.value}")
+                self.logger.info(f"dvl_z: {self.shared_memory_object.dvl_z.value}")
+                self.logger.info(f"dvl_x_velocity: {self.shared_memory_object.dvl_x_velocity.value}")
+                self.logger.info(f"dvl_y_velocity: {self.shared_memory_object.dvl_y_velocity.value}")
+                self.logger.info(f"dvl_z_velocity: {self.shared_memory_object.dvl_z_velocity.value}")
+                self.logger.info(f"dvl_altitude: {self.shared_memory_object.dvl_altitude.value}")
+                self.logger.info(f"dvl_velocity_valid: {self.shared_memory_object.dvl_velocity_valid.value}")
+                self.logger.info(f"dvl_status: {self.shared_memory_object.dvl_status.value}")
         except:
-            print("NO DVL DATA")
+            self.logger.error("NO DVL DATA")
 
     def run_loop(self):
         self.update()

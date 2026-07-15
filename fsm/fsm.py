@@ -2,6 +2,7 @@ from multiprocessing                        import Process, Value
 from shared_memory                          import SharedMemoryWrapper
 from utils.socket_send                      import set_screen
 from enum                                   import Enum
+from modules.logger.logger                  import Logger
 import os
 import yaml
 import time
@@ -33,6 +34,7 @@ class FSM_Template:
         self.display_on         = shared_memory_object.display_on.value # enable/disable display output
         self.last_display_command: float = time.time()
         self.next_mode          = None  # next mode pointer
+        self.logger = Logger()
 
         # buffers
         self.x_buffer: float = 0.5
@@ -44,7 +46,9 @@ class FSM_Template:
 
         # create processes
         for run_object in run_list:
-            temp_process = Process(target=run_object.run_loop) # NOTE: make sure all run_objects have looping run_loop method
+            temp_process = Process(target=run_object.run_loop,
+                                   name=run_object.process_name) # NOTE: make sure all run_objects have looping run_loop method
+            
             self.process_objects.append(temp_process)
     
     def start(self) -> None:
@@ -52,7 +56,7 @@ class FSM_Template:
         Start FSM by enabling and starting processes
         """
         self.active = True
-        print(f"STARTING {self.name} MODE")
+        self.logger.info(f"STARTING {self.name} MODE")
         # start processes
         for process in self.process_objects:
             process.start()
@@ -88,11 +92,11 @@ class FSM_Template:
 
         if time.time() - self.last_display_command <= DISPLAY_TIMER:
             return
+        self.last_display_command = time.time()
         tgt_txt = f"DVL: \t x = {round(self.shared_memory_object.dvl_x.value,2)}\t y = {round(self.shared_memory_object.dvl_y.value,2)}\t z = {round(self.shared_memory_object.dvl_z.value,2)}"
         dvl_txt = f"TGT: \t x = {round(self.shared_memory_object.target_x.value,2)}\t y = {round(self.shared_memory_object.target_y.value,2)}\t z = {round(self.shared_memory_object.target_z.value,2)}"
         if not self.display_on: # don't run display if display set to off
-            # TODO: Uncomment (Zaid)
-            # print(f"{tgt_txt}\n{dvl_txt}")
+            self.logger.info(f"{tgt_txt}\n{dvl_txt}")
             return
         try:
             # show on display
@@ -122,7 +126,7 @@ class FSM_Template:
             if p is process and p.is_alive():
                 p.terminate()
                 return
-        print("ERROR: Process not found or already dead")
+        self.logger.error("ERROR: Process not found or already dead")
         
     def add_process(self, process) -> None:
         """
@@ -132,7 +136,7 @@ class FSM_Template:
             self.process_objects.append(process)
             process.start()
         else:
-            print("ERROR: Process already in process list")
+            self.logger.error("ERROR: Process already in process list")
 
     def stop(self) -> None:
         """
