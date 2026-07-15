@@ -15,7 +15,7 @@ class DVL_Interface:
     this class acts as a bridge, should be unproblematic(hopefully)
     """
 
-    P_DEBUG = False
+    P_DEBUG = True # FIXME
 
     def __init__(self, shared_memory_object):
         self.shared_memory_object = shared_memory_object

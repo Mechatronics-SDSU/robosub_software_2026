@@ -22,6 +22,8 @@ from modules.torpedo.torpedo_helpers         import TorpedoHelper
 # Dropper_FSM/Grabber_FSM (they take shared_memory_object + signal_wrapper,
 # not usb_object, and aren't run_list process objects), so they aren't
 # imported/instantiated here.
+from modules.vision.vision_main             import VisionDetection
+from modules.signals.SignalWrapper          import SignalWrapper
 
 #kill module
 from modules.motors.USB_Transmit            import USB_Transmitter
@@ -60,6 +62,8 @@ dvl_object = DVL_Interface(shared_memory_object)
 sig_object = SignalWrapper(usb_object)
 tor_object = TorpedoHelper(usb_object)
 
+vis_object = VisionDetection(shared_memory_object)
+sig_object = SignalWrapper(usb_object)
 # initialize modes
 gate_modules = [pid_object, dvl_object]
 gate_mode   = Gate_FSM(shared_memory_object, gate_modules)
@@ -77,6 +81,9 @@ grabber_mode = Grabber_FSM(shared_memory_object, [pid_object, dvl_object], signa
 
 #mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
 mode_list = [test_signals_mode]
+
+#mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
+mode_list = [gate_mode]
 
 def main():
     """
@@ -112,7 +119,8 @@ def stop():
     """
     shared_memory_object.running.value = 0 # kill gracefully
     time.sleep(0.25)
-    usb_object.soft_kill()
+    #usb_object.soft_kill()
+    usb_object.kill_motors()
 
 def make_list(modes: list[FSM_Template]) -> None:
     """

@@ -4,3 +4,4 @@ __pycache__/
 env/
 venv/
 CLAUDE.md
+*.cpython-310.pyc
