@@ -15,3 +15,1245 @@ TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
 2026-07-13 16:14:31 - MainProcess - INFO - vision_test_fsm.py:149 - === NEW SESSION: camera_source=zed target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=True record_mp4=True record_svo=False run_dir=vision_recordings\20260713_161431 ===
 2026-07-13 16:14:31 - MainProcess - INFO - vision_test_fsm.py:235 - State changed: INIT -> RUNNING
 2026-07-13 16:14:31 - MainProcess - ERROR - vision_test_fsm.py:196 - VISION_TEST: camera open failed and no fallback configured, stopping: pyzed.sl import failed: No module named 'pyzed'
+2026-07-14 18:27:36 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:27:36 - MainProcess - INFO - vision_test_fsm.py:149 - === NEW SESSION: camera_source=downfacing target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=True record_mp4=True record_svo=False run_dir=vision_recordings/20260714_182736 ===
+2026-07-14 18:27:36 - MainProcess - INFO - vision_test_fsm.py:235 - State changed: INIT -> RUNNING
+2026-07-14 18:27:40 - MainProcess - INFO - vision_test_fsm.py:171 - VISION_TEST: MP4 recording -> vision_recordings/20260714_182736/video.mp4 (1344x376)
+2026-07-14 18:27:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:46 - MainProcess - INFO - vision_test_fsm.py:343 - [downfacing] SUMMARY: 20 frames, 0 qualifying detections, fps=3.0
+2026-07-14 18:27:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:28:28 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:28:28 - MainProcess - INFO - vision_test_fsm.py:149 - === NEW SESSION: camera_source=downfacing target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_182828 ===
+2026-07-14 18:28:28 - MainProcess - INFO - vision_test_fsm.py:235 - State changed: INIT -> RUNNING
+2026-07-14 18:30:33 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:30:33 - MainProcess - INFO - vision_test_fsm.py:149 - === NEW SESSION: camera_source=downfacing target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_183033 ===
+2026-07-14 18:30:33 - MainProcess - INFO - vision_test_fsm.py:235 - State changed: INIT -> RUNNING
+2026-07-14 18:30:37 - MainProcess - INFO - vision_test_fsm.py:171 - VISION_TEST: MP4 recording -> vision_recordings/20260714_183033/video.mp4 (1344x376)
+2026-07-14 18:30:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:43 - MainProcess - INFO - vision_test_fsm.py:343 - [downfacing] SUMMARY: 19 frames, 0 qualifying detections, fps=2.7
+2026-07-14 18:30:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:51 - MainProcess - INFO - vision_test_fsm.py:332 - [downfacing] fire conf=0.82 center=(0.071, 0.476) box=(0.142x0.949) depth_m=-1.00
+2026-07-14 18:30:51 - MainProcess - INFO - vision_test_fsm.py:336 - [downfacing] fire meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.941, 0.082)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.941, 0.082)
+2026-07-14 18:30:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:53 - MainProcess - INFO - vision_test_fsm.py:343 - [downfacing] SUMMARY: 48 frames, 1 qualifying detections, fps=2.9
+2026-07-14 18:30:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:30:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:04 - MainProcess - INFO - vision_test_fsm.py:343 - [downfacing] SUMMARY: 75 frames, 1 qualifying detections, fps=2.6
+2026-07-14 18:31:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:09 - MainProcess - INFO - vision_test_fsm.py:332 - [downfacing] fire conf=0.86 center=(0.563, 0.229) box=(0.220x0.455) depth_m=-1.00
+2026-07-14 18:31:09 - MainProcess - INFO - vision_test_fsm.py:336 - [downfacing] fire meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.102, 0.376)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.102, 0.376)
+2026-07-14 18:31:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:14 - MainProcess - INFO - vision_test_fsm.py:343 - [downfacing] SUMMARY: 102 frames, 2 qualifying detections, fps=2.6
+2026-07-14 18:31:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:24 - MainProcess - INFO - vision_test_fsm.py:343 - [downfacing] SUMMARY: 129 frames, 2 qualifying detections, fps=2.6
+2026-07-14 18:31:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:27 - MainProcess - INFO - vision_test_fsm.py:332 - [downfacing] fire conf=0.89 center=(0.563, 0.231) box=(0.208x0.460) depth_m=-1.00
+2026-07-14 18:31:27 - MainProcess - INFO - vision_test_fsm.py:336 - [downfacing] fire meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.102, 0.374)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.102, 0.374)
+2026-07-14 18:31:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:31 - MainProcess - INFO - vision_test_fsm.py:332 - [downfacing] ambulance conf=0.71 center=(0.052, 0.210) box=(0.104x0.420) depth_m=-1.00
+2026-07-14 18:31:31 - MainProcess - INFO - vision_test_fsm.py:336 - [downfacing] ambulance meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.982, 0.399)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.982, 0.399)
+2026-07-14 18:31:31 - MainProcess - INFO - vision_test_fsm.py:332 - [downfacing] fire conf=0.76 center=(0.565, 0.231) box=(0.203x0.463) depth_m=-1.00
+2026-07-14 18:31:31 - MainProcess - INFO - vision_test_fsm.py:336 - [downfacing] fire meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.106, 0.374)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.106, 0.374)
+2026-07-14 18:31:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:34 - MainProcess - INFO - vision_test_fsm.py:343 - [downfacing] SUMMARY: 156 frames, 5 qualifying detections, fps=2.6
+2026-07-14 18:31:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:31:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:34:48 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:34:48 - MainProcess - INFO - vision_test_fsm.py:157 - === NEW SESSION: camera_source=downfacing target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_183448 ===
+2026-07-14 18:34:48 - MainProcess - INFO - vision_test_fsm.py:243 - State changed: INIT -> RUNNING
+2026-07-14 18:34:52 - MainProcess - INFO - vision_test_fsm.py:179 - VISION_TEST: MP4 recording -> vision_recordings/20260714_183448/video.mp4 (640x480)
+2026-07-14 18:34:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:34:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:34:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:34:58 - MainProcess - INFO - vision_test_fsm.py:351 - [downfacing] SUMMARY: 16 frames, 0 qualifying detections, fps=2.6
+2026-07-14 18:34:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:08 - MainProcess - INFO - vision_test_fsm.py:351 - [downfacing] SUMMARY: 44 frames, 0 qualifying detections, fps=2.8
+2026-07-14 18:35:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:18 - MainProcess - INFO - vision_test_fsm.py:351 - [downfacing] SUMMARY: 72 frames, 0 qualifying detections, fps=2.8
+2026-07-14 18:35:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:35:28 - MainProcess - INFO - vision_test_fsm.py:351 - [downfacing] SUMMARY: 100 frames, 0 qualifying detections, fps=2.8
+2026-07-14 18:35:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:13 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:37:13 - MainProcess - INFO - vision_test_fsm.py:157 - === NEW SESSION: camera_source=zed target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_183713 ===
+2026-07-14 18:37:13 - MainProcess - INFO - vision_test_fsm.py:243 - State changed: INIT -> RUNNING
+2026-07-14 18:37:20 - MainProcess - INFO - vision_test_fsm.py:179 - VISION_TEST: MP4 recording -> vision_recordings/20260714_183713/video.mp4 (672x376)
+2026-07-14 18:37:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:23 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 11 frames, 0 qualifying detections, fps=2.5
+2026-07-14 18:37:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:34 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 41 frames, 0 qualifying detections, fps=2.9
+2026-07-14 18:37:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:44 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 70 frames, 0 qualifying detections, fps=2.9
+2026-07-14 18:37:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:54 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 99 frames, 0 qualifying detections, fps=2.9
+2026-07-14 18:37:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:37:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:38:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:38:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:38:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:38:04 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 129 frames, 0 qualifying detections, fps=2.9
+2026-07-14 18:38:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:38:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:10 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:53:10 - MainProcess - INFO - vision_test_fsm.py:157 - === NEW SESSION: camera_source=zed target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_185310 ===
+2026-07-14 18:53:10 - MainProcess - INFO - vision_test_fsm.py:243 - State changed: INIT -> RUNNING
+2026-07-14 18:53:15 - MainProcess - INFO - vision_test_fsm.py:179 - VISION_TEST: MP4 recording -> vision_recordings/20260714_185310/video.mp4 (672x376)
+2026-07-14 18:53:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:20 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 15 frames, 0 qualifying detections, fps=2.6
+2026-07-14 18:53:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.82 center=(0.423, 0.146) box=(0.113x0.194) depth_m=-1.00
+2026-07-14 18:53:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.195, 0.475)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.195, 0.475)
+2026-07-14 18:53:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.78 center=(0.426, 0.303) box=(0.124x0.229) depth_m=0.68
+2026-07-14 18:53:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.189, 0.288)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.189, 0.288)
+2026-07-14 18:53:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.91 center=(0.436, 0.271) box=(0.137x0.247) depth_m=0.65
+2026-07-14 18:53:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.168, 0.326)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.168, 0.326)
+2026-07-14 18:53:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.439, 0.253) box=(0.131x0.237) depth_m=-1.00
+2026-07-14 18:53:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.161, 0.347)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.161, 0.347)
+2026-07-14 18:53:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.92 center=(0.449, 0.247) box=(0.132x0.231) depth_m=0.66
+2026-07-14 18:53:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.140, 0.354)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.140, 0.354)
+2026-07-14 18:53:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.85 center=(0.439, 0.234) box=(0.135x0.237) depth_m=0.65
+2026-07-14 18:53:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.161, 0.370)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.161, 0.370)
+2026-07-14 18:53:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.74 center=(0.478, 0.199) box=(0.128x0.221) depth_m=0.67
+2026-07-14 18:53:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.079, 0.412)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.079, 0.412)
+2026-07-14 18:53:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.478, 0.184) box=(0.131x0.229) depth_m=0.67
+2026-07-14 18:53:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.079, 0.430)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.079, 0.430)
+2026-07-14 18:53:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.88 center=(0.484, 0.168) box=(0.131x0.237) depth_m=0.67
+2026-07-14 18:53:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.066, 0.449)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.066, 0.449)
+2026-07-14 18:53:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.88 center=(0.488, 0.162) box=(0.132x0.231) depth_m=0.65
+2026-07-14 18:53:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.057, 0.456)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.057, 0.456)
+2026-07-14 18:53:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.90 center=(0.497, 0.133) box=(0.140x0.247) depth_m=0.57
+2026-07-14 18:53:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.038, 0.490)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.038, 0.490)
+2026-07-14 18:53:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.506, 0.141) box=(0.129x0.223) depth_m=0.64
+2026-07-14 18:53:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.019, 0.481)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.019, 0.481)
+2026-07-14 18:53:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.97 center=(0.503, 0.133) box=(0.135x0.242) depth_m=0.54
+2026-07-14 18:53:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, 0.490)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, 0.490)
+2026-07-14 18:53:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.90 center=(0.478, 0.173) box=(0.138x0.253) depth_m=0.79
+2026-07-14 18:53:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.079, 0.443)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.079, 0.443)
+2026-07-14 18:53:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.93 center=(0.476, 0.197) box=(0.135x0.242) depth_m=0.77
+2026-07-14 18:53:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.083, 0.414)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.083, 0.414)
+2026-07-14 18:53:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.76 center=(0.484, 0.189) box=(0.138x0.250) depth_m=0.82
+2026-07-14 18:53:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.066, 0.424)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.066, 0.424)
+2026-07-14 18:53:30 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.87 center=(0.476, 0.207) box=(0.137x0.239) depth_m=0.80
+2026-07-14 18:53:30 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.083, 0.402)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.083, 0.402)
+2026-07-14 18:53:30 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.74 center=(0.482, 0.213) box=(0.140x0.237) depth_m=-1.00
+2026-07-14 18:53:30 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.070, 0.395)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.070, 0.395)
+2026-07-14 18:53:30 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.90 center=(0.473, 0.226) box=(0.135x0.239) depth_m=0.59
+2026-07-14 18:53:30 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.089, 0.379)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.089, 0.379)
+2026-07-14 18:53:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.88 center=(0.478, 0.250) box=(0.128x0.229) depth_m=-1.00
+2026-07-14 18:53:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.079, 0.351)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.079, 0.351)
+2026-07-14 18:53:31 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 43 frames, 20 qualifying detections, fps=2.7
+2026-07-14 18:53:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.91 center=(0.469, 0.245) box=(0.131x0.237) depth_m=-1.00
+2026-07-14 18:53:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.098, 0.357)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.098, 0.357)
+2026-07-14 18:53:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.467, 0.247) box=(0.129x0.231) depth_m=0.65
+2026-07-14 18:53:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.102, 0.354)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.102, 0.354)
+2026-07-14 18:53:32 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.470, 0.245) box=(0.126x0.231) depth_m=0.67
+2026-07-14 18:53:32 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.096, 0.357)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.096, 0.357)
+2026-07-14 18:53:32 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.91 center=(0.472, 0.255) box=(0.128x0.234) depth_m=0.62
+2026-07-14 18:53:32 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.091, 0.345)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.091, 0.345)
+2026-07-14 18:53:33 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.92 center=(0.475, 0.271) box=(0.132x0.234) depth_m=-1.00
+2026-07-14 18:53:33 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.085, 0.326)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.085, 0.326)
+2026-07-14 18:53:33 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.70 center=(0.479, 0.277) box=(0.129x0.226) depth_m=0.51
+2026-07-14 18:53:33 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.076, 0.319)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.076, 0.319)
+2026-07-14 18:53:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:33 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.87 center=(0.485, 0.271) box=(0.129x0.229) depth_m=0.53
+2026-07-14 18:53:33 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.064, 0.326)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.064, 0.326)
+2026-07-14 18:53:34 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.93 center=(0.482, 0.269) box=(0.129x0.231) depth_m=0.53
+2026-07-14 18:53:34 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.070, 0.328)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.070, 0.328)
+2026-07-14 18:53:34 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.97 center=(0.481, 0.269) box=(0.128x0.234) depth_m=0.54
+2026-07-14 18:53:34 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.072, 0.328)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.072, 0.328)
+2026-07-14 18:53:34 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.482, 0.261) box=(0.129x0.239) depth_m=0.51
+2026-07-14 18:53:34 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.070, 0.338)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.070, 0.338)
+2026-07-14 18:53:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:36 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.81 center=(0.527, 0.269) box=(0.106x0.176) depth_m=0.94
+2026-07-14 18:53:36 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.025, 0.328)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.025, 0.328)
+2026-07-14 18:53:36 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.88 center=(0.504, 0.301) box=(0.103x0.170) depth_m=-1.00
+2026-07-14 18:53:36 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, 0.290)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, 0.290)
+2026-07-14 18:53:37 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.86 center=(0.491, 0.295) box=(0.119x0.218) depth_m=0.67
+2026-07-14 18:53:37 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.051, 0.297)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.051, 0.297)
+2026-07-14 18:53:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:41 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 70 frames, 33 qualifying detections, fps=2.7
+2026-07-14 18:53:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:46 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.83 center=(0.503, 0.654) box=(0.131x0.207) depth_m=1.00
+2026-07-14 18:53:46 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, -0.131)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, -0.131)
+2026-07-14 18:53:46 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.528, 0.657) box=(0.150x0.250) depth_m=0.69
+2026-07-14 18:53:46 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.027, -0.134)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.027, -0.134)
+2026-07-14 18:53:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.86 center=(0.516, 0.657) box=(0.149x0.263) depth_m=0.63
+2026-07-14 18:53:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.002, -0.134)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.002, -0.134)
+2026-07-14 18:53:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:51 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 98 frames, 36 qualifying detections, fps=2.7
+2026-07-14 18:53:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:53:58 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:54:00 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:55:29 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:55:29 - MainProcess - INFO - vision_test_fsm.py:157 - === NEW SESSION: camera_source=zed target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_185529 ===
+2026-07-14 18:55:29 - MainProcess - INFO - vision_test_fsm.py:243 - State changed: INIT -> RUNNING
+2026-07-14 18:55:42 - MainProcess - ERROR - vision_test_fsm.py:204 - VISION_TEST: camera open failed and no fallback configured, stopping: ZED open failed: CAMERA MOTION SENSORS NOT DETECTED
+2026-07-14 18:56:01 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:56:01 - MainProcess - INFO - vision_test_fsm.py:157 - === NEW SESSION: camera_source=zed target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_185601 ===
+2026-07-14 18:56:01 - MainProcess - INFO - vision_test_fsm.py:243 - State changed: INIT -> RUNNING
+2026-07-14 18:56:06 - MainProcess - INFO - vision_test_fsm.py:179 - VISION_TEST: MP4 recording -> vision_recordings/20260714_185601/video.mp4 (672x376)
+2026-07-14 18:56:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.75 center=(0.573, 0.582) box=(0.119x0.253) depth_m=0.45
+2026-07-14 18:56:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.123, -0.045)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.123, -0.045)
+2026-07-14 18:56:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.577, 0.598) box=(0.104x0.250) depth_m=0.45
+2026-07-14 18:56:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.131, -0.064)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.131, -0.064)
+2026-07-14 18:56:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.616, 0.625) box=(0.132x0.263) depth_m=0.43
+2026-07-14 18:56:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.214, -0.096)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.214, -0.096)
+2026-07-14 18:56:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.84 center=(0.609, 0.617) box=(0.126x0.261) depth_m=0.43
+2026-07-14 18:56:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.199, -0.087)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.199, -0.087)
+2026-07-14 18:56:11 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.88 center=(0.606, 0.620) box=(0.124x0.258) depth_m=0.43
+2026-07-14 18:56:11 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.193, -0.090)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.193, -0.090)
+2026-07-14 18:56:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:11 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 14 frames, 5 qualifying detections, fps=2.4
+2026-07-14 18:56:12 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.77 center=(0.604, 0.612) box=(0.132x0.258) depth_m=0.43
+2026-07-14 18:56:12 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.189, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.189, -0.081)
+2026-07-14 18:56:12 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.84 center=(0.595, 0.614) box=(0.115x0.258) depth_m=0.43
+2026-07-14 18:56:12 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.169, -0.083)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.169, -0.083)
+2026-07-14 18:56:13 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.89 center=(0.598, 0.612) box=(0.126x0.261) depth_m=0.43
+2026-07-14 18:56:13 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.176, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.176, -0.081)
+2026-07-14 18:56:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:13 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.94 center=(0.601, 0.612) box=(0.132x0.258) depth_m=0.43
+2026-07-14 18:56:13 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.182, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.182, -0.081)
+2026-07-14 18:56:14 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.604, 0.612) box=(0.131x0.258) depth_m=0.43
+2026-07-14 18:56:14 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.189, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.189, -0.081)
+2026-07-14 18:56:14 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.70 center=(0.597, 0.609) box=(0.121x0.261) depth_m=0.43
+2026-07-14 18:56:14 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.174, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.174, -0.077)
+2026-07-14 18:56:15 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.90 center=(0.600, 0.609) box=(0.125x0.261) depth_m=0.43
+2026-07-14 18:56:15 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.077)
+2026-07-14 18:56:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.86 center=(0.601, 0.612) box=(0.129x0.255) depth_m=0.44
+2026-07-14 18:56:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.182, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.182, -0.081)
+2026-07-14 18:56:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.85 center=(0.601, 0.612) box=(0.129x0.255) depth_m=0.44
+2026-07-14 18:56:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.182, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.182, -0.081)
+2026-07-14 18:56:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:18 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.82 center=(0.601, 0.612) box=(0.129x0.258) depth_m=0.44
+2026-07-14 18:56:18 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.182, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.182, -0.081)
+2026-07-14 18:56:19 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.80 center=(0.601, 0.609) box=(0.129x0.258) depth_m=0.44
+2026-07-14 18:56:19 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.182, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.182, -0.077)
+2026-07-14 18:56:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.96 center=(0.600, 0.609) box=(0.134x0.258) depth_m=0.44
+2026-07-14 18:56:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.077)
+2026-07-14 18:56:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.77 center=(0.595, 0.606) box=(0.121x0.258) depth_m=0.44
+2026-07-14 18:56:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.169, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.169, -0.073)
+2026-07-14 18:56:21 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 41 frames, 18 qualifying detections, fps=2.7
+2026-07-14 18:56:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.83 center=(0.598, 0.606) box=(0.124x0.258) depth_m=0.44
+2026-07-14 18:56:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.176, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.176, -0.073)
+2026-07-14 18:56:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.96 center=(0.601, 0.606) box=(0.131x0.258) depth_m=0.45
+2026-07-14 18:56:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.182, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.182, -0.073)
+2026-07-14 18:56:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.600, 0.606) box=(0.134x0.255) depth_m=0.44
+2026-07-14 18:56:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.073)
+2026-07-14 18:56:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.600, 0.606) box=(0.131x0.258) depth_m=0.44
+2026-07-14 18:56:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.073)
+2026-07-14 18:56:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.87 center=(0.598, 0.606) box=(0.134x0.255) depth_m=0.44
+2026-07-14 18:56:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.176, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.176, -0.073)
+2026-07-14 18:56:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.82 center=(0.594, 0.609) box=(0.129x0.253) depth_m=0.44
+2026-07-14 18:56:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.167, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.167, -0.077)
+2026-07-14 18:56:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.91 center=(0.595, 0.609) box=(0.129x0.253) depth_m=0.44
+2026-07-14 18:56:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.169, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.169, -0.077)
+2026-07-14 18:56:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.598, 0.606) box=(0.132x0.255) depth_m=0.44
+2026-07-14 18:56:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.176, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.176, -0.073)
+2026-07-14 18:56:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.71 center=(0.600, 0.588) box=(0.134x0.293) depth_m=0.44
+2026-07-14 18:56:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.052)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.052)
+2026-07-14 18:56:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.600, 0.606) box=(0.131x0.258) depth_m=0.44
+2026-07-14 18:56:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.073)
+2026-07-14 18:56:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.93 center=(0.600, 0.606) box=(0.132x0.255) depth_m=0.44
+2026-07-14 18:56:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.073)
+2026-07-14 18:56:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.96 center=(0.598, 0.606) box=(0.124x0.258) depth_m=0.44
+2026-07-14 18:56:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.176, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.176, -0.073)
+2026-07-14 18:56:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.86 center=(0.598, 0.609) box=(0.134x0.258) depth_m=0.44
+2026-07-14 18:56:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.176, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.176, -0.077)
+2026-07-14 18:56:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:27 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.600, 0.606) box=(0.131x0.261) depth_m=0.44
+2026-07-14 18:56:27 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.073)
+2026-07-14 18:56:27 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.86 center=(0.597, 0.609) box=(0.122x0.266) depth_m=0.44
+2026-07-14 18:56:27 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.174, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.174, -0.077)
+2026-07-14 18:56:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.88 center=(0.598, 0.609) box=(0.131x0.261) depth_m=0.43
+2026-07-14 18:56:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.176, -0.077)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.176, -0.077)
+2026-07-14 18:56:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.595, 0.601) box=(0.128x0.261) depth_m=0.44
+2026-07-14 18:56:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.169, -0.067)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.169, -0.067)
+2026-07-14 18:56:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.589, 0.588) box=(0.131x0.282) depth_m=0.45
+2026-07-14 18:56:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.157, -0.052)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.157, -0.052)
+2026-07-14 18:56:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.94 center=(0.573, 0.604) box=(0.122x0.258) depth_m=0.44
+2026-07-14 18:56:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.123, -0.071)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.123, -0.071)
+2026-07-14 18:56:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.88 center=(0.570, 0.601) box=(0.115x0.261) depth_m=0.43
+2026-07-14 18:56:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.116, -0.067)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.116, -0.067)
+2026-07-14 18:56:30 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.82 center=(0.570, 0.612) box=(0.122x0.269) depth_m=0.43
+2026-07-14 18:56:30 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.116, -0.081)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.116, -0.081)
+2026-07-14 18:56:30 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.87 center=(0.568, 0.617) box=(0.134x0.261) depth_m=0.43
+2026-07-14 18:56:30 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.112, -0.087)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.112, -0.087)
+2026-07-14 18:56:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:31 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 68 frames, 40 qualifying detections, fps=2.7
+2026-07-14 18:56:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:41 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 97 frames, 40 qualifying detections, fps=2.8
+2026-07-14 18:56:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:52 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 125 frames, 40 qualifying detections, fps=2.7
+2026-07-14 18:56:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:54 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.82 center=(0.802, 0.827) box=(0.086x0.152) depth_m=0.32
+2026-07-14 18:56:54 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.608, -0.337)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.608, -0.337)
+2026-07-14 18:56:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:55 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.75 center=(0.665, 0.798) box=(0.058x0.093) depth_m=0.40
+2026-07-14 18:56:55 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.318, -0.302)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.318, -0.302)
+2026-07-14 18:56:56 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.562, 0.601) box=(0.065x0.221) depth_m=0.41
+2026-07-14 18:56:56 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.100, -0.067)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.100, -0.067)
+2026-07-14 18:56:56 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.88 center=(0.549, 0.596) box=(0.065x0.210) depth_m=0.43
+2026-07-14 18:56:56 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.072, -0.061)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.072, -0.061)
+2026-07-14 18:56:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:56:57 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.77 center=(0.545, 0.548) box=(0.067x0.223) depth_m=0.42
+2026-07-14 18:56:57 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.063, -0.004)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.063, -0.004)
+2026-07-14 18:56:58 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.92 center=(0.539, 0.598) box=(0.058x0.101) depth_m=0.43
+2026-07-14 18:56:58 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.051, -0.064)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.051, -0.064)
+2026-07-14 18:56:58 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.79 center=(0.493, 0.590) box=(0.060x0.106) depth_m=0.41
+2026-07-14 18:56:58 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.054)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.054)
+2026-07-14 18:56:59 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.86 center=(0.469, 0.543) box=(0.071x0.194) depth_m=0.40
+2026-07-14 18:56:59 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.098, 0.002)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.098, 0.002)
+2026-07-14 18:56:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:01 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.94 center=(0.461, 0.566) box=(0.070x0.128) depth_m=0.36
+2026-07-14 18:57:01 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.115, -0.026)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.115, -0.026)
+2026-07-14 18:57:01 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.79 center=(0.460, 0.545) box=(0.070x0.125) depth_m=0.35
+2026-07-14 18:57:01 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.117, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.117, -0.001)
+2026-07-14 18:57:01 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.90 center=(0.460, 0.556) box=(0.070x0.130) depth_m=0.35
+2026-07-14 18:57:01 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.117, -0.014)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.117, -0.014)
+2026-07-14 18:57:02 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.77 center=(0.458, 0.556) box=(0.073x0.125) depth_m=0.34
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.121, -0.014)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.121, -0.014)
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 152 frames, 52 qualifying detections, fps=2.7
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.93 center=(0.463, 0.559) box=(0.071x0.125) depth_m=0.34
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.110, -0.017)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.110, -0.017)
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.76 center=(0.546, 0.737) box=(0.065x0.117) depth_m=0.35
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.066, -0.230)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.066, -0.230)
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.76 center=(0.557, 0.750) box=(0.065x0.104) depth_m=0.35
+2026-07-14 18:57:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.089, -0.245)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.089, -0.245)
+2026-07-14 18:57:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.77 center=(0.467, 0.585) box=(0.067x0.120) depth_m=0.35
+2026-07-14 18:57:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.102, -0.048)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.102, -0.048)
+2026-07-14 18:57:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.77 center=(0.469, 0.582) box=(0.068x0.125) depth_m=0.35
+2026-07-14 18:57:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.098, -0.045)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.098, -0.045)
+2026-07-14 18:57:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.83 center=(0.467, 0.508) box=(0.073x0.269) depth_m=0.35
+2026-07-14 18:57:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.102, 0.043)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.102, 0.043)
+2026-07-14 18:57:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.481, 0.500) box=(0.074x0.282) depth_m=0.33
+2026-07-14 18:57:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.072, 0.053)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.072, 0.053)
+2026-07-14 18:57:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.72 center=(0.484, 0.561) box=(0.070x0.125) depth_m=0.34
+2026-07-14 18:57:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.066, -0.020)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.066, -0.020)
+2026-07-14 18:57:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.80 center=(0.467, 0.785) box=(0.083x0.125) depth_m=0.31
+2026-07-14 18:57:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.102, -0.287)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.102, -0.287)
+2026-07-14 18:57:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.75 center=(0.484, 0.537) box=(0.085x0.239) depth_m=0.34
+2026-07-14 18:57:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.066, 0.009)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.066, 0.009)
+2026-07-14 18:57:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.92 center=(0.496, 0.564) box=(0.077x0.149) depth_m=0.32
+2026-07-14 18:57:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.040, -0.023)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.040, -0.023)
+2026-07-14 18:57:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.82 center=(0.600, 0.755) box=(0.080x0.144) depth_m=0.31
+2026-07-14 18:57:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.180, -0.251)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.180, -0.251)
+2026-07-14 18:57:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.86 center=(0.500, 0.545) box=(0.082x0.144) depth_m=0.31
+2026-07-14 18:57:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.032, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.032, -0.001)
+2026-07-14 18:57:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.79 center=(0.499, 0.551) box=(0.083x0.133) depth_m=0.31
+2026-07-14 18:57:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.034, -0.008)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.034, -0.008)
+2026-07-14 18:57:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.77 center=(0.503, 0.569) box=(0.080x0.149) depth_m=0.31
+2026-07-14 18:57:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, -0.029)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, -0.029)
+2026-07-14 18:57:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.84 center=(0.501, 0.559) box=(0.082x0.149) depth_m=0.31
+2026-07-14 18:57:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, -0.017)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, -0.017)
+2026-07-14 18:57:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:11 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.89 center=(0.494, 0.564) box=(0.088x0.160) depth_m=-1.00
+2026-07-14 18:57:11 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.045, -0.023)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.045, -0.023)
+2026-07-14 18:57:12 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.86 center=(0.606, 0.763) box=(0.077x0.138) depth_m=-1.00
+2026-07-14 18:57:12 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.193, -0.261)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.193, -0.261)
+2026-07-14 18:57:12 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 180 frames, 70 qualifying detections, fps=2.7
+2026-07-14 18:57:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:14 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.82 center=(0.476, 0.569) box=(0.091x0.170) depth_m=-1.00
+2026-07-14 18:57:14 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.083, -0.029)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.083, -0.029)
+2026-07-14 18:57:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.91 center=(0.519, 0.633) box=(0.086x0.152) depth_m=0.54
+2026-07-14 18:57:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.008, -0.106)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.008, -0.106)
+2026-07-14 18:57:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.94 center=(0.504, 0.572) box=(0.091x0.157) depth_m=-1.00
+2026-07-14 18:57:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, -0.033)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, -0.033)
+2026-07-14 18:57:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.82 center=(0.579, 0.761) box=(0.068x0.112) depth_m=0.31
+2026-07-14 18:57:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.136, -0.258)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.136, -0.258)
+2026-07-14 18:57:18 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.90 center=(0.500, 0.564) box=(0.083x0.157) depth_m=-1.00
+2026-07-14 18:57:18 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.032, -0.023)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.032, -0.023)
+2026-07-14 18:57:18 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.91 center=(0.499, 0.535) box=(0.079x0.149) depth_m=0.31
+2026-07-14 18:57:18 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.034, 0.011)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.034, 0.011)
+2026-07-14 18:57:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.96 center=(0.493, 0.548) box=(0.082x0.160) depth_m=0.31
+2026-07-14 18:57:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.004)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.004)
+2026-07-14 18:57:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.70 center=(0.493, 0.463) box=(0.085x0.314) depth_m=0.31
+2026-07-14 18:57:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, 0.097)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, 0.097)
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.83 center=(0.494, 0.545) box=(0.083x0.152) depth_m=-1.00
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.045, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.045, -0.001)
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.95 center=(0.494, 0.551) box=(0.083x0.157) depth_m=-1.00
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.045, -0.008)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.045, -0.008)
+2026-07-14 18:57:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.90 center=(0.494, 0.545) box=(0.086x0.160) depth_m=-1.00
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.045, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.045, -0.001)
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.76 center=(0.591, 0.785) box=(0.085x0.168) depth_m=-1.00
+2026-07-14 18:57:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.161, -0.287)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.161, -0.287)
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.96 center=(0.493, 0.543) box=(0.085x0.157) depth_m=-1.00
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, 0.002)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, 0.002)
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.85 center=(0.592, 0.785) box=(0.086x0.168) depth_m=-1.00
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.163, -0.287)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.163, -0.287)
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.92 center=(0.493, 0.545) box=(0.085x0.162) depth_m=-1.00
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.001)
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.96 center=(0.493, 0.545) box=(0.086x0.165) depth_m=-1.00
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.001)
+2026-07-14 18:57:22 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 209 frames, 86 qualifying detections, fps=2.8
+2026-07-14 18:57:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.94 center=(0.491, 0.545) box=(0.086x0.162) depth_m=-1.00
+2026-07-14 18:57:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.051, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.051, -0.001)
+2026-07-14 18:57:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.96 center=(0.488, 0.545) box=(0.086x0.165) depth_m=-1.00
+2026-07-14 18:57:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.057, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.057, -0.001)
+2026-07-14 18:57:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.91 center=(0.485, 0.465) box=(0.089x0.332) depth_m=-1.00
+2026-07-14 18:57:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.064, 0.095)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.064, 0.095)
+2026-07-14 18:57:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.79 center=(0.481, 0.553) box=(0.088x0.168) depth_m=-1.00
+2026-07-14 18:57:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.072, -0.010)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.072, -0.010)
+2026-07-14 18:57:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.87 center=(0.481, 0.551) box=(0.088x0.157) depth_m=-1.00
+2026-07-14 18:57:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.072, -0.008)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.072, -0.008)
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.93 center=(0.485, 0.548) box=(0.088x0.165) depth_m=-1.00
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.064, -0.004)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.064, -0.004)
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.92 center=(0.488, 0.545) box=(0.086x0.162) depth_m=-1.00
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.057, -0.001)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.057, -0.001)
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.78 center=(0.487, 0.463) box=(0.089x0.335) depth_m=-1.00
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.059, 0.097)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.059, 0.097)
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.73 center=(0.485, 0.548) box=(0.088x0.173) depth_m=-1.00
+2026-07-14 18:57:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.064, -0.004)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.064, -0.004)
+2026-07-14 18:57:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.94 center=(0.479, 0.569) box=(0.091x0.173) depth_m=-1.00
+2026-07-14 18:57:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.076, -0.029)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.076, -0.029)
+2026-07-14 18:57:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.95 center=(0.473, 0.551) box=(0.094x0.176) depth_m=-1.00
+2026-07-14 18:57:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.089, -0.008)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.089, -0.008)
+2026-07-14 18:57:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.96 center=(0.455, 0.564) box=(0.097x0.186) depth_m=-1.00
+2026-07-14 18:57:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.127, -0.023)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.127, -0.023)
+2026-07-14 18:57:27 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.97 center=(0.452, 0.556) box=(0.104x0.194) depth_m=-1.00
+2026-07-14 18:57:27 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.134, -0.014)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.134, -0.014)
+2026-07-14 18:57:27 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.97 center=(0.448, 0.559) box=(0.106x0.205) depth_m=-1.00
+2026-07-14 18:57:27 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.142, -0.017)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.142, -0.017)
+2026-07-14 18:57:27 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.95 center=(0.571, 0.832) box=(0.101x0.194) depth_m=-1.00
+2026-07-14 18:57:27 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.119, -0.343)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.119, -0.343)
+2026-07-14 18:57:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] search conf=0.98 center=(0.438, 0.561) box=(0.109x0.205) depth_m=-1.00
+2026-07-14 18:57:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] search meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.163, -0.020)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.163, -0.020)
+2026-07-14 18:57:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] survey conf=0.91 center=(0.561, 0.838) box=(0.103x0.197) depth_m=-1.00
+2026-07-14 18:57:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] survey meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.097, -0.350)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.097, -0.350)
+2026-07-14 18:57:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:36 - MainProcess - INFO - fsm.py:59 - STARTING VISION_TEST MODE
+2026-07-14 18:57:36 - MainProcess - INFO - vision_test_fsm.py:157 - === NEW SESSION: camera_source=zed target_label=ALL conf_min=0.7 imgsz=640 camera_id=None headless=False record_mp4=True record_svo=False run_dir=vision_recordings/20260714_185736 ===
+2026-07-14 18:57:36 - MainProcess - INFO - vision_test_fsm.py:243 - State changed: INIT -> RUNNING
+2026-07-14 18:57:41 - MainProcess - INFO - vision_test_fsm.py:179 - VISION_TEST: MP4 recording -> vision_recordings/20260714_185736/video.mp4 (672x376)
+2026-07-14 18:57:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:43 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.701, 0.843) box=(0.159x0.266) depth_m=0.35
+2026-07-14 18:57:43 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.394, -0.356)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.394, -0.356)
+2026-07-14 18:57:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:44 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.89 center=(0.656, 0.723) box=(0.118x0.194) depth_m=0.52
+2026-07-14 18:57:44 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.299, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.299, -0.213)
+2026-07-14 18:57:45 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.673, 0.731) box=(0.162x0.301) depth_m=0.35
+2026-07-14 18:57:45 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.335, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.335, -0.222)
+2026-07-14 18:57:45 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.86 center=(0.690, 0.785) box=(0.192x0.370) depth_m=-1.00
+2026-07-14 18:57:45 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.371, -0.287)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.371, -0.287)
+2026-07-14 18:57:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:46 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.680, 0.750) box=(0.199x0.378) depth_m=-1.00
+2026-07-14 18:57:46 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.350, -0.245)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.350, -0.245)
+2026-07-14 18:57:46 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 15 frames, 5 qualifying detections, fps=2.5
+2026-07-14 18:57:46 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.619, 0.622) box=(0.190x0.362) depth_m=-1.00
+2026-07-14 18:57:46 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.220, -0.092)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.220, -0.092)
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.96 center=(0.616, 0.574) box=(0.198x0.394) depth_m=-1.00
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.214, -0.035)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.214, -0.035)
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.629, 0.566) box=(0.235x0.479) depth_m=-1.00
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.242, -0.026)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.242, -0.026)
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.91 center=(0.597, 0.527) box=(0.259x0.519) depth_m=-1.00
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.174, 0.021)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.174, 0.021)
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.72 center=(0.531, 0.138) box=(0.100x0.162) depth_m=-1.00
+2026-07-14 18:57:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.034, 0.484)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.034, 0.484)
+2026-07-14 18:57:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:48 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.564, 0.527) box=(0.223x0.441) depth_m=-1.00
+2026-07-14 18:57:48 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.104, 0.021)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.104, 0.021)
+2026-07-14 18:57:48 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.567, 0.537) box=(0.229x0.468) depth_m=-1.00
+2026-07-14 18:57:48 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.110, 0.009)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.110, 0.009)
+2026-07-14 18:57:48 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.93 center=(0.507, 0.154) box=(0.094x0.170) depth_m=-1.00
+2026-07-14 18:57:48 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, 0.465)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, 0.465)
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.96 center=(0.560, 0.516) box=(0.231x0.471) depth_m=-1.00
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.095, 0.034)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.095, 0.034)
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.85 center=(0.501, 0.122) box=(0.101x0.170) depth_m=-1.00
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, 0.503)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, 0.503)
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.96 center=(0.555, 0.513) box=(0.222x0.449) depth_m=-1.00
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.085, 0.037)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.085, 0.037)
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.73 center=(0.504, 0.133) box=(0.092x0.160) depth_m=-1.00
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, 0.490)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, 0.490)
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.558, 0.521) box=(0.213x0.441) depth_m=-1.00
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, 0.028)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, 0.028)
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.82 center=(0.506, 0.154) box=(0.089x0.152) depth_m=-1.00
+2026-07-14 18:57:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.019, 0.465)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.019, 0.465)
+2026-07-14 18:57:50 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.573, 0.577) box=(0.179x0.354) depth_m=0.32
+2026-07-14 18:57:50 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.123, -0.039)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.123, -0.039)
+2026-07-14 18:57:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:50 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.597, 0.588) box=(0.162x0.306) depth_m=0.35
+2026-07-14 18:57:50 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.174, -0.052)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.174, -0.052)
+2026-07-14 18:57:50 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.94 center=(0.597, 0.585) box=(0.161x0.314) depth_m=0.36
+2026-07-14 18:57:50 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.174, -0.048)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.174, -0.048)
+2026-07-14 18:57:51 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.93 center=(0.591, 0.606) box=(0.147x0.298) depth_m=0.37
+2026-07-14 18:57:51 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.161, -0.073)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.161, -0.073)
+2026-07-14 18:57:52 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.86 center=(0.507, 0.673) box=(0.132x0.274) depth_m=0.41
+2026-07-14 18:57:52 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, -0.153)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, -0.153)
+2026-07-14 18:57:52 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.89 center=(0.519, 0.649) box=(0.122x0.258) depth_m=0.44
+2026-07-14 18:57:52 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.008, -0.125)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.008, -0.125)
+2026-07-14 18:57:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:53 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.96 center=(0.488, 0.649) box=(0.103x0.210) depth_m=0.54
+2026-07-14 18:57:53 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.057, -0.125)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.057, -0.125)
+2026-07-14 18:57:53 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.496, 0.646) box=(0.098x0.202) depth_m=0.56
+2026-07-14 18:57:53 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.040, -0.121)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.040, -0.121)
+2026-07-14 18:57:53 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.485, 0.662) box=(0.097x0.194) depth_m=0.57
+2026-07-14 18:57:53 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.064, -0.140)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.064, -0.140)
+2026-07-14 18:57:54 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.490, 0.668) box=(0.100x0.197) depth_m=0.56
+2026-07-14 18:57:54 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.053, -0.147)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.053, -0.147)
+2026-07-14 18:57:54 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.494, 0.649) box=(0.095x0.191) depth_m=0.57
+2026-07-14 18:57:54 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.045, -0.125)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.045, -0.125)
+2026-07-14 18:57:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:55 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.494, 0.633) box=(0.097x0.199) depth_m=0.57
+2026-07-14 18:57:55 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.045, -0.106)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.045, -0.106)
+2026-07-14 18:57:55 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.493, 0.625) box=(0.095x0.194) depth_m=0.57
+2026-07-14 18:57:55 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.096)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.096)
+2026-07-14 18:57:55 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.493, 0.622) box=(0.097x0.194) depth_m=0.57
+2026-07-14 18:57:55 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.092)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.092)
+2026-07-14 18:57:56 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.494, 0.622) box=(0.095x0.197) depth_m=0.57
+2026-07-14 18:57:56 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.045, -0.092)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.045, -0.092)
+2026-07-14 18:57:56 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.493, 0.630) box=(0.097x0.197) depth_m=0.57
+2026-07-14 18:57:56 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.102)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.102)
+2026-07-14 18:57:56 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 42 frames, 35 qualifying detections, fps=2.7
+2026-07-14 18:57:56 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.490, 0.646) box=(0.094x0.189) depth_m=0.58
+2026-07-14 18:57:56 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.053, -0.121)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.053, -0.121)
+2026-07-14 18:57:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:57 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.513, 0.644) box=(0.094x0.178) depth_m=0.59
+2026-07-14 18:57:57 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.004, -0.119)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.004, -0.119)
+2026-07-14 18:57:57 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.515, 0.630) box=(0.094x0.184) depth_m=0.60
+2026-07-14 18:57:57 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.000, -0.102)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.000, -0.102)
+2026-07-14 18:57:58 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.506, 0.630) box=(0.098x0.202) depth_m=0.56
+2026-07-14 18:57:58 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.019, -0.102)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.019, -0.102)
+2026-07-14 18:57:58 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.499, 0.641) box=(0.121x0.242) depth_m=0.47
+2026-07-14 18:57:58 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.034, -0.115)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.034, -0.115)
+2026-07-14 18:57:58 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.497, 0.660) box=(0.134x0.274) depth_m=0.42
+2026-07-14 18:57:58 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.038, -0.138)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.038, -0.138)
+2026-07-14 18:57:59 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.499, 0.681) box=(0.146x0.306) depth_m=0.37
+2026-07-14 18:57:59 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.034, -0.163)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.034, -0.163)
+2026-07-14 18:57:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:57:59 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.503, 0.699) box=(0.158x0.330) depth_m=0.35
+2026-07-14 18:57:59 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, -0.184)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, -0.184)
+2026-07-14 18:57:59 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.501, 0.734) box=(0.177x0.367) depth_m=0.32
+2026-07-14 18:57:59 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, -0.226)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, -0.226)
+2026-07-14 18:58:00 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.504, 0.731) box=(0.193x0.410) depth_m=-1.00
+2026-07-14 18:58:00 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, -0.222)
+2026-07-14 18:58:00 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.510, 0.715) box=(0.205x0.423) depth_m=-1.00
+2026-07-14 18:58:00 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.011, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.011, -0.203)
+2026-07-14 18:58:00 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.510, 0.641) box=(0.198x0.404) depth_m=-1.00
+2026-07-14 18:58:00 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.011, -0.115)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.011, -0.115)
+2026-07-14 18:58:01 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.510, 0.580) box=(0.192x0.394) depth_m=-1.00
+2026-07-14 18:58:01 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.011, -0.042)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.011, -0.042)
+2026-07-14 18:58:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:01 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.504, 0.580) box=(0.189x0.388) depth_m=-1.00
+2026-07-14 18:58:01 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, -0.042)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, -0.042)
+2026-07-14 18:58:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.501, 0.593) box=(0.190x0.391) depth_m=-1.00
+2026-07-14 18:58:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, -0.058)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, -0.058)
+2026-07-14 18:58:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.500, 0.593) box=(0.193x0.394) depth_m=-1.00
+2026-07-14 18:58:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.032, -0.058)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.032, -0.058)
+2026-07-14 18:58:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.493, 0.617) box=(0.198x0.404) depth_m=-1.00
+2026-07-14 18:58:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.047, -0.087)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.047, -0.087)
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.496, 0.798) box=(0.217x0.407) depth_m=-1.00
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.040, -0.302)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.040, -0.302)
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.518, 0.838) box=(0.226x0.327) depth_m=-1.00
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.006, -0.350)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.006, -0.350)
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.81 center=(0.458, 0.516) box=(0.092x0.160) depth_m=-1.00
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.121, 0.034)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.121, 0.034)
+2026-07-14 18:58:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.527, 0.838) box=(0.223x0.327) depth_m=-1.00
+2026-07-14 18:58:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.025, -0.350)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.025, -0.350)
+2026-07-14 18:58:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.533, 0.832) box=(0.226x0.335) depth_m=-1.00
+2026-07-14 18:58:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.038, -0.343)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.038, -0.343)
+2026-07-14 18:58:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.536, 0.819) box=(0.223x0.362) depth_m=-1.00
+2026-07-14 18:58:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.044, -0.327)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.044, -0.327)
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.534, 0.790) box=(0.213x0.420) depth_m=-1.00
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.040, -0.293)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.040, -0.293)
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.533, 0.793) box=(0.214x0.418) depth_m=-1.00
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.038, -0.296)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.038, -0.296)
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.81 center=(0.488, 0.428) box=(0.092x0.152) depth_m=-1.00
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.057, 0.139)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.057, 0.139)
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.533, 0.793) box=(0.207x0.418) depth_m=-1.00
+2026-07-14 18:58:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.038, -0.296)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.038, -0.296)
+2026-07-14 18:58:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.536, 0.795) box=(0.207x0.410) depth_m=-1.00
+2026-07-14 18:58:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.044, -0.299)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.044, -0.299)
+2026-07-14 18:58:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.542, 0.801) box=(0.208x0.399) depth_m=-1.00
+2026-07-14 18:58:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.057, -0.306)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.057, -0.306)
+2026-07-14 18:58:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.551, 0.814) box=(0.199x0.375) depth_m=-1.00
+2026-07-14 18:58:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.076, -0.321)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.076, -0.321)
+2026-07-14 18:58:06 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 70 frames, 65 qualifying detections, fps=2.8
+2026-07-14 18:58:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.548, 0.819) box=(0.189x0.362) depth_m=-1.00
+2026-07-14 18:58:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.070, -0.327)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.070, -0.327)
+2026-07-14 18:58:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.537, 0.827) box=(0.186x0.348) depth_m=-1.00
+2026-07-14 18:58:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.047, -0.337)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.047, -0.337)
+2026-07-14 18:58:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.539, 0.830) box=(0.179x0.338) depth_m=-1.00
+2026-07-14 18:58:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.051, -0.340)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.051, -0.340)
+2026-07-14 18:58:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.555, 0.824) box=(0.156x0.348) depth_m=-1.00
+2026-07-14 18:58:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.085, -0.333)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.085, -0.333)
+2026-07-14 18:58:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.93 center=(0.562, 0.824) box=(0.131x0.332) depth_m=-1.00
+2026-07-14 18:58:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.100, -0.333)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.100, -0.333)
+2026-07-14 18:58:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.564, 0.824) box=(0.134x0.306) depth_m=0.37
+2026-07-14 18:58:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.104, -0.333)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.104, -0.333)
+2026-07-14 18:58:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.560, 0.771) box=(0.131x0.271) depth_m=0.41
+2026-07-14 18:58:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.095, -0.270)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.095, -0.270)
+2026-07-14 18:58:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.565, 0.761) box=(0.131x0.269) depth_m=0.41
+2026-07-14 18:58:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.106, -0.258)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.106, -0.258)
+2026-07-14 18:58:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.554, 0.763) box=(0.146x0.287) depth_m=0.39
+2026-07-14 18:58:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.083, -0.261)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.083, -0.261)
+2026-07-14 18:58:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.543, 0.782) box=(0.159x0.324) depth_m=0.35
+2026-07-14 18:58:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.059, -0.283)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.059, -0.283)
+2026-07-14 18:58:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.537, 0.811) box=(0.173x0.362) depth_m=0.31
+2026-07-14 18:58:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.047, -0.318)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.047, -0.318)
+2026-07-14 18:58:11 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.534, 0.816) box=(0.195x0.367) depth_m=-1.00
+2026-07-14 18:58:11 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.040, -0.324)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.040, -0.324)
+2026-07-14 18:58:11 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.528, 0.785) box=(0.189x0.402) depth_m=-1.00
+2026-07-14 18:58:11 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.027, -0.287)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.027, -0.287)
+2026-07-14 18:58:11 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.524, 0.739) box=(0.186x0.386) depth_m=-1.00
+2026-07-14 18:58:11 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.019, -0.232)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.019, -0.232)
+2026-07-14 18:58:12 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.524, 0.702) box=(0.185x0.388) depth_m=-1.00
+2026-07-14 18:58:12 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.019, -0.188)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.019, -0.188)
+2026-07-14 18:58:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:12 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.515, 0.715) box=(0.189x0.396) depth_m=-1.00
+2026-07-14 18:58:12 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.000, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.000, -0.203)
+2026-07-14 18:58:13 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.515, 0.739) box=(0.196x0.415) depth_m=-1.00
+2026-07-14 18:58:13 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.000, -0.232)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.000, -0.232)
+2026-07-14 18:58:13 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.510, 0.750) box=(0.196x0.423) depth_m=-1.00
+2026-07-14 18:58:13 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.011, -0.245)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.011, -0.245)
+2026-07-14 18:58:13 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.507, 0.723) box=(0.195x0.420) depth_m=-1.00
+2026-07-14 18:58:13 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, -0.213)
+2026-07-14 18:58:14 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.506, 0.665) box=(0.189x0.407) depth_m=-1.00
+2026-07-14 18:58:14 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.019, -0.144)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.019, -0.144)
+2026-07-14 18:58:14 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.509, 0.668) box=(0.190x0.410) depth_m=-1.00
+2026-07-14 18:58:14 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.013, -0.147)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.013, -0.147)
+2026-07-14 18:58:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:14 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.525, 0.665) box=(0.193x0.412) depth_m=-1.00
+2026-07-14 18:58:14 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.021, -0.144)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.021, -0.144)
+2026-07-14 18:58:15 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.515, 0.665) box=(0.208x0.452) depth_m=-1.00
+2026-07-14 18:58:15 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.000, -0.144)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.000, -0.144)
+2026-07-14 18:58:15 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.90 center=(0.490, 0.678) box=(0.208x0.463) depth_m=-1.00
+2026-07-14 18:58:15 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.053, -0.159)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.053, -0.159)
+2026-07-14 18:58:16 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.79 center=(0.496, 0.684) box=(0.217x0.468) depth_m=-1.00
+2026-07-14 18:58:16 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.040, -0.166)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.040, -0.166)
+2026-07-14 18:58:16 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.484, 0.678) box=(0.216x0.455) depth_m=-1.00
+2026-07-14 18:58:16 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.066, -0.159)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.066, -0.159)
+2026-07-14 18:58:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.491, 0.742) box=(0.235x0.476) depth_m=-1.00
+2026-07-14 18:58:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.051, -0.236)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.051, -0.236)
+2026-07-14 18:58:17 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 98 frames, 92 qualifying detections, fps=2.7
+2026-07-14 18:58:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.88 center=(0.524, 0.769) box=(0.188x0.410) depth_m=-1.00
+2026-07-14 18:58:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.019, -0.268)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.019, -0.268)
+2026-07-14 18:58:17 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.539, 0.782) box=(0.199x0.402) depth_m=-1.00
+2026-07-14 18:58:17 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.051, -0.283)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.051, -0.283)
+2026-07-14 18:58:18 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.83 center=(0.548, 0.790) box=(0.214x0.423) depth_m=-1.00
+2026-07-14 18:58:18 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.070, -0.293)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.070, -0.293)
+2026-07-14 18:58:18 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.78 center=(0.568, 0.795) box=(0.211x0.412) depth_m=-1.00
+2026-07-14 18:58:18 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.112, -0.299)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.112, -0.299)
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.94 center=(0.568, 0.782) box=(0.210x0.434) depth_m=-1.00
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.112, -0.283)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.112, -0.283)
+2026-07-14 18:58:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.88 center=(0.512, 0.309) box=(0.085x0.149) depth_m=-1.00
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.006, 0.281)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.006, 0.281)
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.86 center=(0.564, 0.668) box=(0.207x0.434) depth_m=-1.00
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.104, -0.147)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.104, -0.147)
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.88 center=(0.558, 0.649) box=(0.201x0.428) depth_m=-1.00
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.125)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.125)
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.79 center=(0.506, 0.295) box=(0.085x0.141) depth_m=-1.00
+2026-07-14 18:58:19 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.019, 0.297)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.019, 0.297)
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.94 center=(0.557, 0.660) box=(0.201x0.423) depth_m=-1.00
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.089, -0.138)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.089, -0.138)
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.82 center=(0.503, 0.306) box=(0.085x0.146) depth_m=-1.00
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, 0.284)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, 0.284)
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.92 center=(0.558, 0.665) box=(0.202x0.431) depth_m=-1.00
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.144)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.144)
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.87 center=(0.503, 0.309) box=(0.082x0.146) depth_m=-1.00
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, 0.281)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, 0.281)
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.93 center=(0.555, 0.665) box=(0.207x0.431) depth_m=-1.00
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.085, -0.144)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.085, -0.144)
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.79 center=(0.503, 0.311) box=(0.080x0.146) depth_m=-1.00
+2026-07-14 18:58:20 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, 0.278)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, 0.278)
+2026-07-14 18:58:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.501, 0.311) box=(0.083x0.146) depth_m=-1.00
+2026-07-14 18:58:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, 0.278)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, 0.278)
+2026-07-14 18:58:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.558, 0.657) box=(0.204x0.420) depth_m=-1.00
+2026-07-14 18:58:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.134)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.134)
+2026-07-14 18:58:21 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.75 center=(0.504, 0.303) box=(0.085x0.144) depth_m=-1.00
+2026-07-14 18:58:21 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, 0.288)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, 0.288)
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.558, 0.665) box=(0.204x0.428) depth_m=-1.00
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.144)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.144)
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.77 center=(0.503, 0.309) box=(0.085x0.146) depth_m=-1.00
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, 0.281)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, 0.281)
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.91 center=(0.560, 0.665) box=(0.207x0.436) depth_m=-1.00
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.095, -0.144)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.095, -0.144)
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.88 center=(0.504, 0.309) box=(0.083x0.149) depth_m=-1.00
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, 0.281)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, 0.281)
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.91 center=(0.561, 0.670) box=(0.208x0.434) depth_m=-1.00
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.097, -0.150)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.097, -0.150)
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.506, 0.311) box=(0.083x0.149) depth_m=-1.00
+2026-07-14 18:58:22 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.019, 0.278)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.019, 0.278)
+2026-07-14 18:58:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.561, 0.668) box=(0.208x0.431) depth_m=-1.00
+2026-07-14 18:58:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.097, -0.147)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.097, -0.147)
+2026-07-14 18:58:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.92 center=(0.558, 0.668) box=(0.207x0.428) depth_m=-1.00
+2026-07-14 18:58:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.147)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.147)
+2026-07-14 18:58:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:23 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.82 center=(0.555, 0.673) box=(0.208x0.431) depth_m=-1.00
+2026-07-14 18:58:23 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.085, -0.153)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.085, -0.153)
+2026-07-14 18:58:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.95 center=(0.555, 0.670) box=(0.210x0.423) depth_m=-1.00
+2026-07-14 18:58:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.085, -0.150)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.085, -0.150)
+2026-07-14 18:58:24 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.93 center=(0.554, 0.670) box=(0.207x0.418) depth_m=-1.00
+2026-07-14 18:58:24 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.083, -0.150)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.083, -0.150)
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.551, 0.678) box=(0.202x0.412) depth_m=-1.00
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.076, -0.159)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.076, -0.159)
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.552, 0.699) box=(0.205x0.402) depth_m=-1.00
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.078, -0.184)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.078, -0.184)
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.530, 0.758) box=(0.193x0.372) depth_m=-1.00
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.032, -0.255)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.032, -0.255)
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.82 center=(0.466, 0.436) box=(0.086x0.149) depth_m=-1.00
+2026-07-14 18:58:25 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.104, 0.129)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.104, 0.129)
+2026-07-14 18:58:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.72 center=(0.546, 0.745) box=(0.162x0.322) depth_m=0.35
+2026-07-14 18:58:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.066, -0.239)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.066, -0.239)
+2026-07-14 18:58:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.549, 0.745) box=(0.161x0.314) depth_m=0.35
+2026-07-14 18:58:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.072, -0.239)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.072, -0.239)
+2026-07-14 18:58:26 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.551, 0.726) box=(0.156x0.311) depth_m=0.36
+2026-07-14 18:58:26 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.076, -0.216)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.076, -0.216)
+2026-07-14 18:58:27 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.549, 0.713) box=(0.158x0.314) depth_m=0.36
+2026-07-14 18:58:27 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.072, -0.201)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.072, -0.201)
+2026-07-14 18:58:27 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 125 frames, 129 qualifying detections, fps=2.7
+2026-07-14 18:58:27 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.549, 0.707) box=(0.156x0.309) depth_m=0.36
+2026-07-14 18:58:27 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.072, -0.194)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.072, -0.194)
+2026-07-14 18:58:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.551, 0.713) box=(0.156x0.311) depth_m=0.36
+2026-07-14 18:58:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.076, -0.201)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.076, -0.201)
+2026-07-14 18:58:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.552, 0.715) box=(0.158x0.311) depth_m=0.36
+2026-07-14 18:58:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.078, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.078, -0.203)
+2026-07-14 18:58:28 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.552, 0.713) box=(0.156x0.309) depth_m=0.36
+2026-07-14 18:58:28 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.078, -0.201)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.078, -0.201)
+2026-07-14 18:58:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.552, 0.691) box=(0.153x0.287) depth_m=0.37
+2026-07-14 18:58:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.078, -0.175)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.078, -0.175)
+2026-07-14 18:58:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.555, 0.681) box=(0.155x0.282) depth_m=0.37
+2026-07-14 18:58:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.085, -0.163)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.085, -0.163)
+2026-07-14 18:58:29 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.557, 0.686) box=(0.158x0.285) depth_m=0.37
+2026-07-14 18:58:29 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.089, -0.169)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.089, -0.169)
+2026-07-14 18:58:30 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.554, 0.691) box=(0.152x0.293) depth_m=0.37
+2026-07-14 18:58:30 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.083, -0.175)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.083, -0.175)
+2026-07-14 18:58:30 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:30 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.554, 0.718) box=(0.167x0.346) depth_m=0.34
+2026-07-14 18:58:30 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.083, -0.207)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.083, -0.207)
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.555, 0.721) box=(0.167x0.354) depth_m=0.33
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.085, -0.210)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.085, -0.210)
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] blood conf=0.74 center=(0.624, 0.441) box=(0.068x0.120) depth_m=0.34
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] blood meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.231, 0.123)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.231, 0.123)
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.560, 0.710) box=(0.165x0.338) depth_m=0.34
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.095, -0.197)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.095, -0.197)
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.70 center=(0.533, 0.434) box=(0.082x0.160) depth_m=0.34
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.038, 0.132)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.038, 0.132)
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.564, 0.702) box=(0.168x0.335) depth_m=0.34
+2026-07-14 18:58:31 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.104, -0.188)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.104, -0.188)
+2026-07-14 18:58:32 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.565, 0.705) box=(0.167x0.335) depth_m=0.34
+2026-07-14 18:58:32 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.106, -0.191)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.106, -0.191)
+2026-07-14 18:58:32 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.565, 0.707) box=(0.170x0.346) depth_m=0.34
+2026-07-14 18:58:32 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.106, -0.194)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.106, -0.194)
+2026-07-14 18:58:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:33 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.560, 0.721) box=(0.174x0.364) depth_m=0.32
+2026-07-14 18:58:33 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.095, -0.210)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.095, -0.210)
+2026-07-14 18:58:33 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.558, 0.721) box=(0.176x0.362) depth_m=0.32
+2026-07-14 18:58:33 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.210)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.210)
+2026-07-14 18:58:33 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.561, 0.715) box=(0.173x0.356) depth_m=0.32
+2026-07-14 18:58:33 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.097, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.097, -0.203)
+2026-07-14 18:58:34 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.558, 0.713) box=(0.165x0.343) depth_m=0.33
+2026-07-14 18:58:34 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.201)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.201)
+2026-07-14 18:58:34 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.560, 0.715) box=(0.168x0.327) depth_m=0.33
+2026-07-14 18:58:34 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.095, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.095, -0.203)
+2026-07-14 18:58:34 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.573, 0.827) box=(0.180x0.343) depth_m=0.32
+2026-07-14 18:58:34 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.123, -0.337)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.123, -0.337)
+2026-07-14 18:58:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:37 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 152 frames, 151 qualifying detections, fps=2.7
+2026-07-14 18:58:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:45 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.74 center=(0.676, 0.880) box=(0.080x0.144) depth_m=0.31
+2026-07-14 18:58:45 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.341, -0.400)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.341, -0.400)
+2026-07-14 18:58:45 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.74 center=(0.695, 0.883) box=(0.085x0.152) depth_m=0.31
+2026-07-14 18:58:45 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.381, -0.404)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.381, -0.404)
+2026-07-14 18:58:45 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.74 center=(0.589, 0.880) box=(0.080x0.136) depth_m=0.32
+2026-07-14 18:58:45 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.157, -0.400)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.157, -0.400)
+2026-07-14 18:58:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:46 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.79 center=(0.686, 0.878) box=(0.079x0.146) depth_m=0.31
+2026-07-14 18:58:46 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.362, -0.398)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.362, -0.398)
+2026-07-14 18:58:46 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.580, 0.886) box=(0.088x0.144) depth_m=0.31
+2026-07-14 18:58:46 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.138, -0.407)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.138, -0.407)
+2026-07-14 18:58:46 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.78 center=(0.677, 0.872) box=(0.080x0.149) depth_m=0.32
+2026-07-14 18:58:46 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.343, -0.390)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.343, -0.390)
+2026-07-14 18:58:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.80 center=(0.671, 0.872) box=(0.080x0.146) depth_m=0.32
+2026-07-14 18:58:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.331, -0.390)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.331, -0.390)
+2026-07-14 18:58:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.84 center=(0.668, 0.875) box=(0.077x0.146) depth_m=0.32
+2026-07-14 18:58:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.324, -0.394)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.324, -0.394)
+2026-07-14 18:58:47 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 179 frames, 159 qualifying detections, fps=2.7
+2026-07-14 18:58:47 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.72 center=(0.661, 0.872) box=(0.079x0.144) depth_m=0.32
+2026-07-14 18:58:47 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.309, -0.390)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.309, -0.390)
+2026-07-14 18:58:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:48 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.664, 0.875) box=(0.077x0.146) depth_m=0.32
+2026-07-14 18:58:48 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.316, -0.394)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.316, -0.394)
+2026-07-14 18:58:48 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.81 center=(0.564, 0.888) box=(0.080x0.144) depth_m=0.31
+2026-07-14 18:58:48 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.104, -0.410)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.104, -0.410)
+2026-07-14 18:58:48 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.80 center=(0.665, 0.875) box=(0.077x0.146) depth_m=0.32
+2026-07-14 18:58:48 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.318, -0.394)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.318, -0.394)
+2026-07-14 18:58:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.78 center=(0.664, 0.872) box=(0.079x0.146) depth_m=0.32
+2026-07-14 18:58:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.316, -0.390)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.316, -0.390)
+2026-07-14 18:58:49 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.662, 0.875) box=(0.077x0.146) depth_m=0.32
+2026-07-14 18:58:49 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.311, -0.394)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.311, -0.394)
+2026-07-14 18:58:50 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.76 center=(0.558, 0.888) box=(0.082x0.136) depth_m=0.31
+2026-07-14 18:58:50 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.091, -0.410)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.091, -0.410)
+2026-07-14 18:58:50 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.73 center=(0.656, 0.875) box=(0.079x0.141) depth_m=0.32
+2026-07-14 18:58:50 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.299, -0.394)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.299, -0.394)
+2026-07-14 18:58:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:54 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.528, 0.755) box=(0.121x0.210) depth_m=0.76
+2026-07-14 18:58:54 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.027, -0.251)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.027, -0.251)
+2026-07-14 18:58:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:55 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.85 center=(0.509, 0.742) box=(0.118x0.202) depth_m=-1.00
+2026-07-14 18:58:55 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.013, -0.236)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.013, -0.236)
+2026-07-14 18:58:56 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.94 center=(0.506, 0.745) box=(0.122x0.215) depth_m=-1.00
+2026-07-14 18:58:56 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.019, -0.239)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.019, -0.239)
+2026-07-14 18:58:56 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.81 center=(0.509, 0.745) box=(0.122x0.223) depth_m=-1.00
+2026-07-14 18:58:56 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.013, -0.239)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.013, -0.239)
+2026-07-14 18:58:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:57 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.86 center=(0.515, 0.758) box=(0.125x0.215) depth_m=-1.00
+2026-07-14 18:58:57 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.000, -0.255)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.000, -0.255)
+2026-07-14 18:58:57 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 206 frames, 172 qualifying detections, fps=2.7
+2026-07-14 18:58:58 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.89 center=(0.512, 0.779) box=(0.124x0.223) depth_m=-1.00
+2026-07-14 18:58:58 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.006, -0.280)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.006, -0.280)
+2026-07-14 18:58:59 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.510, 0.782) box=(0.126x0.231) depth_m=-1.00
+2026-07-14 18:58:59 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.011, -0.283)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.011, -0.283)
+2026-07-14 18:58:59 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.94 center=(0.513, 0.769) box=(0.125x0.226) depth_m=1.09
+2026-07-14 18:58:59 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.004, -0.268)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.004, -0.268)
+2026-07-14 18:58:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:58:59 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.94 center=(0.516, 0.705) box=(0.126x0.226) depth_m=-1.00
+2026-07-14 18:58:59 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.002, -0.191)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.002, -0.191)
+2026-07-14 18:59:00 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.515, 0.718) box=(0.135x0.242) depth_m=-1.00
+2026-07-14 18:59:00 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.000, -0.207)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.000, -0.207)
+2026-07-14 18:59:00 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.97 center=(0.507, 0.721) box=(0.144x0.255) depth_m=0.92
+2026-07-14 18:59:00 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, -0.210)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, -0.210)
+2026-07-14 18:59:00 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.503, 0.721) box=(0.144x0.255) depth_m=0.83
+2026-07-14 18:59:00 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, -0.210)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, -0.210)
+2026-07-14 18:59:01 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.97 center=(0.513, 0.710) box=(0.144x0.258) depth_m=0.91
+2026-07-14 18:59:01 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.004, -0.197)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.004, -0.197)
+2026-07-14 18:59:01 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.97 center=(0.515, 0.715) box=(0.146x0.261) depth_m=-1.00
+2026-07-14 18:59:01 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.000, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.000, -0.203)
+2026-07-14 18:59:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.97 center=(0.509, 0.707) box=(0.147x0.258) depth_m=0.86
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.013, -0.194)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.013, -0.194)
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.78 center=(0.693, 0.718) box=(0.122x0.253) depth_m=0.39
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.377, -0.207)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.377, -0.207)
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.92 center=(0.503, 0.713) box=(0.152x0.266) depth_m=0.83
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.026, -0.201)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.026, -0.201)
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.692, 0.723) box=(0.125x0.258) depth_m=-1.00
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.375, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.375, -0.213)
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.92 center=(0.500, 0.715) box=(0.155x0.285) depth_m=-1.00
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.032, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.032, -0.203)
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.76 center=(0.693, 0.726) box=(0.129x0.263) depth_m=-1.00
+2026-07-14 18:59:02 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.377, -0.216)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.377, -0.216)
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.501, 0.715) box=(0.159x0.279) depth_m=0.76
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, -0.203)
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.84 center=(0.698, 0.723) box=(0.129x0.269) depth_m=-1.00
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.388, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.388, -0.213)
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.510, 0.715) box=(0.156x0.277) depth_m=0.80
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.011, -0.203)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.011, -0.203)
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.91 center=(0.509, 0.718) box=(0.155x0.277) depth_m=0.82
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.013, -0.207)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.013, -0.207)
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.75 center=(0.702, 0.726) box=(0.128x0.266) depth_m=0.50
+2026-07-14 18:59:03 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.396, -0.216)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.396, -0.216)
+2026-07-14 18:59:04 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.504, 0.723) box=(0.156x0.274) depth_m=-1.00
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, -0.213)
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.74 center=(0.699, 0.731) box=(0.129x0.266) depth_m=-1.00
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.390, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.390, -0.222)
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.93 center=(0.504, 0.726) box=(0.155x0.274) depth_m=0.71
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, -0.216)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, -0.216)
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.72 center=(0.698, 0.731) box=(0.129x0.266) depth_m=0.60
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.388, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.388, -0.222)
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.504, 0.726) box=(0.153x0.274) depth_m=-1.00
+2026-07-14 18:59:04 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, -0.216)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, -0.216)
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.507, 0.723) box=(0.155x0.271) depth_m=0.75
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, -0.213)
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.71 center=(0.699, 0.731) box=(0.126x0.263) depth_m=0.48
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.390, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.390, -0.222)
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.94 center=(0.507, 0.723) box=(0.150x0.274) depth_m=-1.00
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, -0.213)
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.72 center=(0.701, 0.731) box=(0.128x0.263) depth_m=0.53
+2026-07-14 18:59:05 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.394, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.394, -0.222)
+2026-07-14 18:59:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.94 center=(0.507, 0.723) box=(0.152x0.269) depth_m=-1.00
+2026-07-14 18:59:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, -0.213)
+2026-07-14 18:59:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.74 center=(0.699, 0.731) box=(0.125x0.258) depth_m=-1.00
+2026-07-14 18:59:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.390, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.390, -0.222)
+2026-07-14 18:59:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:06 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.93 center=(0.501, 0.731) box=(0.155x0.261) depth_m=0.74
+2026-07-14 18:59:06 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, -0.222)
+2026-07-14 18:59:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.92 center=(0.500, 0.737) box=(0.152x0.269) depth_m=0.80
+2026-07-14 18:59:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.032, -0.230)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.032, -0.230)
+2026-07-14 18:59:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.90 center=(0.500, 0.734) box=(0.152x0.279) depth_m=0.75
+2026-07-14 18:59:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.032, -0.226)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.032, -0.226)
+2026-07-14 18:59:07 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.497, 0.731) box=(0.156x0.274) depth_m=0.75
+2026-07-14 18:59:07 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.038, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.038, -0.222)
+2026-07-14 18:59:07 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 234 frames, 207 qualifying detections, fps=2.8
+2026-07-14 18:59:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.501, 0.734) box=(0.152x0.266) depth_m=0.80
+2026-07-14 18:59:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.030, -0.226)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.030, -0.226)
+2026-07-14 18:59:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.499, 0.729) box=(0.147x0.253) depth_m=0.73
+2026-07-14 18:59:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.034, -0.220)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.034, -0.220)
+2026-07-14 18:59:08 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.500, 0.731) box=(0.143x0.245) depth_m=0.75
+2026-07-14 18:59:08 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.032, -0.222)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.032, -0.222)
+2026-07-14 18:59:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.504, 0.723) box=(0.138x0.239) depth_m=0.78
+2026-07-14 18:59:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.023, -0.213)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.023, -0.213)
+2026-07-14 18:59:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.507, 0.726) box=(0.138x0.234) depth_m=0.76
+2026-07-14 18:59:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.017, -0.216)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.017, -0.216)
+2026-07-14 18:59:09 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.96 center=(0.513, 0.729) box=(0.140x0.234) depth_m=0.77
+2026-07-14 18:59:09 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.004, -0.220)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.004, -0.220)
+2026-07-14 18:59:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.513, 0.729) box=(0.135x0.234) depth_m=0.76
+2026-07-14 18:59:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(-0.004, -0.220)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(-0.004, -0.220)
+2026-07-14 18:59:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.95 center=(0.543, 0.710) box=(0.134x0.231) depth_m=-1.00
+2026-07-14 18:59:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.059, -0.197)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.059, -0.197)
+2026-07-14 18:59:11 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.75 center=(0.604, 0.662) box=(0.124x0.205) depth_m=-1.00
+2026-07-14 18:59:11 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.189, -0.140)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.189, -0.140)
+2026-07-14 18:59:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:17 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 263 frames, 216 qualifying detections, fps=2.9
+2026-07-14 18:59:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:19 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.81 center=(0.533, 0.753) box=(0.092x0.218) depth_m=0.81
+2026-07-14 18:59:19 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.038, -0.249)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.038, -0.249)
+2026-07-14 18:59:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:27 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 292 frames, 217 qualifying detections, fps=2.9
+2026-07-14 18:59:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:32 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.99 center=(0.634, 0.707) box=(0.162x0.332) depth_m=0.36
+2026-07-14 18:59:32 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.252, -0.194)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.252, -0.194)
+2026-07-14 18:59:32 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.98 center=(0.635, 0.774) box=(0.241x0.455) depth_m=-1.00
+2026-07-14 18:59:32 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.254, -0.274)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.254, -0.274)
+2026-07-14 18:59:33 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] redcross conf=0.97 center=(0.594, 0.777) box=(0.250x0.447) depth_m=-1.00
+2026-07-14 18:59:33 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] redcross meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.167, -0.277)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.167, -0.277)
+2026-07-14 18:59:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:34 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] repair conf=0.85 center=(0.525, 0.678) box=(0.162x0.279) depth_m=0.40
+2026-07-14 18:59:34 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] repair meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.021, -0.159)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.021, -0.159)
+2026-07-14 18:59:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:37 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 321 frames, 221 qualifying detections, fps=2.9
+2026-07-14 18:59:39 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:41 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:43 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:45 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:48 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 350 frames, 221 qualifying detections, fps=2.9
+2026-07-14 18:59:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:54 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:56 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:59:58 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 377 frames, 221 qualifying detections, fps=2.7
+2026-07-14 18:59:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:07 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:08 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 406 frames, 221 qualifying detections, fps=2.9
+2026-07-14 19:00:09 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:10 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] nutbolt conf=0.70 center=(0.969, 0.104) box=(0.058x0.199) depth_m=0.72
+2026-07-14 19:00:10 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] nutbolt meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.962, 0.525)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.962, 0.525)
+2026-07-14 19:00:11 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:13 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:15 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:18 - MainProcess - INFO - vision_test_fsm.py:340 - [zed] nutbolt conf=0.73 center=(0.969, 0.101) box=(0.058x0.202) depth_m=0.72
+2026-07-14 19:00:18 - MainProcess - INFO - vision_test_fsm.py:344 - [zed] nutbolt meters: sub_depth=0.000m target_depth=1.000m body_offset=(0.962, 0.528)m yaw=0.0deg sub_world=(0.000, 0.000) -> target_world=(0.962, 0.528)
+2026-07-14 19:00:18 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 435 frames, 223 qualifying detections, fps=2.9
+2026-07-14 19:00:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:24 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:26 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:28 - MainProcess - INFO - vision_test_fsm.py:351 - [zed] SUMMARY: 462 frames, 223 qualifying detections, fps=2.7
+2026-07-14 19:00:28 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 19:00:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0

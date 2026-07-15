@@ -4,3 +4,7 @@ __pycache__/
 env/
 venv/
 CLAUDE.md
+*.cpython-310.pyc
+modules/vision/models/best.pt
+vision_recordings/*
+dropper_test_recordings/*

@@ -5604,3 +5604,399 @@ TGT: 	 x = 4.0	 y = 0.0	 z = 0.0
 2026-07-13 14:12:53 - MainProcess - INFO - lineup_test_fsm.py:308 - State changed: SEARCH -> VERIFY_TARGET
 2026-07-13 14:12:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
 TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:50:40 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER_TEST MODE
+2026-07-14 14:50:40 - MainProcess - INFO - dropper_test_fsm.py:202 - === DROPPER TEST: camera=downfacing target=fire conf_min=0.5 show_video=False record_video=True run_dir=/home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_145040 ===
+2026-07-14 14:50:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: INIT -> SEARCH_FOR_BIN
+2026-07-14 14:50:47 - MainProcess - INFO - dropper_test_fsm.py:139 - DROPPER_TEST: recording -> /home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_145040/dropper_test.mp4  (1344x376)
+2026-07-14 14:50:47 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:51:17 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER_TEST MODE
+2026-07-14 14:51:17 - MainProcess - INFO - dropper_test_fsm.py:202 - === DROPPER TEST: camera=downfacing target=fire conf_min=0.5 show_video=True record_video=True run_dir=/home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_145117 ===
+2026-07-14 14:51:17 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: INIT -> SEARCH_FOR_BIN
+2026-07-14 14:52:21 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER_TEST MODE
+2026-07-14 14:52:21 - MainProcess - INFO - dropper_test_fsm.py:202 - === DROPPER TEST: camera=downfacing target=fire conf_min=0.5 show_video=False record_video=True run_dir=/home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_145221 ===
+2026-07-14 14:52:21 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: INIT -> SEARCH_FOR_BIN
+2026-07-14 14:52:25 - MainProcess - INFO - dropper_test_fsm.py:139 - DROPPER_TEST: recording -> /home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_145221/dropper_test.mp4  (1344x376)
+2026-07-14 14:52:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:30 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:52:30 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:52:30 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:52:32 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:34 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:36 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:38 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:52:38 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:52:38 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:52:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:45 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> VERIFY_BIN_TARGET
+2026-07-14 14:52:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:49 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:53 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:52:53 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: VERIFY_BIN_TARGET -> FAIL
+2026-07-14 14:52:53 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:52:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:52:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:53:57 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER_TEST MODE
+2026-07-14 14:53:57 - MainProcess - INFO - dropper_test_fsm.py:202 - === DROPPER TEST: camera=downfacing target=fire conf_min=0.5 show_video=False record_video=True run_dir=/home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_145357 ===
+2026-07-14 14:53:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: INIT -> SEARCH_FOR_BIN
+2026-07-14 14:54:01 - MainProcess - INFO - dropper_test_fsm.py:139 - DROPPER_TEST: recording -> /home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_145357/dropper_test.mp4  (1344x376)
+2026-07-14 14:54:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:06 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:06 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:54:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:54:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:54:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:14 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:54:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:54:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:54:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:23 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:54:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:54:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:54:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:31 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:54:31 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:54:32 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:54:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:36 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:40 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:54:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:54:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:54:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:48 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:54:48 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:54:49 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:54:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:54:57 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:54:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:54:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:54:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:06 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:55:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:55:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:55:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:14 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:55:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:55:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:55:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:23 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:55:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:55:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:55:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:31 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:55:31 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:55:32 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:55:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:36 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:40 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:55:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:55:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:55:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:48 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:55:48 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:55:49 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:55:51 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:55:57 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:55:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:55:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:55:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:06 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:56:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:56:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:56:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:14 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:56:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:56:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:56:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:23 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:56:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:56:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:56:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:31 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:56:31 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:56:31 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:56:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:38 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:40 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:56:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:56:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:56:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:48 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:56:48 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:56:49 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:56:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:53 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:56:57 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:56:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:56:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:56:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:05 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:57:05 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:57:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:57:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:12 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:14 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:14 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:57:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:57:14 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:57:16 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:18 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:20 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:22 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:23 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:57:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:57:23 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:57:25 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:27 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:29 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:31 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:31 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:57:31 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:57:31 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:57:33 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:35 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:37 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:40 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:40 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:57:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:57:40 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:57:42 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:44 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:46 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:48 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:48 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:57:48 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:57:48 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:57:50 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:52 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:55 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:57 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:57:57 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:57:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:57:57 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:57:59 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:58:01 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:58:03 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:58:05 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:58:05 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 14:58:05 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 14:58:06 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 14:58:08 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 14:58:10 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:10 - MainProcess - ERROR - dropper_test_fsm.py:107 - DROPPER_TEST ERROR: Invalid data format in objects.yaml, using defaults
+2026-07-14 18:27:10 - MainProcess - INFO - fsm.py:59 - STARTING DROPPER_TEST MODE
+2026-07-14 18:27:10 - MainProcess - INFO - dropper_test_fsm.py:202 - === DROPPER TEST: camera=downfacing target=fire conf_min=0.5 show_video=False record_video=True run_dir=/home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_182710 ===
+2026-07-14 18:27:10 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: INIT -> SEARCH_FOR_BIN
+2026-07-14 18:27:17 - MainProcess - INFO - dropper_test_fsm.py:139 - DROPPER_TEST: recording -> /home/mechatronics/robosub_software_2026/dropper_test_recordings/20260714_182710/dropper_test.mp4  (1344x376)
+2026-07-14 18:27:17 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:18 - MainProcess - WARNING - dropper_test_fsm.py:230 - DROPPER_TEST FAILED on marker 1, restarting search
+2026-07-14 18:27:18 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: SEARCH_FOR_BIN -> FAIL
+2026-07-14 18:27:18 - MainProcess - INFO - dropper_test_fsm.py:239 - State changed: FAIL -> SEARCH_FOR_BIN
+2026-07-14 18:27:19 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:21 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0
+2026-07-14 18:27:23 - MainProcess - INFO - fsm.py:99 - DVL: 	 x = 0.0	 y = 0.0	 z = 0.0
+TGT: 	 x = 0.0	 y = 0.0	 z = 0.0

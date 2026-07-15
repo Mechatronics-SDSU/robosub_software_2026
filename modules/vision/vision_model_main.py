@@ -209,7 +209,9 @@ class ZEDCamera(_Camera):
         self._zed.retrieve_image(self._image_mat, self._sl.VIEW.LEFT)
         self._zed.retrieve_measure(self._point_cloud, self._sl.MEASURE.XYZRGBA)
         self._last_pc = self._point_cloud
-        frame = cv2.cvtColor(self._image_mat.get_data(), cv2.COLOR_RGBA2BGR)
+        # ZED SDK's retrieve_image() already returns BGRA (matches OpenCV's BGR convention,
+        # not RGB) - COLOR_RGBA2BGR here would swap the R/B channels and invert colors
+        frame = cv2.cvtColor(self._image_mat.get_data(), cv2.COLOR_BGRA2BGR)
         return frame, self._point_cloud
 
     def grab(self) -> np.ndarray | None:

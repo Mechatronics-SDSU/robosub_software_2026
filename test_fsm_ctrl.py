@@ -93,7 +93,7 @@ FAKE_MODEM_DATA_FRAME = { # data frame the fake modem "receives" when testing th
 # -----------------------------------------------------------------------------------
 # CHOOSE WHICH FSM TO TEST HERE
 # -----------------------------------------------------------------------------------
-FSM_TO_TEST = "dropper_test" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, dropper_test, grabber, grabber_test, torpedo, lineup, vision_test
+FSM_TO_TEST = "vision_test" # gate, octagon, slalom, return, prequal, coinflip, modem, dropper, dropper_test, grabber, grabber_test, torpedo, lineup, vision_test
 
 # modem hardware settings, used when FSM_TO_TEST == "modem" and FAKE_INPUT = False.
 # Run this file once per sub with the opposite MODEM_ROLE and each sub's real COM port.
@@ -120,12 +120,16 @@ VISION_TEST_TARGET_LABEL  = None         # None = log every detected class; or a
 VISION_TEST_CONF_MIN      = 0.70         # minimum detection confidence to log/display
 VISION_TEST_IMGSZ         = 640          # YOLO inference resolution -- lower (e.g. 320) on weak/RAM-limited compute
 VISION_TEST_CAMERA_ID     = None         # only used when VISION_TEST_CAMERA_SOURCE == "zed"
+VISION_TEST_CAMERA_INDEX  = 2            # only used when VISION_TEST_CAMERA_SOURCE == "downfacing"/"webcam" -- V4L2
+                                          # device index (e.g. /dev/videoN). Default 0 collides with the ZED (which
+                                          # claims /dev/video0+/dev/video1) on boxes where it enumerates first --
+                                          # run `v4l2-ctl --list-devices` to confirm which index is the real down cam
 VISION_TEST_LOG_PERIOD    = 10.0         # seconds between running-summary log lines
 VISION_TEST_TARGET_DEPTH  = 1.0          # meters, assumed target plane depth for the metric back-projection log line
 VISION_TEST_RECORD_MP4    = True         # record annotated video.mp4 (no live window - review afterward)
 VISION_TEST_RECORD_SVO    = False        # also record native ZED recording.svo -- only used when camera_source="zed"
 VISION_TEST_OUTPUT_DIR    = "vision_recordings" # base dir, one timestamped subfolder per run
-VISION_TEST_HEADLESS      = True         # True = no live window (unattended); False = also show a live preview
+VISION_TEST_HEADLESS      = False         # True = no live window (unattended); False = also show a live preview
 VISION_TEST_ZED_FALLBACK  = None         # only used when VISION_TEST_CAMERA_SOURCE == "zed" -- set to
                                           # "downfacing" or "webcam" to auto-fall-back if the ZED fails to open
 
@@ -173,6 +177,7 @@ def build_fsm(name: str):
             return Vision_Test_FSM(shared_memory_object, [], camera_source=VISION_TEST_CAMERA_SOURCE,
                                     target_label=VISION_TEST_TARGET_LABEL, conf_min=VISION_TEST_CONF_MIN,
                                     imgsz=VISION_TEST_IMGSZ, camera_id=VISION_TEST_CAMERA_ID,
+                                    camera_index=VISION_TEST_CAMERA_INDEX,
                                     log_period_s=VISION_TEST_LOG_PERIOD, target_depth=VISION_TEST_TARGET_DEPTH,
                                     record_mp4=VISION_TEST_RECORD_MP4, record_svo=VISION_TEST_RECORD_SVO,
                                     output_dir=VISION_TEST_OUTPUT_DIR, headless=VISION_TEST_HEADLESS,
