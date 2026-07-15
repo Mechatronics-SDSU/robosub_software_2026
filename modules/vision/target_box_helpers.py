@@ -212,6 +212,102 @@ def average_target_center(recent_detections: list):
     return sum(x_values) / len(x_values), sum(y_values) / len(y_values)
 
 
+class FrameGate:
+    """
+    Multi-frame confirmation gate shared across FSMs.
+
+    A target is confirmed only after `stable_frames` consecutive frames that all pass:
+      - class_id is in accept_ids
+      - conf >= conf_min
+      - IoU vs the previous frame >= iou_min
+      - non-empty common bounding-box intersection across all frames in the window
+
+    The aim point is the median center after IQR outlier rejection
+    (multiplier: center_outlier_iqr). empty_streak counts consecutive frames
+    that produced no accepted candidate.
+    """
+
+    def __init__(self, stable_frames: int, iou_min: float, conf_min: float, center_outlier_iqr: float):
+        self.stable_frames = stable_frames
+        self.iou_min = iou_min
+        self.conf_min = conf_min
+        self.center_outlier_iqr = center_outlier_iqr
+        self._window = []
+        self.empty_streak = 0
+
+    def reset(self) -> None:
+        self._window = []
+        self.empty_streak = 0
+
+    def common_intersection_ok(self, window: list) -> bool:
+        if not window:
+            return False
+        edges = [get_box_edges(d) for d in window]
+        x0 = max(e[0] for e in edges)
+        x1 = min(e[1] for e in edges)
+        y0 = max(e[2] for e in edges)
+        y1 = min(e[3] for e in edges)
+        return x1 > x0 and y1 > y0
+
+    def robust_center(self, centers: list) -> tuple:
+        if len(centers) == 1:
+            return centers[0]
+        def iqr_median(vals):
+            s = sorted(vals)
+            n = len(s)
+            q1, q3 = s[n // 4], s[(3 * n) // 4]
+            iqr = q3 - q1
+            lo, hi = q1 - self.center_outlier_iqr * iqr, q3 + self.center_outlier_iqr * iqr
+            kept = [v for v in vals if lo <= v <= hi] or vals
+            return sorted(kept)[len(kept) // 2]
+        return iqr_median([c[0] for c in centers]), iqr_median([c[1] for c in centers])
+
+    def feed(self, detections: list, accept_ids: list) -> dict:
+        """
+        Process one frame. Verdict keys:
+          confirmed   bool    — gate passed
+          aim_center  tuple   — robust (x_norm, y_norm), None when not confirmed
+          class_id    int     — confirmed class id, None when not confirmed
+          n_outliers  int     — centers dropped by IQR filter
+          empty_streak int    — consecutive frames with no accepted candidate
+        """
+        candidates = [d for d in detections if d[CLASS_ID] in accept_ids and d[CONF] >= self.conf_min]
+
+        if not candidates:
+            self._window = []
+            self.empty_streak += 1
+            return {"confirmed": False, "aim_center": None, "class_id": None, "n_outliers": 0, "empty_streak": self.empty_streak}
+
+        self.empty_streak = 0
+        best = max(candidates, key=lambda d: d[CONF])
+
+        # class change or IoU drop resets the window
+        if self._window:
+            if self._window[-1][CLASS_ID] != best[CLASS_ID] or compute_iou(self._window[-1], best) < self.iou_min:
+                self._window = []
+
+        self._window.append(best)
+        if len(self._window) > self.stable_frames:
+            self._window = self._window[-self.stable_frames:]
+
+        if len(self._window) < self.stable_frames or not self.common_intersection_ok(self._window):
+            return {"confirmed": False, "aim_center": None, "class_id": None, "n_outliers": 0, "empty_streak": 0}
+
+        centers = [get_box_center(d) for d in self._window]
+        aim = self.robust_center(centers)
+        # count centers dropped by IQR
+        def _kept(vals):
+            s = sorted(vals)
+            n = len(s)
+            q1, q3 = s[n // 4], s[(3 * n) // 4]
+            iqr = q3 - q1
+            lo, hi = q1 - self.center_outlier_iqr * iqr, q3 + self.center_outlier_iqr * iqr
+            return sum(1 for v in vals if not (lo <= v <= hi))
+        n_outliers = max(_kept([c[0] for c in centers]), _kept([c[1] for c in centers]))
+
+        return {"confirmed": True, "aim_center": aim, "class_id": best[CLASS_ID], "n_outliers": n_outliers, "empty_streak": 0}
+
+
 def clamp_motion_command(value: float, max_value: float) -> float:
     """
     Clamps a movement command to +/- max_value so the sub never moves too aggressively.
