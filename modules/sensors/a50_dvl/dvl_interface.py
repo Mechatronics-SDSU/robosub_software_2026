@@ -18,6 +18,7 @@ class DVL_Interface:
     P_DEBUG = True # FIXME
 
     def __init__(self, shared_memory_object):
+        self.process_name = "dvl_interface"
         self.shared_memory_object = shared_memory_object
         self.dvl = DVL()
         self.logger = Logger()

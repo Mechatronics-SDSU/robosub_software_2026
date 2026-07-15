@@ -22,6 +22,7 @@ TIME_SLEEP = 0.2
 
 class PIDInterface:
     def __init__(self, shared_memory_object, usb_object):
+        self.process_name = "pid_interface"
         self.shared_memory_object = shared_memory_object
         self.motor_wrapper = MotorWrapper(self.shared_memory_object, usb_object)
         self.logger = Logger()

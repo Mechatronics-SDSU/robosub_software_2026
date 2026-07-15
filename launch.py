@@ -75,15 +75,13 @@ slalom_mode = Slalom_FSM(shared_memory_object, [])
 oct_mode    = Octagon_FSM(shared_memory_object, [])
 return_mode = Return_FSM(shared_memory_object, [])
 
-torpedo_mode = Torpedo_FSM(shared_memory_object, [tor_object, pid_object, dvl_object])
+torpedo_mode = Torpedo_FSM(shared_memory_object, [tor_object, pid_object, dvl_object], blind_fire=True)
 dropper_mode = Dropper_FSM(shared_memory_object, [pid_object, dvl_object], signal_wrapper=sig_object)
 grabber_mode = Grabber_FSM(shared_memory_object, [pid_object, dvl_object], signal_wrapper=sig_object)
 
-#mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
-mode_list = [test_signals_mode]
-
-#mode_list = [gate_mode, slalom_mode, oct_mode, return_mode] # order of modes
-mode_list = [gate_mode]
+# competition run order: gate -> slalom -> dropper (full) -> torpedo (blind_fire=True, see above)
+# -> octagon (rise + look only, see item_class_ids: [] in objects.yaml) -> return
+mode_list = [gate_mode, slalom_mode, dropper_mode, torpedo_mode, oct_mode, return_mode]
 
 def main():
     """

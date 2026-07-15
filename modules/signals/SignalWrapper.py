@@ -37,6 +37,7 @@ except:
 """
 class SignalWrapper:
     def __init__(self, usb_object):
+        self.process_name = "signal_wrapper"
         self.usb_object = usb_object
     
     def spin_dropper(self, duration: float = 0.5, pulsewidth: int = 1400) -> None:

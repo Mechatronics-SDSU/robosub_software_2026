@@ -50,12 +50,17 @@ class Torpedo_FSM(FSM_Template):
     States reuse one set of SEARCH/VERIFY/ALIGN/VERIFY_FIRE states for both
     torpedoes, switching the target hole label (large → small) after FIRE_TORPEDO,
     the same counter pattern as Dropper_FSM's marker_num loop.
+
+    blind_fire: skips hole detection/alignment - moves to the board standoff
+    position (x1/y1/depth from objects.yaml) and fires both torpedoes once
+    there. Default False keeps the normal vision-aligned path unchanged.
     """
-    def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None):
+    def __init__(self, shared_memory_object, run_list: list, signal_wrapper=None, blind_fire: bool = False):
         super().__init__(shared_memory_object, run_list)
         self.name: str     = "TORPEDO"
         self.state: States = States.INIT
         self.logger = Logger()
+        self.blind_fire = blind_fire
 
         # TARGET VALUES
         self.x1 = self.y1 = self.depth = 0.0
@@ -207,10 +212,9 @@ class Torpedo_FSM(FSM_Template):
                 return
 
             case States.MOVE_TO_BOARD:
-                if self.reached_xyz(self.x1, self.y1, self.depth):
-                    self.next_state(States.SEARCH_FOR_HOLE)
-                elif time.time() - self.wait_time > self.timeout:
-                    self.next_state(States.SEARCH_FOR_HOLE)
+                arrived = self.reached_xyz(self.x1, self.y1, self.depth) or time.time() - self.wait_time > self.timeout
+                if arrived:
+                    self.next_state(States.FIRE_TORPEDO if self.blind_fire else States.SEARCH_FOR_HOLE)
 
             case States.SEARCH_FOR_HOLE:
                 detections = self.helper.get_target_detections()
@@ -271,7 +275,10 @@ class Torpedo_FSM(FSM_Template):
             case States.FIRE_TORPEDO:
                 if self.torpedo_num < self.max_torpedoes:
                     self.torpedo_num += 1
-                    self.next_state(States.SEARCH_FOR_HOLE)
+                    if self.blind_fire:
+                        self.helper.fire_torpedo(self.torpedo_num) # blind: fire the next one directly, no re-search
+                    else:
+                        self.next_state(States.SEARCH_FOR_HOLE)
                 else:
                     self.next_state(States.COMPLETE)
 
