@@ -4,3 +4,4 @@ __pycache__/
 env/
 venv/
 *.cpython-310.pyc
+modules/vision/models/best.pt
