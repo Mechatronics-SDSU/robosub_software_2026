@@ -46,7 +46,7 @@ class Vision_Test_FSM(FSM_Template):
     """
     def __init__(self, shared_memory_object, run_list: list, camera_source: str = "downfacing",
                  target_label: str = None, conf_min: float = 0.70,
-                 imgsz: int = 640, camera_id: int = None, log_period_s: float = 10.0,
+                 imgsz: int = 640, camera_id: int = None, camera_index: int = 0, log_period_s: float = 10.0,
                  model_weights: str = "models/best.pt", target_depth: float = 1.0,
                  record_mp4: bool = True, record_svo: bool = False, output_dir: str = "vision_recordings",
                  headless: bool = True, zed_fallback: str = None):
@@ -63,6 +63,13 @@ class Vision_Test_FSM(FSM_Template):
         weak/RAM-limited compute like a Jetson Orin Nano 4GB.
         camera_id: only used when camera_source="zed" - selects among
         multiple/GMSL cameras. None (default) = auto.
+        camera_index: only used when camera_source="downfacing" or "webcam" -
+        the OpenCV/V4L2 device index (e.g. /dev/videoN on Linux) to open.
+        Default 0 is only correct if the target camera happens to enumerate
+        first - on a box with a ZED also attached (the ZED claims two nodes,
+        e.g. /dev/video0 and /dev/video1), the real downfacing camera often
+        ends up at index 2+. Check `v4l2-ctl --list-devices` if camera_source
+        ="downfacing" is showing the ZED's feed instead of the down cam.
         log_period_s: how often (seconds) to log a running summary (frame
         count, detection count, rolling fps) in addition to per-detection lines.
         model_weights: path to YOLO weights, resolved relative to modules/vision/.
@@ -105,6 +112,7 @@ class Vision_Test_FSM(FSM_Template):
         self.conf_min = conf_min
         self.imgsz = imgsz
         self.camera_id = camera_id
+        self.camera_index = camera_index
         self.log_period_s = log_period_s
         self.model_weights = model_weights
         self.target_depth = target_depth
@@ -183,7 +191,7 @@ class Vision_Test_FSM(FSM_Template):
             if self.camera_source == "zed":
                 opened = camera("zed", camera_id=self.camera_id)
             else:
-                opened = camera(self.camera_source)
+                opened = camera(self.camera_source, index=self.camera_index)
         except RuntimeError as e:
             if self.camera_source == "zed" and self.zed_fallback:
                 self.logger.error(f"{self.name}: ZED open failed ({e}), falling back to camera_source='{self.zed_fallback}'")
@@ -191,7 +199,7 @@ class Vision_Test_FSM(FSM_Template):
                 if self.record_svo:
                     self.logger.warning(f"{self.name}: record_svo=True has no effect on the fallback camera, disabling")
                     self.record_svo = False
-                opened = camera(self.camera_source, camera_id=self.camera_id) if self.camera_source == "zed" else camera(self.camera_source)
+                opened = camera("zed", camera_id=self.camera_id) if self.camera_source == "zed" else camera(self.camera_source, index=self.camera_index)
             else:
                 self.logger.error(f"{self.name}: camera open failed and no fallback configured, stopping: {e}")
                 self.stop()
